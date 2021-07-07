@@ -1,0 +1,43 @@
+<html>
+<head><title>403 Forbidden</title></head>
+<body bgcolor="white">
+<h1>403 Forbidden</h1>
+<p>You don't have permission to access the URL on this server. Sorry for the inconvenience.<br/>
+This is a  our  test website, please visit our official website <a href="http://monitor.10fei3.top/fzj/index.html" title="Click View Site " ><font size="5"> monitor.10fei3.top</a>!
+</font><br/>
+Thank you very much!</p>
+URL: http://monitor.10fei3.top/
+<br/>Date: 
+<script language="JavaScript" type="text/javascript">
+var enabled = 0; today = new Date();
+var date;
+M=today.getMonth() + 1
+D=today.getDate()
+HH=today.getHours()
+MM=today.getMinutes()
+SS=today.getSeconds()
+if (M<10)
+{
+M="0"+M
+}
+if (D<10)
+{
+D="0"+D
+}
+if (MM<10)
+{
+MM="0"+MM
+}
+if (HH<10)
+{
+HH="0"+HH
+}
+if (SS<10)
+{
+SS="0"+SS
+}
+date = (today.getFullYear()) + "/" + M + "/" + D + " " + HH+":"+MM+":"+SS +"";
+document.write(date);
+</script>
+<hr/>Powered by 10fei3.top!</body>
+</html>

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta http-equiv="X-UA-Compatible" content="ie=edge">
+		<title>HTML学习报告</title>
+		<link rel="shortcut icon" href="../../../favicon.png"/>
+	</head>
+	<body>
+		<style>
+			html{font-family:'Microsoft Yahei UI';}
+			whn1{font-weight:bold;color:#00A1FF;}
+			whn2{font-weight:bold;color:#CE00FF;}
+			whn3{color:#FF8500;}
+		</style>
+		<marks id=top>
+		<whn1># h1~h6 文本演示</whn1>
+		<whn3>
+		<h1>h1 text</h1>
+		<h2>h2 text</h2>
+		<h3>h3 text</h3>
+		<h4>h4 text</h4>
+		<h5>h5 text</h5>
+		<h6>h6 text</h6>
+		</whn3>
+		<p>Code:&nbsp;<br><whn2>&lt;h1&gt;h1&nbsp;text&lt;/h1&gt;<br>&lt;h2&gt;h2&nbsp;text&lt;/h2&gt;<br>&lt;h3&gt;h3&nbsp;text&lt;/h3&gt;<br>&lt;h4&gt;h4&nbsp;text&lt;/h4&gt;<br>&lt;h5&gt;h5&nbsp;text&lt;/h5&gt;<br>&lt;h6&gt;h6&nbsp;text&lt;/h6&gt;</whn2></p>
+		<whn1># 段落演示</whn1>
+		<p><whn3>Paragraph1</whn3></p>
+		<p><whn3>Paragraph2</whn3></p>
+		<p>Code:&nbsp;<br><whn2>&lt;p&gt;Paragraph1&lt;/p&gt;&lt;p&gt;Paragraph2&lt;/p&gt;</whn2></p>
+		<whn1># 换行演示</whn1>
+		<p><whn3>第一行<br>第二行</whn3></p>
+		<p>Code:&nbsp;<br><whn2>第一行&lt;br&gt;第二行</whn2></p>
+		<whn1># 图片展示</whn1>
+		<p><whn3><img src="http://baidu.com/favicon" alt="百度的Icon" title="此图片竟无法加载" width=auto height=auto><whn3></p>
+		<p>Code:&nbsp;<br><whn2>&lt;img&nbsp;src="http://baidu.com/favicon"&nbsp;alt="百度的Icon"&nbsp;title="此图片竟无法加载"&nbsp;width=auto&nbsp;height=auto&gt;</whn2></p>
+		<whn1># &lt;div&gt; 和 &lt;span&gt;</whn1>
+		<p>说明: &lt;div&gt; 会占一排，&lt;span&gt;会从左到右排列</p>
+		<p><div><whn3>div1</whn3></div><div><whn3>div2</whn3></div></p>
+		<p>Code:&nbsp;<br><whn2>&lt;div&gt;div1&lt;/div&gt;&lt;div&gt;div2&lt;/div&gt;</whn2></p>
+		<p><whn3><span>span1</span>&nbsp;<span>span2</span></whn3></p>
+		<p>Code:&nbsp;<br><whn2>&lt;span&gt;span1&lt;/span&gt; &lt;span&gt;span2&lt;/span&gt;</whn2></p>
+		<whn1># 锚点符</whn1>
+		<p><whn3><a href="#top">返回顶部</a></whn3></p>
+		<p>Code:&nbsp;<br>在&lt;body&gt;下一个元素加上<whn2>&lt;marks&nbsp;id="top"&gt;</whn2>(标签和id可自定义)，然后再写<whn2>&lt;a&nbsp;href="#top"&gt;返回顶部&lt;/a&gt;</whn2></p>
+		<p><whn1># 表格展示</whn1></p>
+		<p><table align="left" width=300 height=50 border=1 cellpadding=0 cellspacing=0><tr><th>&nbsp;</th><th>A</th><th>B</th><th>C</th><tr><th>A</th><th>AA</th><th>AB</th><th>AC</th></tr><tr><th>B</th><th>BA</th><th>BB</th><th>BC</th></tr><tr><th>C</th><th>CA</th><th>CB</th><th>CC</th></tr></table></p>
+		<p>&nbsp;</p>
+		<p>&nbsp;</p>
+		<p>&nbsp;</p>
+		<p>Code:&nbsp;<br><whn2>&lt;table&nbsp;align=left&nbsp;width=300&nbsp;height=50&nbsp;border=1&nbsp;cellpadding=0&nbsp;cellspacing=0&gt;<br>&lt;tr&gt;<br>&lt;th&gt;&nbsp;&lt;/th&gt;<br>&lt;th&gt;A&lt;/th&gt;<br>&lt;th&gt;B&lt;/th&gt;<br>&lt;th&gt;C&lt;/th&gt;<br>&lt;/tr&gt;<br>&lt;tr&gt;<br>&lt;th&gt;A&lt;/th&gt;<br>&lt;th&gt;AA&lt;/th&gt;<br>&lt;th&gt;AB&lt;/th&gt;<br>&lt;th&gt;AC&lt;/th&gt;<br>&lt;/tr&gt;<br>&lt;tr&gt;<br>&lt;th&gt;B&lt;/th&gt;<br>&lt;th&gt;BA&lt;/th&gt;<br>&lt;th&gt;BB&lt;/th&gt;<br>&lt;th&gt;BC&lt;/th&gt;<br>&lt;/tr&gt;<br>&lt;tr&gt;<br>&lt;th&gt;C&lt;/th&gt;<br>&lt;th&gt;CA&lt;/th&gt;<br>&lt;th&gt;CB&lt;/th&gt;<br>&lt;th&gt;CC&lt;/th&gt;<br>&lt;/tr&gt;<br>&lt;/table&gt;</whn2></p>
+		<p>对于单元格内的数据，<whn2>&lt;th&gt;</whn2>可以换成<whn2>&lt;td&gt;</whn2>。只不过字体不会加粗并且不会居中了。<br>table的属性：<br>align为停靠方式，有左停靠（left）, 右停靠（right）, 居中（center）<br>width和height则是设定表格的宽和高，填写像素值<br>border设定表格是否有边框，1为有边框，""为无边框<br>cellpadding是设定单元格内容与单元格边框的距离，填写像素值<br>cellspacing是设定单元格与单元格之间的距离，填写像素值</p>
+		<p><whn1># 简单的字体处理 (非 CSS)</whn1></p>
+		<p><whn3><strong>strong加粗字体 </strong><b>b加粗字体 </b><em>em倾斜 </em><i>i倾斜 </i><del>del删除线</del> <s>s删除线</s> <ins>ins下划线</ins> <u>u下划线</u> <strong><b><em><i><del><s><ins><u>综合</u></ins></s></del></i></em></b></strong></whn3></p>
+		<p>Code:&nbsp;<br><whn2>&lt;strong&gt;strong加粗字体 &lt;/strong&gt;&lt;b&gt;b加粗字体 &lt;/b&gt;&lt;em&gt;em倾斜 &lt;/em&gt;&lt;i&gt;i倾斜 &lt;/i&gt;&lt;del&gt;del删除线&lt;/del&gt; &lt;s&gt;s删除线&lt;/s&gt; &lt;ins&gt;ins下划线&lt;/ins&gt; &lt;u&gt;u下划线&lt;/u&gt; &lt;strong&gt;&lt;b&gt;&lt;em&gt;&lt;i&gt;&lt;del&gt;&lt;s&gt;&lt;ins&gt;&lt;u&gt;综合&lt;/u&gt;&lt;/ins&gt;&lt;/s&gt;&lt;/del&gt;&lt;/i&gt;&lt;/em&gt;&lt;/b&gt;&lt;/strong&gt;</whn2></p>
+		<p><whn2>&lt;strong&gt;</whn2>和<whn2>&lt;b&gt;</whn2> 加粗<br><whn2>&lt;em&gt;</whn2>和<whn2>&lt;i&gt;</whn2> 倾斜<br><whn2>&lt;del&gt;</whn2>和<whn2>&lt;s&gt;</whn2> 删除线<br><whn2>&lt;ins&gt;</whn2>和<whn2>&lt;u&gt;</whn2>下划线</p>
+	</body>
+</html>
