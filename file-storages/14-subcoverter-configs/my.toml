@@ -1,0 +1,119 @@
+# 此规则可没有
+[[rulesets]]
+group = "🎥 AbemaTV"
+ruleset = "https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/Ruleset/AbemaTV.list"
+
+# 此规则可没有
+[[rulesets]]
+group = "🎥 哔哩哔哩"
+ruleset = "https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/Ruleset/Bilibili.list"
+
+# 此规则可没有
+[[rulesets]]
+group = "🎥 巴哈姆特"
+ruleset = "https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/Ruleset/Bahamut.list"
+
+# 此规则可没有
+[[rulesets]]
+group = "🎥 Netflix"
+ruleset = "https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/Ruleset/NetflixIP.list"
+
+# 此规则可没有
+[[rulesets]]
+group = "🎥 Netflix"
+ruleset = "https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/Ruleset/Netflix.list"
+
+# 此规则可没有
+[[rulesets]]
+group = "🎥 ニコニコ動画"
+ruleset = "https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/Ruleset/Niconico.list"
+
+# 此规则必有，且必须在所有 "🎯 国内直连" 的第一位
+[[rulesets]]
+group = "🎯 国内直连"
+ruleset = "[]GEOIP,CN"
+
+# 此规则必有
+[[rulesets]]
+group = "🎯 国内直连"
+ruleset = "https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/Ruleset/CN.list"
+
+# 此规则必有
+[[rulesets]]
+group = "🎯 国内直连"
+ruleset = "https://raw.githubusercontent.com/GoodHolidays/ConnersHua/master/Surge/Ruleset/Unbreak.list"
+
+# 此规则必有
+[[rulesets]]
+group = "🎯 国内直连"
+ruleset = "https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/LocalAreaNetwork.list"
+
+# 此规则必有
+[[rulesets]]
+group = "🎯 国内直连"
+ruleset = "https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/ChinaCompanyIp.list"
+
+# 此规则必有
+[[rulesets]]
+group = "🎯 国内直连"
+ruleset = "https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/ChinaDomain.list"
+
+# 此规则必有
+[[rulesets]]
+group = "🎯 国内直连"
+ruleset = "https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/ChinaIp.list"
+
+# 此规则必有
+[[rulesets]]
+group = "🎯 国内直连"
+ruleset = "https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/ChinaIpV6.list"
+
+# 此规则必有
+[[rulesets]]
+group = "🎯 国内直连"
+ruleset = "https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/ChinaMedia.list"
+
+# 此规则必有
+[[rulesets]]
+group = "⛔️ 广告拦截"
+ruleset = "https://raw.githubusercontent.com/GoodHolidays/ConnersHua/master/Surge/Ruleset/Hijacking.list"
+
+# 此规则必有
+[[rulesets]]
+group = "⛔️ 广告拦截"
+ruleset = "https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/BanAD.list"
+
+# 此规则必有
+[[rulesets]]
+group = "⛔️ 广告拦截"
+ruleset = "https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/BanEasyList.list"
+
+# 此规则可没有
+[[rulesets]]
+group = "📲 Telegram"
+ruleset = "https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/Telegram.list"
+
+# 此规则可没有
+[[rulesets]]
+group = "📲 微软服务"
+ruleset = "https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/Microsoft.list"
+
+# 此规则必有
+[[rulesets]]
+group = "🌍 国外流量"
+ruleset = "https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/ProxyGFWlist.list"
+
+# 此规则必有
+[[rulesets]]
+group = "🌍 国外流量"
+ruleset = "https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/ProxyLite.list"
+
+# 此规则必有
+[[rulesets]]
+group = "🌍 国外流量"
+ruleset = "https://raw.githubusercontent.com/GoodHolidays/ConnersHua/master/Surge/Ruleset/Global.list"
+
+# 此规则必有，且必须在所有 "🌍 国外流量" 的最后一位
+[[rulesets]]
+group = "🌍 国外流量"
+ruleset = "[]FINAL"

@@ -1,0 +1,720 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=dark>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="WangHaonie">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="简单科普一下规则组 规则组：rules，顾名思义是用来分流的，什么网站对应什么代理组走不走代理都由它决定。  代理组 代理组：proxy-groups，通常包含了订阅的所有节点。具体含义不必了解，只需要知道它长这样就 OK 了 规则组和代理组必须两个都要制作，缺一不可，不能只做其中一个    准备工具 SubConverter用于强制订阅配置使用定制的代理组 ConnersHua 规则组 (第三方">
+<meta property="og:type" content="article">
+<meta property="og:title" content="(即将更新) 玩转 Clash：小白也能定制属于自己的规则组和代理组">
+<meta property="og:url" content="https://wanghaonie.github.io/posts/bbcfbd33d48a/index.html">
+<meta property="og:site_name" content="WangHaonie">
+<meta property="og:description" content="简单科普一下规则组 规则组：rules，顾名思义是用来分流的，什么网站对应什么代理组走不走代理都由它决定。  代理组 代理组：proxy-groups，通常包含了订阅的所有节点。具体含义不必了解，只需要知道它长这样就 OK 了 规则组和代理组必须两个都要制作，缺一不可，不能只做其中一个    准备工具 SubConverter用于强制订阅配置使用定制的代理组 ConnersHua 规则组 (第三方">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://wanghaonie.github.io/archive-imgs/14-4-clash-yaml-rules.png">
+<meta property="og:image" content="https://wanghaonie.github.io/archive-imgs/14-3-clash-proxy-groups.png">
+<meta property="og:image" content="https://wanghaonie.github.io/archive-imgs/14-1-subconverter-dir.png">
+<meta property="og:image" content="https://wanghaonie.github.io/archive-imgs/14-2-pref.toml.jpg">
+<meta property="og:image" content="https://wanghaonie.github.io/archive-imgs/14-5-my.toml.jpg">
+<meta property="og:image" content="https://wanghaonie.github.io/archive-imgs/14-6-acl4ssr-repo.jpg">
+<meta property="og:image" content="https://wanghaonie.github.io/archive-imgs/14-7-save-acl4ssr.jpg">
+<meta property="og:image" content="https://wanghaonie.github.io/archive-imgs/14-8-replace-github-com.jpg">
+<meta property="og:image" content="https://wanghaonie.github.io/archive-imgs/14-9-replace-url.jpg">
+<meta property="og:image" content="https://wanghaonie.github.io/archive-imgs/14-9-1-before.jpg">
+<meta property="og:image" content="https://wanghaonie.github.io/archive-imgs/14-9-0-final.jpg">
+<meta property="article:published_time" content="2023-01-16T11:45:15.000Z">
+<meta property="article:modified_time" content="2023-01-18T01:55:08.416Z">
+<meta property="article:author" content="WangHaonie">
+<meta property="article:tag" content="Clash">
+<meta property="article:tag" content="cfw">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://wanghaonie.github.io/archive-imgs/14-4-clash-yaml-rules.png">
+  
+  
+  
+  <title>(即将更新) 玩转 Clash：小白也能定制属于自己的规则组和代理组 | WangHaonie</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"wanghaonie.github.io","root":"/","version":"1.9.5","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>WangHaonie</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="(即将更新) 玩转 Clash：小白也能定制属于自己的规则组和代理组"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2023-01-16 19:45" pubdate>
+          2023年1月16日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          4.2k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          36 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">(即将更新) 玩转 Clash：小白也能定制属于自己的规则组和代理组</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h2 id="简单科普一下"><a href="#简单科普一下" class="headerlink" title="简单科普一下"></a>简单科普一下</h2><h3 id="规则组"><a href="#规则组" class="headerlink" title="规则组"></a>规则组</h3><ol>
+<li>规则组：<code>rules</code>，顾名思义是用来分流的，什么网站对应什么代理组走不走代理都由它决定。<img src="/archive-imgs/14-4-clash-yaml-rules.png" srcset="/img/loading.gif" lazyload alt="一个订阅配置里面的规则组"></li>
+</ol>
+<h3 id="代理组"><a href="#代理组" class="headerlink" title="代理组"></a>代理组</h3><ol>
+<li>代理组：<code>proxy-groups</code>，通常包含了订阅的所有节点。具体含义不必了解，只需要知道它长这样就 OK 了<br><img src="/archive-imgs/14-3-clash-proxy-groups.png" srcset="/img/loading.gif" lazyload alt="Clash for Windows 所展示的代理组"><blockquote>
+<p>规则组和代理组必须两个都要制作，缺一不可，不能只做其中一个</p>
+</blockquote>
+</li>
+</ol>
+<h2 id="准备工具"><a href="#准备工具" class="headerlink" title="准备工具"></a>准备工具</h2><ol>
+<li><a target="_blank" rel="noopener" href="https://github.com/tindy2013/subconverter/releases">SubConverter</a><br>用于强制订阅配置使用定制的代理组</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/GoodHolidays/ConnersHua/tree/master/Surge/Ruleset">ConnersHua 规则组</a> (第三方库，官方已删，注意风险)<br>用于提供更多的分流规则</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/ACL4SSR/ACL4SSR/tree/master/Clash">ACL4SSR 规则组</a><br>用于提供更多的分流规则</li>
+<li>Visual Studio Code (或者其他除记事本以外的文本编辑器)<br>用于编辑配置文件<blockquote>
+<p>实际上 SubConverter 自带了以上的所有规则组，但由于软件本身使用的是离线的规则组，所以有些规则组不是最新的，最好就使用在线的规则组。(虽然规则组这东西更新频率本来就不高，而且不是最新的影响也不大)</p>
+</blockquote>
+</li>
+</ol>
+<h2 id="方法一：主要配置法"><a href="#方法一：主要配置法" class="headerlink" title="方法一：主要配置法"></a>方法一：主要配置法</h2><h3 id="配置-SubConverter"><a href="#配置-SubConverter" class="headerlink" title="配置 SubConverter"></a>配置 SubConverter</h3><ol>
+<li>下载并解压 SubConverter 得到下列文件<br><img src="/archive-imgs/14-1-subconverter-dir.png" srcset="/img/loading.gif" lazyload alt="SubConverter 目录"></li>
+<li>删除 <code>pref.example.ini</code> 和 <code>pref.example.yml</code>，并将 <code>pref.example.toml</code> 重命名为 <code>pref.toml</code></li>
+<li>在 <code>snippets</code> 文件夹创建两个文件：<code>my.toml</code>、<code>my_groups.toml</code>。<blockquote>
+<p>文件夹、名称等随意，只要保证创建了两个 <code>toml</code> 格式的文件并且能用路径表示出来就行了</p>
+</blockquote>
+</li>
+<li>用 Visual Studio Code 打开根目录的 <code>pref.toml</code>，然后定位到这两行，并改为以下内容。<br><img src="/archive-imgs/14-2-pref.toml.jpg" srcset="/img/loading.gif" lazyload alt="pref.toml"><figure class="highlight toml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs TOML"><span class="hljs-comment"># ...</span><br><span class="hljs-section">[[custom_groups]]</span><br><span class="hljs-attr">import</span> = <span class="hljs-string">&quot;snippets/my_groups.toml&quot;</span><br><span class="hljs-comment"># ...</span><br><span class="hljs-section">[[rulesets]]</span><br><span class="hljs-attr">import</span> = <span class="hljs-string">&quot;snippets/my.toml&quot;</span><br><span class="hljs-comment"># ...</span><br></code></pre></td></tr></table></figure></li>
+</ol>
+<h3 id="定制规则组"><a href="#定制规则组" class="headerlink" title="定制规则组"></a>定制规则组</h3><h4 id="重要事项"><a href="#重要事项" class="headerlink" title="重要事项"></a>重要事项</h4><ol>
+<li>在开始定制规则组之前，要必须先明白一个重要的思路，就是规则组的配置文件遵循先后顺序，一个规则放置的位置不一样，结果代理的时候识别的顺序就不一样，就会导致想要的网站得不到正确的分流方式。<blockquote>
+<p>主要是 Clash 核心就是这样读取配置文件的。比如说在一个配置文件里，可能因为导入规则时未去重，导致出现了同一个网站对应两个不同的代理组的情况，这时 Clash 只会以第一条为准，若第一条让代理就代理，让直连就直连。这也就是用 Clash for Windows <a target="_blank" rel="noopener" href="https://docs.cfw.lbyczf.com/contents/parser.html">配置文件预处理</a> 修改 <code>rules</code> 的原理，将需要走特定规则的网站填入第一列，这样 Clash 只会以这第一次出现的为准，剩下在其他位置的都不算。</p>
+</blockquote>
+</li>
+<li>那么怎样才能知道哪些规则组先写前面，哪些规则组先写后面呢？很简单，小范围写前面，大范围写后面就对了。什么意思呢？举个简单的例子，比如说假设现在有两个规则组一个是包含了中国所有网站的规则组 (<code>ChinaAll.list</code>)，另一个是只有哔哩哔哩网站的规则组 (<code>Bilibili.list</code>)，很显然，前者的范围肯定就比后者大，因为哔哩哔哩的网站也在中国所有的网站的范围之内 (特殊情况除外)。</li>
+<li>现在我想要这两个规则组同时出现在一个配置文件里面，而且要保证我能对哔哩哔哩网站进行灵活的分流。当我想看港澳台地区的番剧的时候，我要让它走代理，平时看的话就走直连，那么这两个规则文件应该怎么放呢？那肯定是要把哔哩哔哩网站的规则放在前面，把中国所有网站的规则组放在后面。因为只有你把哔哩哔哩的规则组放在前面了，Clash 才会第一时间识别到这是哔哩哔哩的网站，后期就可以直接专门给哔哩哔哩的网站设置一个代理组来控制是否代理和直连。如果你把它放在中国所有网站的后面了，那这个优先级就变了。就会导致最后哔哩哔哩也走了直连，似乎不影响，但你会发现你无法专门的将它设置成代理，除非你就开全局，但是这样会导致其他国内的网站，比如说百度什么的也一起走代理，就会消耗不少的流量。</li>
+<li>应该都看懂了吧，我的思路讲的可能不太清晰，没看懂的话多看几遍。</li>
+</ol>
+<h4 id="开始操作"><a href="#开始操作" class="headerlink" title="开始操作"></a>开始操作</h4><ol>
+<li>用 Visual Studio Code 打开 <code>snippets\my.toml</code>，填入以下内容：<figure class="highlight toml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs TOML"><span class="hljs-section">[[rulesets]]</span><br><span class="hljs-attr">group</span> = <span class="hljs-string">&quot;&quot;</span><br><span class="hljs-attr">ruleset</span> = <span class="hljs-string">&quot;&quot;</span><br></code></pre></td></tr></table></figure></li>
+<li>因为一般情况下需要很多规则组，所以可以在此时将上方的代码多复制十几个，每个代码块之间空一行 (仅是保持美观而已)，如图。<br><img src="/archive-imgs/14-5-my.toml.jpg" srcset="/img/loading.gif" lazyload></li>
+<li>在 <code>group = &quot;&lt;这里填规则组的名称&gt;&quot;</code>，要添加表情符号的话，如果电脑系统是在 Windows 10 版本号 19041.1 以上 (包括 Windows 11 所有版本)，你可以使用 <code>Win键 + . (点，逗号后面那个)</code> 来打开系统自带的表情符号输入栏，订阅配置文件里常见的表情符号 (🔰♻️🚫🌌⛔🛑🎥🎵🎶🌍🌏📲🚀🍎🎯🐟) 都在这里面找得到</li>
+<li>在 <code>ruleset = &quot;&lt;这里填规则组文件的网址或本地地址&gt;&quot;</code>。在 <a target="_blank" rel="noopener" href="https://github.com/GoodHolidays/ConnersHua/tree/master/Surge/Ruleset">ConnersHua 规则组</a> 和 <a target="_blank" rel="noopener" href="https://github.com/ACL4SSR/ACL4SSR/tree/master/Clash">ACL4SSR 规则组</a> 里面找到合适的规则组，尽量多选 ACL4SSR 的，因为只有这个目前还没有断更。</li>
+<li>打开上方的一个链接，会来到 Github，在这里就可以选自己想要的规则组了。<br><img src="/archive-imgs/14-6-acl4ssr-repo.jpg" srcset="/img/loading.gif" lazyload alt="ACL4SSR 的 Github 储存库"><blockquote>
+<p>注意要选文件格式是 <code>list</code> 的。</p>
+</blockquote>
+</li>
+<li>右键点击想要的规则组，选择复制链接<br><img src="/archive-imgs/14-7-save-acl4ssr.jpg" srcset="/img/loading.gif" lazyload alt="复制链接"></li>
+<li>然后粘贴到 <code>ruleset</code> 后面，效果如下。<figure class="highlight toml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs TOML"><span class="hljs-section">[[rulesets]]</span><br><span class="hljs-attr">group</span> = <span class="hljs-string">&quot;⛔ 广告屏蔽&quot;</span><br><span class="hljs-attr">ruleset</span> = <span class="hljs-string">&quot;https://github.com/ACL4SSR/ACL4SSR/blob/master/Clash/BanEasyList.list&quot;</span><br></code></pre></td></tr></table></figure></li>
+<li>关于哪些规则组必须要，后面我会将我自己的展示出来并标注是否必须。</li>
+<li>熟悉 Github 的同学可能就要说了，这样复制的链接打开之后并不会得到对应的文件，所以这里我们要修改这条网址，用的就是文本编辑器自带的替换功能。</li>
+<li>选中 <code>https://github.com/</code> 按下 Ctrl+H，填入要替换的 <code>https://raw.githubusercontent.com/</code>，然后点击全部替换。<br><img src="/archive-imgs/14-8-replace-github-com.jpg" srcset="/img/loading.gif" lazyload alt="替换网站域名"></li>
+<li>选中 <code>blob/master/</code> 按下 Ctrl+H，填入要替换的 <code>master/</code>，然后点击全部替换。<br><img src="/archive-imgs/14-9-replace-url.jpg" srcset="/img/loading.gif" lazyload alt="替换 URL"><blockquote>
+<p>提示：<br><code>raw.githubusercontent.com</code> 可能因神秘力量阻挡无法访问，所以替换的时候也可以替换为其他 CDN 比如 FastGit、jsDelivr 等，具体方法自行百度或谷歌。</p>
+</blockquote>
+</li>
+</ol>
+<h3 id="定制代理组"><a href="#定制代理组" class="headerlink" title="定制代理组"></a>定制代理组</h3><h4 id="重要事项-1"><a href="#重要事项-1" class="headerlink" title="重要事项"></a>重要事项</h4><ol>
+<li>代理组也要分先后顺序，但没有规则组那么严格，它的乱序仅会影响最后的呈现，并不会影响分流的功能。</li>
+<li>在规则组里出现过的组名，在代理组里面也要必须出现。</li>
+</ol>
+<h4 id="开始操作-1"><a href="#开始操作-1" class="headerlink" title="开始操作"></a>开始操作</h4><ol>
+<li>用 Visual Studio Code 打开 <code>snippets\my_groups.toml</code>，填入以下内容，同样也多复制几份出来：<figure class="highlight toml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs TOML"><span class="hljs-section">[[custom_groups]]</span><br><span class="hljs-attr">name</span> = <span class="hljs-string">&quot;&quot;</span><br><span class="hljs-attr">type</span> = <span class="hljs-string">&quot;select&quot;</span><br><span class="hljs-attr">rule</span> = [<br>    <span class="hljs-string">&quot;[]REJECT&quot;</span>,<br>    <span class="hljs-string">&quot;[]DIRECT&quot;</span>,<br>]<br></code></pre></td></tr></table></figure></li>
+<li>其中，有几个特殊的代码块。<figure class="highlight toml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><code class="hljs TOML"><br><span class="hljs-section">[[custom_groups]]</span><br><span class="hljs-attr">name</span> = <span class="hljs-string">&quot;🔰 节点选择&quot;</span><br><span class="hljs-attr">type</span> = <span class="hljs-string">&quot;select&quot;</span><br><span class="hljs-attr">rule</span> = [<br>    <span class="hljs-string">&quot;♻️ 自动选择&quot;</span>,<br>    <span class="hljs-string">&quot;[]REJECT&quot;</span>,<br>    <span class="hljs-comment"># REJECT 是指拒绝，当选中该项的话，该代理组对应</span><br>    <span class="hljs-comment"># 的规则组所发出的请求，既不代理，也不直连，直接</span><br>    <span class="hljs-comment"># 拒绝。</span><br>    <span class="hljs-string">&quot;[]DIRECT&quot;</span>,<br>    <span class="hljs-comment"># DIRECT 顾名思义，就是直连了。</span><br>    <span class="hljs-string">&quot;.*&quot;</span>,<br>    <span class="hljs-comment"># .* 代表的是所有的节点，必要</span><br>]<br><br><span class="hljs-comment"># 该组 自动选择 必须要，可以自动测试节点延迟</span><br><span class="hljs-section">[[custom_groups]]</span><br><span class="hljs-attr">name</span> = <span class="hljs-string">&quot;♻️ 自动选择&quot;</span><br><span class="hljs-attr">type</span> = <span class="hljs-string">&quot;url-test&quot;</span><br><span class="hljs-comment"># 自动选择 组的 type 必须为 url-test</span><br><span class="hljs-attr">rule</span> = [<br>    <span class="hljs-string">&quot;.*&quot;</span>,<br>]<br><span class="hljs-attr">url</span> = <span class="hljs-string">&quot;http://www.gstatic.com/generate_204&quot;</span><br><span class="hljs-comment"># 测试延迟的 URL，就保持默认即可</span><br><span class="hljs-attr">interval</span> = <span class="hljs-number">300</span><br><span class="hljs-comment"># 延迟超时，及超过 300 ms 时就显示该节点已超时，但并</span><br><span class="hljs-comment"># 不代表节点不能用。(除非是真的不能用了)</span><br><br><span class="hljs-section">[[custom_groups]]</span><br><span class="hljs-attr">name</span> = <span class="hljs-string">&quot;🌍 国外流量&quot;</span><br><span class="hljs-attr">type</span> = <span class="hljs-string">&quot;select&quot;</span><br><span class="hljs-attr">rule</span> = [<br>    <span class="hljs-string">&quot;[]🔰 节点选择&quot;</span>,<br>    <span class="hljs-string">&quot;[]REJECT&quot;</span>,<br>    <span class="hljs-string">&quot;[]DIRECT&quot;</span>,<br>    <span class="hljs-comment"># 至于这里为什么不加上 .*，原因很简单，对于 国外</span><br>    <span class="hljs-comment"># 流量，留个 节点选择 承接上面就对了，然后讲究一</span><br>    <span class="hljs-comment"># 下仪式，再加上 REJECT 和 DIRECT 也挺合理的吧。</span><br>]<br></code></pre></td></tr></table></figure></li>
+</ol>
+<h2 id="方法二：引用配置法"><a href="#方法二：引用配置法" class="headerlink" title="方法二：引用配置法"></a>方法二：引用配置法</h2><h3 id="Untitled"><a href="#Untitled" class="headerlink" title="Untitled"></a>Untitled</h3><h2 id="启动-SubConverter"><a href="#启动-SubConverter" class="headerlink" title="启动 SubConverter"></a>启动 SubConverter</h2><ol>
+<li>确保所有配置文件已经保存，就可以启动 SubConverter 了，回到根目录，双击 <code>subconverter.exe</code> 即可</li>
+<li>首次启动会下载之前的规则组。直到运行结果显示如下说明可以开始订阅转换了。<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">2023</span>/<span class="hljs-number">01</span>/<span class="hljs-number">17</span> Tue <span class="hljs-number">21</span>:<span class="hljs-number">13</span>:<span class="hljs-number">05</span>.<span class="hljs-number">529839</span><span class="hljs-meta"> [11484 1][INFO] Startup completed. Serving HTTP @ http://0.0.0.0:25500</span><br></code></pre></td></tr></table></figure></li>
+<li>再说一下订阅转换链接大概格式：<figure class="highlight llvm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs llvm"><span class="hljs-symbol">http:</span>//<span class="hljs-number">127.0</span>.<span class="hljs-number">0.1</span>:<span class="hljs-number">25500</span>/<span class="hljs-keyword">sub</span>?<span class="hljs-keyword">target</span><span class="hljs-operator">=</span>clash&amp;url<span class="hljs-operator">=</span>&lt;订阅链接&gt;&amp;filename<span class="hljs-operator">=</span>&lt;输出文件名，可忽略&gt;&amp;emoji<span class="hljs-operator">=</span><span class="hljs-keyword">true</span>&amp;add_emoji<span class="hljs-operator">=</span><span class="hljs-keyword">true</span>&amp;remove_emoji<span class="hljs-operator">=</span><span class="hljs-keyword">false</span>&amp;udp<span class="hljs-operator">=</span><span class="hljs-keyword">true</span><br></code></pre></td></tr></table></figure></li>
+<li>后期有时间了，再出一篇文章讲讲 <a target="_blank" rel="noopener" href="https://github.com/CareyWang/sub-web/">sub-web</a>。</li>
+</ol>
+<h2 id="最后设置"><a href="#最后设置" class="headerlink" title="最后设置"></a>最后设置</h2><ol>
+<li>最后还要在 Clash 里面手动改几个设置，因为前面不是加了有那些 REJECT、DIRECT 什么的，因为不能设置默认值，所以要手动修改一下。</li>
+<li>默认配置 <br><img src="/archive-imgs/14-9-1-before.jpg" srcset="/img/loading.gif" lazyload alt="默认全部为🔰 节点选择"></li>
+<li>改后配置 <br><img src="/archive-imgs/14-9-0-final.jpg" srcset="/img/loading.gif" lazyload alt="改后配置"></li>
+</ol>
+<h2 id="附件下载"><a href="#附件下载" class="headerlink" title="附件下载"></a>附件下载</h2><ol>
+<li>my.toml <br>大小：<code>3.71 KB</code><br>下载地址：<a href="/file-storages/14-subcoverter-configs/my.toml">点击下载</a></li>
+<li>my_groups.toml <br>大小：<code>2.58 KB</code><br>下载地址：<a href="/file-storages/14-subcoverter-configs/my_groups.toml">点击下载</a></li>
+</ol>
+<blockquote>
+<p>注：本文所有内容均为个人创作，若有雷同，纯属巧合。除此之外也或许存在某些弯路和不足，欢迎各位路过的大佬指正！</p>
+</blockquote>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/Clash/" class="print-no-link">#Clash</a>
+      
+        <a href="/tags/cfw/" class="print-no-link">#cfw</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>(即将更新) 玩转 Clash：小白也能定制属于自己的规则组和代理组</div>
+      <div>https://wanghaonie.github.io/posts/bbcfbd33d48a/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>WangHaonie</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2023年1月16日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/posts/8b6e19ad88ec/" title="Hello World">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Hello World</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/posts/80099299cd73/" title="全网首发：手把手教你自己开一个 UUP dump 网站，速度快，不失效。">
+                        <span class="hidden-mobile">全网首发：手把手教你自己开一个 UUP dump 网站，速度快，不失效。</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

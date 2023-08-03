@@ -1,0 +1,665 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=dark>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="WangHaonie">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="大部分过程都是参考这个 用Github-pages和Hexo搭建自己的个人博客 (原始内容 存档 于 2022-08-03)就说一下遇到的一些问题吧  命令 hexo d 执行时遇到的报错方法1如下： 1234567891011121314Connection reset by 20.205.243.166 port 22fatal: Could not read from remote rep">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用 Hexo 搭建博客的总结">
+<meta property="og:url" content="https://wanghaonie.github.io/posts/81606d78cc42/index.html">
+<meta property="og:site_name" content="WangHaonie">
+<meta property="og:description" content="大部分过程都是参考这个 用Github-pages和Hexo搭建自己的个人博客 (原始内容 存档 于 2022-08-03)就说一下遇到的一些问题吧  命令 hexo d 执行时遇到的报错方法1如下： 1234567891011121314Connection reset by 20.205.243.166 port 22fatal: Could not read from remote rep">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-08-02T07:39:02.000Z">
+<meta property="article:modified_time" content="2022-12-22T00:10:15.345Z">
+<meta property="article:author" content="WangHaonie">
+<meta property="article:tag" content="hexo">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>使用 Hexo 搭建博客的总结 | WangHaonie</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"wanghaonie.github.io","root":"/","version":"1.9.5","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>WangHaonie</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="使用 Hexo 搭建博客的总结"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-08-02 15:39" pubdate>
+          2022年8月2日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          5.1k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          43 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">使用 Hexo 搭建博客的总结</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <blockquote>
+<p>大部分过程都是参考这个 <a target="_blank" rel="noopener" href="https://harlan1997.github.io/2021/03/06/%E7%94%A8Github-pages%E5%92%8CHexo%E6%90%AD%E5%BB%BA%E8%87%AA%E5%B7%B1%E7%9A%84%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/">用Github-pages和Hexo搭建自己的个人博客</a> (原始内容 <a href="https://wanghaonie.github.io/webpage-static-snapshot/20220803-214335-spc0.html">存档</a> 于 2022-08-03)<br>就说一下遇到的一些问题吧</p>
+</blockquote>
+<h2 id="命令-hexo-d-执行时遇到的报错"><a href="#命令-hexo-d-执行时遇到的报错" class="headerlink" title="命令 hexo d 执行时遇到的报错"></a>命令 <code>hexo d</code> 执行时遇到的报错</h2><h3 id="方法1"><a href="#方法1" class="headerlink" title="方法1"></a>方法1</h3><p>如下：</p>
+<figure class="highlight elm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs elm"><span class="hljs-type">Connection</span> reset by <span class="hljs-number">20.205</span><span class="hljs-number">.243</span><span class="hljs-number">.166</span> <span class="hljs-keyword">port</span> 22<br>fatal: Could not read from remote repository.<br><br>Please make sure you have the correct access rights<br>and the repository exists.<br>FATAL &#123;<br>  err: Error: Spawn failed<br>      at ChildProcess.&lt;anonymous&gt; (<span class="hljs-type">C</span>:\<span class="hljs-type">Users</span>\<span class="hljs-type">Administrator</span>\<span class="hljs-type">AppData</span>\<span class="hljs-type">Roaming</span>\npm\node_modules\hexo\<span class="hljs-type">MyConfigs</span>\node_modules\hexo-util\lib\spawn.js:51:21)<br>      at ChildProcess.emit (node:events:527:28)<br>      at ChildProcess.cp.emit (<span class="hljs-type">C</span>:\<span class="hljs-type">Users</span>\<span class="hljs-type">Administrator</span>\<span class="hljs-type">AppData</span>\<span class="hljs-type">Roaming</span>\npm\node_modules\hexo\<span class="hljs-type">MyConfigs</span>\node_modules\cross-spawn\lib\enoent.js:34:29)<br>      at Process.ChildProcess._handle.onexit (node:internal/child_process:291:12) &#123;<br>    code: 128<br>  &#125;<br>&#125; Something&#x27;s wrong. Maybe you can find the solution here: %s https://hexo.io/docs/troubleshooting.html<br></code></pre></td></tr></table></figure>
+<p>解决方法参考了 <a target="_blank" rel="noopener" href="https://blog.csdn.net/JustinQin/article/details/118654843">Git–github ssh pull&#x2F;push报错Connection reset by peer_吾日三省贾斯汀的博客-CSDN博客</a> (原始内容 <a href="https://wanghaonie.github.io/webpage-static-snapshot/20220803-215033-spc1.html">存档</a> 于 2022-08-03)</p>
+<p>首先我以为是网络问题，于是我 Ping 了一下 github.com，结果如下</p>
+<figure class="highlight accesslog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs accesslog">C:\Users\Administrator&gt;ping github.com<br><br>正在 Ping github.com <span class="hljs-string">[20.205.243.166]</span> 具有 <span class="hljs-number">32</span> 字节的数据:<br>请求超时。<br>请求超时。<br>请求超时。<br>请求超时。<br><br><span class="hljs-number">20.205.243.166</span> 的 Ping 统计信息:<br>    数据包: 已发送 = <span class="hljs-number">4</span>，已接收 = <span class="hljs-number">0</span>，丢失 = <span class="hljs-number">4</span> (<span class="hljs-number">100</span>% 丢失)<br></code></pre></td></tr></table></figure>
+<p>果不其然，这肯定是超时了的，于是到<a target="_blank" rel="noopener" href="https://tools.ipip.net/newping.php">ipip.net</a>测试了 github.com 全球的服务器，<br>目的是为了找出能 Ping 通的 CDN 节点，最终找到了这几个 IP 地址：</p>
+<ul>
+<li>13.114.40.48 (日本)</li>
+<li>140.82.114.4 (美国)</li>
+<li>140.82.121.4 (美国)</li>
+</ul>
+<p>又分别在自己的电脑上 Ping 了一下</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><code class="hljs routeros">C:\Users\Administrator&gt;ping 13.114.40.48<br><br>正在<span class="hljs-built_in"> Ping </span>13.114.40.48 具有 32 字节的数据:<br>来自 13.114.40.48 的回复: 字节=32 时间=124ms <span class="hljs-attribute">TTL</span>=27<br>来自 13.114.40.48 的回复: 字节=32 时间=124ms <span class="hljs-attribute">TTL</span>=27<br>来自 13.114.40.48 的回复: 字节=32 时间=124ms <span class="hljs-attribute">TTL</span>=27<br>来自 13.114.40.48 的回复: 字节=32 时间=124ms <span class="hljs-attribute">TTL</span>=27<br><br>13.114.40.48 的<span class="hljs-built_in"> Ping </span>统计信息:<br>    数据包: 已发送 = 4，已接收 = 4，丢失 = 0 (0% 丢失)，<br>往返行程的估计时间(以毫秒为单位):<br>    最短 = 124ms，最长 = 124ms，平均 = 124ms<br><br>C:\Users\Administrator&gt;ping 140.82.114.4<br><br>正在<span class="hljs-built_in"> Ping </span>140.82.114.4 具有 32 字节的数据:<br>来自 140.82.114.4 的回复: 字节=32 时间=242ms <span class="hljs-attribute">TTL</span>=41<br>来自 140.82.114.4 的回复: 字节=32 时间=242ms <span class="hljs-attribute">TTL</span>=41<br>来自 140.82.114.4 的回复: 字节=32 时间=241ms <span class="hljs-attribute">TTL</span>=41<br>来自 140.82.114.4 的回复: 字节=32 时间=242ms <span class="hljs-attribute">TTL</span>=41<br><br>140.82.114.4 的<span class="hljs-built_in"> Ping </span>统计信息:<br>    数据包: 已发送 = 4，已接收 = 4，丢失 = 0 (0% 丢失)，<br>往返行程的估计时间(以毫秒为单位):<br>    最短 = 241ms，最长 = 242ms，平均 = 241ms<br><br>C:\Users\Administrator&gt;ping 140.82.121.4<br><br>正在<span class="hljs-built_in"> Ping </span>140.82.121.4 具有 32 字节的数据:<br>来自 140.82.121.4 的回复: 字节=32 时间=234ms <span class="hljs-attribute">TTL</span>=45<br>来自 140.82.121.4 的回复: 字节=32 时间=234ms <span class="hljs-attribute">TTL</span>=45<br>来自 140.82.121.4 的回复: 字节=32 时间=234ms <span class="hljs-attribute">TTL</span>=45<br>来自 140.82.121.4 的回复: 字节=32 时间=234ms <span class="hljs-attribute">TTL</span>=45<br><br>140.82.121.4 的<span class="hljs-built_in"> Ping </span>统计信息:<br>    数据包: 已发送 = 4，已接收 = 4，丢失 = 0 (0% 丢失)，<br>往返行程的估计时间(以毫秒为单位):<br>    最短 = 234ms，最长 = 234ms，平均 = 234ms<br></code></pre></td></tr></table></figure>
+<p>可以看出，这 3 个 CDN 节点是可以被 Ping 通的，其中日本的延迟最低，要更改修改系统 Hosts</p>
+<blockquote>
+<p>修改 Hosts 文件的方法：<br><br>1.运行 <code>notepad C:\Windows\system32\drivers\etc\hosts</code> 打开记事本来修改。<br><br>2.或者打开 <code>cmd</code> 运行 <code>echo 13.114.40.48 github.com &gt;&gt;C:\Windows\system32\drivers\etc\hosts</code> 直接快速修改</p>
+</blockquote>
+<p>完事之后，重新执行 <code>hexo clean &amp;&amp;hexo g &amp;&amp;hexo d</code>，如下</p>
+<figure class="highlight ocaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs ocaml">...<br><span class="hljs-type">On</span> branch master<br>nothing <span class="hljs-keyword">to</span> commit, working tree clean<br><span class="hljs-type">Enumerating</span> objects: <span class="hljs-number">15</span>, <span class="hljs-keyword">done</span>.<br><span class="hljs-type">Counting</span> objects: <span class="hljs-number">100</span>% (<span class="hljs-number">15</span>/<span class="hljs-number">15</span>), <span class="hljs-keyword">done</span>.<br><span class="hljs-type">Delta</span> compression using up <span class="hljs-keyword">to</span> <span class="hljs-number">8</span> threads<br><span class="hljs-type">Compressing</span> objects: <span class="hljs-number">100</span>% (<span class="hljs-number">9</span>/<span class="hljs-number">9</span>), <span class="hljs-keyword">done</span>.<br><span class="hljs-type">Writing</span> objects: <span class="hljs-number">100</span>% (<span class="hljs-number">14</span>/<span class="hljs-number">14</span>), <span class="hljs-number">3.31</span> <span class="hljs-type">KiB</span> | <span class="hljs-number">1.66</span> <span class="hljs-type">MiB</span>/s, <span class="hljs-keyword">done</span>.<br><span class="hljs-type">Total</span> <span class="hljs-number">14</span> (delta <span class="hljs-number">4</span>), reused <span class="hljs-number">0</span> (delta <span class="hljs-number">0</span>), pack-reused <span class="hljs-number">0</span><br>remote: <span class="hljs-type">Resolving</span> deltas: <span class="hljs-number">100</span>% (<span class="hljs-number">4</span>/<span class="hljs-number">4</span>), <span class="hljs-keyword">done</span>.<br><span class="hljs-type">To</span> github.com:<span class="hljs-type">WangHaonie</span>/wanghaonie.github.io.git<br>   <span class="hljs-number">6e07805</span>..c73bac9  <span class="hljs-type">HEAD</span> -&gt; main<br>branch <span class="hljs-symbol">&#x27;master&#x27;</span> set up <span class="hljs-keyword">to</span> track <span class="hljs-symbol">&#x27;git</span>@github.com:<span class="hljs-type">WangHaonie</span>/wanghaonie.github.io.git/main&#x27;.<br><span class="hljs-type">INFO</span>  <span class="hljs-type">Deploy</span> <span class="hljs-keyword">done</span>: git<br></code></pre></td></tr></table></figure>
+<p>100% 地成功了</p>
+<blockquote>
+<p>最后用了一段时间，发现又是同样的报错，根据 教程 来看，那么肯定是 SSH Key 失效了，我也想过为什么会无缘无故的失效，终究没有头绪，不管了，我直接又重新生成了 <code>id_rsa.pub</code>，然后到 <a target="_blank" rel="noopener" href="https://github.com/settings/keys">SSH and GPG keys</a> 删除又重新创建了一个新的 <code>SSH Key</code>，再去执行，又成功了。<br>[发布于 2022-08-20]：有头绪了，就是打开 Git Bash 前要关闭全局代理和 Clash 的 TUN，这样的话就不用重新创建 SSH Key 了。</p>
+</blockquote>
+<h3 id="终极方法"><a href="#终极方法" class="headerlink" title="终极方法"></a>终极方法</h3><ol>
+<li>在 <code>%UserProfile%\.ssh</code> 目录下创建一个 <code>config</code> 文件，内容如下<figure class="highlight crmsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs crmsh">Host github.com<br><span class="hljs-keyword">User</span> <span class="hljs-title">git</span><br>Hostname ssh.github.com<br>PreferredAuthentications publickey<br>IdentityFile ~/.ssh/id_rsa<br>Port <span class="hljs-number">443</span><br></code></pre></td></tr></table></figure></li>
+<li>再去运行看看结果<figure class="highlight vbnet"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs vbnet">[master <span class="hljs-number">17</span>c00a0] Site updated: <span class="hljs-number">2022</span>-<span class="hljs-number">12</span>-<span class="hljs-number">22</span> <span class="hljs-number">08</span>:<span class="hljs-number">01</span>:<span class="hljs-number">53</span><br> <span class="hljs-number">23</span> files changed, <span class="hljs-number">46</span> insertions(+), <span class="hljs-number">46</span> deletions(-)<br>The authenticity <span class="hljs-keyword">of</span> host <span class="hljs-comment">&#x27;[ssh.github.com]:443 ([198.18.0.68]:443)&#x27; can&#x27;t be established.</span><br>ED25519 <span class="hljs-keyword">key</span> fingerprint <span class="hljs-built_in">is</span> SHA256.<br>This host <span class="hljs-keyword">key</span> <span class="hljs-built_in">is</span> known <span class="hljs-keyword">by</span> the following other names/addresses:<br>    ~/.ssh/known_hosts:<span class="hljs-number">1</span>: github.com<br>Are you sure you want <span class="hljs-keyword">to</span> <span class="hljs-keyword">continue</span> connecting (yes/no/[fingerprint])?<br></code></pre></td></tr></table></figure></li>
+<li>在这里输入 <code>yes</code> 回车就可以上传文件了。结果：<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">Warning</span>: Permanently added &#x27;[ssh.github.com]:<span class="hljs-number">443</span>&#x27; (ED25519) to the list of known hosts.<br><span class="hljs-attribute">Enumerating</span> objects: <span class="hljs-number">537</span>, done.<br><span class="hljs-attribute">Counting</span> objects: <span class="hljs-number">100</span>% (<span class="hljs-number">537</span>/<span class="hljs-number">537</span>), done.<br><span class="hljs-attribute">Delta</span> compression using up to <span class="hljs-number">8</span> threads<br><span class="hljs-attribute">Compressing</span> objects: <span class="hljs-number">100</span>% (<span class="hljs-number">285</span>/<span class="hljs-number">285</span>), done.<br><span class="hljs-attribute">Writing</span> objects: <span class="hljs-number">100</span>% (<span class="hljs-number">487</span>/<span class="hljs-number">487</span>), <span class="hljs-number">46</span>.<span class="hljs-number">12</span> KiB | <span class="hljs-number">694</span>.<span class="hljs-number">00</span> KiB/s, done.<br><span class="hljs-attribute">Total</span> <span class="hljs-number">487</span> (delta <span class="hljs-number">234</span>), reused <span class="hljs-number">0</span> (delta <span class="hljs-number">0</span>), pack-reused <span class="hljs-number">0</span><br><span class="hljs-attribute">remote</span>: Resolving deltas: <span class="hljs-number">100</span>% (<span class="hljs-number">234</span>/<span class="hljs-number">234</span>), completed with <span class="hljs-number">23</span> local objects.<br><span class="hljs-attribute">To</span> github.com:WangHaonie/wanghaonie.github.io.git<br>   <span class="hljs-attribute">4abd6b2</span>..<span class="hljs-number">17</span>c00a0  HEAD -&gt; main<br><span class="hljs-attribute">branch</span> &#x27;master&#x27; set up to track &#x27;git@github.com:WangHaonie/wanghaonie.github.io.git/main&#x27;.<br><span class="hljs-attribute">INFO</span>  Deploy done: git<br></code></pre></td></tr></table></figure></li>
+</ol>
+<h2 id="总结一下注意事项"><a href="#总结一下注意事项" class="headerlink" title="总结一下注意事项"></a>总结一下注意事项</h2><ol>
+<li>一定要关闭电脑里面的全局代理，特别是 <a href="ttps://github.com/Fndroid/clash_for_windows_pkg">Clash for Windows</a> 的 <a target="_blank" rel="noopener" href="https://docs.cfw.lbyczf.com/contents/tun.html">TUN Mode</a> (网卡模式)，必须关闭，系统代理都可以不用关，不然会影响 <code>hexo d</code> 的执行，其他命令 <code>hexo init</code>、<code>npm</code>、<code>git</code> 等不受影响，打开了还会加快下载速度。</li>
+</ol>
+<blockquote>
+<p>[2022-08-27] 不一定要关，具体看节点接不接受这个协议，我近期换了另一个节点就可以代理 ssh 了，速度飞起，也不用改 hosts 了。</p>
+</blockquote>
+<ol start="2">
+<li><del>对于 <code>hexo</code> 的一系列命令，推荐在 <code>Git Bash</code> 里面执行，用 <code>cmd</code> 执行会报上面那个错误，可能是在 <code>git</code> 里面设置了 <code>--global</code> 参数的缘故吧，然而 <code>hexo</code> 又可能依赖这些参数，用 <code>cmd</code> 获取不到这些参数，自然就会报错了。</del>(未经证实，仅供参考)</li>
+<li>每次修改完配置文件或发完文章后，必须执行 <code>hexo clean &amp;&amp;hexo g &amp;&amp;hexo d</code>，网上说可以直接用 <code>hexo d</code>，结果我的 <code>index.html</code> 和其他所有的 HTML 文件都不见了，很奇怪。</li>
+</ol>
+<h2 id="安装过的-npm-包"><a href="#安装过的-npm-包" class="headerlink" title="安装过的 npm 包"></a>安装过的 npm 包</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs Shell">npm install -g hexo-cli<br>npm install hexo-deployer-git --save<br>npm install hexo-renderer-pug hexo-renderer-stylus --save<br>npm install hexo-wordcount --save<br></code></pre></td></tr></table></figure>
+<h2 id="特别鸣谢"><a href="#特别鸣谢" class="headerlink" title="特别鸣谢"></a>特别鸣谢</h2><ol>
+<li>Akilarの糖果屋 - Akilar.top<br><a target="_blank" rel="noopener" href="https://akilar.top/">https://akilar.top/</a></li>
+<li>花猪のBlog - HuaZhu’s blog<br><a target="_blank" rel="noopener" href="https://cnhuazhu.top/">https://cnhuazhu.top/</a></li>
+<li>卓越科技的Blog - 卓越人生、只为科技。<br><a target="_blank" rel="noopener" href="https://zykj.js.org/">https://zykj.js.org/</a></li>
+</ol>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/hexo/" class="print-no-link">#hexo</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>使用 Hexo 搭建博客的总结</div>
+      <div>https://wanghaonie.github.io/posts/81606d78cc42/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>WangHaonie</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2022年8月2日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/posts/1b2c8d134d11/" title="Windows 系统安装教程">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Windows 系统安装教程</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
