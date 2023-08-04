@@ -1,0 +1,58 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>飞翔的小鸟</title>
+<style>
+		body{background-color: #2A2A2A}
+canvas {
+	display: block;
+	border: 1px solid #313131;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 50px;
+}
+img {
+	display: none;
+}
+</style>
+</head>
+<body>
+<canvas id="cvs" width="500" height="500"></canvas>
+<script src="util.js"></script>
+<script src="bird.js"></script>
+<script src="land.js"></script>
+<script src="pipe.js"></script>
+<script src="sky.js"></script>
+<script src="gameScene.js"></script>
+<script src="overScene.js"></script>
+<script>
+        var cvs = document.querySelector( '#cvs' );
+        var ctx = cvs.getContext( '2d' );
+        util.loadImage({
+            bird: 'bird.png',
+            land: 'land.png',
+            pipeDown: 'pipeDown.png',
+            pipeUp: 'pipeUp.png',
+            sky: 'sky.png'
+        }, function( imgObj ) {
+            cvs.width = imgObj.sky.width;
+            cvs.height = imgObj.sky.height;
+            var isRun = true;
+            var gameScene = getGameScene( ctx, imgObj );
+            var overScene = getOverScene( ctx );
+            gameScene.addListener( function() {
+                isRun = false; 
+                overScene.draw(); 
+            } );
+
+            (function run() {
+                gameScene.draw();
+                if ( isRun ) {
+                    requestAnimationFrame( run );
+                }
+            }());
+        });
+    </script>
+</body>
+</html>
