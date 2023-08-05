@@ -16,13 +16,13 @@
   <meta name="author" content="WangHaonie">
   <meta name="keywords" content="">
   
-    <meta name="description" content="重要通知 这篇文章刚发布没多久，UUP dump 就发布了一个更新，目前 (2022-12-23) 的 UUP dump 本地版服务器已经可以支持中文和查询老版本更新，本篇文章中的部分内容可能已不再适用，请按照实际情况参考！(等以后有时间了再重新整理一下这篇文章) 简单说一下查询老版本的方法：打开 \uup\config.ini，把 fetch_sync_current_only= 后面的 fal">
+    <meta name="description" content="前言 编写过 Batch 脚本 (一下简称 bat) 的朋友都知道，若想要你的 bat 具备下载文件或其他需要借助特定程序才有的功能，是无法脱离那些特定程序的。当想要在其他电脑上运行时，必须要把那些程序也要拷贝过去，这有些时候难免会觉得有些麻烦，如果自己一个不小心把那个第三方程序删掉的话。就无法运行了。那有没有一种只需要拷贝 bat 脚本就能独立运行的方法呢，肯定是有的，一起来看看吧。  准备文件">
   
   
     <meta name="referrer" content="no-referrer-when-downgrade">
   
   
-  <title>(验证中...) 手把手教你自己在本地开一个 UUP dump 网站，速度快，不失效。 | WangHaonie</title>
+  <title>论如何将文件嵌入 bat 脚本里面，让一堆乱码也能运行 | WangHaonie</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -191,7 +191,7 @@
                   
                   <a class="dropdown-item" href="https://wanghaonie.github.io/" target="_self">
                     
-                    <span>🌎主站：GitHub</span>
+                    <span>🌎主站：GitHub Pages</span>
                   </a>
                 
                   
@@ -263,7 +263,7 @@
                   
                   <a class="dropdown-item" href="/static-pages/um/" target="_self">
                     
-                    <span>🎶音乐解锁</span>
+                    <span>🎹音乐解锁</span>
                   </a>
                 
               </div>
@@ -311,7 +311,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle">(验证中...) 手把手教你自己在本地开一个 UUP dump 网站，速度快，不失效。</span>
+            <span id="subtitle">论如何将文件嵌入 bat 脚本里面，让一堆乱码也能运行</span>
           
         </div>
 
@@ -322,8 +322,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2022-12-21 21:55" pubdate>
-          2022-12-21 21:55:57
+        <time datetime="2022-09-17 17:45" pubdate>
+          2022-09-17 17:45:04
         </time>
       </span>
     
@@ -334,7 +334,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          3.1k 字
+          2.4k 字
         
       </span>
     
@@ -345,7 +345,7 @@
         
         
         
-          26 分钟
+          21 分钟
         
       </span>
     
@@ -403,12 +403,12 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">(验证中...) 手把手教你自己在本地开一个 UUP dump 网站，速度快，不失效。</h1>
+            <h1 id="seo-header">论如何将文件嵌入 bat 脚本里面，让一堆乱码也能运行</h1>
             
               <p class="note note-info">
                 
                   
-                    本文最后更新于：4 小时前
+                    本文最后更新于：2 分钟前
                   
                 
               </p>
@@ -416,83 +416,31 @@
             
               <div class="markdown-body">
                 
-                <h2 id="重要通知"><a href="#重要通知" class="headerlink" title="重要通知"></a>重要通知</h2><ol>
-<li>这篇文章刚发布没多久，UUP dump 就发布了一个更新，目前 (2022-12-23) 的 UUP dump 本地版服务器已经可以支持中文和查询老版本更新，本篇文章中的部分内容可能已不再适用，请按照实际情况参考！(等以后有时间了再重新整理一下这篇文章)</li>
-<li>简单说一下查询老版本的方法：打开 <code>\uup\config.ini</code>，把 <code>fetch_sync_current_only=</code> 后面的 <code>false</code> 改为 <code>true</code></li>
+                <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><ol>
+<li>编写过 Batch 脚本 (一下简称 bat) 的朋友都知道，若想要你的 bat 具备下载文件或其他需要借助特定程序才有的功能，是无法脱离那些特定程序的。当想要在其他电脑上运行时，必须要把那些程序也要拷贝过去，这有些时候难免会觉得有些麻烦，如果自己一个不小心把那个第三方程序删掉的话。就无法运行了。那有没有一种只需要拷贝 bat 脚本就能独立运行的方法呢，肯定是有的，一起来看看吧。</li>
 </ol>
-<h2 id="准备工具"><a href="#准备工具" class="headerlink" title="准备工具"></a>准备工具</h2><ol>
-<li><code>uupdump-x64.7z</code><br><a target="_blank" rel="noopener" href="https://drive.google.com/drive/folders/1xWHnjdge-XacYHwH7QCTUDLde3YV-47l">https://drive.google.com/drive/folders/1xWHnjdge-XacYHwH7QCTUDLde3YV-47l</a> (官方)<br><a target="_blank" rel="noopener" href="https://mega.nz/folder/YoAFAY6S#YK8llN-X4wi3fyumy_Zbxw">https://mega.nz/folder/YoAFAY6S#YK8llN-X4wi3fyumy_Zbxw</a> (官方备用)</li>
-<li>Microsoft Visual C++ 2015-2022 Redistributable (x64) Runtime<br><a target="_blank" rel="noopener" href="https://aka.ms/vs/17/release/vc_redist.x64.exe">https://aka.ms/vs/17/release/vc_redist.x64.exe</a> (64 位, 根据实际情况选择安装)<br><a target="_blank" rel="noopener" href="https://aka.ms/vs/17/release/vc_redist.x86.exe">https://aka.ms/vs/17/release/vc_redist.x86.exe</a> (32 位, 根据实际情况选择安装)</li>
+<h2 id="准备文件"><a href="#准备文件" class="headerlink" title="准备文件"></a>准备文件</h2><ol>
+<li>自己写的 bat 程序</li>
+<li>依赖的第三方程序 (最好是单文件)</li>
 </ol>
-<h2 id="开始部署服务器"><a href="#开始部署服务器" class="headerlink" title="开始部署服务器"></a>开始部署服务器</h2><ol>
-<li><p>首先解压下载好的压缩包，然后运行 <code>uupdump-run-website.cmd</code> 来启动服务器。<br><img src="/archive-imgs/img-13-1-run-server.png" srcset="/img/loading.gif" lazyload alt="image"></p>
-</li>
-<li><p>服务器控制台运行情况如下，此时会自动打开浏览器对应的服务器地址和页面。<br><img src="/archive-imgs/img-13-2-server-console.png" srcset="/img/loading.gif" lazyload alt="image"></p>
-</li>
-<li><p>打开的页面如下，是不是觉得很熟悉了呢，这个本地版的服务器包含了与官方服务器同样的功能，但美中不足的一点就是貌似只有英文界面，没有中文<br><img src="/archive-imgs/img-13-3-local-uupdump-look.png" srcset="/img/loading.gif" lazyload alt="image"></p>
-<blockquote>
-<ol>
-<li>如果控制台没有自动打开浏览器，则需要手动打开浏览器，并在地址栏输入 <a target="_blank" rel="noopener" href="http://127.0.0.1:44400/"><code>127.0.0.1:44400</code></a> 即可进入网页。</li>
-<li>可以使用浏览器自带的翻译功能来把页面翻译成中文</li>
+<h2 id="开始嵌入"><a href="#开始嵌入" class="headerlink" title="开始嵌入"></a>开始嵌入</h2><ol>
+<li>在编写的 bat 里的每一行代码前加入 <code>;;;===,,,</code> (可以为其他字符)</li>
+<li>(重要) 在 bat 里的最后一行按下回车以提行，只需要一行即可，不能多也不能少。</li>
+<li>在当前位置打开 cmd，输入以下代码<figure class="highlight bat"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bat"><span class="hljs-built_in">copy</span> /a 写的bat.bat + /b 第三方.exe /b 名称随意.bat<br></code></pre></td></tr></table></figure></li>
+<li>以后直接拷贝处理后的 bat 文件到其他电脑上也能完美运行了。</li>
 </ol>
-</blockquote>
-</li>
-<li><p>与官网不同的一点就是，在官网我们可以看到有很多微软最新发布的更新，而这里一个也没有。所以在这里我们需要手动添加更新，我们点击左上角的New build。<br><img src="/archive-imgs/img-13-4-click-new-build.png" srcset="/img/loading.gif" lazyload alt="image"></p>
-</li>
-<li><p>然后我们就来到了这个页面。第一个选项 Architecture 指的是架构，我们一般就选择64位的就行，若有特殊需求则更改的对应的架构即可。第二个选项 Channel 就是微软发布更新的各个频道，Dev 是开发版，Beta 是测试版，Release Preview 是预览版，Retail 是零售版，根据个人需求选择对应的频道即可。<br><img src="/archive-imgs/img-13-5-select-retail.png" srcset="/img/loading.gif" lazyload alt="image"></p>
-</li>
-<li><p>第三个选项 Build 在这里我们要填入系统的构建号，这里就以 Windows 10 22H2 的构建号 <code>19045</code> 为例，后面最好再添一个 <code>.1</code>，第四个选项就是系统的版本这里就默认它为专业版 (Pro)，然后点击 Next。<br><img src="/archive-imgs/img-13-6-go-next.png" srcset="/img/loading.gif" lazyload alt="image"></p>
-<blockquote>
-<p>此页面目存在一个问题就是无论选择哪个 Channel，只要 Build 是填对了的都会反映出相应的版本，另外就是当填入老版本的 Build 的时候，返回的却是最新版本，大家有兴趣的可以自己琢磨一下。</p>
-</blockquote>
-</li>
-<li><p>如图所示，服务器成功的返回了我们这频道最新的一个更新，然后我们点击第二个进入。<br><img src="/archive-imgs/img-13-7-click-uup.png" srcset="/img/loading.gif" lazyload alt="image"></p>
-</li>
-<li><p>进入到这个界面以后，我们发现这里有个提示说这个更新的元数据还没有生成，虽然说下面有一个 生成元数据 的按钮，但是我们最好是回到刚才的文件夹，然后运行另一个程序来生成元数据。<br><img src="/archive-imgs/img-13-8-do-not-click-generate-metadata-1.png" srcset="/img/loading.gif" lazyload alt="image"></p>
-</li>
-<li><p>如下图所示，运行 <code>uupdump-get-packs.cmd</code><br><img src="/archive-imgs/img-13-9-click-uupdump-get-packs-bat.png" srcset="/img/loading.gif" lazyload alt="image"></p>
-</li>
-<li><p>程序运行结果如下图所示。<br><img src="/archive-imgs/img-13-10-get-packs-console.png" srcset="/img/loading.gif" lazyload alt="image"></p>
-</li>
-<li><p>然后我们等待运行完毕，直到出现 <code>请按任意键继续...</code> 时就可以回到网页了<br><img src="/archive-imgs/img-13-11-get-packs-done.png" srcset="/img/loading.gif" lazyload alt="image"></p>
-</li>
-<li><p>回到网页后，我们点击浏览器的刷新按钮刷新一下，如下图所示。<br><img src="/archive-imgs/img-13-12-get-packs-done-webpage.png" srcset="/img/loading.gif" lazyload alt="image"></p>
-</li>
-<li><p>可以看到在这里他是默认为英语的，所以我们需要点击后面的倒三角按钮，展开下拉列表，然后往上滑，找到并点击简体中文 (<code>Chinese (Simplified)</code>)<br><img src="/archive-imgs/img-13-13-select-language-zh-cn.png" srcset="/img/loading.gif" lazyload alt="image"></p>
-</li>
-<li><p>选择完语言以后，然后点击 Next。<br><img src="/archive-imgs/img-13-14-click-next.png" srcset="/img/loading.gif" lazyload alt="image"></p>
-</li>
-<li><p>在这里选择系统版本，我们只把专业版勾上就行了，把上面的家庭版取消勾选，然后点击 Next。<br><img src="/archive-imgs/img-13-15-select-version.png" srcset="/img/loading.gif" lazyload alt="image"></p>
-</li>
-<li><p>在这个页面我们依次点击 <code>下载并转换为 ISO 文件</code>、<code>当可用时集成更新</code>、<code>在集成更新后运行清理</code>、<code>集成 .NET Framework 3.5</code>、<code>使用固实压缩</code>，最后点击 创建下载包。<br><img src="/archive-imgs/img-13-16-create-download-pack.png" srcset="/img/loading.gif" lazyload alt="image"></p>
-</li>
-<li><p>将下载的文件解压到一个路径只有英文但不包含空格的文件夹下，然后右键 <code>uup_download_windows.cmd</code> 选择以管理员身份运行，若当前账户已是管理员 (Administrator) 可以直接双击运行。<br><img src="/archive-imgs/img-13-17-start-uup-download.png" srcset="/img/loading.gif" lazyload alt="image"></p>
-</li>
-<li><p>出现下图的这个情况，说明我们搭建的本地服务器没有问题，已经成功下载了。<br><img src="/archive-imgs/img-13-18-aria2c-download-script-succ.png" srcset="/img/loading.gif" lazyload alt="image"></p>
-</li>
-<li><p>后面的就是全自动化的操作，注意程序运行过程中尽量不要。运行其他程序，以免造成卡顿。<br><br><img src="/archive-imgs/img-13-19-uup-set-downloading.png" srcset="/img/loading.gif" lazyload alt="image"></p>
-</li>
+<h2 id="一个范例"><a href="#一个范例" class="headerlink" title="一个范例"></a>一个范例</h2><ol>
+<li>比如我想要集成下载 ToDesk 最新版的功能，需要用到 <code>aria2c.exe</code> 以及官方的最新下载链接，bat 代码如下<figure class="highlight bat"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs bat">@<span class="hljs-built_in">echo</span> off<br><span class="hljs-built_in">title</span> ToDesk Downlaoder<br>.\aria2c.exe https://dl.todesk.com/windows/ToDesk_Setup.exe<br><span class="hljs-keyword">exit</span><br></code></pre></td></tr></table></figure></li>
+<li>为了嵌入 aria2c.exe，修改后的代码如下 (为了方便理解，所以在这里写了注释，实际上在 bat 里面没有写注释，若想把注释写进 bat 的话，需要在注释前面也要加 <code>;;;===,,,</code>)<figure class="highlight bat"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs bat">;;;===,,,@<span class="hljs-built_in">echo</span> off<br>;;;===,,,<span class="hljs-built_in">title</span> ToDesk Downlaoder<br>: 如果你更改了字符串，需要更改 <span class="hljs-built_in">findstr</span> /v 后面引号里的内容，注意不要把前面的 ^ 给删了<br>;;;===,,,<span class="hljs-built_in">findstr</span> /v &quot;^;;;===,,,&quot; &quot;%~f0&quot; &gt; aria2c.exe<br>: <span class="hljs-built_in">findstr</span> 的作用是将此文件除了以 ;;;===,,, 开头的文本内容重新打包为 aria2c.exe，类似将 exe 改为 txt 然后再改回 exe 一样，不会修改原 exe 文件内容<br>;;;===,,,.\aria2c.exe https://dl.todesk.com/windows/ToDesk_Setup.exe<br>;;;===,,,<span class="hljs-built_in">del</span> aria2c.exe<br>: 为了美观，可以在下载完文件后删除解包出来的 aria2c.exe，让别人以为这个 bat 文件真的无需依赖任何第三方程序就能下载文件<br>;;;===,,,<span class="hljs-keyword">exit</span> /b<br>: <span class="hljs-keyword">exit</span> 后面加上 /b 参数<br><br>: 注意需要回车提一行<br></code></pre></td></tr></table></figure></li>
+<li>输入以下命令<figure class="highlight bat"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bat"><span class="hljs-built_in">copy</span> /a downloader.bat + /b aria2c.exe /b final.bat<br></code></pre></td></tr></table></figure></li>
+<li>最后试试在当前文件夹删掉 <code>aria2c.exe</code> (重命名也行)，再去运行 <code>final.bat</code> 看看，就会发现这个 bat 脚本已经成功独立运行了。</li>
 </ol>
-<h2 id="可能存在的问题"><a href="#可能存在的问题" class="headerlink" title="可能存在的问题"></a>可能存在的问题</h2><ol>
-<li><code>uup_download_windows.cmd</code> 运行开始会下载一些文件以确保能够成功地制作出 ISO，然而下载这些文件需要连接到 github.com，这对某些 DNS 被污染的地区非常不友好，但可以通过修改 Hosts、挂加速器的方法解决，有关此方面的详细信息可以观看这个视频: <a target="_blank" rel="noopener" href="https://b23.tv/Sq3RI3N">b23.tv&#x2F;Sq3RI3N</a>。对此，UUP dump 官方也推出了一个比较靠谱的解决方案，具体步骤如下</li>
-</ol>
-<blockquote>
-<ol>
-<li>手动下载 <br>(1) <a target="_blank" rel="noopener" href="https://github.com/uup-dump/containment-zone/blob/master/7zr.exe">https://github.com/uup-dump/containment-zone/blob/master/7zr.exe</a><br>(2) <a target="_blank" rel="noopener" href="https://github.com/uup-dump/containment-zone/blob/master/aria2c.exe">https://github.com/uup-dump/containment-zone/blob/master/aria2c.exe</a><br>(3) <a target="_blank" rel="noopener" href="https://github.com/uup-dump/containment-zone/blob/master/uup-converter-wimlib.7z">https://github.com/uup-dump/containment-zone/blob/master/uup-converter-wimlib.7z</a><br>这3个文件</li>
-<li>然后放在 UUP 下载包解压后的 <code>files</code> 文件夹里面，不要重命名</li>
-<li>用记事本等你习惯的编辑器打开 <code>uup_download_windows.cmd</code>，然后删除这行代码。<u><code>powershell -NoProfile -ExecutionPolicy Unrestricted .\files\depends_win.ps1 || (pause &amp; exit /b 1)</code></u></li>
-<li>重新运行 <code>uup_download_windows.cmd</code> 就 OK 了。</li>
-</ol>
-</blockquote>
-<h2 id="总结一下"><a href="#总结一下" class="headerlink" title="总结一下"></a>总结一下</h2><ol>
-<li><code>uupdump-x64.7z</code> 貌似每天都在更新，这个需要知道，要养成定时更新的好习惯。</li>
-<li>说实话这个方法是时候不建议日常经常使用，偶尔折腾一下得了，毕竟 <a target="_blank" rel="noopener" href="https://uupdump.net/?lang=zh-cn">UUP dump</a> 目前还没跑路 (但在 2022-12-18 确实访问不了了，DNS 解析都没了)，仅做备用方案。就算跑路了，咱国内还有 <a target="_blank" rel="noopener" href="https://www.uupdump.cn/">uupdump.cn</a> 撑着的，国外也有 <a target="_blank" rel="noopener" href="https://uup.rg-adguard.net/">uup.rg-adguard.net</a>，完全不愁！</li>
+<h2 id="小彩蛋"><a href="#小彩蛋" class="headerlink" title="小彩蛋"></a>小彩蛋</h2><ol>
+<li>看看 final.bat 里面的内容，你会发现多了 n 多行乱码，就像直接用记事本打开 exe 文件一样，但是居然能正常运行。<figure class="highlight bat"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs bat">;;;===,,,@<span class="hljs-built_in">echo</span> off<br>;;;===,,,<span class="hljs-built_in">title</span> ToDesk Downlaoder<br>;;;===,,,<span class="hljs-built_in">findstr</span> /v &quot;^;;;===,,,&quot; &quot;%~f0&quot; &gt; aria2c.exe<br>;;;===,,,.\aria2c.exe https://dl.todesk.com/windows/ToDesk_Setup.exe<br>;;;===,,,<span class="hljs-built_in">del</span> aria2c.exe<br>;;;===,,,<span class="hljs-keyword">exit</span> /b<br>MZ?         ?       @                                   €   ? ???L?This program cannot be run <span class="hljs-keyword">in</span> DOS <span class="hljs-built_in">mode</span>.<br><br>$       PE  d?             ? /  ?  N  F  ?       @                         繬    ,N  `                                             pN d/           癎  q                                         `E (                   榹N ?                          .text   滥&gt;     ?                ` p`.data   `e   ?  f   ?             @ `?rdata  郷  P?  `  <span class="hljs-number">0</span>?             @ p@.pdata   q  癎  r  怗             @ <span class="hljs-number">0</span>@.xdata  \?  <span class="hljs-number">0</span>J  ?  J             @ <span class="hljs-number">0</span>@.bss    `D    N                     € `?idata  d/   pN  <span class="hljs-number">0</span>   銶             @ <span class="hljs-number">0</span>?CRT    h    燦     N             @ @?tls        癗     N             @ @?                                                                                                                                                                                                                                                                                胒f.?     @ H冹(H?認E <span class="hljs-number">1</span>仪    H?諮E ?    H?貸E ?    H?淛E ?    H?_HE f?MZtXH?qJE ??N ? 吚t5?   桡#. 钖&#x27;. H??IE ???- H??E ?tZ1繦兡(? ?   璁#. 肷@ HcH&lt;H葋<span class="hljs-number">8</span>PE  u?稨f侚t9f侚u噧竸   唞媹?   <span class="hljs-number">1</span>覅?暵閔H??- 枘	- <span class="hljs-number">1</span>繦兡(脙xt咾D媭?   <span class="hljs-number">1</span>褽吚暵?ff.?     @ H冹<span class="hljs-number">8</span>H?錒E L??N H??N H??N ? ??N H??N H塂$ H?EHE D?椠&quot;. 怘兡<span class="hljs-number">8</span>?€    AUATUWVSH侅?   <span class="hljs-number">1</span>拦<br>   H峊$ H壸驢獺?(IE D?E吷吋  eH?%<span class="hljs-number">0</span>   H?\GE H媝<span class="hljs-number">1</span>鞮?鏼N ?H9??  硅  A訦夎餒?H吚u釮?<span class="hljs-number">8</span>GE <span class="hljs-number">1</span>韹凐?  ?吚剄  ??N    ?凐?  呿?  H??E H? H吚tE1篮   <span class="hljs-number">1</span>?需?- H??- WmN H?癋E H?桫- H?扆鑌&quot;. 鑇	- H?<span class="hljs-number">0</span>FE H?	PN 鑤%. H? <span class="hljs-number">1</span>蒆吚u隷?     勔t,冡t&#x27;?   H兝?€?~鍭壢A凁€?AD入鋐D  勔u?f.?     €?H兝?勔u餒?N D?E吚t鯠$\?   咇   ?胩&gt; ?<br></code></pre></td></tr></table></figure></li>
+<li>恭喜你，现在已经可以成功运行一堆乱码了。</li>
 </ol>
 <h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ol>
-<li>How to use uupdump 7z - YouTube<br><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=1BIQJTD3dmg">https://www.youtube.com/watch?v=1BIQJTD3dmg</a></li>
-<li>• Discord | #main | UUP dump<br><a target="_blank" rel="noopener" href="https://discord.com/channels/600104690684002321/600104690684002323/1053404611110776873">https://discord.com/channels/600104690684002321/600104690684002323/1053404611110776873</a></li>
-<li>• Discord | #main | UUP dump<br><a target="_blank" rel="noopener" href="https://discord.com/channels/600104690684002321/600104690684002323/1054141568942084156">https://discord.com/channels/600104690684002321/600104690684002323/1054141568942084156</a></li>
-<li>[DISCUSSION] UUP dump - download Windows 10 UUPs with ease | Page 223 | My Digital Life Forums<br><a target="_blank" rel="noopener" href="https://forums.mydigitallife.net/threads/discussion-uup-dump-download-windows-10-uups-with-ease.75052/page-223#post-1767162">https://forums.mydigitallife.net/threads/discussion-uup-dump-download-windows-10-uups-with-ease.75052/page-223#post-1767162</a></li>
+<li>windows - Embed a .exe file into a .bat file and auto copy to a desired location - Stack Overflow<br><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/34623847/embed-a-exe-file-into-a-bat-file-and-auto-copy-to-a-desired-location">https://stackoverflow.com/questions/34623847/embed-a-exe-file-into-a-bat-file-and-auto-copy-to-a-desired-location</a></li>
 </ol>
 
                 
@@ -508,8 +456,6 @@
       
         <a href="/tags/Windows/" class="print-no-link">#Windows</a>
       
-        <a href="/tags/ISO/" class="print-no-link">#ISO</a>
-      
     </div>
   
 </div>
@@ -520,8 +466,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>(验证中...) 手把手教你自己在本地开一个 UUP dump 网站，速度快，不失效。</div>
-      <div>https://wanghaonie.github.io/posts/80099299cd73/</div>
+      <div>论如何将文件嵌入 bat 脚本里面，让一堆乱码也能运行</div>
+      <div>https://wanghaonie.github.io/posts/2f6b4922a360/</div>
     </div>
     <div class="license-meta">
       
@@ -533,7 +479,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2022-12-21 21:55:57</div>
+          <div>2022-09-17 17:45:04</div>
         </div>
       
       
@@ -572,29 +518,6 @@
 
 
 
-              
-                <div class="post-prevnext my-3">
-                  <article class="post-prev col-6">
-                    
-                    
-                      <a href="/posts/bbcfbd33d48a/" title="(验证中...) (未完成) 玩转 Clash：小白也能定制属于自己的规则组和代理组">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">(验证中...) (未完成) 玩转 Clash：小白也能定制属于自己的规则组和代理组</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
-                  </article>
-                  <article class="post-next col-6">
-                    
-                    
-                      <a href="/posts/78be42335e4b/" title="(验证中...) 小米手机刷入 PixelExperience 类原生系统教程">
-                        <span class="hidden-mobile">(验证中...) 小米手机刷入 PixelExperience 类原生系统教程</span>
-                        <span class="visible-mobile">下一篇</span>
-                        <i class="iconfont icon-arrowright"></i>
-                      </a>
-                    
-                  </article>
-                </div>
               
             </div>
 

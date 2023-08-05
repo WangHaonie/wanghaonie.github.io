@@ -16,13 +16,13 @@
   <meta name="author" content="WangHaonie">
   <meta name="keywords" content="">
   
-    <meta name="description" content="(w10&amp;#x2F;11) 由 AppXSvc 和 ClipSVC 引起的各种问题问题描述 设置 在个别界面闪退 使用 Powershell 执行与 Appx 相关的命令时提示无法验证包、无法启动 ClipSvc 等各种报错 使用 Dism 或 App Installer 安装 Appx 时提示文件系统错误  解决方法 下载附件 重启系统  (w10&amp;#x2F;11) 有网络连接但显示无 Inte">
+    <meta name="description" content="引言 相信大家在接触电脑的时候，或多或少都在网上听说过这样的一句话，就是说不要把软件安装在C盘，不然会拖慢系统启动速度。就这么一句毫无根据的从来没有人进行验证的话，竟然奇迹般的流传至今。那么事实真的如这句话说的吗？是，但不完全是。  分析 现在的电脑大多数都是固态硬盘加机械硬盘的组合形式，把系统安装在固态硬盘，机械硬盘里面存放文件和软件等数据。固态硬盘拥有比机械硬盘更快的读写速度，把软件安装在固态">
   
   
     <meta name="referrer" content="no-referrer-when-downgrade">
   
   
-  <title>(验证中...) Windows 奇葩问题合集 | WangHaonie</title>
+  <title>都 2202 年了，你电脑的软件还不安装在 C 盘？ | WangHaonie</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -191,7 +191,7 @@
                   
                   <a class="dropdown-item" href="https://wanghaonie.github.io/" target="_self">
                     
-                    <span>🌎主站：GitHub</span>
+                    <span>🌎主站：GitHub Pages</span>
                   </a>
                 
                   
@@ -263,7 +263,7 @@
                   
                   <a class="dropdown-item" href="/static-pages/um/" target="_self">
                     
-                    <span>🎶音乐解锁</span>
+                    <span>🎹音乐解锁</span>
                   </a>
                 
               </div>
@@ -311,7 +311,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle">(验证中...) Windows 奇葩问题合集</span>
+            <span id="subtitle">都 2202 年了，你电脑的软件还不安装在 C 盘？</span>
           
         </div>
 
@@ -322,8 +322,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2022-08-04 11:07" pubdate>
-          2022-08-04 11:07:51
+        <time datetime="2022-08-15 19:02" pubdate>
+          2022-08-15 19:02:26
         </time>
       </span>
     
@@ -334,7 +334,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          541 字
+          1.7k 字
         
       </span>
     
@@ -345,7 +345,7 @@
         
         
         
-          5 分钟
+          15 分钟
         
       </span>
     
@@ -403,12 +403,12 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">(验证中...) Windows 奇葩问题合集</h1>
+            <h1 id="seo-header">都 2202 年了，你电脑的软件还不安装在 C 盘？</h1>
             
               <p class="note note-info">
                 
                   
-                    本文最后更新于：5 分钟前
+                    本文最后更新于：2 分钟前
                   
                 
               </p>
@@ -416,37 +416,33 @@
             
               <div class="markdown-body">
                 
-                <h2 id="w10-11-由-AppXSvc-和-ClipSVC-引起的各种问题"><a href="#w10-11-由-AppXSvc-和-ClipSVC-引起的各种问题" class="headerlink" title="(w10&#x2F;11) 由 AppXSvc 和 ClipSVC 引起的各种问题"></a>(w10&#x2F;11) 由 <code>AppXSvc</code> 和 <code>ClipSVC</code> 引起的各种问题</h2><h3 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h3><ol>
-<li>设置 在个别界面闪退</li>
-<li>使用 <code>Powershell</code> 执行与 <code>Appx</code> 相关的命令时提示无法验证包、无法启动 <code>ClipSvc</code> 等各种报错</li>
-<li>使用 <code>Dism</code> 或 <code>App Installer</code> 安装 <code>Appx</code> 时提示文件系统错误</li>
+                <h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><ol>
+<li>相信大家在接触电脑的时候，或多或少都在网上听说过这样的一句话，就是说不要把软件安装在C盘，不然会拖慢系统启动速度。就这么一句毫无根据的从来没有人进行验证的话，竟然奇迹般的流传至今。那么事实真的如这句话说的吗？是，但不完全是。</li>
 </ol>
-<h3 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h3><ol>
-<li><a href="/file-storages/reg-appxsvc-clipsvc.7z">下载附件</a></li>
-<li>重启系统</li>
+<h2 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h2><ol>
+<li>现在的电脑大多数都是固态硬盘加机械硬盘的组合形式，把系统安装在固态硬盘，机械硬盘里面存放文件和软件等数据。固态硬盘拥有比机械硬盘更快的读写速度，把软件安装在固态硬盘里面，可以有效的提高软件的启动速度。可以想想这么大容量的固态硬盘，不用来装软件，只存放系统岂不是白白浪费了？而且如果装在机械硬盘，不仅减慢软件启动速度，万一哪天机械硬盘坏了，软件也打不开了，桌面上的图标全部变白，这岂不是看起来很奇怪。并且后期换个机械硬盘也比较难搞，因为你的软件的用户数据和程序配置在C盘，也就是说这并不相当于你把这个软件完整的卸载了。只是相当于你直接删掉了主程序文件，重新运行软件安装程序，安装的时候未必也会引起一些冲突。</li>
+<li>现在有个别软件，比如 Edge，Chrome 浏览器的安装程序都是下载完所需文件后直接安装在C盘，还有一些其他软件也是这样，不给你选项直接安装在C盘。这就会导致一些强迫症患者发现自己电脑上的软件一个在C盘，一个在其他盘，不觉得别扭吗。</li>
+<li>即使你把一个软件安装在了其他盘，那只意味着它的主程序文件在其他盘，但是它的用户数据，尤其是注册表项目却在C盘，就导致了这个软件启动时候先在其他盘运行主程序，读取数据的时候又跑回C盘去读取，来来回回，虽然说不会造成性能差异，但是仔细想想也还是挺奇怪的。</li>
 </ol>
-<h2 id="w10-11-有网络连接但显示无-Internet-访问"><a href="#w10-11-有网络连接但显示无-Internet-访问" class="headerlink" title="(w10&#x2F;11) 有网络连接但显示无 Internet 访问"></a>(w10&#x2F;11) 有网络连接但显示无 Internet 访问</h2><h3 id="问题描述-1"><a href="#问题描述-1" class="headerlink" title="问题描述"></a>问题描述</h3><ol>
-<li>明明有网，但是 Office、UWP 应用会说没网，影响正常使用</li>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><h3 id="程序本身因素"><a href="#程序本身因素" class="headerlink" title="程序本身因素"></a>程序本身因素</h3><ol>
+<li>软件默认安装C盘，无法更改。</li>
+<li>软件主程序在其他盘，但是用户数据却在C盘。(也就是说你把一个软件安装在了其他盘，但是他还与C盘存在某种联系还不如直接安装在C盘)</li>
 </ol>
-<h3 id="解决方法-1"><a href="#解决方法-1" class="headerlink" title="解决方法"></a>解决方法</h3><ol>
-<li><a href="/file-storages/google-dns.7z">下载附件</a></li>
-<li>重启系统</li>
+<h3 id="硬盘组合因素"><a href="#硬盘组合因素" class="headerlink" title="硬盘组合因素"></a>硬盘组合因素</h3><ol>
+<li>C盘一般是固态硬盘，软件安装在那里面会使其启动速度提高。</li>
+<li>在开头说的安装在C盘确实会拖慢电脑启动速度，但是影响不大，因为固态硬盘达到一定的存储容量之后，读写速度会减慢，也属于正常现象。总之，安装在C盘就对了。</li>
 </ol>
-<h2 id="w7-8-8-1-10-11-高版本-PowerPoint-无法播放内嵌动画"><a href="#w7-8-8-1-10-11-高版本-PowerPoint-无法播放内嵌动画" class="headerlink" title="(w7&#x2F;8&#x2F;8.1&#x2F;10&#x2F;11) 高版本 PowerPoint 无法播放内嵌动画"></a>(w7&#x2F;8&#x2F;8.1&#x2F;10&#x2F;11) 高版本 PowerPoint 无法播放内嵌动画</h2><h3 id="问题描述-2"><a href="#问题描述-2" class="headerlink" title="问题描述"></a>问题描述</h3><ol>
-<li>老课件里的内嵌 Flash 动画无法播放，提示 控件无法激活，可能未在计算机中注册。</li>
+<h3 id="什么才可以放在在其他盘"><a href="#什么才可以放在在其他盘" class="headerlink" title="什么才可以放在在其他盘"></a>什么才可以放在在其他盘</h3><ol>
+<li>个人重要文件：文档、照片等，放固态硬盘会导致误删时恢复率低。</li>
+<li>当C盘容量不够时，可以考虑将软件放到其他盘。只要容量够，一个几百G的游戏也要放到C盘或另外的固态硬盘，机械硬盘会导致游戏体验差。</li>
 </ol>
-<h3 id="解决方法-2"><a href="#解决方法-2" class="headerlink" title="解决方法"></a>解决方法</h3><ol>
-<li>下载并安装 <a target="_blank" rel="noopener" href="https://www.flash.cn/cdm/latest/flashplayerax_install_cn_web.exe">Adobe Flash Player ActiveX</a>、<a target="_blank" rel="noopener" href="https://www.flash.cn/cdm/latest/flashplayerpp_install_cn_web.exe">Adobe Flash Player PPAPI</a>。</li>
-<li>开启 PowerPoint 支持项，<a href="/file-storages/enablecontrols.7z">下载附件</a>，或者自己参考 <a target="_blank" rel="noopener" href="https://support.microsoft.com/zh-cn/topic/flash-silverlight-%E5%92%8C-shockwave-%E6%8E%A7%E4%BB%B6%E5%9C%A8-microsoft-office-55738f12-a01d-420e-a533-7cef1ff6aeb1?ad=cn&rs=zh-cn&ui=zh-cn">文档</a>。</li>
-<li>重新打开 PowerPoint</li>
-</ol>
-<h2 id="w11-绕过-Insider-Preview-更新检查"><a href="#w11-绕过-Insider-Preview-更新检查" class="headerlink" title="(w11) 绕过 Insider Preview 更新检查"></a>(w11) 绕过 Insider Preview 更新检查</h2><h3 id="问题描述-3"><a href="#问题描述-3" class="headerlink" title="问题描述"></a>问题描述</h3><ol>
-<li>在没有最低硬件要求 (UEFI、TPM 2.0、安全启动) 的电脑上获取 Insider Preview 更新</li>
-</ol>
-<h3 id="解决方法-3"><a href="#解决方法-3" class="headerlink" title="解决方法"></a>解决方法</h3><ol>
-<li><a href="/file-storages/bypass-w11-reqcheck.7z">下载附件</a>，一个一个运行里面的文件。</li>
-<li>90% 有效，目前网上的方法都没用。</li>
-<li>重启电脑</li>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ol>
+<li>How does it matter, if applications are not installed in C Drive? - Microsoft Q&amp;A<br><a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/answers/questions/187746/how-does-it-matter-if-applications-are-not-install.html">https://docs.microsoft.com/en-us/answers/questions/187746/how-does-it-matter-if-applications-are-not-install.html</a></li>
+<li>On Windows machines, is it better to install programs on the C drive? - Quora<br><a target="_blank" rel="noopener" href="https://www.quora.com/On-Windows-machines-is-it-better-to-install-programs-on-the-C-drive">https://www.quora.com/On-Windows-machines-is-it-better-to-install-programs-on-the-C-drive</a></li>
+<li>windows - Can I install all my applications on D drive? - Super User<br><a target="_blank" rel="noopener" href="https://superuser.com/questions/512217/can-i-install-all-my-applications-on-d-drive">https://superuser.com/questions/512217/can-i-install-all-my-applications-on-d-drive</a></li>
+<li>软件应该装到C盘吗？答案在此-Windows,微软,软件, ——快科技(驱动之家旗下媒体)–科技改变未来<br><a target="_blank" rel="noopener" href="https://news.mydrivers.com/1/674/674849.htm">https://news.mydrivers.com/1/674/674849.htm</a></li>
+<li>把应用软件装在C盘里会不会降低运行速度,为什么? - 知乎<br><a target="_blank" rel="noopener" href="https://www.zhihu.com/question/23812971">https://www.zhihu.com/question/23812971</a></li>
+<li>为什么软件都想把自己安装在C盘上？|硬盘|电脑|磁盘|系统盘_网易订阅<br><a target="_blank" rel="noopener" href="https://www.163.com/dy/article/H108GMMA0511BKDB.html">https://www.163.com/dy/article/H108GMMA0511BKDB.html</a></li>
 </ol>
 
                 
@@ -462,6 +458,8 @@
       
         <a href="/tags/Windows/" class="print-no-link">#Windows</a>
       
+        <a href="/tags/%E8%BD%AF%E4%BB%B6/" class="print-no-link">#软件</a>
+      
     </div>
   
 </div>
@@ -472,8 +470,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>(验证中...) Windows 奇葩问题合集</div>
-      <div>https://wanghaonie.github.io/posts/8fa33e481aa6/</div>
+      <div>都 2202 年了，你电脑的软件还不安装在 C 盘？</div>
+      <div>https://wanghaonie.github.io/posts/464e15b3f824/</div>
     </div>
     <div class="license-meta">
       
@@ -485,7 +483,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2022-08-04 11:07:51</div>
+          <div>2022-08-15 19:02:26</div>
         </div>
       
       
@@ -524,29 +522,6 @@
 
 
 
-              
-                <div class="post-prevnext my-3">
-                  <article class="post-prev col-6">
-                    
-                    
-                      <a href="/posts/50822b9a1b35/" title="(验证中...) 摆脱 MSDN、摆脱 Ghost，使用 UUP dump 安全免费下载官方最新版镜像">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">(验证中...) 摆脱 MSDN、摆脱 Ghost，使用 UUP dump 安全免费下载官方最新版镜像</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
-                  </article>
-                  <article class="post-next col-6">
-                    
-                    
-                      <a href="/posts/c613bc0b4276/" title="(验证中...) 快速上手 Clash for Windows + 自建局域网 SubConverter 实现订阅转换">
-                        <span class="hidden-mobile">(验证中...) 快速上手 Clash for Windows + 自建局域网 SubConverter 实现订阅转换</span>
-                        <span class="visible-mobile">下一篇</span>
-                        <i class="iconfont icon-arrowright"></i>
-                      </a>
-                    
-                  </article>
-                </div>
               
             </div>
 

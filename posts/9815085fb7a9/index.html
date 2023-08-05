@@ -16,13 +16,13 @@
   <meta name="author" content="WangHaonie">
   <meta name="keywords" content="">
   
-    <meta name="description" content="准备工具 https://github.com/Fndroid/clash_for_windows_pkg&amp;#x2F;releases Clash for Windows https://github.com/BoyceLig/Clash_Chinese_Patch&amp;#x2F;releases Clash for Windows 汉化文件 (可选) https://github.com/tindy">
+    <meta name="description" content="小提示 Edge 浏览器可以从 Chrome 网上应用店 安装扩展程序。前提是要在 管理扩展 (edge://extensions/) 左侧打开 允许来自其他应用商店的扩展。 我不会在本文章中推荐 Tampermonkey (油猴) 扩展程序，因为用它从 GreasyFork 安装的脚本安全性未知，可能包含木马，盗取用户信息等可疑代码，因此推荐对网络前后端有一定基础和判断力的用户使用，所以不推荐小">
   
   
     <meta name="referrer" content="no-referrer-when-downgrade">
   
   
-  <title>(验证中...) 快速上手 Clash for Windows + 自建局域网 SubConverter 实现订阅转换 | WangHaonie</title>
+  <title>(验证中...) Chrome/Edge 浏览器必备扩展程序推荐 | WangHaonie</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -191,7 +191,7 @@
                   
                   <a class="dropdown-item" href="https://wanghaonie.github.io/" target="_self">
                     
-                    <span>🌎主站：GitHub</span>
+                    <span>🌎主站：GitHub Pages</span>
                   </a>
                 
                   
@@ -263,7 +263,7 @@
                   
                   <a class="dropdown-item" href="/static-pages/um/" target="_self">
                     
-                    <span>🎶音乐解锁</span>
+                    <span>🎹音乐解锁</span>
                   </a>
                 
               </div>
@@ -311,7 +311,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle">(验证中...) 快速上手 Clash for Windows + 自建局域网 SubConverter 实现订阅转换</span>
+            <span id="subtitle">(验证中...) Chrome/Edge 浏览器必备扩展程序推荐</span>
           
         </div>
 
@@ -322,8 +322,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2022-08-04 10:42" pubdate>
-          2022-08-04 10:42:21
+        <time datetime="2022-08-15 17:06" pubdate>
+          2022-08-15 17:06:09
         </time>
       </span>
     
@@ -334,7 +334,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          3.2k 字
+          2.3k 字
         
       </span>
     
@@ -345,7 +345,7 @@
         
         
         
-          27 分钟
+          20 分钟
         
       </span>
     
@@ -403,7 +403,7 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">(验证中...) 快速上手 Clash for Windows + 自建局域网 SubConverter 实现订阅转换</h1>
+            <h1 id="seo-header">(验证中...) Chrome/Edge 浏览器必备扩展程序推荐</h1>
             
               <p class="note note-info">
                 
@@ -416,82 +416,58 @@
             
               <div class="markdown-body">
                 
-                <h2 id="准备工具"><a href="#准备工具" class="headerlink" title="准备工具"></a>准备工具</h2><ol>
-<li><a target="_blank" rel="noopener" href="https://github.com/Fndroid/clash_for_windows_pkg/releases">https://github.com/Fndroid/clash_for_windows_pkg&#x2F;releases</a> Clash for Windows</li>
-<li><a target="_blank" rel="noopener" href="https://github.com/BoyceLig/Clash_Chinese_Patch/releases">https://github.com/BoyceLig/Clash_Chinese_Patch&#x2F;releases</a> Clash for Windows 汉化文件 (可选)</li>
-<li><a target="_blank" rel="noopener" href="https://github.com/tindy2013/subconverter/releases">https://github.com/tindy2013/subconverter/releases</a> SubConverter (订阅转换后端)</li>
+                <h2 id="小提示"><a href="#小提示" class="headerlink" title="小提示"></a>小提示</h2><ol>
+<li>Edge 浏览器可以从 Chrome 网上应用店 安装扩展程序。前提是要在 管理扩展 (<code>edge://extensions/</code>) 左侧打开 允许来自其他应用商店的扩展。</li>
+<li>我不会在本文章中推荐 Tampermonkey (油猴) 扩展程序，因为用它从 GreasyFork 安装的脚本安全性未知，可能包含木马，盗取用户信息等可疑代码，因此推荐对网络前后端有一定基础和判断力的用户使用，所以不推荐小白用户使用，具体情况 B 站 UP 主已经演示过，请看<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1ZY4y1e7WW">视频</a>。</li>
 </ol>
-<h2 id="配置-Clash-for-Windows"><a href="#配置-Clash-for-Windows" class="headerlink" title="配置 Clash for Windows"></a>配置 Clash for Windows</h2><blockquote>
-<p>更多详细教程见 Clash for Windows <a target="_blank" rel="noopener" href="https://docs.cfw.lbyczf.com/">官方文档</a></p>
-</blockquote>
-<blockquote>
-<p>对于 Clash for Windows，以下简称 cfw。</p>
-</blockquote>
-<ol>
-<li><p>点击上方的 cfw 下载链接，在页面下方找到适合你电脑的安装文件，点击就会进行下载。第一个红框的后面写了 <code>...-win.7z</code> 的是便携版的压缩包文件，下载第二个只有一个 <code>exe</code> 结尾的就是64位的安装文件，上面那个 <code>arm64</code> 是 ARM 架构的 CPU 运行的，下面那个 <code>ia32</code> 就是32位的 CPU。这里，就以64位安装程序为例。<br> <img src="/archive-imgs/img-cfw-dlpg-slct.jpg" srcset="/img/loading.gif" lazyload alt="image"></p>
-</li>
-<li><p>(汉化教程) 如果已经启动 cfw 的话，先把它退出。右键点击右下角系统托盘里的 cfw 图标选择 <code>Quit</code> 就能退出了。然后右键点击桌面上的 cfw 图标，选择 打开文件所在位置，进入 <code>resources</code> 文件夹，将你下载的 <code>app.7z </code> 压缩文件里面的 <code>app.asar</code> 文件拖入这个文件夹里，这时会弹出对话框提示已经有一个名为 <code>app.asar</code> 的文件，选择 替换目标文件 就行，然后再次打开 cfw，可以发现已经汉化了。</p>
-</li>
-<li><p>打开软件后，需要先进行设置。<br> <img src="/archive-imgs/img-cfw-ui-0.jpg" srcset="/img/loading.gif" lazyload alt="image"></p>
-</li>
-<li><p>点击软件界面左侧的 设置 选项卡，将 通知(会在软件启动的时候和配置文件更新失败的时候显示通知) 和 启动时自动最小化到通知栏(让 cfw 启动就后台运行而不是直接显示界面) 打开，下面的 运行时间格式，把它清空(仅是个人爱好 (觉得有点碍眼))。<br> <img src="/archive-imgs/img-cfw-ui-1.jpg" srcset="/img/loading.gif" lazyload alt="image"></p>
-</li>
-<li><p>往下滑，主题主题选择暗黑，字体设置为 <code>Segoe UI</code> 或其他字体，打开 使用系统表情符号 (Windows 10 之前的系统慎用) <br> <img src="/archive-imgs/img-cfw-ui-2.jpg" srcset="/img/loading.gif" lazyload alt="image"><br>托盘代理组样式 推荐选择子菜单，防止因为代理组太多导致的右键菜单太高引起的不便。<br> <img src="/archive-imgs/img-cfw-ui-9.jpg" srcset="/img/loading.gif" lazyload alt="image"></p>
-</li>
-<li><p>往下滑，找到代理，将代理节点条目宽度设置为 200 像素排序规则设置为延迟，延迟测试超过时间设置为 400 毫秒 (防止原本的 3000 毫秒导致的测试延迟时间很长)，然后勾选 隐藏不可选择的代理组，在 连接 这里把 更改代理时中断连接 设置为全部，开启 配置更改时中断连接，代理模式更改时中断连接；开启 显示进程，将 连接面板中显示的链路信息类型 更改为 全部。<br> <img src="/archive-imgs/img-cfw-ui-3.jpg" srcset="/img/loading.gif" lazyload alt="image"></p>
-</li>
-<li><p>往下滑，找到 日志 里的 预加载设置为 100 行。<br> <img src="/archive-imgs/img-cfw-ui-4.jpg" srcset="/img/loading.gif" lazyload alt="image"></p>
-</li>
-<li><p>右键点击左侧的 选项卡 选择 重新排序，将 配置 按钮拖动到 代理 的上面，因为本人觉得代理是包含在配置里面的，所以先有配置，再有代理。<br> <img src="/archive-imgs/img-cfw-ui-8.jpg" srcset="/img/loading.gif" lazyload alt="image"></p>
-</li>
-<li><p>然后点击配置这里输入你购买的订阅地址，点击下载,下载完成后一般会自动切换到这个配置<br> <img src="/archive-imgs/img-cfw-ui--6.jpg" srcset="/img/loading.gif" lazyload alt="image"><br><br>右键点击一下载好的配置文件选择设置将更新间隔设置为一小时<br> <img src="/archive-imgs/img-cfw-ui-11.jpg" srcset="/img/loading.gif" lazyload alt="image"></p>
-</li>
-<li><p>然后点击左侧的 代理 就可以看到节点了，点击右上角的 WiFi 图标，可以测试延迟，等待它自动排序，选择延迟最小的那个。</p>
-</li>
-<li><p>然后点击常规打开允许局域网连接。<br> <img src="/archive-imgs/img-cfw-ui-5.jpg" srcset="/img/loading.gif" lazyload alt="image"></p>
-</li>
-<li><p>然后在 UWP 应用网络回环 (可以使 UWP 应用走代理) 点击 启动助手，在弹出的界面中 点击 Exempt All，然后点击旁边的 Save Changes。<br> <img src="/archive-imgs/img-cfw-ui-6.jpg" srcset="/img/loading.gif" lazyload alt="image"></p>
-</li>
+<h2 id="必备扩展推荐"><a href="#必备扩展推荐" class="headerlink" title="必备扩展推荐"></a>必备扩展推荐</h2><h3 id="Dark-Reader"><a href="#Dark-Reader" class="headerlink" title="Dark Reader"></a>Dark Reader</h3><ol>
+<li>强制网站呈现为黑色主题，更加护眼。</li>
+<li>已知问题：<br>(1) 进入 Chrome 网上应用店、Microsoft Edge 加载项 的网页时，黑色主题不会生效，说是页面受到保护。<br>(2) 进入 百度文库 的文档页面时，文字颜色没有反色导致与背景色重合看不见，可以将百度文库的网站加入不反色列表中。<br>(3) 进入 谷歌地球 网页版时，背景图会反色导致显示出来异常的亮。加入不反色列表即可。<br><img src="/archive-imgs/img-broswer-extension-dr-1.jpg" srcset="/img/loading.gif" lazyload alt="image"><br>(4) 这个扩展可以更改网页的字体，如下图可以设置目标字体，不要忘了点一下前面的 “×”。<br><img src="/archive-imgs/img-broswer-extension-dr-2.jpg" srcset="/img/loading.gif" lazyload alt="image"><br>但是这个功能会导致网页上的图标无法正常显示，比如说在 微软账户页面。<br><img src="/archive-imgs/img-broswer-extension-dr-4.jpg" srcset="/img/loading.gif" lazyload alt="image"><br><img src="/archive-imgs/img-broswer-extension-dr-3.jpg" srcset="/img/loading.gif" lazyload alt="image"><br><br>下载地址：[<a target="_blank" rel="noopener" href="https://chrome.google.com/webstore/detail/dark-reader/eimadpbcbfnmbkopoojfekhnkhdbieeh">Chrome 网上应用店</a>] [<a target="_blank" rel="noopener" href="https://microsoftedge.microsoft.com/addons/detail/dark-reader/ifoakfbpdcdoeenechcleahebpibofpc">Microsoft Edge 加载项</a>]</li>
 </ol>
-<blockquote>
-<p>Windows 11 会在这时报错 <code>0x6C6</code>，如下图所示<br> <img src="/archive-imgs/img-cfw-ui-6-0.jpg" srcset="/img/loading.gif" lazyload alt="image"><br>可以先关闭这个助手，然后重新启动助手，点击 Refresh 然后再点击 Exempt All，然后再点击 Save Changes。<br> <img src="/archive-imgs/img-cfw-ui-6-1.jpg" srcset="/img/loading.gif" lazyload alt="image"><br>这时有些同学可能就已经正常了设置了，但是有些时候还会有下图的报错 <code>0x57</code> <br><img src="/archive-imgs/img-cfw-ui-6-3.jpg" srcset="/img/loading.gif" lazyload alt="image"><br>点击Exempt None，然后点击 Save Changes，然后关闭窗口，再启动助手，点击 Refresh，再点击 Exempt All，再点 Save Changes，就可以正常保存了。<br> <img src="/archive-imgs/img-cfw-ui-6-2.jpg" srcset="/img/loading.gif" lazyload alt="image"><br>如果还是失败，重试几下，按照 “Refresh - Exempt All&#x2F;None - Save Changes - 重新打开” 的方式，总会成功的 (如果你平时不用 UWP 应用，那么就可以跳过了)</p>
-</blockquote>
-<ol start="13">
-<li>回到 cfw 软件点击左侧的 常规，点击 服务模式 后面的 管理，选择 安装，等待软件自动重启。<br> <img src="/archive-imgs/img-cfw-ui-7.jpg" srcset="/img/loading.gif" lazyload alt="image"><br>然后打开下面的 TUN 模式，系统代理，开机启动。最后鼠标移动到右下角的网络图标，看见一个叫 Clash 的网卡已经显示 Internet 访问，说明配置成功，可以正常的上网了。<br> <img src="/archive-imgs/img-cfw-ui-10.jpg" srcset="/img/loading.gif" lazyload alt="image"></li>
+<h3 id="Infinity-新标签页"><a href="#Infinity-新标签页" class="headerlink" title="Infinity 新标签页"></a>Infinity 新标签页</h3><ol>
+<li>美化浏览器主页与新标签页</li>
+<li>扩展设置：<br>(1) Edge 浏览器在安装该扩展程序后需要到扩展管理页面手动启用该扩展比点击保持现状。<br>(2) 点击新标签页右上角的 菜单，点击设置，点击设置为 极简模式，鼠标拖动到图片上方选择更换壁纸，在这里随便选择一个源。<br><img src="/archive-imgs/img-broswer-extension-nt-1.jpg" srcset="/img/loading.gif" lazyload alt="image"><br>(3) 在弹出的窗口中将 壁纸更换频率 设置为 打开新标签页切换，这样的话只要每次打开新标签页时就会随机切换一张壁纸，就不会觉得单调了。<br><img src="/archive-imgs/img-broswer-extension-nt-3.jpg" srcset="/img/loading.gif" lazyload alt="image"><br>(4) 回到设置主界面找到 目标打开方式，将下面四个全部关闭。<br><img src="/archive-imgs/img-broswer-extension-nt-4.jpg" srcset="/img/loading.gif" lazyload alt="image"><br>(5) 下滑找到 搜索框，按下图设置。<br><img src="/archive-imgs/img-broswer-extension-nt-2.jpg" srcset="/img/loading.gif" lazyload alt="image"><br>(6) 看看最终结果，是不是特别的清爽。<br><img src="/archive-imgs/img-broswer-extension-nt-5.jpg" srcset="/img/loading.gif" lazyload alt="image"><br>(7) 小提示：注册登录账户后可以同步这些设置，以后不用重新再次进行设置了<br><br>下载地址：[<a target="_blank" rel="noopener" href="https://chrome.google.com/webstore/detail/infinity-new-tab/dbfmnekepjoapopniengjbcpnbljalfg">Chrome 网上应用店</a>] [<a target="_blank" rel="noopener" href="https://microsoftedge.microsoft.com/addons/detail/infinity-%E6%96%B0%E6%A0%87%E7%AD%BE%E9%A1%B5/aadnmeanpbokjjahcnikajejglihibpd">Microsoft Edge 加载项</a>]</li>
 </ol>
-<h2 id="搭建-SubConverter"><a href="#搭建-SubConverter" class="headerlink" title="搭建 SubConverter"></a>搭建 SubConverter</h2><ol>
-<li><p>下载 SubConverter 并解压到任意一个文件夹 (这里是 <code>C:\SubConverter\</code>)</p>
-</li>
-<li><p>打开 cfw 的设置，往下滑找到 子进程，点击编辑。<br> <img src="/archive-imgs/img-subc-cfw-0.jpg" srcset="/img/loading.gif" lazyload alt="image"></p>
-</li>
-<li><p>将这段代码填入，注意 SubConverter 的路径需要根据实际情况做修改，最后记得点击右下角的保存。</p>
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs YAML"><span class="hljs-attr">processes:</span><br>  <span class="hljs-bullet">-</span> <span class="hljs-attr">command:</span> <span class="hljs-string">C:\SubConverter\subconverter.exe</span><br>    <span class="hljs-attr">args:</span> <br>    <span class="hljs-attr">options:</span><br>      <span class="hljs-attr">cwd:</span> <span class="hljs-string">C:\SubConverter\</span> <br>    <span class="hljs-attr">log:</span> <span class="hljs-literal">false</span><br></code></pre></td></tr></table></figure>
-<p><img src="/archive-imgs/img-subc-cfw-1.jpg" srcset="/img/loading.gif" lazyload alt="image"></p>
-</li>
-<li><p>最后再重启一下 cfw。<br> <img src="/archive-imgs/img-subc-cfw-2.jpg" srcset="/img/loading.gif" lazyload alt="image"></p>
-</li>
-<li><p>cfw 重新打开时，如果出现这个对话框说明子进程配置成功 (出现这个对话框代表 SubConverter 是第一次启动的，如果你是用的是之前用过的 SubConverter，那就不会显示这个了)。没有出现的话，看一下任务管理器里是否有 <code>subconverter.exe</code> 这个进程，没有的话，就直接改用手动打开的方式，当要进行订阅转换的时候，手动打开。<br> <img src="/archive-imgs/img-subc-0.jpg" srcset="/img/loading.gif" lazyload alt="image"></p>
-</li>
-<li><p>准备一个非 Clash 订阅的订阅地址 (这里以 <code>https://raw.githubusercontent.com/ssrsub/ssr/master/V2Ray</code> 为例)，打开 <a target="_blank" rel="noopener" href="https://www.urlencoder.org/">URL Encoder</a>，进不去的话用 <a target="_blank" rel="noopener" href="https://tool.chinaz.com/tools/urlencode.aspx">站长之家 UrlEncode</a> 来重新编码一下链接。<br> <img src="/archive-imgs/img-subc-url-0.jpg" srcset="/img/loading.gif" lazyload alt="URL Encoder"><br> <img src="/archive-imgs/img-subc-url-1.jpg" srcset="/img/loading.gif" lazyload alt="站长之家 UrlEncode"></p>
-<blockquote>
-<p>小声BB：好像不用编码也可以诶，快去试试！</p>
-</blockquote>
-</li>
-<li><p>创建一个文本文档 (方便修改和保存)，按照格式输入以下内容：<br>格式：<code>http://127.0.0.1:25500/sub?target=clash&amp;url=&lt;订阅地址&gt;&amp;filename=&lt;处理完成后的文件名&gt;&amp;emoji=true&amp;add_emoji=true&amp;remove_emoji=false&amp;udp=true</code><br>如：<code>http://127.0.0.1:25500/sub?target=clash&amp;url=https%3A%2F%2Fraw.githubusercontent.com%2Fssrsub%2Fssr%2Fmaster%2FV2Ray&amp;filename=v2raySub&amp;emoji=true&amp;add_emoji=true&amp;remove_emoji=false&amp;udp=true</code></p>
-</li>
-<li><p>将这段内容填写到 cfw 的 配置 页面进行下载就行。不出意外的话，一会儿过后就有一个由你命名的，地址为 <code>127.0.0.1:25500</code> 的配置文件出现<br> <img src="/archive-imgs/img-subc-cfw-dl-0.jpg" srcset="/img/loading.gif" lazyload alt="image"></p>
-</li>
-<li><p>节点一切正常，可以使用<br><img src="/archive-imgs/img-subc-cfw-dl-1.jpg" srcset="/img/loading.gif" lazyload alt="image"></p>
-</li>
-<li><p>SubConverter 还有其他高级功能，动手能力强的可以去学习一下：<br><a target="_blank" rel="noopener" href="https://github.com/tindy2013/subconverter/blob/master/README-cn.md">https://github.com/tindy2013/subconverter/blob/master/README-cn.md</a></p>
-</li>
+<h3 id="uBlock-Origin"><a href="#uBlock-Origin" class="headerlink" title="uBlock Origin"></a>uBlock Origin</h3><ol>
+<li>也算是比较强大的广告拦截器了，普通用户安装了不用设置直接用就行。如果不想看到网页里的其他内容的话，在浏览器页面右键点击，在下面找到屏蔽元素，然后鼠标拖动选择即可。<br><br>下载地址：[<a target="_blank" rel="noopener" href="https://chrome.google.com/webstore/detail/ublock-origin/cjpalhdlnbpafiamejdnhcphjbkeiagm">Chrome 网上应用店</a>] [<a target="_blank" rel="noopener" href="https://microsoftedge.microsoft.com/addons/detail/ublock-origin/odfafepnkmbhccpbejgmiehpchacaeak">Microsoft Edge 加载项</a>]</li>
 </ol>
-<h2 id="结尾"><a href="#结尾" class="headerlink" title="结尾"></a>结尾</h2><ol>
-<li>cfw 有很多高级的功能，其中我最常用的就是 配置文件预处理 (<a target="_blank" rel="noopener" href="https://docs.cfw.lbyczf.com/contents/parser.html">点击学习</a>) 了，经常用它来向配置文件里添加分流错误 (该走代理没走代理) 的网站。比如说 jsDelivr CDN 在我国受到 DNS 污染，但是 Clash 一般将 <code>*.jsdeliver.net</code> 分流到直连，导致无法访问，考虑到几乎所有配置文件都没有 <code>*.jsdelivr.net</code> 的分流，所以我在 Parsers 添加了如下代码：<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs YAML"><span class="hljs-attr">parsers:</span><br>  <span class="hljs-bullet">-</span> <span class="hljs-attr">reg:</span> <span class="hljs-string">.*</span><br>    <span class="hljs-attr">yaml:</span><br>      <span class="hljs-attr">prepend-rules:</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">DOMAIN-KEYWORD,jsdelivr,🌍</span> <span class="hljs-string">国外媒体</span><br></code></pre></td></tr></table></figure>
-<blockquote>
-<p>小技巧：你可以将所有 Clash 订阅去让 SubConverter 转换一下来做到规则组名称统一，以便在创建全局 <code>parsers</code> (就是上面那个) 的时候会报错规则组无效。</p>
-</blockquote>
-</li>
+<h3 id="SingleFile"><a href="#SingleFile" class="headerlink" title="SingleFile"></a>SingleFile</h3><ol>
+<li>将一个完整的页面保存到单个 HTML 文件中，不会丢失格式，可选某些部分进行单独保存。</li>
+<li>右键单击网页，选择 SingleFile&gt; 使用 SingleFile 保存页面 (Save page with SigleFile) 即可保存整个页面，选择 保存选中部分 (Save Selection) 即可保存拖动鼠标选择的部分。<br><br>下载地址：[<a target="_blank" rel="noopener" href="https://chrome.google.com/webstore/detail/singlefile/mpiodijhokgodhhofbcjdecpffjipkle">Chrome 网上应用店</a>] [<a target="_blank" rel="noopener" href="https://microsoftedge.microsoft.com/addons/detail/singlefile/efnbkdcfmcmnhlkaijjjmhjjgladedno">Microsoft Edge 加载项</a>]</li>
+</ol>
+<h3 id="Volume-Controller"><a href="#Volume-Controller" class="headerlink" title="Volume Controller"></a>Volume Controller</h3><ol>
+<li>在某些声音比较小的网页，如果不想调高系统音量的话，可以试试这个扩展，点击扩展图标即可打开该扩展，滑动滑块调整声音即可。<br><br>下载地址：[<a target="_blank" rel="noopener" href="https://chrome.google.com/webstore/detail/volume-controller/kmfhljjdadodpnmgilofilbhnbiggcnm">Chrome 网上应用店</a>]</li>
+</ol>
+<h3 id="Search-by-Image"><a href="#Search-by-Image" class="headerlink" title="Search by Image"></a>Search by Image</h3><ol>
+<li>想在网页上搜索相关的图片，试试这个扩展程序，右键点击网页上的某个图片，选择 Search by Image，然后选择任意一个搜索引擎即可。<br><br>下载地址：[<a target="_blank" rel="noopener" href="https://chrome.google.com/webstore/detail/search-by-image/cnojnbdhbhnkbcieeekonklommdnndci">Chrome 网上应用店</a>] [<a target="_blank" rel="noopener" href="https://microsoftedge.microsoft.com/addons/detail/search-by-image/hckehkfhdkpmdlonmjaagiodlpjbonmc">Microsoft Edge 加载项</a>]</li>
+</ol>
+<h3 id="高效网页截图编辑插件"><a href="#高效网页截图编辑插件" class="headerlink" title="高效网页截图编辑插件"></a>高效网页截图编辑插件</h3><ol>
+<li>顾名思义，它是用来进行网页截图的软件，如果我们需要对网页保存为图片，可以选择它。要注意的是从右键菜单启动它可能会出现错误，推荐从单击扩展图标进行启动。<br><br>下载地址：[<a target="_blank" rel="noopener" href="https://chrome.google.com/webstore/detail/explain-and-send-screensh/mdddabjhelpilpnpgondfmehhcplpiin">Chrome 网上应用店</a>] [<a target="_blank" rel="noopener" href="https://microsoftedge.microsoft.com/addons/detail/%E9%AB%98%E6%95%88%E7%BD%91%E9%A1%B5%E6%88%AA%E5%9B%BE%E7%BC%96%E8%BE%91%E6%8F%92%E4%BB%B6/dnjgbabpedipbaghlhmcacpoehgpfoei">Microsoft Edge 加载项</a>]</li>
+</ol>
+<h3 id="SuperCopy-超级复制"><a href="#SuperCopy-超级复制" class="headerlink" title="SuperCopy 超级复制"></a>SuperCopy 超级复制</h3><ol>
+<li>解除网页禁止复制文字，比如在各大文档网站，都会拒绝用户复制网页文字，用这个扩展程序就能轻松破解。</li>
+<li>安装完后，若要对网页进行破解，点击扩展程序图标会提示要对网页授权，点击授权即可，在网页选择文字的时候，旁边会有一个 复制 的按钮，点击它来进行复制。<br><br>下载地址：[<a target="_blank" rel="noopener" href="https://chrome.google.com/webstore/detail/supercopy-enable-copy/onepmapfbjohnegdmfhndpefjkppbjkm">Chrome 网上应用店</a>] [<a target="_blank" rel="noopener" href="https://microsoftedge.microsoft.com/addons/detail/supercopy-%E8%B6%85%E7%BA%A7%E5%A4%8D%E5%88%B6/nhiheekdcnmfbapkmpbhmplfddenhjic">Microsoft Edge 加载项</a>]</li>
+</ol>
+<h3 id="Fatkun图片批量下载"><a href="#Fatkun图片批量下载" class="headerlink" title="Fatkun图片批量下载"></a>Fatkun图片批量下载</h3><ol>
+<li>可以批量下载网页上的图片。安装完成后右键选择批量下载即可进入筛选页面，取消勾选不小要的图片，点击左上角的下载即可。<br><br>下载地址：[<a target="_blank" rel="noopener" href="https://chrome.google.com/webstore/detail/fatkun-batch-download-ima/nnjjahlikiabnchcpehcpkdeckfgnohf">Chrome 网上应用店</a>] [<a target="_blank" rel="noopener" href="https://microsoftedge.microsoft.com/addons/detail/fatkun%E5%9B%BE%E7%89%87%E6%89%B9%E9%87%8F%E4%B8%8B%E8%BD%BD/hafamgdljbpcmgiakdigodgdpkchhglj">Microsoft Edge 加载项</a>]</li>
+</ol>
+<h2 id="高级扩展推荐"><a href="#高级扩展推荐" class="headerlink" title="高级扩展推荐"></a>高级扩展推荐</h2><h3 id="Enhancer-for-YouTube™"><a href="#Enhancer-for-YouTube™" class="headerlink" title="Enhancer for YouTube™"></a>Enhancer for YouTube™</h3><ol>
+<li>对 YouTube 的视频播放页面进行锁分辨率、倍速等多种功能。<br><br>下载地址：[<a target="_blank" rel="noopener" href="https://chrome.google.com/webstore/detail/enhancer-for-youtube/ponfpcnoihfmfllpaingbgckeeldkhle">Chrome 网上应用店</a>] [<a target="_blank" rel="noopener" href="https://microsoftedge.microsoft.com/addons/detail/enhancer-for-youtube%E2%84%A2/dlgfaleeejmphhnemjgiaekdbonkagkd">Microsoft Edge 加载项</a>]</li>
+</ol>
+<h3 id="User-Agent-Switcher-and-Manager"><a href="#User-Agent-Switcher-and-Manager" class="headerlink" title="User-Agent Switcher and Manager"></a>User-Agent Switcher and Manager</h3><ol>
+<li>更换浏览器 UA 标识，秒换浏览器 (肯定不是真的换了啊，只是改了标识，某些情况下可以蒙混过关)，对于某些必须使用专用浏览器进入的学校网站来说非常适用。<br><br>下载地址：[<a target="_blank" rel="noopener" href="https://chrome.google.com/webstore/detail/user-agent-switcher-and-m/bhchdcejhohfmigjafbampogmaanbfkg">Chrome 网上应用店</a>] [<a target="_blank" rel="noopener" href="https://microsoftedge.microsoft.com/addons/detail/useragent-switcher-and-m/cnjkedgepfdpdbnepgmajmmjdjkjnifa">Microsoft Edge 加载项</a>]</li>
+</ol>
+<h3 id="WhatFont"><a href="#WhatFont" class="headerlink" title="WhatFont"></a>WhatFont</h3><ol>
+<li>查询网页文字使用的是什么字体，打开扩展将鼠标移动到文字上即可查看。<br><br>下载地址：[<a target="_blank" rel="noopener" href="https://chrome.google.com/webstore/detail/whatfont/jabopobgcpjmedljpbcaablpmlmfcogm">Chrome 网上应用店</a>] [<a target="_blank" rel="noopener" href="https://microsoftedge.microsoft.com/addons/detail/whatfont-for-microsoft-ed/mnmachmhlpblookdiaaeedcnjpnbmpji">Microsoft Edge 加载项</a>]</li>
+</ol>
+<h3 id="网站-IP-信息查询"><a href="#网站-IP-信息查询" class="headerlink" title="网站 IP 信息查询"></a>网站 IP 信息查询</h3><ol>
+<li>由<a target="_blank" rel="noopener" href="https://www.ipip.net/">ipip.net</a>开发的小工具。可以查询当前访问网站的 IP 地址的地理位置，国旗，所属 ASN，端口开放信息等信息。点击扩展图标即可打开窗口。<br><img src="/archive-imgs/img-broswer-extension-ip.jpg" srcset="/img/loading.gif" lazyload alt="image"><br>下载地址：[<a target="_blank" rel="noopener" href="https://chrome.google.com/webstore/detail/%E7%BD%91%E7%AB%99-ip-%E4%BF%A1%E6%81%AF%E6%9F%A5%E8%AF%A2/mifjlfhembandabikpiehhokhdepbdai">Chrome 网上应用店</a>]</li>
+</ol>
+<h3 id="YouTube™-双字幕"><a href="#YouTube™-双字幕" class="headerlink" title="YouTube™ 双字幕"></a>YouTube™ 双字幕</h3><ol>
+<li>为 YouTube 外语视频开启双语字幕。<br><br>下载地址：[<a target="_blank" rel="noopener" href="https://chrome.google.com/webstore/detail/youtube-dual-subtitles/hkbdddpiemdeibjoknnofflfgbgnebcm">Chrome 网上应用店</a>] [<a target="_blank" rel="noopener" href="https://microsoftedge.microsoft.com/addons/detail/youtube%E2%84%A2-%E5%8F%8C%E5%AD%97%E5%B9%95/kicjdgmlfepkcglkdcaalgikoaphdbbp">Microsoft Edge 加载项</a>]</li>
+</ol>
+<h3 id="哔哩哔哩助手"><a href="#哔哩哔哩助手" class="headerlink" title="哔哩哔哩助手"></a>哔哩哔哩助手</h3><ol>
+<li>下载 B 站视频，还有其他多种功能。<br><br>下载地址：[<a target="_blank" rel="noopener" href="https://chrome.google.com/webstore/detail/%E5%93%94%E5%93%A9%E5%93%94%E5%93%A9%E5%8A%A9%E6%89%8B%EF%BC%9Abilibilicom-%E7%BB%BC%E5%90%88%E8%BE%85%E5%8A%A9%E6%89%A9%E5%B1%95/kpbnombpnpcffllnianjibmpadjolanh">Chrome 网上应用店</a>] [<a target="_blank" rel="noopener" href="https://microsoftedge.microsoft.com/addons/detail/%E5%93%94%E5%93%A9%E5%93%94%E5%93%A9%E5%8A%A9%E6%89%8B%EF%BC%9Abilibilicom-%E7%BB%BC%E5%90%88%E8%BE%85%E5%8A%A9%E6%89%A9/fcfebhekhbkhjjimonjmbgmkbclheaoh">Microsoft Edge 加载项</a>] [<a target="_blank" rel="noopener" href="https://bilibilihelper.com/">官网离线下载 crx</a>]</li>
 </ol>
 
                 
@@ -505,9 +481,9 @@
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
-        <a href="/tags/Clash/" class="print-no-link">#Clash</a>
+        <a href="/tags/%E8%BD%AF%E4%BB%B6/" class="print-no-link">#软件</a>
       
-        <a href="/tags/cfw/" class="print-no-link">#cfw</a>
+        <a href="/tags/%E6%B5%8F%E8%A7%88%E5%99%A8/" class="print-no-link">#浏览器</a>
       
     </div>
   
@@ -519,8 +495,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>(验证中...) 快速上手 Clash for Windows + 自建局域网 SubConverter 实现订阅转换</div>
-      <div>https://wanghaonie.github.io/posts/c613bc0b4276/</div>
+      <div>(验证中...) Chrome/Edge 浏览器必备扩展程序推荐</div>
+      <div>https://wanghaonie.github.io/posts/9815085fb7a9/</div>
     </div>
     <div class="license-meta">
       
@@ -532,7 +508,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2022-08-04 10:42:21</div>
+          <div>2022-08-15 17:06:09</div>
         </div>
       
       
@@ -576,9 +552,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/posts/8fa33e481aa6/" title="(验证中...) Windows 奇葩问题合集">
+                      <a href="/posts/48675e28b378/" title="(验证中...) PC 端录屏软件 Bandicam 配置指南">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">(验证中...) Windows 奇葩问题合集</span>
+                        <span class="hidden-mobile">(验证中...) PC 端录屏软件 Bandicam 配置指南</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -586,8 +562,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/posts/2e9edcf39afc/" title="(验证中...) Windows 系统软件推荐">
-                        <span class="hidden-mobile">(验证中...) Windows 系统软件推荐</span>
+                      <a href="/posts/1450465e3e78/" title="(验证中...) 摆脱 MSDN、摆脱 Ghost，使用 UUP dump 安全免费下载官方最新版镜像">
+                        <span class="hidden-mobile">(验证中...) 摆脱 MSDN、摆脱 Ghost，使用 UUP dump 安全免费下载官方最新版镜像</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>

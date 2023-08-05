@@ -16,13 +16,13 @@
   <meta name="author" content="WangHaonie">
   <meta name="keywords" content="">
   
-    <meta name="description" content="小提示 Edge 浏览器可以从 Chrome 网上应用店 安装扩展程序。前提是要在 管理扩展 (edge://extensions/) 左侧打开 允许来自其他应用商店的扩展。 我不会在本文章中推荐 Tampermonkey (油猴) 扩展程序，因为用它从 GreasyFork 安装的脚本安全性未知，可能包含木马，盗取用户信息等可疑代码，因此推荐对网络前后端有一定基础和判断力的用户使用，所以不推荐小">
+    <meta name="description" content="(w10&amp;#x2F;11) 由 AppXSvc 和 ClipSVC 引起的各种问题问题描述 设置 在个别界面闪退 使用 Powershell 执行与 Appx 相关的命令时提示无法验证包、无法启动 ClipSvc 等各种报错 使用 Dism 或 App Installer 安装 Appx 时提示文件系统错误  解决方法 下载附件 重启系统  (w10&amp;#x2F;11) 有网络连接但显示无 Inte">
   
   
     <meta name="referrer" content="no-referrer-when-downgrade">
   
   
-  <title>(验证中...) Chrome/Edge 浏览器必备扩展程序推荐 | WangHaonie</title>
+  <title>(验证中...) Windows 奇葩问题合集 | WangHaonie</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -191,7 +191,7 @@
                   
                   <a class="dropdown-item" href="https://wanghaonie.github.io/" target="_self">
                     
-                    <span>🌎主站：GitHub</span>
+                    <span>🌎主站：GitHub Pages</span>
                   </a>
                 
                   
@@ -263,7 +263,7 @@
                   
                   <a class="dropdown-item" href="/static-pages/um/" target="_self">
                     
-                    <span>🎶音乐解锁</span>
+                    <span>🎹音乐解锁</span>
                   </a>
                 
               </div>
@@ -311,7 +311,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle">(验证中...) Chrome/Edge 浏览器必备扩展程序推荐</span>
+            <span id="subtitle">(验证中...) Windows 奇葩问题合集</span>
           
         </div>
 
@@ -322,8 +322,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2022-08-15 17:06" pubdate>
-          2022-08-15 17:06:09
+        <time datetime="2022-08-04 11:07" pubdate>
+          2022-08-04 11:07:51
         </time>
       </span>
     
@@ -334,7 +334,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          2.3k 字
+          541 字
         
       </span>
     
@@ -345,7 +345,7 @@
         
         
         
-          20 分钟
+          5 分钟
         
       </span>
     
@@ -403,12 +403,12 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">(验证中...) Chrome/Edge 浏览器必备扩展程序推荐</h1>
+            <h1 id="seo-header">(验证中...) Windows 奇葩问题合集</h1>
             
               <p class="note note-info">
                 
                   
-                    本文最后更新于：4 小时前
+                    本文最后更新于：39 分钟前
                   
                 
               </p>
@@ -416,58 +416,37 @@
             
               <div class="markdown-body">
                 
-                <h2 id="小提示"><a href="#小提示" class="headerlink" title="小提示"></a>小提示</h2><ol>
-<li>Edge 浏览器可以从 Chrome 网上应用店 安装扩展程序。前提是要在 管理扩展 (<code>edge://extensions/</code>) 左侧打开 允许来自其他应用商店的扩展。</li>
-<li>我不会在本文章中推荐 Tampermonkey (油猴) 扩展程序，因为用它从 GreasyFork 安装的脚本安全性未知，可能包含木马，盗取用户信息等可疑代码，因此推荐对网络前后端有一定基础和判断力的用户使用，所以不推荐小白用户使用，具体情况 B 站 UP 主已经演示过，请看<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1ZY4y1e7WW">视频</a>。</li>
+                <h2 id="w10-11-由-AppXSvc-和-ClipSVC-引起的各种问题"><a href="#w10-11-由-AppXSvc-和-ClipSVC-引起的各种问题" class="headerlink" title="(w10&#x2F;11) 由 AppXSvc 和 ClipSVC 引起的各种问题"></a>(w10&#x2F;11) 由 <code>AppXSvc</code> 和 <code>ClipSVC</code> 引起的各种问题</h2><h3 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h3><ol>
+<li>设置 在个别界面闪退</li>
+<li>使用 <code>Powershell</code> 执行与 <code>Appx</code> 相关的命令时提示无法验证包、无法启动 <code>ClipSvc</code> 等各种报错</li>
+<li>使用 <code>Dism</code> 或 <code>App Installer</code> 安装 <code>Appx</code> 时提示文件系统错误</li>
 </ol>
-<h2 id="必备扩展推荐"><a href="#必备扩展推荐" class="headerlink" title="必备扩展推荐"></a>必备扩展推荐</h2><h3 id="Dark-Reader"><a href="#Dark-Reader" class="headerlink" title="Dark Reader"></a>Dark Reader</h3><ol>
-<li>强制网站呈现为黑色主题，更加护眼。</li>
-<li>已知问题：<br>(1) 进入 Chrome 网上应用店、Microsoft Edge 加载项 的网页时，黑色主题不会生效，说是页面受到保护。<br>(2) 进入 百度文库 的文档页面时，文字颜色没有反色导致与背景色重合看不见，可以将百度文库的网站加入不反色列表中。<br>(3) 进入 谷歌地球 网页版时，背景图会反色导致显示出来异常的亮。加入不反色列表即可。<br><img src="/archive-imgs/img-broswer-extension-dr-1.jpg" srcset="/img/loading.gif" lazyload alt="image"><br>(4) 这个扩展可以更改网页的字体，如下图可以设置目标字体，不要忘了点一下前面的 “×”。<br><img src="/archive-imgs/img-broswer-extension-dr-2.jpg" srcset="/img/loading.gif" lazyload alt="image"><br>但是这个功能会导致网页上的图标无法正常显示，比如说在 微软账户页面。<br><img src="/archive-imgs/img-broswer-extension-dr-4.jpg" srcset="/img/loading.gif" lazyload alt="image"><br><img src="/archive-imgs/img-broswer-extension-dr-3.jpg" srcset="/img/loading.gif" lazyload alt="image"><br><br>下载地址：[<a target="_blank" rel="noopener" href="https://chrome.google.com/webstore/detail/dark-reader/eimadpbcbfnmbkopoojfekhnkhdbieeh">Chrome 网上应用店</a>] [<a target="_blank" rel="noopener" href="https://microsoftedge.microsoft.com/addons/detail/dark-reader/ifoakfbpdcdoeenechcleahebpibofpc">Microsoft Edge 加载项</a>]</li>
+<h3 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h3><ol>
+<li><a href="/file-storages/reg-appxsvc-clipsvc.7z">下载附件</a></li>
+<li>重启系统</li>
 </ol>
-<h3 id="Infinity-新标签页"><a href="#Infinity-新标签页" class="headerlink" title="Infinity 新标签页"></a>Infinity 新标签页</h3><ol>
-<li>美化浏览器主页与新标签页</li>
-<li>扩展设置：<br>(1) Edge 浏览器在安装该扩展程序后需要到扩展管理页面手动启用该扩展比点击保持现状。<br>(2) 点击新标签页右上角的 菜单，点击设置，点击设置为 极简模式，鼠标拖动到图片上方选择更换壁纸，在这里随便选择一个源。<br><img src="/archive-imgs/img-broswer-extension-nt-1.jpg" srcset="/img/loading.gif" lazyload alt="image"><br>(3) 在弹出的窗口中将 壁纸更换频率 设置为 打开新标签页切换，这样的话只要每次打开新标签页时就会随机切换一张壁纸，就不会觉得单调了。<br><img src="/archive-imgs/img-broswer-extension-nt-3.jpg" srcset="/img/loading.gif" lazyload alt="image"><br>(4) 回到设置主界面找到 目标打开方式，将下面四个全部关闭。<br><img src="/archive-imgs/img-broswer-extension-nt-4.jpg" srcset="/img/loading.gif" lazyload alt="image"><br>(5) 下滑找到 搜索框，按下图设置。<br><img src="/archive-imgs/img-broswer-extension-nt-2.jpg" srcset="/img/loading.gif" lazyload alt="image"><br>(6) 看看最终结果，是不是特别的清爽。<br><img src="/archive-imgs/img-broswer-extension-nt-5.jpg" srcset="/img/loading.gif" lazyload alt="image"><br>(7) 小提示：注册登录账户后可以同步这些设置，以后不用重新再次进行设置了<br><br>下载地址：[<a target="_blank" rel="noopener" href="https://chrome.google.com/webstore/detail/infinity-new-tab/dbfmnekepjoapopniengjbcpnbljalfg">Chrome 网上应用店</a>] [<a target="_blank" rel="noopener" href="https://microsoftedge.microsoft.com/addons/detail/infinity-%E6%96%B0%E6%A0%87%E7%AD%BE%E9%A1%B5/aadnmeanpbokjjahcnikajejglihibpd">Microsoft Edge 加载项</a>]</li>
+<h2 id="w10-11-有网络连接但显示无-Internet-访问"><a href="#w10-11-有网络连接但显示无-Internet-访问" class="headerlink" title="(w10&#x2F;11) 有网络连接但显示无 Internet 访问"></a>(w10&#x2F;11) 有网络连接但显示无 Internet 访问</h2><h3 id="问题描述-1"><a href="#问题描述-1" class="headerlink" title="问题描述"></a>问题描述</h3><ol>
+<li>明明有网，但是 Office、UWP 应用会说没网，影响正常使用</li>
 </ol>
-<h3 id="uBlock-Origin"><a href="#uBlock-Origin" class="headerlink" title="uBlock Origin"></a>uBlock Origin</h3><ol>
-<li>也算是比较强大的广告拦截器了，普通用户安装了不用设置直接用就行。如果不想看到网页里的其他内容的话，在浏览器页面右键点击，在下面找到屏蔽元素，然后鼠标拖动选择即可。<br><br>下载地址：[<a target="_blank" rel="noopener" href="https://chrome.google.com/webstore/detail/ublock-origin/cjpalhdlnbpafiamejdnhcphjbkeiagm">Chrome 网上应用店</a>] [<a target="_blank" rel="noopener" href="https://microsoftedge.microsoft.com/addons/detail/ublock-origin/odfafepnkmbhccpbejgmiehpchacaeak">Microsoft Edge 加载项</a>]</li>
+<h3 id="解决方法-1"><a href="#解决方法-1" class="headerlink" title="解决方法"></a>解决方法</h3><ol>
+<li><a href="/file-storages/google-dns.7z">下载附件</a></li>
+<li>重启系统</li>
 </ol>
-<h3 id="SingleFile"><a href="#SingleFile" class="headerlink" title="SingleFile"></a>SingleFile</h3><ol>
-<li>将一个完整的页面保存到单个 HTML 文件中，不会丢失格式，可选某些部分进行单独保存。</li>
-<li>右键单击网页，选择 SingleFile&gt; 使用 SingleFile 保存页面 (Save page with SigleFile) 即可保存整个页面，选择 保存选中部分 (Save Selection) 即可保存拖动鼠标选择的部分。<br><br>下载地址：[<a target="_blank" rel="noopener" href="https://chrome.google.com/webstore/detail/singlefile/mpiodijhokgodhhofbcjdecpffjipkle">Chrome 网上应用店</a>] [<a target="_blank" rel="noopener" href="https://microsoftedge.microsoft.com/addons/detail/singlefile/efnbkdcfmcmnhlkaijjjmhjjgladedno">Microsoft Edge 加载项</a>]</li>
+<h2 id="w7-8-8-1-10-11-高版本-PowerPoint-无法播放内嵌动画"><a href="#w7-8-8-1-10-11-高版本-PowerPoint-无法播放内嵌动画" class="headerlink" title="(w7&#x2F;8&#x2F;8.1&#x2F;10&#x2F;11) 高版本 PowerPoint 无法播放内嵌动画"></a>(w7&#x2F;8&#x2F;8.1&#x2F;10&#x2F;11) 高版本 PowerPoint 无法播放内嵌动画</h2><h3 id="问题描述-2"><a href="#问题描述-2" class="headerlink" title="问题描述"></a>问题描述</h3><ol>
+<li>老课件里的内嵌 Flash 动画无法播放，提示 控件无法激活，可能未在计算机中注册。</li>
 </ol>
-<h3 id="Volume-Controller"><a href="#Volume-Controller" class="headerlink" title="Volume Controller"></a>Volume Controller</h3><ol>
-<li>在某些声音比较小的网页，如果不想调高系统音量的话，可以试试这个扩展，点击扩展图标即可打开该扩展，滑动滑块调整声音即可。<br><br>下载地址：[<a target="_blank" rel="noopener" href="https://chrome.google.com/webstore/detail/volume-controller/kmfhljjdadodpnmgilofilbhnbiggcnm">Chrome 网上应用店</a>]</li>
+<h3 id="解决方法-2"><a href="#解决方法-2" class="headerlink" title="解决方法"></a>解决方法</h3><ol>
+<li>下载并安装 <a target="_blank" rel="noopener" href="https://www.flash.cn/cdm/latest/flashplayerax_install_cn_web.exe">Adobe Flash Player ActiveX</a>、<a target="_blank" rel="noopener" href="https://www.flash.cn/cdm/latest/flashplayerpp_install_cn_web.exe">Adobe Flash Player PPAPI</a>。</li>
+<li>开启 PowerPoint 支持项，<a href="/file-storages/enablecontrols.7z">下载附件</a>，或者自己参考 <a target="_blank" rel="noopener" href="https://support.microsoft.com/zh-cn/topic/flash-silverlight-%E5%92%8C-shockwave-%E6%8E%A7%E4%BB%B6%E5%9C%A8-microsoft-office-55738f12-a01d-420e-a533-7cef1ff6aeb1?ad=cn&rs=zh-cn&ui=zh-cn">文档</a>。</li>
+<li>重新打开 PowerPoint</li>
 </ol>
-<h3 id="Search-by-Image"><a href="#Search-by-Image" class="headerlink" title="Search by Image"></a>Search by Image</h3><ol>
-<li>想在网页上搜索相关的图片，试试这个扩展程序，右键点击网页上的某个图片，选择 Search by Image，然后选择任意一个搜索引擎即可。<br><br>下载地址：[<a target="_blank" rel="noopener" href="https://chrome.google.com/webstore/detail/search-by-image/cnojnbdhbhnkbcieeekonklommdnndci">Chrome 网上应用店</a>] [<a target="_blank" rel="noopener" href="https://microsoftedge.microsoft.com/addons/detail/search-by-image/hckehkfhdkpmdlonmjaagiodlpjbonmc">Microsoft Edge 加载项</a>]</li>
+<h2 id="w11-绕过-Insider-Preview-更新检查"><a href="#w11-绕过-Insider-Preview-更新检查" class="headerlink" title="(w11) 绕过 Insider Preview 更新检查"></a>(w11) 绕过 Insider Preview 更新检查</h2><h3 id="问题描述-3"><a href="#问题描述-3" class="headerlink" title="问题描述"></a>问题描述</h3><ol>
+<li>在没有最低硬件要求 (UEFI、TPM 2.0、安全启动) 的电脑上获取 Insider Preview 更新</li>
 </ol>
-<h3 id="高效网页截图编辑插件"><a href="#高效网页截图编辑插件" class="headerlink" title="高效网页截图编辑插件"></a>高效网页截图编辑插件</h3><ol>
-<li>顾名思义，它是用来进行网页截图的软件，如果我们需要对网页保存为图片，可以选择它。要注意的是从右键菜单启动它可能会出现错误，推荐从单击扩展图标进行启动。<br><br>下载地址：[<a target="_blank" rel="noopener" href="https://chrome.google.com/webstore/detail/explain-and-send-screensh/mdddabjhelpilpnpgondfmehhcplpiin">Chrome 网上应用店</a>] [<a target="_blank" rel="noopener" href="https://microsoftedge.microsoft.com/addons/detail/%E9%AB%98%E6%95%88%E7%BD%91%E9%A1%B5%E6%88%AA%E5%9B%BE%E7%BC%96%E8%BE%91%E6%8F%92%E4%BB%B6/dnjgbabpedipbaghlhmcacpoehgpfoei">Microsoft Edge 加载项</a>]</li>
-</ol>
-<h3 id="SuperCopy-超级复制"><a href="#SuperCopy-超级复制" class="headerlink" title="SuperCopy 超级复制"></a>SuperCopy 超级复制</h3><ol>
-<li>解除网页禁止复制文字，比如在各大文档网站，都会拒绝用户复制网页文字，用这个扩展程序就能轻松破解。</li>
-<li>安装完后，若要对网页进行破解，点击扩展程序图标会提示要对网页授权，点击授权即可，在网页选择文字的时候，旁边会有一个 复制 的按钮，点击它来进行复制。<br><br>下载地址：[<a target="_blank" rel="noopener" href="https://chrome.google.com/webstore/detail/supercopy-enable-copy/onepmapfbjohnegdmfhndpefjkppbjkm">Chrome 网上应用店</a>] [<a target="_blank" rel="noopener" href="https://microsoftedge.microsoft.com/addons/detail/supercopy-%E8%B6%85%E7%BA%A7%E5%A4%8D%E5%88%B6/nhiheekdcnmfbapkmpbhmplfddenhjic">Microsoft Edge 加载项</a>]</li>
-</ol>
-<h3 id="Fatkun图片批量下载"><a href="#Fatkun图片批量下载" class="headerlink" title="Fatkun图片批量下载"></a>Fatkun图片批量下载</h3><ol>
-<li>可以批量下载网页上的图片。安装完成后右键选择批量下载即可进入筛选页面，取消勾选不小要的图片，点击左上角的下载即可。<br><br>下载地址：[<a target="_blank" rel="noopener" href="https://chrome.google.com/webstore/detail/fatkun-batch-download-ima/nnjjahlikiabnchcpehcpkdeckfgnohf">Chrome 网上应用店</a>] [<a target="_blank" rel="noopener" href="https://microsoftedge.microsoft.com/addons/detail/fatkun%E5%9B%BE%E7%89%87%E6%89%B9%E9%87%8F%E4%B8%8B%E8%BD%BD/hafamgdljbpcmgiakdigodgdpkchhglj">Microsoft Edge 加载项</a>]</li>
-</ol>
-<h2 id="高级扩展推荐"><a href="#高级扩展推荐" class="headerlink" title="高级扩展推荐"></a>高级扩展推荐</h2><h3 id="Enhancer-for-YouTube™"><a href="#Enhancer-for-YouTube™" class="headerlink" title="Enhancer for YouTube™"></a>Enhancer for YouTube™</h3><ol>
-<li>对 YouTube 的视频播放页面进行锁分辨率、倍速等多种功能。<br><br>下载地址：[<a target="_blank" rel="noopener" href="https://chrome.google.com/webstore/detail/enhancer-for-youtube/ponfpcnoihfmfllpaingbgckeeldkhle">Chrome 网上应用店</a>] [<a target="_blank" rel="noopener" href="https://microsoftedge.microsoft.com/addons/detail/enhancer-for-youtube%E2%84%A2/dlgfaleeejmphhnemjgiaekdbonkagkd">Microsoft Edge 加载项</a>]</li>
-</ol>
-<h3 id="User-Agent-Switcher-and-Manager"><a href="#User-Agent-Switcher-and-Manager" class="headerlink" title="User-Agent Switcher and Manager"></a>User-Agent Switcher and Manager</h3><ol>
-<li>更换浏览器 UA 标识，秒换浏览器 (肯定不是真的换了啊，只是改了标识，某些情况下可以蒙混过关)，对于某些必须使用专用浏览器进入的学校网站来说非常适用。<br><br>下载地址：[<a target="_blank" rel="noopener" href="https://chrome.google.com/webstore/detail/user-agent-switcher-and-m/bhchdcejhohfmigjafbampogmaanbfkg">Chrome 网上应用店</a>] [<a target="_blank" rel="noopener" href="https://microsoftedge.microsoft.com/addons/detail/useragent-switcher-and-m/cnjkedgepfdpdbnepgmajmmjdjkjnifa">Microsoft Edge 加载项</a>]</li>
-</ol>
-<h3 id="WhatFont"><a href="#WhatFont" class="headerlink" title="WhatFont"></a>WhatFont</h3><ol>
-<li>查询网页文字使用的是什么字体，打开扩展将鼠标移动到文字上即可查看。<br><br>下载地址：[<a target="_blank" rel="noopener" href="https://chrome.google.com/webstore/detail/whatfont/jabopobgcpjmedljpbcaablpmlmfcogm">Chrome 网上应用店</a>] [<a target="_blank" rel="noopener" href="https://microsoftedge.microsoft.com/addons/detail/whatfont-for-microsoft-ed/mnmachmhlpblookdiaaeedcnjpnbmpji">Microsoft Edge 加载项</a>]</li>
-</ol>
-<h3 id="网站-IP-信息查询"><a href="#网站-IP-信息查询" class="headerlink" title="网站 IP 信息查询"></a>网站 IP 信息查询</h3><ol>
-<li>由<a target="_blank" rel="noopener" href="https://www.ipip.net/">ipip.net</a>开发的小工具。可以查询当前访问网站的 IP 地址的地理位置，国旗，所属 ASN，端口开放信息等信息。点击扩展图标即可打开窗口。<br><img src="/archive-imgs/img-broswer-extension-ip.jpg" srcset="/img/loading.gif" lazyload alt="image"><br>下载地址：[<a target="_blank" rel="noopener" href="https://chrome.google.com/webstore/detail/%E7%BD%91%E7%AB%99-ip-%E4%BF%A1%E6%81%AF%E6%9F%A5%E8%AF%A2/mifjlfhembandabikpiehhokhdepbdai">Chrome 网上应用店</a>]</li>
-</ol>
-<h3 id="YouTube™-双字幕"><a href="#YouTube™-双字幕" class="headerlink" title="YouTube™ 双字幕"></a>YouTube™ 双字幕</h3><ol>
-<li>为 YouTube 外语视频开启双语字幕。<br><br>下载地址：[<a target="_blank" rel="noopener" href="https://chrome.google.com/webstore/detail/youtube-dual-subtitles/hkbdddpiemdeibjoknnofflfgbgnebcm">Chrome 网上应用店</a>] [<a target="_blank" rel="noopener" href="https://microsoftedge.microsoft.com/addons/detail/youtube%E2%84%A2-%E5%8F%8C%E5%AD%97%E5%B9%95/kicjdgmlfepkcglkdcaalgikoaphdbbp">Microsoft Edge 加载项</a>]</li>
-</ol>
-<h3 id="哔哩哔哩助手"><a href="#哔哩哔哩助手" class="headerlink" title="哔哩哔哩助手"></a>哔哩哔哩助手</h3><ol>
-<li>下载 B 站视频，还有其他多种功能。<br><br>下载地址：[<a target="_blank" rel="noopener" href="https://chrome.google.com/webstore/detail/%E5%93%94%E5%93%A9%E5%93%94%E5%93%A9%E5%8A%A9%E6%89%8B%EF%BC%9Abilibilicom-%E7%BB%BC%E5%90%88%E8%BE%85%E5%8A%A9%E6%89%A9%E5%B1%95/kpbnombpnpcffllnianjibmpadjolanh">Chrome 网上应用店</a>] [<a target="_blank" rel="noopener" href="https://microsoftedge.microsoft.com/addons/detail/%E5%93%94%E5%93%A9%E5%93%94%E5%93%A9%E5%8A%A9%E6%89%8B%EF%BC%9Abilibilicom-%E7%BB%BC%E5%90%88%E8%BE%85%E5%8A%A9%E6%89%A9/fcfebhekhbkhjjimonjmbgmkbclheaoh">Microsoft Edge 加载项</a>] [<a target="_blank" rel="noopener" href="https://bilibilihelper.com/">官网离线下载 crx</a>]</li>
+<h3 id="解决方法-3"><a href="#解决方法-3" class="headerlink" title="解决方法"></a>解决方法</h3><ol>
+<li><a href="/file-storages/bypass-w11-reqcheck.7z">下载附件</a>，一个一个运行里面的文件。</li>
+<li>90% 有效，目前网上的方法都没用。</li>
+<li>重启电脑</li>
 </ol>
 
                 
@@ -481,9 +460,7 @@
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
-        <a href="/tags/%E8%BD%AF%E4%BB%B6/" class="print-no-link">#软件</a>
-      
-        <a href="/tags/%E6%B5%8F%E8%A7%88%E5%99%A8/" class="print-no-link">#浏览器</a>
+        <a href="/tags/Windows/" class="print-no-link">#Windows</a>
       
     </div>
   
@@ -495,8 +472,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>(验证中...) Chrome/Edge 浏览器必备扩展程序推荐</div>
-      <div>https://wanghaonie.github.io/posts/006fd8fd4bdb/</div>
+      <div>(验证中...) Windows 奇葩问题合集</div>
+      <div>https://wanghaonie.github.io/posts/07d9b1690b8c/</div>
     </div>
     <div class="license-meta">
       
@@ -508,7 +485,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2022-08-15 17:06:09</div>
+          <div>2022-08-04 11:07:51</div>
         </div>
       
       
@@ -552,9 +529,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/posts/cd85e29d950e/" title="(验证中...) PC 端录屏软件 Bandicam 配置指南">
+                      <a href="/posts/1450465e3e78/" title="(验证中...) 摆脱 MSDN、摆脱 Ghost，使用 UUP dump 安全免费下载官方最新版镜像">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">(验证中...) PC 端录屏软件 Bandicam 配置指南</span>
+                        <span class="hidden-mobile">(验证中...) 摆脱 MSDN、摆脱 Ghost，使用 UUP dump 安全免费下载官方最新版镜像</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -562,8 +539,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/posts/50822b9a1b35/" title="(验证中...) 摆脱 MSDN、摆脱 Ghost，使用 UUP dump 安全免费下载官方最新版镜像">
-                        <span class="hidden-mobile">(验证中...) 摆脱 MSDN、摆脱 Ghost，使用 UUP dump 安全免费下载官方最新版镜像</span>
+                      <a href="/posts/4644c06aa6ac/" title="(验证中...) 快速上手 Clash for Windows + 自建局域网 SubConverter 实现订阅转换">
+                        <span class="hidden-mobile">(验证中...) 快速上手 Clash for Windows + 自建局域网 SubConverter 实现订阅转换</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
