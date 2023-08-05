@@ -16,13 +16,13 @@
   <meta name="author" content="WangHaonie">
   <meta name="keywords" content="">
   
-    <meta name="description" content="大部分过程都是参考这个 用Github-pages和Hexo搭建自己的个人博客 (原始内容 存档 于 2022-08-03)就说一下遇到的一些问题吧  命令 hexo d 执行时遇到的报错方法1如下： 1234567891011121314Connection reset by 20.205.243.166 port 22fatal: Could not read from remote rep">
+    <meta name="description" content="">
   
   
     <meta name="referrer" content="no-referrer-when-downgrade">
   
   
-  <title>(重构中...) 使用 Hexo 搭建博客的总结 | WangHaonie</title>
+  <title>(验证中...) (未完成) 从零开始使用 Hexo 和 GitHub Pages 部署个人网站 | WangHaonie</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -297,13 +297,13 @@
   
 
 <div id="banner" class="banner" parallax=true
-     style="background: url('https://bing.biturl.top/?resolution=1920&format=image&index=0&mkt=zh-CN') no-repeat center center; background-size: cover;">
+     style="background: url('/img/wallhaven-z8gxeg.jpg') no-repeat center center; background-size: cover;">
   <div class="full-bg-img">
     <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle">(重构中...) 使用 Hexo 搭建博客的总结</span>
+            <span id="subtitle">(验证中...) (未完成) 从零开始使用 Hexo 和 GitHub Pages 部署个人网站</span>
           
         </div>
 
@@ -326,7 +326,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          5.1k 字
+          0 字
         
       </span>
     
@@ -337,7 +337,7 @@
         
         
         
-          43 分钟
+          1 分钟
         
       </span>
     
@@ -395,12 +395,12 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">(重构中...) 使用 Hexo 搭建博客的总结</h1>
+            <h1 id="seo-header">(验证中...) (未完成) 从零开始使用 Hexo 和 GitHub Pages 部署个人网站</h1>
             
               <p class="note note-info">
                 
                   
-                    本文最后更新于：2 天前
+                    本文最后更新于：1 分钟前
                   
                 
               </p>
@@ -408,10 +408,13 @@
             
               <div class="markdown-body">
                 
-                <blockquote>
-<p>大部分过程都是参考这个 <a target="_blank" rel="noopener" href="https://harlan1997.github.io/2021/03/06/%E7%94%A8Github-pages%E5%92%8CHexo%E6%90%AD%E5%BB%BA%E8%87%AA%E5%B7%B1%E7%9A%84%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/">用Github-pages和Hexo搭建自己的个人博客</a> (原始内容 <a href="https://wanghaonie.github.io/webpage-static-snapshot/20220803-214335-spc0.html">存档</a> 于 2022-08-03)<br>就说一下遇到的一些问题吧</p>
-</blockquote>
-<h2 id="命令-hexo-d-执行时遇到的报错"><a href="#命令-hexo-d-执行时遇到的报错" class="headerlink" title="命令 hexo d 执行时遇到的报错"></a>命令 <code>hexo d</code> 执行时遇到的报错</h2><h3 id="方法1"><a href="#方法1" class="headerlink" title="方法1"></a>方法1</h3><p>如下：</p>
+                <!--
+> 大部分过程都是参考这个 [用Github-pages和Hexo搭建自己的个人博客](https://harlan1997.github.io/2021/03/06/%E7%94%A8Github-pages%E5%92%8CHexo%E6%90%AD%E5%BB%BA%E8%87%AA%E5%B7%B1%E7%9A%84%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/) (原始内容 [存档](https://wanghaonie.github.io/webpage-static-snapshot/20220803-214335-spc0.html) 于 2022-08-03)
+> 就说一下遇到的一些问题吧
+
+## 命令 ```hexo d``` 执行时遇到的报错
+### 方法1
+如下：
 <figure class="highlight elm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs elm"><span class="hljs-type">Connection</span> reset by <span class="hljs-number">20.205</span><span class="hljs-number">.243</span><span class="hljs-number">.166</span> <span class="hljs-keyword">port</span> 22<br>fatal: Could not read from remote repository.<br><br>Please make sure you have the correct access rights<br>and the repository exists.<br>FATAL &#123;<br>  err: Error: Spawn failed<br>      at ChildProcess.&lt;anonymous&gt; (<span class="hljs-type">C</span>:\<span class="hljs-type">Users</span>\<span class="hljs-type">Administrator</span>\<span class="hljs-type">AppData</span>\<span class="hljs-type">Roaming</span>\npm\node_modules\hexo\<span class="hljs-type">MyConfigs</span>\node_modules\hexo-util\lib\spawn.js:51:21)<br>      at ChildProcess.emit (node:events:527:28)<br>      at ChildProcess.cp.emit (<span class="hljs-type">C</span>:\<span class="hljs-type">Users</span>\<span class="hljs-type">Administrator</span>\<span class="hljs-type">AppData</span>\<span class="hljs-type">Roaming</span>\npm\node_modules\hexo\<span class="hljs-type">MyConfigs</span>\node_modules\cross-spawn\lib\enoent.js:34:29)<br>      at Process.ChildProcess._handle.onexit (node:internal/child_process:291:12) &#123;<br>    code: 128<br>  &#125;<br>&#125; Something&#x27;s wrong. Maybe you can find the solution here: %s https://hexo.io/docs/troubleshooting.html<br></code></pre></td></tr></table></figure>
 <p>解决方法参考了 <a target="_blank" rel="noopener" href="https://blog.csdn.net/JustinQin/article/details/118654843">Git–github ssh pull&#x2F;push报错Connection reset by peer_吾日三省贾斯汀的博客-CSDN博客</a> (原始内容 <a href="https://wanghaonie.github.io/webpage-static-snapshot/20220803-215033-spc1.html">存档</a> 于 2022-08-03)</p>
 <p>首先我以为是网络问题，于是我 Ping 了一下 github.com，结果如下</p>
@@ -453,7 +456,7 @@
 <h2 id="参考教程"><a href="#参考教程" class="headerlink" title="参考教程"></a>参考教程</h2><ol>
 <li>Akilarの糖果屋 - Akilar.top<br><a target="_blank" rel="noopener" href="https://akilar.top/">https://akilar.top/</a></li>
 <li>花猪のBlog - HuaZhu’s blog<br><a target="_blank" rel="noopener" href="https://cnhuazhu.top/">https://cnhuazhu.top/</a></li>
-<li>卓越科技的Blog - 卓越人生、只为科技。<br><a target="_blank" rel="noopener" href="https://zykj.js.org/">https://zykj.js.org/</a></li>
+<li>卓越科技的Blog - 卓越人生、只为科技。<br><a target="_blank" rel="noopener" href="https://zykj.js.org/">https://zykj.js.org/</a><br>–&gt;</li>
 </ol>
 
                 
@@ -479,7 +482,7 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>(重构中...) 使用 Hexo 搭建博客的总结</div>
+      <div>(验证中...) (未完成) 从零开始使用 Hexo 和 GitHub Pages 部署个人网站</div>
       <div>https://wanghaonie.github.io/posts/81606d78cc42/</div>
     </div>
     <div class="license-meta">
@@ -536,9 +539,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/posts/1b2c8d134d11/" title="(重构中...) Windows 系统安装教程">
+                      <a href="/posts/1b2c8d134d11/" title="(验证中...) Windows 系统安装教程">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">(重构中...) Windows 系统安装教程</span>
+                        <span class="hidden-mobile">(验证中...) Windows 系统安装教程</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
