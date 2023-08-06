@@ -153,8 +153,9 @@
                 this._context = this._canvas.getContext("2d");
                 this._context.clearRect(0, 0, this._width, this._height);
                 this._context.globalAlpha = this._options.colorAlpha;
-                window.addEventListener("resize", this._onResize);
-                window.addEventListener("scroll", this._onScroll);
+                // window.addEventListener("resize", this._onResize);
+                // document.addEventListener("scroll", this._onScroll);
+                // window.addEventListener("scroll", this._onScroll);
                 document.body.appendChild(this._canvas)
             } catch (e) {
                 console.warn("Canvas Context Error: " + e.toString());
