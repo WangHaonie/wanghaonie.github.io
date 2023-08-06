@@ -5,3 +5,10 @@ html, .dropdown-collapse, .dropdown-menu, #board, #navbar, #scroll-top-button, #
     background-color: rgba(255, 255, 255, 0) !important; /* 背景颜色，修改透明度值，数值范围是0（完全透明）到1（完全不透明） */
     backdrop-filter: blur(8px) !important; /* 模糊效果，调整模糊程度，数值越大越模糊 */
 }
+
+/* 把 Mobile 页面 NavBar 的右上角的
+   三条杠替换为文字，不然看都看不到 */
+#wanghaonie-nav {
+    color: rgb(255, 255, 255) !important;
+    font-size: 14px !important;
+}
