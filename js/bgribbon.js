@@ -1,4 +1,3 @@
-//动态彩带bynote.cn
 (function (name, factory) {
     if (typeof window === "object") {
         window[name] = factory()
