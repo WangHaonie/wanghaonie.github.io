@@ -22,7 +22,7 @@
     <meta name="referrer" content="no-referrer-when-downgrade">
   
   
-  <title>(验证中...) 手把手教你自己在本地开一个 UUP dump 网站，速度快，不失效。 | WangHaonie 的博客</title>
+  <title>(验证中...) 免费在本地搭建 UUP dump 同款网站 | WangHaonie 的博客</title>
   <link rel="stylesheet" href="/css/frosted.css">
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -304,7 +304,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle">(验证中...) 手把手教你自己在本地开一个 UUP dump 网站，速度快，不失效。</span>
+            <span id="subtitle">(验证中...) 免费在本地搭建 UUP dump 同款网站</span>
           
         </div>
 
@@ -338,7 +338,7 @@
         
         
         
-          26 分钟
+          27 分钟
         
       </span>
     
@@ -396,12 +396,12 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">(验证中...) 手把手教你自己在本地开一个 UUP dump 网站，速度快，不失效。</h1>
+            <h1 id="seo-header">(验证中...) 免费在本地搭建 UUP dump 同款网站</h1>
             
               <p class="note note-info">
                 
                   
-                    本文最后更新于：1 小时前
+                    本文最后更新于：8 分钟前
                   
                 
               </p>
@@ -461,22 +461,22 @@
 </li>
 <li><p>出现下图的这个情况，说明我们搭建的本地服务器没有问题，已经成功下载了。<br><img src="/archive-imgs/img-13-18-aria2c-download-script-succ.png" srcset="/img/loading.gif" lazyload alt="image"></p>
 </li>
-<li><p>后面的就是全自动化的操作，注意程序运行过程中尽量不要。运行其他程序，以免造成卡顿。<br><br><img src="/archive-imgs/img-13-19-uup-set-downloading.png" srcset="/img/loading.gif" lazyload alt="image"></p>
+<li><p>后面的就是全自动化的操作，注意程序运行过程中尽量不要运行其他程序，因为该程序到后面压缩镜像时比较占用系统资源，以免造成卡顿。<br><br><img src="/archive-imgs/img-13-19-uup-set-downloading.png" srcset="/img/loading.gif" lazyload alt="image"></p>
 </li>
 </ol>
 <h2 id="可能存在的问题"><a href="#可能存在的问题" class="headerlink" title="可能存在的问题"></a>可能存在的问题</h2><ol>
-<li><code>uup_download_windows.cmd</code> 运行开始会下载一些文件以确保能够成功地制作出 ISO，然而下载这些文件需要连接到 github.com，这对某些 DNS 被污染的地区非常不友好，但可以通过修改 Hosts、挂加速器的方法解决，有关此方面的详细信息可以观看这个视频: <a target="_blank" rel="noopener" href="https://b23.tv/Sq3RI3N">b23.tv&#x2F;Sq3RI3N</a>。对此，UUP dump 官方也推出了一个比较靠谱的解决方案，具体步骤如下</li>
+<li><code>uup_download_windows.cmd</code> 运行开始会下载一些第三方程序以确保能够成功地制作出 ISO，然而下载这些文件需要连接到 github.com，这对某些 DNS 被污染的地区非常不友好，但可以挂加速器等方法解决，有关此方面的详细信息可以观看这个视频: <a target="_blank" rel="noopener" href="https://b23.tv/Sq3RI3N">b23.tv&#x2F;Sq3RI3N</a>。对此，UUP dump 官方也推出了一个比较靠谱的解决方案，具体步骤如下</li>
 </ol>
 <blockquote>
 <ol>
-<li>手动下载 <br>(1) <a target="_blank" rel="noopener" href="https://github.com/uup-dump/containment-zone/blob/master/7zr.exe">https://github.com/uup-dump/containment-zone/blob/master/7zr.exe</a><br>(2) <a target="_blank" rel="noopener" href="https://github.com/uup-dump/containment-zone/blob/master/aria2c.exe">https://github.com/uup-dump/containment-zone/blob/master/aria2c.exe</a><br>(3) <a target="_blank" rel="noopener" href="https://github.com/uup-dump/containment-zone/blob/master/uup-converter-wimlib.7z">https://github.com/uup-dump/containment-zone/blob/master/uup-converter-wimlib.7z</a><br>这3个文件</li>
+<li>手动下载 <br>(1) <a target="_blank" rel="noopener" href="https://github.com/uup-dump/containment-zone/raw/master/7zr.exe">https://github.com/uup-dump/containment-zone/raw/master/7zr.exe</a><br>(2) <a target="_blank" rel="noopener" href="https://github.com/uup-dump/containment-zone/raw/master/aria2c.exe">https://github.com/uup-dump/containment-zone/raw/master/aria2c.exe</a><br>(3) <a target="_blank" rel="noopener" href="https://github.com/uup-dump/containment-zone/raw/master/uup-converter-wimlib.7z">https://github.com/uup-dump/containment-zone/raw/master/uup-converter-wimlib.7z</a><br>这3个文件</li>
 <li>然后放在 UUP 下载包解压后的 <code>files</code> 文件夹里面，不要重命名</li>
 <li>用记事本等你习惯的编辑器打开 <code>uup_download_windows.cmd</code>，然后删除这行代码。<u><code>powershell -NoProfile -ExecutionPolicy Unrestricted .\files\depends_win.ps1 || (pause &amp; exit /b 1)</code></u></li>
 <li>重新运行 <code>uup_download_windows.cmd</code> 就 OK 了。</li>
 </ol>
 </blockquote>
 <h2 id="总结一下"><a href="#总结一下" class="headerlink" title="总结一下"></a>总结一下</h2><ol>
-<li><code>uupdump-x64.7z</code> 貌似每天都在更新，所以要养成定时更新的好习惯。</li>
+<li><code>uupdump-x64.7z</code> 时不时地会更新 API 确保网站的正常运行，所以每到一段时间之后要去查看链接中是否有更新，要养成定时更新的好习惯。</li>
 <li>说实话这个方法是时候不建议日常经常使用，偶尔折腾一下就行了，毕竟 <a target="_blank" rel="noopener" href="https://uupdump.net/?lang=zh-cn">UUP dump</a> 目前还可以正常使用，此方法仅做备用方案。就算官网真的不能用了，国内还有 <a target="_blank" rel="noopener" href="https://www.uupdump.cn/">uupdump.cn</a> 撑着的，国外也有 <a target="_blank" rel="noopener" href="https://uup.rg-adguard.net/">uup.rg-adguard.net</a>，完全不用担心！</li>
 </ol>
 <h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ol>
@@ -511,7 +511,7 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>(验证中...) 手把手教你自己在本地开一个 UUP dump 网站，速度快，不失效。</div>
+      <div>(验证中...) 免费在本地搭建 UUP dump 同款网站</div>
       <div>https://wanghaonie.github.io/posts/7310cbb599a3/</div>
     </div>
     <div class="license-meta">
@@ -530,7 +530,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>更新于</div>
-          <div>2023-08-07 07:32:16</div>
+          <div>2023-08-07 11:36:37</div>
         </div>
       
       
@@ -583,8 +583,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/posts/8022bfa77032/" title="(验证中...) 小米手机刷入 PixelExperience 类原生系统教程">
-                        <span class="hidden-mobile">(验证中...) 小米手机刷入 PixelExperience 类原生系统教程</span>
+                      <a href="/posts/8022bfa77032/" title="(验证中...) 记录一下给自己的小米手机刷入 PixelExperience 的过程">
+                        <span class="hidden-mobile">(验证中...) 记录一下给自己的小米手机刷入 PixelExperience 的过程</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
