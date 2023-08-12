@@ -16,13 +16,13 @@
   <meta name="author" content="WangHaonie">
   <meta name="keywords" content="">
   
-    <meta name="description" content="">
+    <meta name="description" content="前言关于 WinNTSetup 的好用之处，相信大家都有所体会，这里就不多赘述了。今天主要说一下关于 WinNTSetup 的一个很实用的功能，那就是无人值守，开启之后可以直接跳过 Windows 系统的 OOBE，以及之前网上说的什么Windows 11 在 OOBE 强制要求用户登录微软账户的界面，它都能轻松胜任。 使用方法首先确保你的 WinNTSetup 为最新版本 (旧版本好像也可以，不">
   
   
     <meta name="referrer" content="no-referrer-when-downgrade">
   
   
-  <title>() | WangHaonie 的博客</title>
+  <title>【随笔】装系统神器！WinNTSetup 里你绝对没有用过的无人值守 | WangHaonie 的博客</title>
   <link rel="stylesheet" href="/css/frosted.css">
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -304,7 +304,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle">()</span>
+            <span id="subtitle">【随笔】装系统神器！WinNTSetup 里你绝对没有用过的无人值守</span>
           
         </div>
 
@@ -327,7 +327,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          0 字
+          961 字
         
       </span>
     
@@ -338,7 +338,7 @@
         
         
         
-          1 分钟
+          9 分钟
         
       </span>
     
@@ -396,12 +396,12 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">()</h1>
+            <h1 id="seo-header">【随笔】装系统神器！WinNTSetup 里你绝对没有用过的无人值守</h1>
             
               <p class="note note-info">
                 
                   
-                    本文最后更新于：几秒前
+                    本文最后更新于：1 分钟前
                   
                 
               </p>
@@ -409,7 +409,15 @@
             
               <div class="markdown-body">
                 
-                
+                <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>关于 WinNTSetup 的好用之处，相信大家都有所体会，这里就不多赘述了。今天主要说一下关于 WinNTSetup 的一个很实用的功能，那就是无人值守，开启之后可以直接跳过 Windows 系统的 OOBE，以及之前网上说的什么Windows 11 在 OOBE 强制要求用户登录微软账户的界面，它都能轻松胜任。</p>
+<h2 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法"></a>使用方法</h2><p>首先确保你的 WinNTSetup 为最新版本 (旧版本好像也可以，不过推荐用最新版)，截止 2023-08-12 最新版版本号为 <code>5.3.1 Final</code>，看样子应该是最后一版了。下载链接<a href="#%E4%B8%8B%E8%BD%BD%E5%9C%B0%E5%9D%80">在此</a>。</p>
+<p>打开软件，选择好安装源、引导驱动器、系统驱动器、系统版本后，在下面有一个无人值守，点一下小箭头，选择 <code>Win7-11-Select.xml</code><br><img src="/archive-imgs/16/1-select-xml.png" srcset="/img/loading.gif" lazyload alt="1-select-xml.png"><br>接下来会弹出一个窗口，在本地账户里填内置管理员 <code>Administrator</code>；完整名称同上，填 <code>Administrator</code>；组织填管理员组 <code>Administrators</code>；计算机名称随意；工作组填 <code>WORKGROUP</code>，然后点击 x(关闭) 就可以保存了。<br><img src="/archive-imgs/16/2-fill-info.png" srcset="/img/loading.gif" lazyload alt="2-fill-info.png"><br>点击安装即可，具体效果大家自行动手试试看一下，这里就不上截图了 <del>(就是懒)</del>。<br><img src="/archive-imgs/16/3-click-install.png" srcset="/img/loading.gif" lazyload alt="3-click-install.png"></p>
+<h2 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h2><ol>
+<li>这里填内置管理员账户的原因是方便之后运行任何程序直接默认以管理员身份运行 (对爱搞机的玩家非常友好)，而不是右键选择以管理员身份运行，既减少了一步操作，也避免了一些因当前用户权限不足而导致奇怪的一系列问题。如果想自定义用户名，则在本地账户和完整名称那里输入你喜欢的名字即可；如果你也想为自定义账户自带管理员权限的话，那在组织那里就还是要写 <code>Administrators</code>。</li>
+<li>在某些情况下，如果你想要自带管理员权限的话，在本地账户那里必须要输入 <code>Administrator</code>，输入其他名称无效，尽管你填的是在 <code>Administrators</code> 这个组。关于具体是哪些情况等以后有时间了再深入研究一下，不过说起来微软这个 Bug 也挺离谱的，我原来经常遇到有些账户在 <code>Administrators</code> 这个组，却依旧没有管理员权限；但是在无人值守这里选 <code>Administrators</code> 这个组之后，无论是什么名称的用户都将具有管理员权限……这里就不继续展开说了，将来有时间了应该会单独出一篇文章来说一下这个奇葩的问题。</li>
+</ol>
+<h2 id="下载地址"><a href="#下载地址" class="headerlink" title="下载地址"></a>下载地址</h2><p><strong>国内搬运</strong><br>[<a target="_blank" rel="noopener" href="https://www.423down.com/2478.html">423Down</a>]<br><strong>官方链接</strong><br>[<a target="_blank" rel="noopener" href="https://msfn.org/board/topic/149612-winntsetup">MSFN 论坛原贴</a>] [<a target="_blank" rel="noopener" href="https://www.mediafire.com/folder/53um6k2nmhvd5/">MediaFire 网盘</a>] [<a target="_blank" rel="noopener" href="https://mega.nz/folder/ObATya7C#oR2t79bT-4MGjKxOAYwkbQ">Mega 网盘</a>]</p>
+
                 
               </div>
             
@@ -417,6 +425,13 @@
             <div>
               <div class="post-metas my-3">
   
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/Windows/" class="print-no-link">#Windows</a>
+      
+    </div>
   
 </div>
 
@@ -426,7 +441,7 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>()</div>
+      <div>【随笔】装系统神器！WinNTSetup 里你绝对没有用过的无人值守</div>
       <div>https://wanghaonie.github.io/posts/8dd99eb0bbbf/</div>
     </div>
     <div class="license-meta">
@@ -445,7 +460,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>更新于</div>
-          <div>2023-08-12 12:50:11</div>
+          <div>2023-08-12 14:55:05</div>
         </div>
       
       
