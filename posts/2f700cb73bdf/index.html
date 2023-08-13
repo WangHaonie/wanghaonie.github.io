@@ -16,11 +16,11 @@
   <meta name="author" content="WangHaonie">
   <meta name="keywords" content="">
   
-    <meta name="description" content="前言对于 Windows Subsytem for Android™，下文简称 WSA。">
+    <meta name="description" content="前言对于 Windows Subsytem for Android™，下文简称 WSA。众所周知，WSA 之所以作为 Windows 11 的亮点，是因为它可以为用户提供更好的跨平台体验，让用户能在 Windows 11 系统上流畅地运行大多数的安卓原生应用程序。既然有安卓系统的出现，那怎么少得了 ROOT 和谷歌三件套呢，今天我就来告诉大家 WSA 的正确打开方式。(放心，不复杂) 正文对于怎样">
   
   
   
-  <title>Windows Subsytem for Android™ 的高级高级玩法：ROOT + 谷歌全家桶 | WangHaonie 的博客</title>
+  <title>【随笔】Windows Subsytem for Android™ 的正确打开方式：ROOT + 谷歌三件套 | WangHaonie 的博客</title>
   <link rel="stylesheet" href="/css/frosted.css">
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -302,7 +302,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle">Windows Subsytem for Android™ 的高级高级玩法：ROOT + 谷歌全家桶</span>
+            <span id="subtitle">【随笔】Windows Subsytem for Android™ 的正确打开方式：ROOT + 谷歌三件套</span>
           
         </div>
 
@@ -325,7 +325,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          39 字
+          1.4k 字
         
       </span>
     
@@ -336,7 +336,7 @@
         
         
         
-          1 分钟
+          12 分钟
         
       </span>
     
@@ -386,7 +386,7 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">Windows Subsytem for Android™ 的高级高级玩法：ROOT + 谷歌全家桶</h1>
+            <h1 id="seo-header">【随笔】Windows Subsytem for Android™ 的正确打开方式：ROOT + 谷歌三件套</h1>
             
               <p class="note note-info">
                 
@@ -399,7 +399,11 @@
             
               <div class="markdown-body">
                 
-                <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>对于 Windows Subsytem for Android™，下文简称 WSA。</p>
+                <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>对于 Windows Subsytem for Android™，下文简称 WSA。<br>众所周知，WSA 之所以作为 Windows 11 的亮点，是因为它可以为用户提供更好的跨平台体验，让用户能在 Windows 11 系统上流畅地运行大多数的安卓原生应用程序。既然有安卓系统的出现，那怎么少得了 ROOT 和谷歌三件套呢，今天我就来告诉大家 WSA 的正确打开方式。(放心，不复杂)</p>
+<h2 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h2><p>对于怎样 ROOT 和添加谷歌三件套到 WSA，GitHub 早有大佬&#x2F;团队存在，排在第一的那肯定是 <a target="_blank" rel="noopener" href="https://github.com/LSPosed/MagiskOnWSALocal">LSPosed&#x2F;MagiskWSAOnLocal</a>，LSPosed 团队提供了方便快捷的脚本来供用户自行快速便捷地将 ROOT 以及集成谷歌三件套到 WSA。但仅此还不够，因为总有的人觉得这比较麻烦 (<del>我就是</del>)，于是第二位大佬 <a target="_blank" rel="noopener" href="https://github.com/MustardChef/WSABuilds/">MustardChef&#x2F;WSABuilds</a> 出现了，MustardChef 不但使用了 LSPosed 团队开发的脚本，并且还把最后的成品发布到了 <a target="_blank" rel="noopener" href="https://github.com/MustardChef/WSABuilds/releases">GitHub Releases</a> 上面方便用户下载。</p>
+<p>关于怎么下载和安装 WSA 这里简单说一下，首先在 Releases 界面中，WSA 同一个发行版往往分了两个部分，第一个是 ARM 的版本，然后下面一个才是 x64 的版本。因为现在大部分都是 x64 的系统，所以我们就下 x64 的版本。但在 x64 那里还能发现有几个压缩包，分别代表了修改后的 WSA 分别具有的特点，比如说用的是 Magisk 或 KernelSU ROOT的，以及有没有谷歌三件套 (MindTheGapps)，或者有没有移除 WSA 自带的 Amazon 应用商店之类的，当然这些区别在 Releases 界面也看得到，MustardChef 写的很清楚。这里就根据自己需求自行下载，我一般下载的是 <code>WSA_XXXX.X0000.X.0_XXXX_Release-Nightly-magisk-XXXXX.XXXX.-canary-MindTheGapps-XX.X-RemovedAmazon.7z</code>。下载完成后，一定要注意一下解压路径，不要随便解压到一个文件夹，我最好建议解压在固态硬盘里面，因为毕竟要启动一个安卓系统，所以对硬盘的要求肯定也比较高。然后还需要注意一下的就是解压以后的路径就是 WSA 的主程序存放路径，它不是安装缓存文件夹，而是像绿色程序那样，当你运行 <code>Run.bat</code> 以后，它会将当前文件夹直接作为安装文件夹来安装 WSA。所以路径中尽量不要出现中文字符，最好是全英文或数字的，以免发生奇怪的问题。</p>
+<p>另外我再简单说一个小问题。如果你要用 LSPosed 的脚本自行构建的话，那在当你按照官方的步骤运行之后，在那个选版本、架构什么的那个界面中，用方向键选择，但是在移动到选项之后千万不要忘记按下空格键，空格键才是选中，然后再按回车。当然这个提示在那个界面第一屏就说过了，只不过我当时没注意看，我以为方向键选择之后直接回车就完事儿了。</p>
+<p>最后，我个人建议最好是使用 MustardChef 修改好的安装包，因为使用 LSPosed 的脚本的时候，有时候会找不到最新版本，比如说最近的 2307 的几个版本就找不到，我也不知道怎么回事，该选的都选对了。但是在 MustardChef 那里就有。当然如果你只是想体验原汁原味的 WSA 的话，MustardChef 也想到了，所以他在另一个仓库 <a target="_blank" rel="noopener" href="https://github.com/MustardChef/WSAPackages/releases">MustardChef&#x2F;WSAPackages</a> 中还专门上传了官方的原版 WSA 的 msixbundle 安装包。</p>
 
                 
               </div>
@@ -426,7 +430,7 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>Windows Subsytem for Android™ 的高级高级玩法：ROOT + 谷歌全家桶</div>
+      <div>【随笔】Windows Subsytem for Android™ 的正确打开方式：ROOT + 谷歌三件套</div>
       <div>https://wanghaonie.github.io/posts/2f700cb73bdf/</div>
     </div>
     <div class="license-meta">
@@ -445,7 +449,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>更新于</div>
-          <div>2023-08-12 22:26:34</div>
+          <div>2023-08-13 10:58:37</div>
         </div>
       
       
