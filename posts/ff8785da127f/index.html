@@ -16,7 +16,7 @@
   <meta name="author" content="WangHaonie">
   <meta name="keywords" content="">
   
-    <meta name="description" content="前言之前不是在一篇文章中提到了 Windows 管理员权限的奇葩问题，就是用户即使在 Administrators 这个组，但是依旧没有管理员权限。其实这个并不是一个问题，它是一个特性，其初衷就是为了防止某些软件恶意地创建管理员账户来获取管理员权限 (好像没什么卵用)。 今天就告诉大家怎样破解这个难题，让只要是在 Administrators 这个组的所有用户都有管理员权限。 正文首先说一下判断当">
+    <meta name="description" content="前言之前在这篇文章中提到了 Windows 管理员权限的奇葩问题，就是即使用户在 Administrators 这个组，但是依旧没有管理员权限。其实这个并不是一个 Bug，它是一个特性，其初衷就是为了防止某些软件恶意地创建管理员账户来获取管理员权限 (好像并没什么卵用)。 今天就告诉大家怎样破解这个难题，让只要是在 Administrators 这个组的所有用户都有管理员权限。 正文首先说一下判断">
   
   
   
@@ -391,7 +391,7 @@
               <p class="note note-info">
                 
                   
-                    本文最后更新于：1 分钟前
+                    本文最后更新于：几秒前
                   
                 
               </p>
@@ -399,7 +399,7 @@
             
               <div class="markdown-body">
                 
-                <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>之前不是在<a href="/posts/8dd99eb0bbbf/#%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9">一篇文章</a>中提到了 Windows 管理员权限的奇葩问题，就是用户即使在 Administrators 这个组，但是依旧没有管理员权限。其实这个并不是一个问题，它是一个特性，其初衷就是为了防止某些软件恶意地创建管理员账户来获取管理员权限 <del>(好像没什么卵用)</del>。</p>
+                <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>之前在<a href="/posts/8dd99eb0bbbf/#%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9">这篇文章</a>中提到了 Windows 管理员权限的奇葩问题，就是即使用户在 Administrators 这个组，但是依旧没有管理员权限。其实这个并不是一个 Bug，它是一个特性，其初衷就是为了防止某些软件恶意地创建管理员账户来获取管理员权限 <del>(好像并没什么卵用)</del>。</p>
 <p>今天就告诉大家怎样破解这个难题，让只要是在 Administrators 这个组的所有用户都有管理员权限。</p>
 <h2 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h2><p>首先说一下判断当前用户是否具有管理员权限的一个最简单的办法，就是按下 Win+R，然后看那个运行的输入框底下有没有这一行字：<code>(小盾牌) 使用管理员权限创建此任务</code>，如果有这行字，那么说明当前用户就已经有了管理员权限，如果没有的话，说明就不具有管理员权限。另外我还做了一个小脚本来检测管理员权限，感兴趣的话就去试试吧，<a target="_blank" rel="noopener" href="https://github.com/WangHaonie/AdminChecker">GitHub</a>。</p>
 <p>Win+R 打开运行输入 <code>gpedit.msc</code> 打开本地组策略编辑器，依次展开 <code>计算机配置</code>&gt; <code>Windows 设置</code>&gt; <code>安全设置</code>&gt; <code>本地策略</code>&gt; <code>安全选项</code>，然后在右边往下滑，找到<code>用户账户控制：以管理员批准模式运行所有管理员</code>，双击把这个设置为已禁用，然后重启电脑就搞定了。</p>
@@ -449,7 +449,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>更新于</div>
-          <div>2023-08-14 20:47:42</div>
+          <div>2023-08-14 21:06:04</div>
         </div>
       
       
