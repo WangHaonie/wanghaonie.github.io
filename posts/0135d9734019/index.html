@@ -16,11 +16,11 @@
   <meta name="author" content="WangHaonie">
   <meta name="keywords" content="">
   
-    <meta name="description" content="引言 网上经常有很多人说不要让软件开机自启动，否则会拖慢开机速度。那么事实真的如此吗？是，但不完全是，看具体说的是哪个启动流程。  分析 Windows 启动过程大致可以分为下面几个步骤：(0) 开机自检：Power-on self test (POST)(1) 预引导：UEFI&amp;#x2F;BIOS 固件(2) 引导：bootmgr、winload.exe(3) 初始化内核：ntoskrnl.ex">
+    <meta name="description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick">
   
   
   
-  <title>开机启动的软件真的会影响系统启动速度吗? | WangHaonie 的博客</title>
+  <title>(如果你看到这篇文章，说明备份恢复成功！Good Job!) Hello World | WangHaonie 的博客</title>
   <link rel="stylesheet" href="/css/frosted.css">
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -294,7 +294,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle">开机启动的软件真的会影响系统启动速度吗?</span>
+            <span id="subtitle">(如果你看到这篇文章，说明备份恢复成功！Good Job!) Hello World</span>
           
         </div>
 
@@ -305,8 +305,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2022-08-19 09:30" pubdate>
-          2022-08-19 09:30:05
+        <time datetime="2023-12-10 19:16" pubdate>
+          2023-12-10 19:16:06
         </time>
       </span>
     
@@ -317,7 +317,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          737 字
+          0 字
         
       </span>
     
@@ -328,7 +328,7 @@
         
         
         
-          7 分钟
+          1 分钟
         
       </span>
     
@@ -378,12 +378,12 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">开机启动的软件真的会影响系统启动速度吗?</h1>
+            <h1 id="seo-header">(如果你看到这篇文章，说明备份恢复成功！Good Job!) Hello World</h1>
             
               <p class="note note-info">
                 
                   
-                    本文最后更新于：4 个月前
+                    本文最后更新于：20 分钟前
                   
                 
               </p>
@@ -391,29 +391,19 @@
             
               <div class="markdown-body">
                 
-                <h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><ol>
-<li>网上经常有很多人说不要让软件开机自启动，否则会拖慢开机速度。那么事实真的如此吗？是，但不完全是，看具体说的是哪个启动流程。</li>
-</ol>
-<h2 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h2><ol>
-<li>Windows 启动过程大致可以分为下面几个步骤：<br>(0) 开机自检：Power-on self test (POST)<br>(1) 预引导：UEFI&#x2F;BIOS 固件<br>(2) 引导：bootmgr、winload.exe<br>(3) 初始化内核：ntoskrnl.exe <br>(4) 初始化 Windows：wininit.exe<br>(5) Windows 登录：winlogon.exe<br>(6) 用户登录：logonui.exe<br>(7) 用户初始化：userinit.exe、explorer.exe</li>
-<li>硬件方面：网上说的开机速度往往指的是按下电源键时到进入系统桌面的速度，也就是上方从 (0) 到 (7) 的所有流程。其中每个流程都会受计算机硬件本身的影响，来决定最终的启动速度。比如说第 (0) 的开机自检，如果计算机中某个硬件无法识别，比如说快要坏掉的机械硬盘等，这样就会拖慢系统启动速度。然后从第 (2) 到第 (5) 不仅要不仅关联到处理器计算速度，还要关联到硬件的驱动，因为系统要在这个时候加载驱动程序。如果处理器速度太慢或者是驱动文件太大，或者是要驱动的硬件本身就已经老化也会导致启动速度变慢。</li>
-<li>软件方面：那么开机启动的软件是在哪个时候启动的呢？答案肯定超乎你的想象，他不是在 Windows 启动的时候启动的，他是在用户登录 (第6点) 过后启动的。在这里又要分两种情况。一是 Windows 计划任务启动，会在用户登录界面，也就是欢迎界面的时候启动，如果要启动的软件数量过多，也就会导致显示登录界面的时间过长。另一种就是注册表 HKCU、HKLM 的 Run&#x2F;RunOnce 键 (RunOnce 键里的只会启动一次) 启动，是在进入桌面后慢慢启动。</li>
-</ol>
-<blockquote>
-<p>小科普：<br>1. Run 键指的是<br> HKCU (当前用户): <code>\HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Run</code><br>HKLM (所有用户): <code>\HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Run</code><br>1. RunOnce 键指的是<br> HKCU (当前用户): <code>\HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\RunOnce</code><br>HKLM (所有用户): <code>\HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\RunOnce</code></p>
-</blockquote>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ol>
-<li>计算机硬件自身的性能和老化程度 (特别是机械硬盘) 决定 Windows 启动速度，也就是会决定 Windows 加载界面会显示多久。</li>
-<li>计划任务要启动的程序数量决定了用户登录时的速度，也就是决定了欢迎界面会显示多久。</li>
-<li>注册表的 HKCU、HKLM 的 Run&#x2F;RunOnce 键下的项目数量决定了进入桌面时还要多久才能操作电脑。(其实进入了桌面就已经可以操作电脑了，只不过系统会在这时启动要启动的程序，会导致一时的卡顿，所以最好等到所有程序启动完成后再操作电脑，这也就是为什么说开完机后要等一下再动电脑。)</li>
-</ol>
-<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ol>
-<li>Windows系统启动流程图-技术员联盟系统<br><a target="_blank" rel="noopener" href="http://www.xitongpe.com/baike/531.html">http://www.xitongpe.com/baike/531.html</a></li>
-<li>Windows启动过程详解_不一样的程序员的博客-CSDN博客_window启动过程<br><a target="_blank" rel="noopener" href="https://blog.csdn.net/xiongyouqiang/article/details/79360459">https://blog.csdn.net/xiongyouqiang/article/details/79360459</a></li>
-<li>Understanding the Startup Process - Windows 7 Tutorial<br><a target="_blank" rel="noopener" href="https://sourcedaddy.com/windows-7/understanding-the-startup-process.html">https://sourcedaddy.com/windows-7/understanding-the-startup-process.html</a></li>
-<li>Windows NT booting process - Wikipedia, The Free Encyclopedia<br><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Windows_NT_booting_process">https://en.wikipedia.org/wiki/Windows_NT_booting_process</a></li>
-<li>Session Manager Subsystem - Wikipedia, The Free Encyclopedia<br><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Session_Manager_Subsystem">https://en.wikipedia.org/wiki/Session_Manager_Subsystem</a></li>
-</ol>
+                <p>Welcome to <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a target="_blank" rel="noopener" href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo new <span class="hljs-string">&quot;My New Post&quot;</span><br></code></pre></td></tr></table></figure>
+
+<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/writing.html">Writing</a></p>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo server<br></code></pre></td></tr></table></figure>
+
+<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/server.html">Server</a></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo generate<br></code></pre></td></tr></table></figure>
+
+<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/generating.html">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo deploy<br></code></pre></td></tr></table></figure>
+
+<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
 
                 
               </div>
@@ -423,15 +413,6 @@
               <div class="post-metas my-3">
   
   
-    <div class="post-meta">
-      <i class="iconfont icon-tags"></i>
-      
-        <a href="/tags/Windows/" class="print-no-link">#Windows</a>
-      
-        <a href="/tags/%E8%BD%AF%E4%BB%B6/" class="print-no-link">#软件</a>
-      
-    </div>
-  
 </div>
 
 
@@ -440,8 +421,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>开机启动的软件真的会影响系统启动速度吗?</div>
-      <div>https://wanghaonie.github.io/posts/1e436a75cc0d/</div>
+      <div>(如果你看到这篇文章，说明备份恢复成功！Good Job!) Hello World</div>
+      <div>https://wanghaonie.github.io/posts/0135d9734019/</div>
     </div>
     <div class="license-meta">
       
@@ -453,13 +434,13 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2022-08-19 09:30:05</div>
+          <div>2023-12-10 19:16:06</div>
         </div>
       
       
         <div class="license-meta-item license-meta-date">
           <div>更新于</div>
-          <div>2023-08-05 16:52:23</div>
+          <div>2023-12-10 19:25:02</div>
         </div>
       
       
@@ -497,6 +478,23 @@
 
 
 
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/posts/ff8785da127f/" title="这才是获取 Windows 管理员权限的最佳方法">
+                        <span class="hidden-mobile">这才是获取 Windows 管理员权限的最佳方法</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
               
             </div>
 
