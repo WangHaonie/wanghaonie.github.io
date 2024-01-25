@@ -16,7 +16,7 @@
   <meta name="author" content="WangHaonie">
   <meta name="keywords" content="">
   
-    <meta name="description" content="前言关于 WinNTSetup 的好用之处，相信大家都有所体会，这里就不多赘述了。今天主要说一下关于 WinNTSetup 的一个很实用的功能，那就是无人值守，开启之后可以直接跳过 Windows 系统的 OOBE，以及之前网上说的什么Windows 11 在 OOBE 强制要求用户登录微软账户的界面，它都能轻松胜任。 使用方法首先确保你的 WinNTSetup 为最新版本 (旧版本好像也可以，不">
+    <meta name="description" content="正文关于 WinNTSetup 的好用之处，相信大家都有所体会，这里就不多赘述了。今天主要说一下关于 WinNTSetup 的一个很实用的功能，那就是无人值守，开启之后可以直接跳过 Windows 系统的 OOBE，根本不用担心强制登录微软账户的问题。 首先确保你的 WinNTSetup 为最新版本 (旧版本好像也可以，不过推荐用最新版)，截止 2024 年 1 月 25 日最新版版本号为 5.3">
   
   
   
@@ -224,46 +224,6 @@
           
           
           
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" target="_self" href="javascript:;" role="button"
-                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                
-                <span>⚙️工具</span>
-              </a>
-              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                
-                  
-                  
-                  
-                  <a class="dropdown-item" onclick="" href="/static-pages/ariawebconsole/" target="_self">
-                    
-                    <span>📡AriaNg 控制台</span>
-                  </a>
-                
-                  
-                  
-                  
-                  <a class="dropdown-item" onclick="" href="/static-pages/games/" target="_self">
-                    
-                    <span>🎰无聊的小游戏</span>
-                  </a>
-                
-                  
-                  
-                  
-                  <a class="dropdown-item" onclick="" href="/static-pages/um/" target="_self">
-                    
-                    <span>🎹音乐解锁</span>
-                  </a>
-                
-              </div>
-            </li>
-          
-        
-          
-          
-          
-          
             <li class="nav-item">
               <a class="nav-link" href="/reward" target="_self">
                 
@@ -317,7 +277,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          658 字
+          342 字
         
       </span>
     
@@ -328,7 +288,7 @@
         
         
         
-          6 分钟
+          3 分钟
         
       </span>
     
@@ -383,7 +343,7 @@
               <p class="note note-info">
                 
                   
-                    本文最后更新于：5 个月前
+                    本文最后更新于：1 小时前
                   
                 
               </p>
@@ -391,14 +351,18 @@
             
               <div class="markdown-body">
                 
-                <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>关于 WinNTSetup 的好用之处，相信大家都有所体会，这里就不多赘述了。今天主要说一下关于 WinNTSetup 的一个很实用的功能，那就是无人值守，开启之后可以直接跳过 Windows 系统的 OOBE，以及之前网上说的什么Windows 11 在 OOBE 强制要求用户登录微软账户的界面，它都能轻松胜任。</p>
-<h2 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法"></a>使用方法</h2><p>首先确保你的 WinNTSetup 为最新版本 (旧版本好像也可以，不过推荐用最新版)，截止 2023-08-12 最新版版本号为 <code>5.3.1 Final</code>，看样子应该是最后一版了。下载链接<a href="#%E4%B8%8B%E8%BD%BD%E5%9C%B0%E5%9D%80">在此</a>。</p>
-<p>打开软件，选择好安装源、引导驱动器、系统驱动器、系统版本后，在下面有一个无人值守，点一下小箭头，选择 <code>Win7-11-Select.xml</code><br><img src="/archive-imgs/16/1-select-xml.png" srcset="/img/loading.gif" lazyload alt="1-select-xml.png"><br>接下来会弹出一个窗口，在本地账户里填内置管理员 <code>Administrator</code>；完整名称同上，填 <code>Administrator</code>；组织填管理员组 <code>Administrators</code>；计算机名称随意；工作组填 <code>WORKGROUP</code>，然后点击 x(关闭) 就可以保存了。<br><img src="/archive-imgs/16/2-fill-info.png" srcset="/img/loading.gif" lazyload alt="2-fill-info.png"><br>点击安装即可，具体效果大家自行动手试试看一下，这里就不上截图了 <del>(就是懒)</del>。<br><img src="/archive-imgs/16/3-click-install.png" srcset="/img/loading.gif" lazyload alt="3-click-install.png"></p>
-<h2 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h2><ol>
-<li>这里填内置管理员账户的原因是方便之后运行任何程序直接默认以管理员身份运行 (对爱搞机的玩家非常友好)，而不是右键选择以管理员身份运行，既减少了一步操作，也避免了一些因当前用户权限不足而导致奇怪的一系列问题。如果想自定义用户名，则在本地账户和完整名称那里输入你喜欢的名字即可；如果你也想为自定义账户自带管理员权限的话，那在组织那里就还是要写 <code>Administrators</code>。</li>
-<li>在某些情况下，如果你想要自带管理员权限的话，在本地账户那里必须要输入 <code>Administrator</code>，输入其他名称无效，尽管你填的是在 <code>Administrators</code> 这个组。关于具体是哪些情况等以后有时间了再深入研究一下，不过说起来微软这个 Bug 也挺离谱的，我原来经常遇到有些账户在 <code>Administrators</code> 这个组，却依旧没有管理员权限；但是在无人值守这里选 <code>Administrators</code> 这个组之后，无论是什么名称的用户都将具有管理员权限……这里就不继续展开说了，将来有时间了应该会单独出一篇文章来说一下这个奇葩的问题。<a href="/posts/ff8785da127f/">文章来啦！</a></li>
-</ol>
-<h2 id="下载地址"><a href="#下载地址" class="headerlink" title="下载地址"></a>下载地址</h2><p><strong>国内搬运</strong><br>[<a target="_blank" rel="noopener" href="https://www.423down.com/2478.html">423Down</a>]<br><strong>官方链接</strong><br>[<a target="_blank" rel="noopener" href="https://msfn.org/board/topic/149612-winntsetup">MSFN 论坛原贴</a>] [<a target="_blank" rel="noopener" href="https://www.mediafire.com/folder/53um6k2nmhvd5/">MediaFire 网盘</a>] [<a target="_blank" rel="noopener" href="https://mega.nz/folder/ObATya7C#oR2t79bT-4MGjKxOAYwkbQ">Mega 网盘</a>]</p>
+                <h2 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h2><p>关于 WinNTSetup 的好用之处，相信大家都有所体会，这里就不多赘述了。今天主要说一下关于 WinNTSetup 的一个很实用的功能，那就是无人值守，开启之后可以直接跳过 Windows 系统的 OOBE，根本不用担心强制登录微软账户的问题。</p>
+<p>首先确保你的 WinNTSetup 为最新版本 (旧版本好像也可以，不过推荐用最新版)，截止 2024 年 1 月 25 日最新版版本号为 <code>5.3.3b</code>。下载链接在文章末尾。</p>
+<p>打开软件，选择好安装源、引导驱动器、系统驱动器、系统版本后，在下面有一个无人值守，点一下小箭头，选择 <code>Win7-11-Select.xml</code><br><img src="/sourceimgs/16/1-select-xml.png" srcset="/img/loading.gif" lazyload alt="1-select-xml.png"></p>
+<p>接下来会弹出一个窗口，在本地账户里填内置管理员 <code>Administrator</code>；完整名称同上，填 <code>Administrator</code>；组织填管理员组 <code>Administrators</code>；计算机名称随意；工作组填 <code>WORKGROUP</code>，然后点击 x(关闭) 就可以保存了。<br><img src="/sourceimgs/16/2-fill-info.png" srcset="/img/loading.gif" lazyload alt="2-fill-info.png"></p>
+<blockquote>
+<p>以 Administrators 为组织可以使账户自带管理员权限，就不用运行说明程序都要右键选择以管理员身份运行。至于没有管理员权限的账户怎么获取管理员权限，可以参考 <a href="/posts/ff8785da127f/">一招教你 100% 成功获取 Windows 管理员权限</a></p>
+</blockquote>
+<p>点击安装即可，这里就不上截图了。<br><img src="/sourceimgs/16/3-click-install.png" srcset="/img/loading.gif" lazyload alt="3-click-install.png"></p>
+<h2 id="下载地址"><a href="#下载地址" class="headerlink" title="下载地址"></a>下载地址</h2><ul>
+<li>国内搬运<br>[<a target="_blank" rel="noopener" href="https://www.423down.com/2478.html">423Down</a>]</li>
+<li>官方链接<br>[<a target="_blank" rel="noopener" href="https://msfn.org/board/topic/149612-winntsetup">MSFN 论坛原贴</a>] [<a target="_blank" rel="noopener" href="https://www.mediafire.com/folder/53um6k2nmhvd5/">MediaFire 网盘</a>] [<a target="_blank" rel="noopener" href="https://mega.nz/folder/ObATya7C#oR2t79bT-4MGjKxOAYwkbQ">Mega 网盘</a>]</li>
+</ul>
 
                 
               </div>
@@ -412,8 +376,6 @@
       <i class="iconfont icon-tags"></i>
       
         <a href="/tags/Windows/" class="print-no-link">#Windows</a>
-      
-        <a href="/tags/%E9%9A%8F%E7%AC%94/" class="print-no-link">#随笔</a>
       
     </div>
   
@@ -444,7 +406,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>更新于</div>
-          <div>2023-08-14 20:42:44</div>
+          <div>2024-01-25 12:32:21</div>
         </div>
       
       
@@ -487,21 +449,15 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/posts/2f700cb73bdf/" title="Windows Subsystem for Android™ 的正确打开方式：ROOT + 谷歌三件套">
+                      <a href="/posts/2f700cb73bdf/" title="这才是 Windows Subsystem for Android™ 的正确打开方式">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">Windows Subsystem for Android™ 的正确打开方式：ROOT + 谷歌三件套</span>
+                        <span class="hidden-mobile">这才是 Windows Subsystem for Android™ 的正确打开方式</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
                   </article>
                   <article class="post-next col-6">
                     
-                    
-                      <a href="/posts/7310cbb599a3/" title="(验证中...) 免费在本地搭建 UUP dump 同款网站">
-                        <span class="hidden-mobile">(验证中...) 免费在本地搭建 UUP dump 同款网站</span>
-                        <span class="visible-mobile">下一篇</span>
-                        <i class="iconfont icon-arrowright"></i>
-                      </a>
                     
                   </article>
                 </div>
@@ -575,7 +531,7 @@
     <div class="beian">
   <span>
     <a rel="nofollow noopener">
-      © WangHaonie 2023
+      Copyright © 2023-2024 WangHaonie
     </a>
   </span>
   
