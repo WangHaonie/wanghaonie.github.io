@@ -1,14 +1,18 @@
-var now = new Date();
-function createtime() {
-    var grt = new Date("04/30/2022 09:32:50");// Format: MM/DD/YYYY HH:mm:ss
-    now.setTime(now.getTime() + 250);
-    days = (now - grt) / 1000 / 60 / 60 / 24; dnum = Math.floor(days);
-    hours = (now - grt) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours);
-    if (String(hnum).length == 1) { hnum = "0" + hnum; } minutes = (now - grt) / 1000 / 60 - (24 * 60 * dnum) - (60 * hnum);
-    mnum = Math.floor(minutes); if (String(mnum).length == 1) { mnum = "0" + mnum; }
-    seconds = (now - grt) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum);
-    snum = Math.round(seconds); if (String(snum).length == 1) { snum = "0" + snum; }
-    document.getElementById("timeDate").innerHTML = "本站已悄无声息地运行了" + dnum + "天";
-    document.getElementById("times").innerHTML = hnum + "时" + mnum + "分" + snum + "秒";
+function updateSiteRuntime() {
+    var siteStartDate = new Date("2022-04-30 09:32:50");
+    var currentDate = new Date();
+
+    var timeDiff = currentDate.getTime() - siteStartDate.getTime();
+    var seconds = Math.floor(timeDiff / 1000);
+    var minutes = Math.floor(seconds / 60);
+    var hours = Math.floor(minutes / 60);
+    var days = Math.floor(hours / 24);
+
+    seconds %= 60;
+    minutes %= 60;
+    hours %= 24;
+
+    var runtimeDisplay = "本站已悄声息地运行了" + days + "天" + hours.toString().padStart(2, '0') + "时" + minutes.toString().padStart(2, '0') + "分" + seconds.toString().padStart(2, '0') + "秒";
+    document.getElementById("site-runtime").textContent = runtimeDisplay;
 }
-setInterval("createtime()", 250);
+setInterval(updateSiteRuntime, 1000);
