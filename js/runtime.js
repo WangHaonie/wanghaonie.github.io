@@ -12,7 +12,7 @@ function updateSiteRuntime() {
     minutes %= 60;
     hours %= 24;
 
-    var runtimeDisplay = "本站已悄声息地运行了" + days + "天" + hours.toString().padStart(2, '0') + "时" + minutes.toString().padStart(2, '0') + "分" + seconds.toString().padStart(2, '0') + "秒";
+    var runtimeDisplay = "本站已悄无声息地运行了" + days + "天" + hours.toString().padStart(2, '0') + "时" + minutes.toString().padStart(2, '0') + "分" + seconds.toString().padStart(2, '0') + "秒";
     document.getElementById("site-runtime").textContent = runtimeDisplay;
 }
 setInterval(updateSiteRuntime, 1000);
