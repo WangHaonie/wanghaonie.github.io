@@ -334,7 +334,7 @@
       
       <a class="index-excerpt index-excerpt__noimg" href="/posts/83ec87f057a2/" target="_self">
         <div>
-          备份 最好把整个根目录打包，后期需要什么文件(夹)再复制出来就行  文件夹.deploy_git、scaffolds、source、themes  网上说可以不用备份 .deploy_git，但我备份了，而且也没有出现问题   文件.gitignore、_config.yml、package.json 最重要的文件夹%UserProfile%\.ssh (C:\用户\&lt;你的用户名&gt;\.
+          备份 最好把整个根目录打包，后期需要什么文件(夹)再复制出来就行  文件夹.deploy_git、scaffolds、source、themes、.ssh (%UserProfile%\.ssh，即 C:\Users\&lt;你的用户名&gt;\.ssh) 文件.gitignore、_config.yml、package.json 还原安装软件下载并安装 Git for Windows、Node.
         </div>
       </a>
 
@@ -352,9 +352,9 @@
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
-              <a href="/tags/hexo/">#hexo</a>
-            
               <a href="/tags/Windows/">#Windows</a>
+            
+              <a href="/tags/hexo/">#hexo</a>
             
           </div>
         
@@ -369,14 +369,14 @@
       <h2 class="index-header">
         
         <a href="/posts/ff8785da127f/" target="_self">
-          一招教你 100% 成功获取 Windows 管理员权限
+          一招教你 100% 成功获取管理员权限或提升为管理员账户
         </a>
       </h2>
 
       
       <a class="index-excerpt index-excerpt__noimg" href="/posts/ff8785da127f/" target="_self">
         <div>
-          众所周知在 Windows 中，有些时候如果不是内置管理员 Administrator 的其他用户就算在 Administrators 这个组 (或者是在控制面板将账户类型改为管理员)，但依旧没有管理员权限，要破解也很简单。 这里就告诉大家怎样破解这个特性，让凡是在 Administrators 这个组的所有用户都具有管理员权限。 首先说一下判断当前用户是否具有管理员权限的一个最简单的办法，就是按
+          前言众所周知直接使用管理员账户作为主账户的好处是很多的，因为不会遇到一些权限问题，具体有哪些好处想必各位都有所体会，这里就不多赘述了。本文将分为三种常见情形以及其对应的方法，分别教教大家如何正确的获取管理员权限或将当前用户提升至管理员。 检测是否已拥有管理员权限按下 Win+R 调出运行，若在其输入框下方显示了 “使用管理员权限创建此任务” 则说明当前用户已拥有管理员权限。 情形一：在装系统之前使
         </div>
       </a>
 
@@ -416,7 +416,7 @@
       
       <a class="index-excerpt index-excerpt__noimg" href="/posts/2f700cb73bdf/" target="_self">
         <div>
-          对于 Windows Subsystem for Android™，下文简称 WSA。 众所周知，WSA 之所以作为 Windows 11 的亮点，是因为它可以为用户提供更好的跨平台体验，让用户能在 Windows 11 系统上流畅地运行大多数的安卓原生应用程序。既然有安卓系统的出现，那怎么少得了 ROOT 和谷歌三件套呢。 对于怎样 ROOT 和添加谷歌三件套到 WSA，可以参考 GitHub
+          对于 Windows Subsystem for Android™，下文简称 WSA。 众所周知，WSA 之所以作为 Windows 11 的亮点，是因为它可以为用户提供更好的跨平台体验，让用户能在 Windows 11 系统上流畅地运行大多数的安卓原生应用程序。既然有安卓系统的出现，那怎么少得了 ROOT 和谷歌三件套呢。相关方法可以参考 GitHub 的 LSPosed&#x2F;Magisk
         </div>
       </a>
 
@@ -458,7 +458,7 @@
       
       <a class="index-excerpt index-excerpt__noimg" href="/posts/8dd99eb0bbbf/" target="_self">
         <div>
-          正文关于 WinNTSetup 的好用之处，相信大家都有所体会，这里就不多赘述了。今天主要说一下关于 WinNTSetup 的一个很实用的功能，那就是无人值守，开启之后可以直接跳过 Windows 系统的 OOBE，根本不用担心强制登录微软账户的问题。 首先确保你的 WinNTSetup 为最新版本 (旧版本好像也可以，不过推荐用最新版)，截止 2024 年 1 月 25 日最新版版本号为 5.3
+          前言如果你正在烦恼官方 Windows 安装向导不好用、有 TPM 等硬件检测、强制登录微软账户等，而导致无法正常安装系统，不妨试试 WinNTSetup，界面友好易上手，不仅可以帮你跳过硬件检测、跳过 OOBE，还能稍微优化一下系统，简直堪称装系统神器。 准备工作推荐在第三方 PE 系统里面运行，磁盘分区过程已跳过，以下只是简单说一下如何分区，具体步骤可以参考网络上的教程。  以 DiskGen
         </div>
       </a>
 

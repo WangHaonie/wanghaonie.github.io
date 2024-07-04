@@ -16,7 +16,7 @@
   <meta name="author" content="WangHaonie">
   <meta name="keywords" content="">
   
-    <meta name="description" content="正文关于 WinNTSetup 的好用之处，相信大家都有所体会，这里就不多赘述了。今天主要说一下关于 WinNTSetup 的一个很实用的功能，那就是无人值守，开启之后可以直接跳过 Windows 系统的 OOBE，根本不用担心强制登录微软账户的问题。 首先确保你的 WinNTSetup 为最新版本 (旧版本好像也可以，不过推荐用最新版)，截止 2024 年 1 月 25 日最新版版本号为 5.3">
+    <meta name="description" content="前言如果你正在烦恼官方 Windows 安装向导不好用、有 TPM 等硬件检测、强制登录微软账户等，而导致无法正常安装系统，不妨试试 WinNTSetup，界面友好易上手，不仅可以帮你跳过硬件检测、跳过 OOBE，还能稍微优化一下系统，简直堪称装系统神器。 准备工作推荐在第三方 PE 系统里面运行，磁盘分区过程已跳过，以下只是简单说一下如何分区，具体步骤可以参考网络上的教程。  以 DiskGen">
   
   
   
@@ -277,7 +277,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          342 字
+          410 字
         
       </span>
     
@@ -288,7 +288,7 @@
         
         
         
-          3 分钟
+          4 分钟
         
       </span>
     
@@ -343,7 +343,7 @@
               <p class="note note-info">
                 
                   
-                    本文最后更新于：16 小时前
+                    本文最后更新于：8 分钟前
                   
                 
               </p>
@@ -351,17 +351,17 @@
             
               <div class="markdown-body">
                 
-                <h2 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h2><p>关于 WinNTSetup 的好用之处，相信大家都有所体会，这里就不多赘述了。今天主要说一下关于 WinNTSetup 的一个很实用的功能，那就是无人值守，开启之后可以直接跳过 Windows 系统的 OOBE，根本不用担心强制登录微软账户的问题。</p>
-<p>首先确保你的 WinNTSetup 为最新版本 (旧版本好像也可以，不过推荐用最新版)，截止 2024 年 1 月 25 日最新版版本号为 <code>5.3.3b</code>。下载链接在文章末尾。</p>
-<p>打开软件，选择好安装源、引导驱动器、系统驱动器、系统版本后，在下面有一个无人值守，点一下小箭头，选择 <code>Win7-11-Select.xml</code><br><img src="/archive-imgs/16/1-select-xml.png" srcset="/img/loading.gif" lazyload alt="1-select-xml.png"></p>
-<p>接下来会弹出一个窗口，在本地账户里填内置管理员 <code>Administrator</code>；完整名称同上，填 <code>Administrator</code>；组织填管理员组 <code>Administrators</code>；计算机名称随意；工作组填 <code>WORKGROUP</code>，然后点击 x(关闭) 就可以保存了。<br><img src="/archive-imgs/16/2-fill-info.png" srcset="/img/loading.gif" lazyload alt="2-fill-info.png"></p>
+                <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>如果你正在烦恼官方 Windows 安装向导不好用、有 TPM 等硬件检测、强制登录微软账户等，而导致无法正常安装系统，不妨试试 WinNTSetup，界面友好易上手，不仅可以帮你跳过硬件检测、跳过 OOBE，还能稍微优化一下系统，简直堪称装系统神器。</p>
+<h2 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h2><p>推荐在第三方 PE 系统里面运行，磁盘分区过程已跳过，以下只是简单说一下如何分区，具体步骤可以参考网络上的教程。</p>
 <blockquote>
-<p>以 Administrators 为组织可以使账户自带管理员权限，就不用运行说明程序都要右键选择以管理员身份运行。至于没有管理员权限的账户怎么获取管理员权限，可以参考 <a href="/posts/ff8785da127f/">一招教你 100% 成功获取 Windows 管理员权限</a></p>
+<p>以 DiskGenius为例，如果你要装 Windows 7&#x2F;8&#x2F;8.1，推荐将硬盘分区表设置为MBR，并重建主引导记录，设置为活动分区；如果你要装 Windows 10&#x2F;11，推荐将硬盘分区表设置为 GPT(GUID)，并建立 ESP 分区。</p>
 </blockquote>
-<p>点击安装即可，这里就不上截图了。<br><img src="/archive-imgs/16/3-click-install.png" srcset="/img/loading.gif" lazyload alt="3-click-install.png"></p>
+<p>准备最新版 WinNTSetup，截止2024年6月15日最新版为 5.3.5.1，下载链接在文章末尾。</p>
+<h2 id="无人值守"><a href="#无人值守" class="headerlink" title="无人值守"></a>无人值守</h2><p>打开软件，选择好安装源、引导驱动器、系统驱动器、系统版本后，在下面有一个无人值守，点一下小箭头，选择 Win7-11-Select.xml<br><img src="/archive-imgs/16/16-01-select-unattend-xml.png" srcset="/img/loading.gif" lazyload><br>接下来会弹出一个窗口，在本地账户里填内置管理员 Administrator (其他名称也可以)；完整名称同上，填 Administrator；组织填管理员组 Administrators (不推荐修改为其他组，可以使创建的账户自带管理员权限，避免了一些麻烦)；计算机名称随意；工作组填 WORKGROUP，然后点击 关闭 就可以保存了。<br><img src="/archive-imgs/16/16-02-fill-info.png" srcset="/img/loading.gif" lazyload></p>
+<h2 id="优化调整"><a href="#优化调整" class="headerlink" title="优化调整"></a>优化调整</h2><p><img src="/archive-imgs/16/16-03-optimize.png" srcset="/img/loading.gif" lazyload><br>推荐勾选以下优化项<br><img src="/archive-imgs/16/16-04-select-optimize-options.png" srcset="/img/loading.gif" lazyload><br>点击关闭就可以保存，最后点击安装就行<br><img src="/archive-imgs/16/16-05-click-install.png" srcset="/img/loading.gif" lazyload></p>
 <h2 id="下载地址"><a href="#下载地址" class="headerlink" title="下载地址"></a>下载地址</h2><ul>
 <li>国内搬运<br>[<a target="_blank" rel="noopener" href="https://www.423down.com/2478.html">423Down</a>]</li>
-<li>官方链接<br>[<a target="_blank" rel="noopener" href="https://msfn.org/board/topic/149612-winntsetup">MSFN 论坛原贴</a>] [<a target="_blank" rel="noopener" href="https://www.mediafire.com/folder/53um6k2nmhvd5/">MediaFire 网盘</a>] [<a target="_blank" rel="noopener" href="https://mega.nz/folder/ObATya7C#oR2t79bT-4MGjKxOAYwkbQ">Mega 网盘</a>]</li>
+<li>官方链接<br>[<a target="_blank" rel="noopener" href="https://msfn.org/board/topic/149612-winntsetup">MSFN 论坛</a>] [<a target="_blank" rel="noopener" href="https://www.mediafire.com/folder/53um6k2nmhvd5/">MediaFire 网盘</a>] [<a target="_blank" rel="noopener" href="https://mega.nz/folder/ObATya7C#oR2t79bT-4MGjKxOAYwkbQ">Mega 网盘</a>]</li>
 </ul>
 
                 
@@ -406,7 +406,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>更新于</div>
-          <div>2024-07-03 17:40:20</div>
+          <div>2024-07-04 15:14:27</div>
         </div>
       
       
