@@ -16,11 +16,11 @@
   <meta name="author" content="WangHaonie">
   <meta name="keywords" content="">
   
-    <meta name="description" content="备份 最好把整个根目录打包，后期需要什么文件(夹)再复制出来就行  文件夹.deploy_git、scaffolds、source、themes、.ssh (%UserProfile%\.ssh，即 C:\Users\&amp;lt;你的用户名&amp;gt;\.ssh) 文件.gitignore、_config.yml、package.json 还原安装软件下载并安装 Git for Windows、Node.">
+    <meta name="description" content="初识 WPF这两天简单学习了一下 WPF、XAML、MVVM，正在决定是否基于 WPF 重新开发高考倒计时，目前已经完成了 0.5% (🤣)，只是完成了一点点设计，主要代码还没开始。 先说说我对 WPF 的第一印象吧：  排在第一肯定是内存占用，我不李姐为什么一个空窗口都能占 50MB 内存，那以后代码量增多了不得冲个100MB或者是更多？这确实是一件难以置信的事，不过现在大多数的电脑运行内存都">
   
   
   
-  <title>备份还原成功！简单说说怎么备份和还原 Hexo | WangHaonie 的博客</title>
+  <title>正在决定是否基于 WPF+MVVM 重新开发高考倒计时 | WangHaonie 的博客</title>
   <link rel="stylesheet" href="/css/frosted.css">
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -254,7 +254,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle">备份还原成功！简单说说怎么备份和还原 Hexo</span>
+            <span id="subtitle">正在决定是否基于 WPF+MVVM 重新开发高考倒计时</span>
           
         </div>
 
@@ -265,8 +265,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2023-12-10 19:45" pubdate>
-          2023-12-10 19:45:12
+        <time datetime="2024-07-06 11:15" pubdate>
+          2024-07-06 11:15:05
         </time>
       </span>
     
@@ -277,7 +277,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          218 字
+          307 字
         
       </span>
     
@@ -288,7 +288,7 @@
         
         
         
-          2 分钟
+          3 分钟
         
       </span>
     
@@ -338,12 +338,12 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">备份还原成功！简单说说怎么备份和还原 Hexo</h1>
+            <h1 id="seo-header">正在决定是否基于 WPF+MVVM 重新开发高考倒计时</h1>
             
               <p class="note note-info">
                 
                   
-                    本文最后更新于：2 天前
+                    本文最后更新于：3 小时前
                   
                 
               </p>
@@ -351,30 +351,19 @@
             
               <div class="markdown-body">
                 
-                <h2 id="备份"><a href="#备份" class="headerlink" title="备份"></a>备份</h2><blockquote>
-<p>最好把整个根目录打包，后期需要什么文件(夹)再复制出来就行</p>
-</blockquote>
-<h3 id="文件夹"><a href="#文件夹" class="headerlink" title="文件夹"></a>文件夹</h3><p>.deploy_git、scaffolds、source、themes、.ssh (%UserProfile%\.ssh，即 C:\Users\&lt;你的用户名&gt;\.ssh)</p>
-<h3 id="文件"><a href="#文件" class="headerlink" title="文件"></a>文件</h3><p>.gitignore、_config.yml、package.json</p>
-<h2 id="还原"><a href="#还原" class="headerlink" title="还原"></a>还原</h2><h3 id="安装软件"><a href="#安装软件" class="headerlink" title="安装软件"></a>安装软件</h3><p>下载并安装 <a target="_blank" rel="noopener" href="https://git-scm.com/downloads">Git for Windows</a>、<a target="_blank" rel="noopener" href="https://nodejs.org/zh-cn">Node.js</a></p>
-<h3 id="执行命令"><a href="#执行命令" class="headerlink" title="执行命令"></a>执行命令</h3><p>直接打开 cmd 在用户文件夹依次执行以下命令</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs BASH"><span class="hljs-built_in">cd</span> /d %UserProfile%<br></code></pre></td></tr></table></figure>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs BASH">git config --global user.name <span class="hljs-string">&quot;&lt;GitHub用户名&gt;&quot;</span><br></code></pre></td></tr></table></figure>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs BASH">git config --global user.email <span class="hljs-string">&quot;&lt;以@users.noreply.github.com结尾的GitHub邮箱&gt;&quot;</span><br></code></pre></td></tr></table></figure>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs BASH">npm install -g npm<br></code></pre></td></tr></table></figure>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs BASH">npm install -g hexo-cli<br></code></pre></td></tr></table></figure>
-
-<p>然后到你想安装博客的空文件夹里依次执行以下命令</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs BASH"><span class="hljs-built_in">cd</span> /d &lt;你的博客文件夹&gt;<br></code></pre></td></tr></table></figure>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs BASH">npm install hexo-deployer-git<br></code></pre></td></tr></table></figure>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs BASH">hexo init<br></code></pre></td></tr></table></figure>
-<h3 id="还原文件夹"><a href="#还原文件夹" class="headerlink" title="还原文件夹"></a>还原文件夹</h3><p>将备份的 .deploy_git、scaffolds、source、themes、.gitignore、_config.yml、package.json 复制进来，将 .ssh 文件夹复制到 C:\Users\&lt;你的用户名&gt;\</p>
-<h2 id="小提示"><a href="#小提示" class="headerlink" title="小提示"></a>小提示</h2><p>本次操作推荐在一个虚拟机 (装有精简版 Windows，以减小备份体积) 内进行，以后就不用备份各种文件夹了，直接备份虚拟机，十分方便。</p>
-<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ol>
-<li>hexo博客的备份与还原_hexo哪些文件要备份-CSDN博客<br><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_37409526/article/details/119907413">https://blog.csdn.net/qq_37409526/article/details/119907413</a></li>
-<li>Hexo 博客备份与还原 | Mupceet<br><a target="_blank" rel="noopener" href="https://mupceet.com/2019/09/backup-hexo-blog/">https://mupceet.com/2019/09/backup-hexo-blog/</a></li>
-</ol>
-
+                <h2 id="初识-WPF"><a href="#初识-WPF" class="headerlink" title="初识 WPF"></a>初识 WPF</h2><p>这两天简单学习了一下 WPF、XAML、MVVM，正在决定是否基于 WPF 重新开发<a target="_blank" rel="noopener" href="https://github.com/WangHaonie/CEETimerCSharpWinForms">高考倒计时</a>，目前已经完成了 0.5% (🤣)，只是完成了一点点设计，主要代码还没开始。</p>
+<p>先说说我对 WPF 的第一印象吧：</p>
+<ul>
+<li>排在第一肯定是内存占用，我不李姐为什么一个空窗口都能占 50MB 内存，那以后代码量增多了不得冲个100MB或者是更多？这确实是一件难以置信的事，不过现在大多数的电脑运行内存都较大，应该也不会太过在意内存占用的问题。这点可以暂时忽略。</li>
+<li>通过数据绑定更改控件属性也太麻烦了吧，尽管可以使用纯 C# 代码控制控件属性，可这显然不符合 WPF 的设计理念。这一点上不如 WinForms (如果微软能花更多心思在 WinForms 上就好了)。</li>
+</ul>
+<p>另外，由于高考完后时间确实很紧以及其他原因，以后可能会放弃此次决定，特别是当前 WinForms 对于一个高考倒计时来说已经完全足够了的情况。</p>
+<h2 id="部分代码预览"><a href="#部分代码预览" class="headerlink" title="部分代码预览"></a>部分代码预览</h2><p>MainWindow.xaml</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs XML"><span class="hljs-tag">&lt;<span class="hljs-name">Window</span> <span class="hljs-attr">x:Class</span>=<span class="hljs-string">&quot;WangHaonie.CEETimer.Windows.MainWindow&quot;</span></span><br><span class="hljs-tag">        <span class="hljs-attr">xmlns</span>=<span class="hljs-string">&quot;http://schemas.microsoft.com/winfx/2006/xaml/presentation&quot;</span></span><br><span class="hljs-tag">        <span class="hljs-attr">xmlns:x</span>=<span class="hljs-string">&quot;http://schemas.microsoft.com/winfx/2006/xaml&quot;</span></span><br><span class="hljs-tag">        <span class="hljs-attr">xmlns:d</span>=<span class="hljs-string">&quot;http://schemas.microsoft.com/expression/blend/2008&quot;</span></span><br><span class="hljs-tag">        <span class="hljs-attr">xmlns:mc</span>=<span class="hljs-string">&quot;http://schemas.openxmlformats.org/markup-compatibility/2006&quot;</span></span><br><span class="hljs-tag">        <span class="hljs-attr">xmlns:local</span>=<span class="hljs-string">&quot;clr-namespace:WangHaonie.CEETimer.Windows&quot;</span></span><br><span class="hljs-tag">        <span class="hljs-attr">mc:Ignorable</span>=<span class="hljs-string">&quot;d&quot;</span></span><br><span class="hljs-tag">        <span class="hljs-attr">Title</span>=<span class="hljs-string">&quot;&#123;Binding WindowTitle&#125;&quot;</span> <span class="hljs-attr">Height</span>=<span class="hljs-string">&quot;37&quot;</span> <span class="hljs-attr">Width</span>=<span class="hljs-string">&quot;162&quot;</span> <span class="hljs-attr">ResizeMode</span>=<span class="hljs-string">&quot;NoResize&quot;</span> <span class="hljs-attr">SizeToContent</span>=<span class="hljs-string">&quot;WidthAndHeight&quot;</span> <span class="hljs-attr">Topmost</span>=<span class="hljs-string">&quot;True&quot;</span> <span class="hljs-attr">Background</span>=<span class="hljs-string">&quot;&#123;Binding Back&#125;&quot;</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">Grid</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">TextBlock</span> <span class="hljs-attr">Text</span>=<span class="hljs-string">&quot;&#123;Binding CountdownText&#125;&quot;</span> <span class="hljs-attr">Foreground</span>=<span class="hljs-string">&quot;&#123;Binding Fore&#125;&quot;</span> <span class="hljs-attr">FontFamily</span>=<span class="hljs-string">&quot;&#123;Binding SelectedFont&#125;&quot;</span> <span class="hljs-attr">FontSize</span>=<span class="hljs-string">&quot;&#123;Binding SelectedFontSize&#125;&quot;</span> <span class="hljs-attr">FontWeight</span>=<span class="hljs-string">&quot;&#123;Binding SelectedFontWeight&#125;&quot;</span> <span class="hljs-attr">TextWrapping</span>=<span class="hljs-string">&quot;Wrap&quot;</span>/&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">Grid</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">Window</span>&gt;</span><br></code></pre></td></tr></table></figure>
+<p>MainWindowViewModel.cs</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><code class="hljs CSharp"><span class="hljs-keyword">using</span> System.Windows;<br><span class="hljs-keyword">using</span> System.Windows.Media;<br><span class="hljs-keyword">using</span> WangHaonie.CEETimer.Modules;<br><br><span class="hljs-keyword">namespace</span> <span class="hljs-title">WangHaonie.CEETimer.ViewModels</span><br>&#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title">MainWindowViewModel</span> : <span class="hljs-title">ViewModelMain</span><br>    &#123;<br>        <span class="hljs-keyword">public</span> <span class="hljs-built_in">string</span> WindowTitle &#123; <span class="hljs-keyword">get</span> =&gt; windowTitle; <span class="hljs-keyword">set</span> =&gt; SetValue(<span class="hljs-keyword">ref</span> windowTitle, <span class="hljs-keyword">value</span>); &#125;<br>        <span class="hljs-keyword">public</span> Brush Back &#123; <span class="hljs-keyword">get</span> =&gt; back; <span class="hljs-keyword">set</span> =&gt; SetValue(<span class="hljs-keyword">ref</span> back, <span class="hljs-keyword">value</span>); &#125;<br>        <span class="hljs-keyword">public</span> <span class="hljs-built_in">string</span> CountdownText &#123; <span class="hljs-keyword">get</span> =&gt; countdownText; <span class="hljs-keyword">set</span> =&gt; SetValue(<span class="hljs-keyword">ref</span> countdownText, <span class="hljs-keyword">value</span>); &#125;<br>        <span class="hljs-keyword">public</span> Brush Fore &#123; <span class="hljs-keyword">get</span> =&gt; fore; <span class="hljs-keyword">set</span> =&gt; SetValue(<span class="hljs-keyword">ref</span> fore, <span class="hljs-keyword">value</span>); &#125;<br>        <span class="hljs-keyword">public</span> FontFamily SelectedFont &#123; <span class="hljs-keyword">get</span> =&gt; selectedFont; <span class="hljs-keyword">set</span> =&gt; SetValue(<span class="hljs-keyword">ref</span> selectedFont, <span class="hljs-keyword">value</span>); &#125;<br>        <span class="hljs-keyword">public</span> <span class="hljs-built_in">double</span> SelectedFontSize &#123; <span class="hljs-keyword">get</span> =&gt; selectedFontSize; <span class="hljs-keyword">set</span> =&gt; SetValue(<span class="hljs-keyword">ref</span> selectedFontSize, <span class="hljs-keyword">value</span>); &#125;<br>        <span class="hljs-keyword">public</span> FontWeight SelectedFontWeight &#123; <span class="hljs-keyword">get</span> =&gt; selectedFontWeight; <span class="hljs-keyword">set</span> =&gt; SetValue(<span class="hljs-keyword">ref</span> selectedFontWeight, <span class="hljs-keyword">value</span>); &#125;<br><br>        <span class="hljs-keyword">private</span> <span class="hljs-built_in">string</span> windowTitle = <span class="hljs-string">&quot;高考倒计时&quot;</span>;<br>        <span class="hljs-keyword">private</span> Brush back = Brushes.Red;<br>        <span class="hljs-keyword">private</span> <span class="hljs-built_in">string</span> countdownText = <span class="hljs-string">&quot;欢迎使用高考倒计时&quot;</span>;<br>        <span class="hljs-keyword">private</span> Brush fore = Brushes.White;<br>        <span class="hljs-keyword">private</span> FontFamily selectedFont = <span class="hljs-keyword">new</span>(<span class="hljs-string">&quot;Noto Sans SC&quot;</span>);<br>        <span class="hljs-keyword">private</span> <span class="hljs-built_in">double</span> selectedFontSize = <span class="hljs-number">28.0</span>;<br>        <span class="hljs-keyword">private</span> FontWeight selectedFontWeight = FontWeights.Bold;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>ViewModelMain.cs</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><code class="hljs CSharp"><span class="hljs-keyword">using</span> System.Collections.Generic;<br><span class="hljs-keyword">using</span> System.ComponentModel;<br><span class="hljs-keyword">using</span> System.Runtime.CompilerServices;<br><br><span class="hljs-keyword">namespace</span> <span class="hljs-title">WangHaonie.CEETimer.Modules</span><br>&#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title">ViewModelMain</span> : <span class="hljs-title">INotifyPropertyChanged</span><br>    &#123;<br>        <span class="hljs-keyword">public</span> <span class="hljs-keyword">event</span> PropertyChangedEventHandler PropertyChanged;<br><br>        <span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title">SetValue</span>&lt;<span class="hljs-title">T</span>&gt;(<span class="hljs-params"><span class="hljs-keyword">ref</span> T BackField, T Value, [CallerMemberName] <span class="hljs-built_in">string</span> Name = <span class="hljs-literal">null</span></span>)</span><br>        &#123;<br>            <span class="hljs-keyword">if</span> (!EqualityComparer&lt;T&gt;.Default.Equals(BackField, Value) &amp;&amp; Value != <span class="hljs-literal">null</span>)<br>            &#123;<br>                BackField = Value;<br>                OnPropertyChanged(Name);<br>            &#125;<br>        &#125;<br><br>        <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">OnPropertyChanged</span>(<span class="hljs-params"><span class="hljs-built_in">string</span> PropertyName = <span class="hljs-literal">null</span></span>)</span><br>        &#123;<br>            PropertyChanged?.Invoke(<span class="hljs-keyword">this</span>, <span class="hljs-keyword">new</span> PropertyChangedEventArgs(PropertyName));<br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
                 
               </div>
             
@@ -388,7 +377,7 @@
       
         <a href="/tags/Windows/" class="print-no-link">#Windows</a>
       
-        <a href="/tags/hexo/" class="print-no-link">#hexo</a>
+        <a href="/tags/CSharp/" class="print-no-link">#CSharp</a>
       
     </div>
   
@@ -400,8 +389,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>备份还原成功！简单说说怎么备份和还原 Hexo</div>
-      <div>https://wanghaonie.github.io/posts/83ec87f057a2/</div>
+      <div>正在决定是否基于 WPF+MVVM 重新开发高考倒计时</div>
+      <div>https://wanghaonie.github.io/posts/10cd5e4380e2/</div>
     </div>
     <div class="license-meta">
       
@@ -413,13 +402,13 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2023-12-10 19:45:12</div>
+          <div>2024-07-06 11:15:05</div>
         </div>
       
       
         <div class="license-meta-item license-meta-date">
           <div>更新于</div>
-          <div>2024-07-04 13:41:31</div>
+          <div>2024-07-06 14:59:15</div>
         </div>
       
       
@@ -462,18 +451,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/posts/e06e98469c1e/" title="高考成绩出来了，这三年说没努力好像也确实尽力了">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">高考成绩出来了，这三年说没努力好像也确实尽力了</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/posts/2f700cb73bdf/" title="这才是 Windows Subsystem for Android™ 的正确打开方式">
-                        <span class="hidden-mobile">这才是 Windows Subsystem for Android™ 的正确打开方式</span>
+                      <a href="/posts/0e9bf7b6bb91/" title="装系统神器！WinNTSetup 里你绝对没有用过的无人值守">
+                        <span class="hidden-mobile">装系统神器！WinNTSetup 里你绝对没有用过的无人值守</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
