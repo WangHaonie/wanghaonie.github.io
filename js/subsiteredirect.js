@@ -7,7 +7,7 @@ function redir2gh() {
 
 /* 跳转到到 本地局域网 */
 function redir2lan() {
-    window.location.href = "http://10.0.0.10:4000" + window.location.pathname;
+    window.location.href = "http://192.168.80.132:4000" + window.location.pathname;
   }
 
 /* 跳转到到 Vercel */
