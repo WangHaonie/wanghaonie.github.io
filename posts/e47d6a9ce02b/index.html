@@ -16,11 +16,11 @@
   <meta name="author" content="WangHaonie">
   <meta name="keywords" content="">
   
-    <meta name="description" content="前言众所周知直接使用管理员账户作为主账户的好处是很多的，因为不会遇到一些权限问题，具体有哪些好处想必各位都有所体会，这里就不多赘述了。本文将分为三种常见情形以及其对应的方法，分别教教大家如何正确的获取管理员权限或将当前用户提升至管理员。 检测是否已拥有管理员权限按下 Win+R 调出运行，若在其输入框下方显示了 “使用管理员权限创建此任务” 则说明当前用户已拥有管理员权限。 情形一：在装系统之前使">
+    <meta name="description" content="前言本文主要带大家快速了解三大 (其实是两大) 磁记录的特点，来挑选最适合自己的机械硬盘。 LMRLongitudinal Magnetic Recording，水平磁记录。数据以水平方式记录在磁盘表面上，磁性颗粒的磁化方向与磁盘表面平行。该技术为早期机械硬盘所使用，数据密度较小，容量也小。目前已基本被淘汰。 PMRPerpendicular Magnetic Recording，垂直磁记录。数据">
   
   
   
-  <title>一招教你 100% 成功获取管理员权限或提升为管理员账户 | WangHaonie 的博客</title>
+  <title>怎么挑选机械硬盘？三大磁记录技术有什么区别？ | WangHaonie 的博客</title>
   <link rel="stylesheet" href="/css/frosted.css">
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -254,7 +254,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle">一招教你 100% 成功获取管理员权限或提升为管理员账户</span>
+            <span id="subtitle">怎么挑选机械硬盘？三大磁记录技术有什么区别？</span>
           
         </div>
 
@@ -265,8 +265,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2024-07-05 23:00" pubdate>
-          2024-07-05 23:00:53
+        <time datetime="2024-07-13 11:09" pubdate>
+          2024-07-13 11:09:37
         </time>
       </span>
     
@@ -277,7 +277,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          1.1k 字
+          413 字
         
       </span>
     
@@ -288,7 +288,7 @@
         
         
         
-          9 分钟
+          4 分钟
         
       </span>
     
@@ -338,12 +338,12 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">一招教你 100% 成功获取管理员权限或提升为管理员账户</h1>
+            <h1 id="seo-header">怎么挑选机械硬盘？三大磁记录技术有什么区别？</h1>
             
               <p class="note note-info">
                 
                   
-                    本文最后更新于：8 天前
+                    本文最后更新于：4 分钟前
                   
                 
               </p>
@@ -351,42 +351,21 @@
             
               <div class="markdown-body">
                 
-                <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>众所周知直接使用管理员账户作为主账户的好处是很多的，因为不会遇到一些权限问题，具体有哪些好处想必各位都有所体会，这里就不多赘述了。本文将分为三种常见情形以及其对应的方法，分别教教大家如何正确的获取管理员权限或将当前用户提升至管理员。</p>
-<h2 id="检测是否已拥有管理员权限"><a href="#检测是否已拥有管理员权限" class="headerlink" title="检测是否已拥有管理员权限"></a>检测是否已拥有管理员权限</h2><p>按下 Win+R 调出运行，若在其输入框下方显示了 “使用管理员权限创建此任务” 则说明当前用户已拥有管理员权限。<br><img src="/archive-imgs/18/18-01-has-admin-rights.png" srcset="/img/loading.gif" lazyload alt="已拥有管理员权限"><br><img src="/archive-imgs/18/18-02-no-admin-rights.png" srcset="/img/loading.gif" lazyload alt="无管理员权限"></p>
-<h2 id="情形一：在装系统之前"><a href="#情形一：在装系统之前" class="headerlink" title="情形一：在装系统之前"></a>情形一：在装系统之前</h2><p>使用 WinNTSetup 安装系统跳过 OOBE 并直接以管理员账户登入系统，详见<a href="https://wanghaonie.github.io/posts/8dd99eb0bbbf/">这篇</a>文章。</p>
-<h2 id="情形二：刚装完系统"><a href="#情形二：刚装完系统" class="headerlink" title="情形二：刚装完系统"></a>情形二：刚装完系统</h2><blockquote>
-<p>本方法推荐在刚装完系统后使用。因为要切换到 Administrator 为主账户，如果你已使用非管理员账户一段时间并安装了一些软件，切换到新账户后可能会导致部分软件数据丢失。如果没有重要数据在用户文件夹，那么你也可以选择直接切换。</p>
-</blockquote>
-<h3 id="启用内置管理员账户"><a href="#启用内置管理员账户" class="headerlink" title="启用内置管理员账户"></a>启用内置管理员账户</h3><p>按下组合键 Win+S 打开搜索输入 cmd 选择以管理员身份运行；<br><img src="/archive-imgs/18/18-03-run-cmd-as-admin.png" srcset="/img/loading.gif" lazyload><br>输入以下命令并按下回车执行，没有报错则说明成功；</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs BASH">net user Administrator /active:<span class="hljs-built_in">yes</span><br></code></pre></td></tr></table></figure>
-<p><img src="/archive-imgs/18/18-04-cmd-activate-admin.png" srcset="/img/loading.gif" lazyload></p>
-<h3 id="切换到内置管理员"><a href="#切换到内置管理员" class="headerlink" title="切换到内置管理员"></a>切换到内置管理员</h3><p>先在开始菜单点击用户头像注销当前账户；<br><img src="/archive-imgs/18/18-05-log-out-current.png" srcset="/img/loading.gif" lazyload><br>选择 Administrator 账户并登录；<br><img src="/archive-imgs/18/18-06-log-in-as-admin.png" srcset="/img/loading.gif" lazyload><br>登入之后可以按照之前的说法调出运行框查看是否已有管理员权限，最后推荐禁用之前的账户 (<a href="#%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9">查看原因</a>)：Win+R 运行 cmd，输入以下代码：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs BASH">net user &lt;原用户名&gt; /active:no<br></code></pre></td></tr></table></figure>
-<p><img src="/archive-imgs/18/18-07-deactivate-previous.png" srcset="/img/loading.gif" lazyload></p>
-<h2 id="情形三：正在使用非管理员账户作为主账户"><a href="#情形三：正在使用非管理员账户作为主账户" class="headerlink" title="情形三：正在使用非管理员账户作为主账户"></a>情形三：正在使用非管理员账户作为主账户</h2><blockquote>
-<p>此方法不会丢失用户&#x2F;软件数据，请放心使用。(仅适用于 专业版 及以上系统)</p>
-</blockquote>
-<h3 id="将当前账户设置为管理员"><a href="#将当前账户设置为管理员" class="headerlink" title="将当前账户设置为管理员"></a>将当前账户设置为管理员</h3><p>Win+S 搜索 cmd，并以管理员身份运行，输入 lusrmgr 并回车执行打开本地用户管理器；<br><img src="/archive-imgs/18/18-08-cmd-open-lusrmgr.png" srcset="/img/loading.gif" lazyload><br>在本地用户管理器中，按下图步骤，找到当前账户，并双击打开 属性 页面，转到 隶属于 选项卡，如果里面的用户组不是 Administrators (通常是 Users)，那么就要把它删除；<br><img src="/archive-imgs/18/18-09-delete-users-group-for-current.png" srcset="/img/loading.gif" lazyload><br>删除后再点击 添加，输入 Administrators，注意单词末尾还有个s，输入后可以点击 检查名称 看看是否有拼写错误，然后点击 确定 保存；<br><img src="/archive-imgs/18/18-10-add-admingroup-to-current.png" srcset="/img/loading.gif" lazyload></p>
-<h3 id="使非内置管理员的管理员生效"><a href="#使非内置管理员的管理员生效" class="headerlink" title="使非内置管理员的管理员生效"></a>使非内置管理员的管理员生效</h3><p>回到之前打开的 cmd 窗口，输入 gpedit 回车执行打开组策略编辑器；<br><img src="/archive-imgs/18/18-11-cmd-open-gpedit.png" srcset="/img/loading.gif" lazyload><br>在组策略编辑器中，按 计算机配置&gt;Windows 设置&gt;安全设置&gt;本地策略&gt;安全选项 找到 “用户账户控制：以管理员批准模式运行所有管理员”，并将其设置为 已禁用，然后保存并重启电脑就大功告成了。<br><img src="/archive-imgs/18/18-12-disable-admin-policy.png" srcset="/img/loading.gif" lazyload></p>
-<h2 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h2><p>无论采用上述哪种方式，最后都推荐新建一个新账户作为临时账户，用于有更新时切换到该账户进行系统更新 (但不推荐禁用 Windows 更新)，因为直接在管理员账户上更新系统可能会导致管理员权限丢失。(有关怎么添加账户的方法请自行查找。) 但并非所有系统更新都会丢失权限，大致可分为以下情况：</p>
-<p><strong>会丢失管理员权限：</strong></p>
-<ul>
-<li>跨 Windows 版本更新。比如从 Windows 10 升级到 Windows 11；</li>
-<li>使用系统镜像 (ISO) 或安装向导直接在当前系统环境下进行安装或升级；</li>
-<li>Windows 预览体验计划的 Dev (Windows 10&#x2F;11)、Canary (Windows 11) 更新频道。</li>
+                <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>本文主要带大家快速了解三大 (其实是两大) 磁记录的特点，来挑选最适合自己的机械硬盘。</p>
+<h2 id="LMR"><a href="#LMR" class="headerlink" title="LMR"></a>LMR</h2><p>Longitudinal Magnetic Recording，水平磁记录。数据以水平方式记录在磁盘表面上，磁性颗粒的磁化方向与磁盘表面<strong>平行</strong>。该技术为早期机械硬盘所使用，数据密度较小，容量也小。目前已基本被淘汰。</p>
+<h2 id="PMR"><a href="#PMR" class="headerlink" title="PMR"></a>PMR</h2><p>Perpendicular Magnetic Recording，垂直磁记录。数据以水平方式记录在磁盘表面上，但磁性颗粒的磁化方向与磁盘表面<strong>垂直</strong>。是目前大多数机械硬盘使用的技术，该技术又有以下两种实现方式。</p>
+<h3 id="CMR"><a href="#CMR" class="headerlink" title="CMR"></a>CMR</h3><p>Conventional Magnetic Recording，传统磁记录。数据密度较大，容量较大，性能稳定，适用于几乎所有的场景。</p>
+<h3 id="SMR"><a href="#SMR" class="headerlink" title="SMR"></a>SMR</h3><p>Shingled Magnetic Recording，叠瓦磁记录。数据密度更大，容量也大，但性能低，因为磁道与磁道之间会有重叠，改数据麻烦。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ul>
+<li><strong>LMR 已被淘汰</strong>：基本买不到全新的，老电脑的拆机硬盘可能是 LMR，但不推荐使用。</li>
+<li><strong>日常用就买 CMR</strong>：装系统、装软件、存数据等常规需求就买 CMR。如果你是小白用户但不想管太多，买 CMR 准没错。</li>
+<li><strong>只存不删不改买 SMR</strong>：如果你只需要存数据，用作备份，并且你确定你或其他软件不会删除也不会修改里面的数据，就买 SMR。</li>
 </ul>
-<p><strong>不会丢失管理员权限：</strong></p>
-<ul>
-<li>日常的累积更新、系统组件 (MRT、.NET Framework、…) 更新；</li>
-<li>功能更新。比如 22H2 升级到 23H2。</li>
-</ul>
-<h2 id="常见问题"><a href="#常见问题" class="headerlink" title="常见问题"></a>常见问题</h2><blockquote>
-<p>肯定不全，后续应该会更新，但没列出的一般不会遇到。</p>
-</blockquote>
-<h3 id="登入到-Administrator-账户需要输入密码怎么办？"><a href="#登入到-Administrator-账户需要输入密码怎么办？" class="headerlink" title="登入到 Administrator 账户需要输入密码怎么办？"></a>登入到 Administrator 账户需要输入密码怎么办？</h3><p>你需要回退到之前的账户，同样以管理员身份运行 cmd，输入以下命令清除密码，注意是英文状态的引号。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs BASH">net user Administrator <span class="hljs-string">&quot;&quot;</span><br></code></pre></td></tr></table></figure>
+<p>更多详细的介绍可以看看B站UP主 硬件茶谈 的视频，链接在下方。</p>
 <h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ol>
-<li>(自己的)【Windows】一招教你 100% 成功获取管理员权限或提升为管理员账户_把user权限改为administrator-CSDN博客<br><a target="_blank" rel="noopener" href="https://blog.csdn.net/WHNdeCSDN/article/details/139710286">https://blog.csdn.net/WHNdeCSDN/article/details/139710286</a></li>
+<li>【硬核科普】选购机械硬盘的大坑，不看你就上当，详解SMR瓦楞式堆叠硬盘_哔哩哔哩_bilibili<br><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1rE411Q71m">https://www.bilibili.com/video/BV1rE411Q71m</a></li>
+<li>Perpendicular recording - Wikipedia<br><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Perpendicular_recording">https://en.wikipedia.org/wiki/Perpendicular_recording</a></li>
+<li>Shingled magnetic recording - Wikipedia<br><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Shingled_magnetic_recording">https://en.wikipedia.org/wiki/Shingled_magnetic_recording</a></li>
 </ol>
 
                 
@@ -400,7 +379,7 @@
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
-        <a href="/tags/Windows/" class="print-no-link">#Windows</a>
+        <a href="/tags/%E7%A1%AC%E4%BB%B6/" class="print-no-link">#硬件</a>
       
     </div>
   
@@ -412,8 +391,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>一招教你 100% 成功获取管理员权限或提升为管理员账户</div>
-      <div>https://wanghaonie.github.io/posts/54ae615f8ae4/</div>
+      <div>怎么挑选机械硬盘？三大磁记录技术有什么区别？</div>
+      <div>https://wanghaonie.github.io/posts/e47d6a9ce02b/</div>
     </div>
     <div class="license-meta">
       
@@ -425,13 +404,13 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2024-07-05 23:00:53</div>
+          <div>2024-07-13 11:09:37</div>
         </div>
       
       
         <div class="license-meta-item license-meta-date">
           <div>更新于</div>
-          <div>2024-07-05 15:20:29</div>
+          <div>2024-07-13 12:27:30</div>
         </div>
       
       
@@ -474,18 +453,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/posts/0e9bf7b6bb91/" title="装系统神器！WinNTSetup 里你绝对没有用过的无人值守">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">装系统神器！WinNTSetup 里你绝对没有用过的无人值守</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/posts/e06e98469c1e/" title="高考成绩出来了，这三年说没努力好像也确实尽力了">
-                        <span class="hidden-mobile">高考成绩出来了，这三年说没努力好像也确实尽力了</span>
+                      <a href="/posts/81bb83b25798/" title="一位废柴高中生学习了3天的WPF，这是他的内心发生的变化">
+                        <span class="hidden-mobile">一位废柴高中生学习了3天的WPF，这是他的内心发生的变化</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
