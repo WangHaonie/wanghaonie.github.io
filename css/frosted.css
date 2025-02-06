@@ -1,22 +1,18 @@
-/* WangHaonie 亲手打造，用于网站部分元素样式的微调 - v1.3.0 */
-
-/* 为网页添加毛玻璃效果 */
 html, .dropdown-collapse, .dropdown-menu, #board, #navbar, #scroll-top-button, #toc {
-    background-color: rgba(255, 255, 255, 0) !important; /* 背景颜色，修改透明度值，数值范围是0（完全透明）到1（完全不透明） */
-    backdrop-filter: blur(8px) !important; /* 模糊效果，调整模糊程度，数值越大越模糊 */
+    background-color: rgb(0, 0, 0) !important;
+    backdrop-filter: blur(8px) !important; 
 }
+
 .license-box.my-3 {
     background-color: rgba(224, 218, 218, 0.322) !important;
     backdrop-filter: blur(5px) !important;
 }
 
-/* 把 Mobile 页面 NavBar 的右上角的三条杠替换为文字，不然看都看不到 */
 #wanghaonie-nav {
-    color: rgb(255, 255, 255) !important;
+    color: rgb(0, 0, 0) !important;
     font-size: 14px !important;
 }
 
-/* 修复文章中以 HTML 形式插入的 Tag 里面的超链接的文本不会变为蓝色 */
 #wanghaonie-tag-link {
     color: #0366d6;
 }
