@@ -16,11 +16,11 @@
   <meta name="author" content="WangHaonie">
   <meta name="keywords" content="">
   
-    <meta name="description" content="备份 最好把整个根目录打包，后期需要什么文件(夹)再复制出来就行  文件夹.deploy_git、scaffolds、source、themes、.ssh (%UserProfile%\.ssh，即 C:\Users\&amp;lt;你的用户名&amp;gt;\.ssh) 文件.gitignore、_config.yml、package.json 还原安装软件下载并安装 Git for Windows、Node.">
+    <meta name="description" content="前言接上文 (没看的快去看!)，我们讨论了如何以最爽的方式创建右键菜单。但后台有小伙伴留言说那么多方法写在窗体里面显得太冗余且无法在其他窗体中调用。如果全部放在实例类里面的话，又要写个 new() 也显得不优雅；放静态类每次都要写类名，太冗长了。所以这期我们用 Builder 设计模式来使它变得更好用。(以 ContextMenu 为例，ContextMenuStrip 请以此类推) 正文首先，创">
   
   
   
-  <title>备份还原成功！简单说说怎么备份和还原 Hexo | WangHaonie 的博客</title>
+  <title>(后续) 使用 Builder 模式让右键菜单的创建更上一层楼 | WangHaonie 的博客</title>
   <link rel="stylesheet" href="/css/frosted.css">
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -254,7 +254,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle">备份还原成功！简单说说怎么备份和还原 Hexo</span>
+            <span id="subtitle">(后续) 使用 Builder 模式让右键菜单的创建更上一层楼</span>
           
         </div>
 
@@ -265,8 +265,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2023-12-10 19:45" pubdate>
-          2023-12-10 19:45:12
+        <time datetime="2025-05-03 20:01" pubdate>
+          2025-05-03 20:01:49
         </time>
       </span>
     
@@ -277,7 +277,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          218 字
+          768 字
         
       </span>
     
@@ -288,7 +288,7 @@
         
         
         
-          2 分钟
+          7 分钟
         
       </span>
     
@@ -338,12 +338,12 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">备份还原成功！简单说说怎么备份和还原 Hexo</h1>
+            <h1 id="seo-header">(后续) 使用 Builder 模式让右键菜单的创建更上一层楼</h1>
             
               <p class="note note-info">
                 
                   
-                    本文最后更新于：10 个月前
+                    本文最后更新于：27 分钟前
                   
                 
               </p>
@@ -351,29 +351,36 @@
             
               <div class="markdown-body">
                 
-                <h2 id="备份"><a href="#备份" class="headerlink" title="备份"></a>备份</h2><blockquote>
-<p>最好把整个根目录打包，后期需要什么文件(夹)再复制出来就行</p>
-</blockquote>
-<h3 id="文件夹"><a href="#文件夹" class="headerlink" title="文件夹"></a>文件夹</h3><p>.deploy_git、scaffolds、source、themes、.ssh (%UserProfile%\.ssh，即 C:\Users\&lt;你的用户名&gt;\.ssh)</p>
-<h3 id="文件"><a href="#文件" class="headerlink" title="文件"></a>文件</h3><p>.gitignore、_config.yml、package.json</p>
-<h2 id="还原"><a href="#还原" class="headerlink" title="还原"></a>还原</h2><h3 id="安装软件"><a href="#安装软件" class="headerlink" title="安装软件"></a>安装软件</h3><p>下载并安装 <a target="_blank" rel="noopener" href="https://git-scm.com/downloads">Git for Windows</a>、<a target="_blank" rel="noopener" href="https://nodejs.org/zh-cn">Node.js</a></p>
-<h3 id="执行命令"><a href="#执行命令" class="headerlink" title="执行命令"></a>执行命令</h3><p>直接打开 cmd 在用户文件夹依次执行以下命令</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs BASH"><span class="hljs-built_in">cd</span> /d %UserProfile%<br></code></pre></td></tr></table></figure>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs BASH">git config --global user.name <span class="hljs-string">&quot;&lt;GitHub用户名&gt;&quot;</span><br></code></pre></td></tr></table></figure>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs BASH">git config --global user.email <span class="hljs-string">&quot;&lt;以@users.noreply.github.com结尾的GitHub邮箱&gt;&quot;</span><br></code></pre></td></tr></table></figure>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs BASH">npm install -g npm<br></code></pre></td></tr></table></figure>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs BASH">npm install -g hexo-cli<br></code></pre></td></tr></table></figure>
+                <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>接<a href="https://wanghaonie.github.io/posts/95b4fdac793d/">上文</a> (没看的快去看!)，我们讨论了如何以最爽的方式创建右键菜单。但后台有小伙伴留言说那么多方法写在窗体里面显得太冗余且无法在其他窗体中调用。如果全部放在实例类里面的话，又要写个 <code>new()</code> 也显得不优雅；放静态类每次都要写类名，太冗长了。所以这期我们用 Builder 设计模式来使它变得更好用。(以 <code>ContextMenu</code> 为例，<code>ContextMenuStrip</code> 请以此类推)</p>
+<h2 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h2><p>首先，创建 Builder 实例类，名为 <code>ContextMenuBuilder</code></p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs csharp"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title">ContextMenuBuilder</span><br>&#123;<br>    <br>&#125;<br></code></pre></td></tr></table></figure>
 
-<p>然后到你想安装博客的空文件夹里依次执行以下命令</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs BASH"><span class="hljs-built_in">cd</span> /d &lt;你的博客文件夹&gt;<br></code></pre></td></tr></table></figure>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs BASH">npm install hexo-deployer-git<br></code></pre></td></tr></table></figure>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs BASH">hexo init<br></code></pre></td></tr></table></figure>
-<h3 id="还原文件夹"><a href="#还原文件夹" class="headerlink" title="还原文件夹"></a>还原文件夹</h3><p>将备份的 .deploy_git、scaffolds、source、themes、.gitignore、_config.yml、package.json 复制进来，将 .ssh 文件夹复制到 C:\Users\&lt;你的用户名&gt;\</p>
-<h2 id="小提示"><a href="#小提示" class="headerlink" title="小提示"></a>小提示</h2><p>本次操作推荐在一个虚拟机 (装有精简版 Windows，以减小备份体积) 内进行，以后就不用备份各种文件夹了，直接备份虚拟机，十分方便。</p>
-<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ol>
-<li>hexo博客的备份与还原_hexo哪些文件要备份-CSDN博客<br><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_37409526/article/details/119907413">https://blog.csdn.net/qq_37409526/article/details/119907413</a></li>
-<li>Hexo 博客备份与还原 | Mupceet<br><a target="_blank" rel="noopener" href="https://mupceet.com/2019/09/backup-hexo-blog/">https://mupceet.com/2019/09/backup-hexo-blog/</a></li>
-</ol>
+<p>其次，创建 <code>MenuItem</code> 各方法不变，还是这几个，如下：(为了后面调用时简洁明了，我们可以省略方法名的动词)</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs csharp"><span class="hljs-function"><span class="hljs-keyword">public</span> MenuItem <span class="hljs-title">Item</span>(<span class="hljs-params"><span class="hljs-built_in">string</span> Text</span>)</span><br>    =&gt; <span class="hljs-keyword">new</span>(Text);<br><br><span class="hljs-function"><span class="hljs-keyword">public</span> MenuItem <span class="hljs-title">Item</span>(<span class="hljs-params"><span class="hljs-built_in">string</span> Text, EventHandler OnClickHandler</span>)</span><br>    =&gt; <span class="hljs-keyword">new</span>(Text, OnClickHandler);<br><br><span class="hljs-function"><span class="hljs-keyword">public</span> MenuItem <span class="hljs-title">Menu</span>(<span class="hljs-params"><span class="hljs-built_in">string</span> Text, MenuItem[] Items</span>)</span><br>    =&gt; <span class="hljs-keyword">new</span>(Text, Items);<br><br><span class="hljs-function"><span class="hljs-keyword">public</span> MenuItem <span class="hljs-title">Separator</span>()</span><br>    =&gt; <span class="hljs-keyword">new</span>(<span class="hljs-string">&quot;-&quot;</span>);<br></code></pre></td></tr></table></figure>
+
+<p>关键在于 <code>Build()</code> 方法应该怎么写。首先我们要求在使用 Builder 时，不要显式出现 <code>new()</code>，那么第一可以确定的是该方法应该为静态方法，即</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs csharp"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> ContextMenu <span class="hljs-title">Build</span>()</span> &#123; &#125;<br></code></pre></td></tr></table></figure>
+
+<p>那么参数应该是什么呢？由于我们的 Builder 是个实例对象，所以在静态方法中调用实例对象中的方法，必须要创建对象实例。但是我们又不能直接在方法里面 <code>var</code> 一个变量等于 <code>new ContextMenuBuilder()</code>，并且需要 <code>MenuItem</code> 各方法的返回值来拿出对应的菜单项，以便在其他地方控制状态等。所以我们仍要使用 <code>MenuItem[]</code> 数组来作为最终创建 <code>ContextMenu</code> 的原材料。这时就要动动脑筋了，有什么东西可以作为 <code>Build()</code> 方法的参数，并且可以调用的到 <code>ContextMenuBuilder</code> 的实例方法，还要获得 <code>MenuItem[]</code> 输出？</p>
+<p>没错，就是 <code>Func&lt;T, TResult&gt;</code>，先来看看这个方法的签名。</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs csharp"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-built_in">delegate</span> TResult <span class="hljs-title">Func</span>&lt;<span class="hljs-keyword">in</span> <span class="hljs-title">T</span>, <span class="hljs-keyword">out</span> <span class="hljs-title">TResult</span>&gt;(<span class="hljs-params">T arg</span>)</span>;<br></code></pre></td></tr></table></figure>
+<p>这个委托使用泛型逆变和协变来约束指定类型的行为，人话就是输入 <code>T</code> (委托的参数)，输出 <code>TResult</code> (委托返回值)，这不正是我们想要的吗？所以我们可以这么写：</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs csharp"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> ContextMenu <span class="hljs-title">Build</span>(<span class="hljs-params">Func&lt;ContextMenuBuilder, MenuItem[]&gt; Builder</span>)</span> &#123; &#125;<br></code></pre></td></tr></table></figure>
+<p>这表示我们可以传入 <code>ContextMenuBuilder</code> 实例来调用创建 <code>MenuItem</code> 的方法，并且可以获得 <code>MenuItem[]</code> 输出。那这个参数 <code>Builder</code> 怎么使用呢？很简单，委托可以理解为就是一种方法，用它时就像调用方法那样就行，要注意我们需要传入 <code>ContextMenuBuilder</code> 实例，所以 <code>Builder</code> 的参数为 <code>new()</code></p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs csharp">Builder(<span class="hljs-keyword">new</span>());<br></code></pre></td></tr></table></figure>
+<p>现在我们就通过 <code>Builder</code> 委托拿到了 <code>MenuItem[]</code> 返回值，直接传入 <code>ContextMenu</code> 构造函数，我们就获得了 <code>ContextMenu</code> 实例。(关于 <code>ContextMenuStrip</code> 可以参考上一篇文章，在本文开头跳转)</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs csharp"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> ContextMenu <span class="hljs-title">Build</span>(<span class="hljs-params">Func&lt;ContextMenuBuilder, MenuItem[]&gt; Builder</span>)</span><br>    =&gt; <span class="hljs-keyword">new</span>(Builder(<span class="hljs-keyword">new</span>()));<br></code></pre></td></tr></table></figure>
+<p>那我们应该这么使用这个 <code>Build()</code> 方法并且表示 <code>Func&lt;ContextMenuBuilder, MenuItem[]&gt;</code> 呢？这不，Lambda 表达式就来啦，如下：</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><code class="hljs csharp"><span class="hljs-keyword">public</span> <span class="hljs-keyword">partial</span> <span class="hljs-keyword">class</span> <span class="hljs-title">Form1</span> : <span class="hljs-title">Form</span><br>&#123;<br>    <span class="hljs-keyword">private</span> MenuItem Test;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">Form1</span>()</span><br>    &#123;<br>        InitializeComponent();<br><br>        <span class="hljs-keyword">this</span>.ContextMenu = ContextMenuBuilder.Build(b =&gt; <span class="hljs-comment">// b 相当于 ContextMenuBuilder 实例的变量名，名称随意。</span><br>        [<br>            b.Item(<span class="hljs-string">&quot;测试&quot;</span>),<br>            Test = b.Item(<span class="hljs-string">&quot;测试&quot;</span>),<br><br>            b.Menu(<span class="hljs-string">&quot;测试&quot;</span>,<br>            [<br>                b.Item(<span class="hljs-string">&quot;测试&quot;</span>),<br>                b.Item(<span class="hljs-string">&quot;测试&quot;</span>),<br>                b.Item(<span class="hljs-string">&quot;测试&quot;</span>, (_, _) =&gt; MessageBox.Show(<span class="hljs-string">&quot;Test&quot;</span>))<br>            ]),<br><br>            b.Separator(),<br>            b.Item(<span class="hljs-string">&quot;测试&quot;</span>)<br>        ]);<br><br>        Test.Enabled = <span class="hljs-literal">false</span>;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>怎么样，是不是感觉更爽了呢。最终效果如图：</p>
+<p>最后献上完整代码！外加 <code>Merge()</code> 方法，这个方法推荐为静态，用法见上一篇文章。</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><code class="hljs csharp"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title">ContextMenuBuilder</span><br>&#123;<br>    <span class="hljs-function"><span class="hljs-keyword">public</span> MenuItem <span class="hljs-title">Item</span>(<span class="hljs-params"><span class="hljs-built_in">string</span> Text</span>)</span><br>        =&gt; <span class="hljs-keyword">new</span>(Text);<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> MenuItem <span class="hljs-title">Item</span>(<span class="hljs-params"><span class="hljs-built_in">string</span> Text, EventHandler OnClickHandler</span>)</span><br>        =&gt; <span class="hljs-keyword">new</span>(Text, OnClickHandler);<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> MenuItem <span class="hljs-title">Menu</span>(<span class="hljs-params"><span class="hljs-built_in">string</span> Text, MenuItem[] Items</span>)</span><br>        =&gt; <span class="hljs-keyword">new</span>(Text, Items);<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> MenuItem <span class="hljs-title">Separator</span>()</span><br>        =&gt; <span class="hljs-keyword">new</span>(<span class="hljs-string">&quot;-&quot;</span>);<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> ContextMenu <span class="hljs-title">Build</span>(<span class="hljs-params">Func&lt;ContextMenuBuilder, MenuItem[]&gt; Builder</span>)</span><br>        =&gt; <span class="hljs-keyword">new</span>(Builder(<span class="hljs-keyword">new</span>()));<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> ContextMenu <span class="hljs-title">Merge</span>(<span class="hljs-params">ContextMenu Target, ContextMenu Reference</span>)</span><br>    &#123;<br>        Target.MergeMenu(Reference);<br>        <span class="hljs-keyword">return</span> Target;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h2 id="相关链接"><a href="#相关链接" class="headerlink" title="相关链接"></a>相关链接</h2><ul>
+<li>ContextMenuBuilder 在 PlainCEETimer 中的应用: <br>PlainCEETimer&#x2F;PlainCEETimer&#x2F;Modules&#x2F;ContextMenuBuilder.cs at main · WangHaonie&#x2F;PlainCEETimer<br><a target="_blank" rel="noopener" href="https://github.com/WangHaonie/PlainCEETimer/blob/main/PlainCEETimer/Modules/ContextMenuBuilder.cs">https://github.com/WangHaonie/PlainCEETimer/blob/main/PlainCEETimer/Modules/ContextMenuBuilder.cs</a></li>
+<li>上期文章链接：<br>【C# WinForms】如何以最爽的方式创建 ContextMenu&#x2F;Strip 右键菜单，不需要设计器_c# contextmenustrip-CSDN博客<br><a target="_blank" rel="noopener" href="https://blog.csdn.net/WHNdeCSDN/article/details/145893969">https://blog.csdn.net/WHNdeCSDN/article/details/145893969</a></li>
+<li>上期文章链接：<br>如何以最爽的方式创建 ContextMenu&#x2F;Strip 右键菜单，不需要设计器 | WangHaonie 的博客<br><a href="https://wanghaonie.github.io/posts/95b4fdac793d/">https://wanghaonie.github.io/posts/95b4fdac793d/</a></li>
+</ul>
 
                 
               </div>
@@ -388,7 +395,9 @@
       
         <a href="/tags/Windows/" class="print-no-link">#Windows</a>
       
-        <a href="/tags/hexo/" class="print-no-link">#hexo</a>
+        <a href="/tags/CSharp/" class="print-no-link">#CSharp</a>
+      
+        <a href="/tags/WinForms/" class="print-no-link">#WinForms</a>
       
     </div>
   
@@ -400,8 +409,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>备份还原成功！简单说说怎么备份和还原 Hexo</div>
-      <div>https://wanghaonie.github.io/posts/83ec87f057a2/</div>
+      <div>(后续) 使用 Builder 模式让右键菜单的创建更上一层楼</div>
+      <div>https://wanghaonie.github.io/posts/e1fb75c4dbec/</div>
     </div>
     <div class="license-meta">
       
@@ -413,13 +422,13 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2023-12-10 19:45:12</div>
+          <div>2025-05-03 20:01:49</div>
         </div>
       
       
         <div class="license-meta-item license-meta-date">
           <div>更新于</div>
-          <div>2024-07-04 13:41:31</div>
+          <div>2025-05-03 20:27:49</div>
         </div>
       
       
@@ -462,18 +471,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/posts/5da2de95ad1f/" title="【PlainCEETimer】C# WinForms 实现的简洁好用的高考倒计时程序">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">【PlainCEETimer】C# WinForms 实现的简洁好用的高考倒计时程序</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/posts/2f700cb73bdf/" title="这才是 Windows Subsystem for Android™ 的正确打开方式">
-                        <span class="hidden-mobile">这才是 Windows Subsystem for Android™ 的正确打开方式</span>
+                      <a href="/posts/95b4fdac793d/" title="如何以最爽的方式创建 ContextMenu/Strip 右键菜单，不需要设计器">
+                        <span class="hidden-mobile">如何以最爽的方式创建 ContextMenu/Strip 右键菜单，不需要设计器</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>

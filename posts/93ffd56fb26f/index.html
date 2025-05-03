@@ -16,11 +16,11 @@
   <meta name="author" content="WangHaonie">
   <meta name="keywords" content="">
   
-    <meta name="description" content="备份 最好把整个根目录打包，后期需要什么文件(夹)再复制出来就行  文件夹.deploy_git、scaffolds、source、themes、.ssh (%UserProfile%\.ssh，即 C:\Users\&amp;lt;你的用户名&amp;gt;\.ssh) 文件.gitignore、_config.yml、package.json 还原安装软件下载并安装 Git for Windows、Node.">
+    <meta name="description" content="[本文内容仅个人观点，可能存在误解和不合适，欢迎在评论区友好分享你的想法]​ 为什么学 C#C# 给我的第一印象就很好。它的代码看起来布局很工整，让我觉得很舒适，而且我个人很喜欢大驼峰命名法，C# 是我见过的大驼峰命名法使用最多的语言，尽管变量等推荐小驼峰，但我还是会尽量用大驼峰。 C# 对我来说确实比较容易上手。我最初学过 C++，结果学了之后好像给我一种越学越不想学的感觉，但 C# 就不一样了">
   
   
   
-  <title>备份还原成功！简单说说怎么备份和还原 Hexo | WangHaonie 的博客</title>
+  <title>【编程思想】我与 C# | WangHaonie 的博客</title>
   <link rel="stylesheet" href="/css/frosted.css">
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -254,7 +254,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle">备份还原成功！简单说说怎么备份和还原 Hexo</span>
+            <span id="subtitle">【编程思想】我与 C#</span>
           
         </div>
 
@@ -265,8 +265,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2023-12-10 19:45" pubdate>
-          2023-12-10 19:45:12
+        <time datetime="2024-06-14 20:34" pubdate>
+          2024-06-14 20:34:59
         </time>
       </span>
     
@@ -277,7 +277,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          218 字
+          1.6k 字
         
       </span>
     
@@ -288,7 +288,7 @@
         
         
         
-          2 分钟
+          13 分钟
         
       </span>
     
@@ -338,12 +338,12 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">备份还原成功！简单说说怎么备份和还原 Hexo</h1>
+            <h1 id="seo-header">【编程思想】我与 C#</h1>
             
               <p class="note note-info">
                 
                   
-                    本文最后更新于：10 个月前
+                    本文最后更新于：几秒前
                   
                 
               </p>
@@ -351,29 +351,27 @@
             
               <div class="markdown-body">
                 
-                <h2 id="备份"><a href="#备份" class="headerlink" title="备份"></a>备份</h2><blockquote>
-<p>最好把整个根目录打包，后期需要什么文件(夹)再复制出来就行</p>
-</blockquote>
-<h3 id="文件夹"><a href="#文件夹" class="headerlink" title="文件夹"></a>文件夹</h3><p>.deploy_git、scaffolds、source、themes、.ssh (%UserProfile%\.ssh，即 C:\Users\&lt;你的用户名&gt;\.ssh)</p>
-<h3 id="文件"><a href="#文件" class="headerlink" title="文件"></a>文件</h3><p>.gitignore、_config.yml、package.json</p>
-<h2 id="还原"><a href="#还原" class="headerlink" title="还原"></a>还原</h2><h3 id="安装软件"><a href="#安装软件" class="headerlink" title="安装软件"></a>安装软件</h3><p>下载并安装 <a target="_blank" rel="noopener" href="https://git-scm.com/downloads">Git for Windows</a>、<a target="_blank" rel="noopener" href="https://nodejs.org/zh-cn">Node.js</a></p>
-<h3 id="执行命令"><a href="#执行命令" class="headerlink" title="执行命令"></a>执行命令</h3><p>直接打开 cmd 在用户文件夹依次执行以下命令</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs BASH"><span class="hljs-built_in">cd</span> /d %UserProfile%<br></code></pre></td></tr></table></figure>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs BASH">git config --global user.name <span class="hljs-string">&quot;&lt;GitHub用户名&gt;&quot;</span><br></code></pre></td></tr></table></figure>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs BASH">git config --global user.email <span class="hljs-string">&quot;&lt;以@users.noreply.github.com结尾的GitHub邮箱&gt;&quot;</span><br></code></pre></td></tr></table></figure>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs BASH">npm install -g npm<br></code></pre></td></tr></table></figure>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs BASH">npm install -g hexo-cli<br></code></pre></td></tr></table></figure>
-
-<p>然后到你想安装博客的空文件夹里依次执行以下命令</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs BASH"><span class="hljs-built_in">cd</span> /d &lt;你的博客文件夹&gt;<br></code></pre></td></tr></table></figure>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs BASH">npm install hexo-deployer-git<br></code></pre></td></tr></table></figure>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs BASH">hexo init<br></code></pre></td></tr></table></figure>
-<h3 id="还原文件夹"><a href="#还原文件夹" class="headerlink" title="还原文件夹"></a>还原文件夹</h3><p>将备份的 .deploy_git、scaffolds、source、themes、.gitignore、_config.yml、package.json 复制进来，将 .ssh 文件夹复制到 C:\Users\&lt;你的用户名&gt;\</p>
-<h2 id="小提示"><a href="#小提示" class="headerlink" title="小提示"></a>小提示</h2><p>本次操作推荐在一个虚拟机 (装有精简版 Windows，以减小备份体积) 内进行，以后就不用备份各种文件夹了，直接备份虚拟机，十分方便。</p>
-<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ol>
-<li>hexo博客的备份与还原_hexo哪些文件要备份-CSDN博客<br><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_37409526/article/details/119907413">https://blog.csdn.net/qq_37409526/article/details/119907413</a></li>
-<li>Hexo 博客备份与还原 | Mupceet<br><a target="_blank" rel="noopener" href="https://mupceet.com/2019/09/backup-hexo-blog/">https://mupceet.com/2019/09/backup-hexo-blog/</a></li>
-</ol>
+                <h2 id="本文内容仅个人观点，可能存在误解和不合适，欢迎在评论区友好分享你的想法"><a href="#本文内容仅个人观点，可能存在误解和不合适，欢迎在评论区友好分享你的想法" class="headerlink" title="[本文内容仅个人观点，可能存在误解和不合适，欢迎在评论区友好分享你的想法]"></a>[本文内容仅个人观点，可能存在误解和不合适，欢迎在评论区友好分享你的想法]</h2><p>​</p>
+<h2 id="为什么学-C"><a href="#为什么学-C" class="headerlink" title="为什么学 C#"></a>为什么学 C#</h2><p>C# 给我的第一印象就很好。它的代码看起来布局很工整，让我觉得很舒适，而且我个人很喜欢大驼峰命名法，C# 是我见过的大驼峰命名法使用最多的语言，尽管变量等推荐小驼峰，但我还是会尽量用大驼峰。</p>
+<p>C# 对我来说确实比较容易上手。我最初学过 C++，结果学了之后好像给我一种越学越不想学的感觉，但 C# 就不一样了，越学越感兴趣，就越想学。到目前为止还没有放弃 C# 的念头。但这也并不代表我只会学习 C#，其他语言我之后也会慢慢地去了解和学习。到现在我学 C# 已经有很长一段时间了，总算让我找到了点编程的感觉，希望可以帮助到我学习其他语言吧。</p>
+<p>在我看来美中不足的是 C# 会编译为 IL 运行在 CLR 中，显得有点多余但确实又是必要的，如果 C# 能够直接编译为机器语言，起码就可以解决许多性能等方面的问题，应该或许就会有更多的人学习，但同时肯定也会带来一些缺点，有利也有弊。</p>
+<h2 id="与-C-的邂逅"><a href="#与-C-的邂逅" class="headerlink" title="与 C# 的邂逅"></a>与 C# 的邂逅</h2><p>我在小学的时候慢慢接触编程领域，刚开始以为 C++ 写不出 UI 界面，只能写黑框框的控制台应用程序 (我也太傻了叭)，所以就可能使我对 C++ 的第一印象造成了极大的误会。又因为当时我正对 HTML 感兴趣，所以就以 HTML 的语法自制了一个可以编写出 UI 的语言，当然只是在作业本上乱写而已，并没有开发出实体。</p>
+<p>对了说到这里，不知道大家会不会在脑海里时常幻想一些不复存在、很高级、但完全没有逻辑的代码片段，我就是这样的哈哈。</p>
+<p>后来上了初中，我从 Minecraft JE 初次了解到 Java，那么为什么不学 Java 呢？因为我觉得 Java 程序不仅在运行时需要额外安装 JRE&#x2F;JDK。其实这也是小问题，只是我不太能接受其占用的内存，因为我个人一向追求程序所占用的内存，在不影响用户体验的情况下，能最少就最少。虽然 Java 的语法和 C# 有很大的相似 (应该是 C# 和 Java 相似)，但我还是选择了 C#。当然 C# 也需要 .NET 的支持，内存占用相比 C++ 肯定也夸张，但也在可接受范围内。另外 Windows 系统一般都自带 .NET Framework 运行时，就可以避免普通用户配置运行环境太麻烦的问题。那为什么不选择 Python 呢？不考虑语法结构和实用性的话，同样也是因为运行环境的问题和其他原因，其实 Python 程序的内存占用还可以接受的。</p>
+<p>当然以上并不是我在吐槽这些语言做的不好，我只是现在没有更深入的了解过这些语言，或许等以后我对它们有一定了解之后就不会有以上想法了。而且我自己平时也都在使用由这些语言开发的各种软件、小程序、脚本等，它们的使用体验也都非常优秀。当然还有许多本文未提到的编程语言，它们同样各自有各自的实用性，都值得我们每个人去学习、尊重。</p>
+<p><img src="/../archive-imgs/30/1-tobie-1.png" srcset="/img/loading.gif" lazyload alt="数据来源于 TOBIE"></p>
+<p><img src="/../archive-imgs/30/2-tobie-2.png" srcset="/img/loading.gif" lazyload alt="数据来源于 TOBIE"></p>
+<p>最后随着 “命运的齿轮开始转动”，同样在初中时期，我不知从哪里得知 C# 可以写 UI，就赶紧买了 C# 的参考书，自此以后我就将学习重心就逐渐转移到了 C# 上了。这参考书到目前也在使用，尽管我目前的学习来源大多从微软官网，但有时候看书也比看官网更简洁明了。</p>
+<p><img src="/../archive-imgs/30/3-cs-book.jpeg" srcset="/img/loading.gif" lazyload alt="初中时买的参考书"></p>
+<p>来开始接触到了 WinForms、WPF，特别是 WPF，其 XAML 的语法结构和我当年用 HTML 自制的语言的语法结构出人意料地相似。不过实际上要想真正掌握 XAML 还是有些难度的，目前我主要着手于 WinForms，偶尔学习一下 WPF，在 UI 方面我也会优先考虑和 Windows 系统的常见窗口的排版、设计达到最大程度上的吻合。</p>
+<h2 id="为什么会有这篇文章"><a href="#为什么会有这篇文章" class="headerlink" title="为什么会有这篇文章"></a>为什么会有这篇文章</h2><p>很简单，因为听到了太多关于 C# 的负面言论，有来自学校的，家人的，也有来自网络的。原因基本上都是 “学 C# 找不到工作，工资低”。但这些负面情绪也并不会阻挡我继续学习 C#，我只是想分享一下我的观点，让他们知道 C# 没有他们想象中的那么糟糕，可能只是单纯学它的人比较少罢了。</p>
+<p>但不可否认的是，C# 肯定既有优点也有缺点，我也并不歧视那些从未学习过 C# 的人，相反我会非常羡慕和崇拜他们，我也希望有朝一日我会成为他们那样的人。</p>
+<p>尽管 C# 在未来可能不会成为我的主要就业方向，但我始终认为，它有必要成为我的一门业余爱好，谁规定学编程就是为了赚钱呢？将编程与赚钱相提并论未免有些太死板了。</p>
+<p>一门编程语言本应是为开发者更高效地创造价值而诞生的，如今却被那些急功近利的人扭曲成衡量薪资高低的标准。这并非编程的初衷。编程的核心在于如何去解决实际问题，为社会带来积极的改变。当敲代码的手只是为了数钞票，那么敲出来的代码质量可想而知，这样必定失去热情与灵魂，使其成为冰冷的造钱工具，成为某些人攀比和炫耀的资本。</p>
+<p>愿每一位开发者都能回归初心，尊重所有编程语言，用代码书写真正的价值。</p>
+<h2 id="相关链接"><a href="#相关链接" class="headerlink" title="相关链接"></a>相关链接</h2><ul>
+<li>【编程思想】我与 C#-CSDN博客<br><a target="_blank" rel="noopener" href="https://blog.csdn.net/WHNdeCSDN/article/details/139653670">https://blog.csdn.net/WHNdeCSDN/article/details/139653670</a></li>
+</ul>
 
                 
               </div>
@@ -386,9 +384,7 @@
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
-        <a href="/tags/Windows/" class="print-no-link">#Windows</a>
-      
-        <a href="/tags/hexo/" class="print-no-link">#hexo</a>
+        <a href="/tags/CSharp/" class="print-no-link">#CSharp</a>
       
     </div>
   
@@ -400,8 +396,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>备份还原成功！简单说说怎么备份和还原 Hexo</div>
-      <div>https://wanghaonie.github.io/posts/83ec87f057a2/</div>
+      <div>【编程思想】我与 C#</div>
+      <div>https://wanghaonie.github.io/posts/93ffd56fb26f/</div>
     </div>
     <div class="license-meta">
       
@@ -413,13 +409,13 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2023-12-10 19:45:12</div>
+          <div>2024-06-14 20:34:59</div>
         </div>
       
       
         <div class="license-meta-item license-meta-date">
           <div>更新于</div>
-          <div>2024-07-04 13:41:31</div>
+          <div>2025-05-03 20:54:03</div>
         </div>
       
       
@@ -462,9 +458,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/posts/5da2de95ad1f/" title="【PlainCEETimer】C# WinForms 实现的简洁好用的高考倒计时程序">
+                      <a href="/posts/54ae615f8ae4/" title="一招教你 100% 成功获取管理员权限或提升为管理员账户">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">【PlainCEETimer】C# WinForms 实现的简洁好用的高考倒计时程序</span>
+                        <span class="hidden-mobile">一招教你 100% 成功获取管理员权限或提升为管理员账户</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -472,8 +468,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/posts/2f700cb73bdf/" title="这才是 Windows Subsystem for Android™ 的正确打开方式">
-                        <span class="hidden-mobile">这才是 Windows Subsystem for Android™ 的正确打开方式</span>
+                      <a href="/posts/5da2de95ad1f/" title="【PlainCEETimer】C# WinForms 实现的简洁好用的高考倒计时程序">
+                        <span class="hidden-mobile">【PlainCEETimer】C# WinForms 实现的简洁好用的高考倒计时程序</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>

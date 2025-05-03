@@ -1,0 +1,755 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=dark>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="WangHaonie">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="前言最近我在开发项目 PlainCEETimer 时，由于应用程序涉及到多个右键菜单的创建，在设计器里创建未免有些繁琐。今天就给大家分享一下如何以最爽的方式创建 ContextMenu/Strip 右键菜单，不需要设计器，欢迎在评论区分享您的观点及想法。顺便区分一下 ContextMenu 和 ContextMenuStrip。 如果你正在使用 .NET Framework 开发 WinForms">
+  
+  
+  
+  <title>如何以最爽的方式创建 ContextMenu/Strip 右键菜单，不需要设计器 | WangHaonie 的博客</title>
+  <link rel="stylesheet" href="/css/frosted.css">
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"wanghaonie.github.io","root":"/","version":"1.9.6","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":true,"scope":"home"},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"left","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":6},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":{"measurement_id":"G-N644FC8JLJ"},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+    <!-- Google tag (gtag.js) -->
+    <script async>
+      if (!Fluid.ctx.dnt) {
+        Fluid.utils.createScript("https://www.googletagmanager.com/gtag/js?id=G-N644FC8JLJ", function() {
+          window.dataLayer = window.dataLayer || [];
+          function gtag() {
+            dataLayer.push(arguments);
+          }
+          gtag('js', new Date());
+          gtag('config', 'G-N644FC8JLJ');
+        });
+      }
+    </script>
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>WangHaonie 的博客</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span id="wanghaonie-nav" candidate-icon="🧿🔔📅🚩🧡">🎉更多</span>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                
+                <span>🏠主页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                
+                <span>😁关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                
+                <span>🏷️标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                
+                <span>📖文章</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" target="_self" href="javascript:;" role="button"
+                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                
+                <span>🌏分站</span>
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" onclick="redir2gh()" href="#" target="_self">
+                    
+                    <span>🌎主站：GitHub Pages</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" onclick="redir2lan()" href="#" target="_self">
+                    
+                    <span>🌎主站：本地局域网</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" onclick="redir2v()" href="#" target="_self">
+                    
+                    <span>🌎分站：Vercel</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" onclick="redir2n()" href="#" target="_self">
+                    
+                    <span>🌎分站：Netlify</span>
+                  </a>
+                
+              </div>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/reward" target="_self">
+                
+                <span>💰打赏</span>
+              </a>
+            </li>
+          
+        <!--
+        -->
+        <!--
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        -->
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" false
+     style="background: url('/null') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle">如何以最爽的方式创建 ContextMenu/Strip 右键菜单，不需要设计器</span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2025-05-03 20:00" pubdate>
+          2025-05-03 20:00:59
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          1.4k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          12 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="padding-left: 2rem; margin-right: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">如何以最爽的方式创建 ContextMenu/Strip 右键菜单，不需要设计器</h1>
+            
+              <p class="note note-info">
+                
+                  
+                    本文最后更新于：22 分钟前
+                  
+                
+              </p>
+            
+            
+              <div class="markdown-body">
+                
+                <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>最近我在开发项目 <a target="_blank" rel="noopener" href="https://github.com/WangHaonie/PlainCEETimer">PlainCEETimer</a> 时，由于应用程序涉及到多个右键菜单的创建，在设计器里创建未免有些繁琐。今天就给大家分享一下如何以最爽的方式创建 <code>ContextMenu/Strip</code> 右键菜单，不需要设计器，欢迎在评论区分享您的观点及想法。顺便区分一下 <code>ContextMenu</code> 和 <code>ContextMenuStrip。</code></p>
+<p>如果你正在使用 .NET Framework 开发 WinForms 应用程序的话，你或许会觉得 <code>ContextMenuStrip</code> 的样式不美观，不贴合 Windows 原生的右键菜单样式。所以 <code>System.Windows.Forms.ContextMenu</code> 是一个不错的选择，而它底层其实就是 Windows 原生样式的右键菜单。不过这个类也只在 .NET Framework 存在，在 .NET (Core) 中已被移除。下图分别展示了 <code>ContextMenu</code> 和 <code>ContextMenuStrip</code>，各位觉得哪个更好看呢？</p>
+<p><img src="/archive-imgs/28/1-contextmenu.png" srcset="/img/loading.gif" lazyload alt="ContextMenu"></p>
+<p><img src="/archive-imgs/28/2-contextmenustrip.png" srcset="/img/loading.gif" lazyload alt="ContextMenuStrip"></p>
+<p>好了，直接开始正题！</p>
+<h2 id="ContextMenu"><a href="#ContextMenu" class="headerlink" title="ContextMenu"></a>ContextMenu</h2><p>先贴上示例代码以及效果图</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs csharp"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">Form1</span>()</span><br>&#123;<br>    InitializeComponent();<br>    <span class="hljs-keyword">this</span>.ContextMenu = CreateNew<br>    ([<br>        AddItem(<span class="hljs-string">&quot;测试&quot;</span>),<br>        AddItem(<span class="hljs-string">&quot;测试&quot;</span>),<br>        AddSubMenu(<span class="hljs-string">&quot;测试&quot;</span>,<br>        [<br>            AddItem(<span class="hljs-string">&quot;测试&quot;</span>),<br>            AddItem(<span class="hljs-string">&quot;测试&quot;</span>),<br>            AddItem(<span class="hljs-string">&quot;测试&quot;</span>, (_, _) =&gt; MessageBox.Show(<span class="hljs-string">&quot;Test&quot;</span>))<br>        ]),<br>        AddSeparator(),<br>        AddItem(<span class="hljs-string">&quot;测试&quot;</span>)<br>    ]);<br>&#125;<br></code></pre></td></tr></table></figure>
+<p><img src="/archive-imgs/28/3-contextmenu-showcase.png" srcset="/img/loading.gif" lazyload></p>
+<p>这是全套的方法</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs csharp"><span class="hljs-function"><span class="hljs-keyword">private</span> ContextMenu <span class="hljs-title">CreateNew</span>(<span class="hljs-params">MenuItem[] Items</span>)</span><br>    =&gt; <span class="hljs-keyword">new</span>(Items);<br><br><span class="hljs-function"><span class="hljs-keyword">private</span> MenuItem <span class="hljs-title">AddItem</span>(<span class="hljs-params"><span class="hljs-built_in">string</span> Text</span>)</span><br>    =&gt; <span class="hljs-keyword">new</span>(Text);<br><br><span class="hljs-function"><span class="hljs-keyword">private</span> MenuItem <span class="hljs-title">AddItem</span>(<span class="hljs-params"><span class="hljs-built_in">string</span> Text, EventHandler OnClickHandler</span>)</span><br>    =&gt; <span class="hljs-keyword">new</span>(Text, OnClickHandler);<br><br><span class="hljs-function"><span class="hljs-keyword">private</span> MenuItem <span class="hljs-title">AddSubMenu</span>(<span class="hljs-params"><span class="hljs-built_in">string</span> Text, MenuItem[] Items</span>)</span><br>    =&gt; <span class="hljs-keyword">new</span>(Text, Items);<br><br><span class="hljs-function"><span class="hljs-keyword">private</span> MenuItem <span class="hljs-title">AddSeparator</span>()</span><br>    =&gt; <span class="hljs-keyword">new</span>(<span class="hljs-string">&quot;-&quot;</span>);<br><br><span class="hljs-function"><span class="hljs-keyword">private</span> ContextMenu <span class="hljs-title">Merge</span>(<span class="hljs-params">ContextMenu Target, ContextMenu Reference</span>)</span><br>&#123;<br>    Target.MergeMenu(Reference);<br>    <span class="hljs-keyword">return</span> Target;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h2 id="ContextMenuStrip"><a href="#ContextMenuStrip" class="headerlink" title="ContextMenuStrip"></a>ContextMenuStrip</h2><p>同样也先贴上示例代码以及效果图</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs csharp"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">Form1</span>()</span><br>&#123;<br>    InitializeComponent();<br>    <span class="hljs-keyword">this</span>.ContextMenuStrip = CreateNewStrip<br>    ([<br>        AddStripItem(<span class="hljs-string">&quot;测试&quot;</span>),<br>        AddStripItem(<span class="hljs-string">&quot;测试&quot;</span>),<br>        AddSubStrip(<span class="hljs-string">&quot;测试&quot;</span>,<br>        [<br>            AddStripItem(<span class="hljs-string">&quot;测试&quot;</span>),<br>            AddStripItem(<span class="hljs-string">&quot;测试&quot;</span>),<br>            AddStripItem(<span class="hljs-string">&quot;测试&quot;</span>, (_, _) =&gt; MessageBox.Show(<span class="hljs-string">&quot;Test&quot;</span>))<br>        ]),<br>        AddStripSeparator(),<br>        AddStripItem(<span class="hljs-string">&quot;测试&quot;</span>)<br>    ]);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p><img src="/archive-imgs/28/4-contextmenustrip-showcase.png" srcset="/img/loading.gif" lazyload></p>
+<p>这是全套的方法</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><code class="hljs csharp"><span class="hljs-function"><span class="hljs-keyword">private</span> ContextMenuStrip <span class="hljs-title">CreateNewStrip</span>(<span class="hljs-params">ToolStripItem[] Items</span>)</span><br>&#123;<br>    <span class="hljs-keyword">var</span> Strip = <span class="hljs-keyword">new</span> ContextMenuStrip();<br>    Strip.Items.AddRange(Items);<br>    <span class="hljs-keyword">return</span> Strip;<br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">private</span> ToolStripMenuItem <span class="hljs-title">AddStripItem</span>(<span class="hljs-params"><span class="hljs-built_in">string</span> Text</span>)</span><br>    =&gt; <span class="hljs-keyword">new</span>(Text);<br><br><span class="hljs-function"><span class="hljs-keyword">private</span> ToolStripMenuItem <span class="hljs-title">AddStripItem</span>(<span class="hljs-params"><span class="hljs-built_in">string</span> Text, EventHandler OnClickHandler</span>)</span><br>    =&gt; <span class="hljs-keyword">new</span>(Text, <span class="hljs-literal">null</span>, OnClickHandler);<br><br><span class="hljs-function"><span class="hljs-keyword">private</span> ToolStripMenuItem <span class="hljs-title">AddSubStrip</span>(<span class="hljs-params"><span class="hljs-built_in">string</span> Text, ToolStripItem[] SubItems</span>)</span><br>&#123;<br>    <span class="hljs-keyword">var</span> Item = <span class="hljs-keyword">new</span> ToolStripMenuItem(Text);<br>    Item.DropDownItems.AddRange(SubItems);<br>    <span class="hljs-keyword">return</span> Item;<br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">private</span> ToolStripSeparator <span class="hljs-title">AddStripSeparator</span>()</span><br>    =&gt; <span class="hljs-keyword">new</span>();<br><br><span class="hljs-function"><span class="hljs-keyword">private</span> ContextMenuStrip <span class="hljs-title">MergeStrip</span>(<span class="hljs-params">ContextMenuStrip Target, ToolStripItem[] Reference</span>)</span><br>&#123;<br>    Target.Items.AddRange(Reference);<br>    <span class="hljs-keyword">return</span> Target;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h2 id="原理分析"><a href="#原理分析" class="headerlink" title="原理分析"></a>原理分析</h2><p>原理也很简单，首先大家要知道创建菜单最重要的就是准备一个 <code>MenuItem[]</code> 或 <code>ToolStripItem[]</code> 数组，该数组包括了这个右键菜单的菜单项，常见的也就是 普通菜单项 和 分割线。也就是说我们只需要通过编写一系列方法在这个数组里面返回 <code>MenuItem</code> 或 <code>ToolStripItem</code> 元素就大功告成了。怎么样，是不是感觉很爽！</p>
+<p>对于微软广为推荐的 <code>ContextMenuStrip</code>，其 <code>ToolStripItem</code> 是各种菜单项的抽象基类，并派生出了更多类型的菜单，比如分隔线是 <code>ToolStripSeparator</code>，普通菜单项是 <code>ToolStripMenuItem</code>，它又是派生自 <code>ToolStripDropDownItem</code>，进而实现继承 <code>ToolStripItem</code>，如下图</p>
+<p><img src="/archive-imgs/28/5-mslearn-toolstripitem.png" srcset="/img/loading.gif" lazyload></p>
+<p>也就是说它们本质上都是 <code>ToolStripItem</code>，直接放在 <code>ToolStripItem[]</code> 数组里是可行的。因此这又会带来其他问题。比如你想从一个 <code>ContextMenuStrip</code> 里面拿出一个菜单项并设置为选中状态，你可能会直接使用以下代码：(本文最后还有更好的方法)</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs csharp">MyContextMenuStrip.Items[<span class="hljs-number">0</span>].Checked = <span class="hljs-literal">true</span>;<br></code></pre></td></tr></table></figure>
+<p>然而实际上前面那个索引器返回的是 <code>ToolStripItem</code>，是没有 <code>Checked</code> 这个属性的。正确方法应该是添加显式转换为 <code>ToolStripMenuItem</code>，然后就可以设置属性了：(若是其他类型的菜单需转换为相应的类型)</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs csharp">((ToolStripMenuItem)MyContextMenuStrip.Items[<span class="hljs-number">0</span>]).Checked = <span class="hljs-literal">true</span>;<br></code></pre></td></tr></table></figure>
+
+<p>(上面扯远了) 另外在上文贴出的全套方法中，除了常用的添加菜单&#x2F;分隔线以外，还有合并菜单的方法 <code>Merge</code> 和 <code>MergeStrip</code>，分别适用于 <code>ContextMenu</code> 和 <code>ContextMenuStrip</code>。因为在实际开发中，我们有可能会在多个地方使用同样内容的菜单并加上一些特定区域的内容。比如在窗体中，我们可以创建 “设置”、”关于” 这样的菜单项，然后在托盘通知图标 (<code>NotifyIcon</code>) 的右键菜单中，除了有 “设置”、”关于” 以外，我们通常会加上 “退出” 等选项。这时合并两个菜单就显得非常有用了，大大降低了代码的重复。</p>
+<p>然而并非直接合并那么简单，仍然需要对窗体和托盘图标各创建一个右键菜单的实例，否则在现有实例上合并的话，最后所有的右键菜单都变成同一个了。所以我们应该再创建一个方法来创建并返回一个通用的菜单的实例，使各实例独立出来，这里就以 <code>ContextMenu</code> 为例，<code>ContextMenuStrip</code> 如法炮制。</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs csharp"><span class="hljs-keyword">private</span> NotifyIcon MyNotifyIcon;<br><br><span class="hljs-function"><span class="hljs-keyword">private</span> ContextMenu <span class="hljs-title">BaseContextMenu</span>()</span> =&gt; CreateNew<br>([<br>    AddItem(<span class="hljs-string">&quot;设置(&amp;S)&quot;</span>, ContextSettings_Click),<br>    AddItem(<span class="hljs-string">&quot;关于(&amp;A)&quot;</span>, ContextAbout_Click)<br>]);<br><br><span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">InitializeComponent2</span>()</span><br>&#123;<br>    <span class="hljs-keyword">this</span>.ContextMenu = BaseContextMenu();<br><br>    MyNotifyIcon.ContextMenu = Merge(BaseContextMenu(), CreateNew<br>    ([<br>        AddSeparator(),<br>        AddItem(<span class="hljs-string">&quot;退出(&amp;Q)&quot;</span>, ContextQuit_Click)<br>    ]));<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>不过需要注意的是，<code>ContextMenu</code> 的 <code>Merge</code> 方法传入的是两个 <code>ContextMenu</code> 实例。而 <code>ContextMenuStrip</code> 的 <code>MergeStrip</code> 方法传入的一个是目标 <code>ContextMenuStrip</code> 实例，另一个是 <code>ToolStripItem[]</code> 数组，也就是最终效果应该是这样：</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs csharp"><span class="hljs-keyword">this</span>.ContextMenuStrip = MergeStrip(Target,<br>[<br>    AddStripSeparator(),<br>    AddStripItem(<span class="hljs-string">&quot;退出(&amp;Q)&quot;</span>, ContextQuit_Click)<br>]);<br></code></pre></td></tr></table></figure>
+
+<h2 id="FAQ"><a href="#FAQ" class="headerlink" title="FAQ"></a>FAQ</h2><h3 id="Q-动态创建菜单可用上述方法吗？"><a href="#Q-动态创建菜单可用上述方法吗？" class="headerlink" title="Q: 动态创建菜单可用上述方法吗？"></a>Q: 动态创建菜单可用上述方法吗？</h3><p>A: 理论上可以，原理类似于动态创建数组。不过更推荐操纵背后的 Items 集合。以从现有数据对象中将各数据添加到右键菜单中为例：</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs csharp"><span class="hljs-comment">// 如果是 ContextMenu</span><br><span class="hljs-keyword">var</span> Original = MyContextMenu.MenuItems[<span class="hljs-number">0</span>].MenuItems;<br><br><span class="hljs-comment">// 如果是 ContextMenuStrip</span><br><span class="hljs-keyword">var</span> Original = ((ToolStripMenuItem)MyContextMenuStrip.Items[<span class="hljs-number">0</span>]).DropDownItems;<br><br><span class="hljs-keyword">foreach</span> (<span class="hljs-keyword">var</span> sth <span class="hljs-keyword">in</span> Something)<br>&#123;<br>    <span class="hljs-keyword">var</span> Item = <span class="hljs-keyword">new</span> MenuItem() 或 ToolStripMenuItem()<br>    &#123;<br>        Text = sth,<br>    &#125;;<br><br>    Item.Click += Items_Click;<br>    Original.Add(Item);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="Q-怎么获取通过上述代码创建的右键菜单的某个菜单项的实例？"><a href="#Q-怎么获取通过上述代码创建的右键菜单的某个菜单项的实例？" class="headerlink" title="Q: 怎么获取通过上述代码创建的右键菜单的某个菜单项的实例？"></a>Q: 怎么获取通过上述代码创建的右键菜单的某个菜单项的实例？</h3><p>A: 这个大家可能不太熟悉，因为赋值语句本来就具有返回值，所以创建数组时可以将变量&#x2F;字段名和值一起写入到表达式里面。就像这样：</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs csharp"><span class="hljs-built_in">int</span> a;<br><span class="hljs-built_in">int</span> b;<br><span class="hljs-built_in">int</span> c;<br><br><span class="hljs-keyword">var</span> arr = <span class="hljs-keyword">new</span> <span class="hljs-built_in">int</span>[] &#123; a = <span class="hljs-number">1</span>, b = <span class="hljs-number">2</span>, c = <span class="hljs-number">3</span> &#125;;<br><br><span class="hljs-comment">// 新版 C# 语法糖可以用 集合表达式：</span><br><span class="hljs-built_in">int</span>[] arr = [ a = <span class="hljs-number">1</span>, b = <span class="hljs-number">2</span>, c = <span class="hljs-number">3</span> ];<br></code></pre></td></tr></table></figure>
+
+<p>也就是说我们可以在创建数组时将元素赋值给一个字段或变量，这样就可以在其他地方调用这个菜单项了。比如：(个别特殊情况也可以使用索引器，前文有提到)</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><code class="hljs csharp"><span class="hljs-keyword">private</span> MenuItem MenuItemDelete;<br><span class="hljs-keyword">private</span> ToolStripMenuItem StripItemDelete;<br><br><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">Form1</span>()</span><br>&#123;<br>    InitializeComponent();<br><br>    <span class="hljs-keyword">this</span>.ContextMenu = CreateNew<br>    ([<br>        MenuItemDelete = AddItem(<span class="hljs-string">&quot;删除(&amp;D)&quot;</span>)<br>    ]);<br>    MenuItemDelete.Enabled = <span class="hljs-literal">false</span>;<br><br>    <span class="hljs-keyword">this</span>.ContextMenuStrip = CreateNewStrip<br>    ([<br>        StripItemDelete = AddStripItem(<span class="hljs-string">&quot;删除(&amp;D)&quot;</span>)<br>    ]);<br>    StripItemDelete.Enabled = <span class="hljs-literal">false</span>;<br>&#125;<br><br><span class="hljs-comment">// 注意：以上代码仅供演示，实际开发中不能同时存在 ContextMenu 和 ContextMenuStrip</span><br><span class="hljs-comment">// 若同时存在优先显示前者</span><br></code></pre></td></tr></table></figure>
+
+<h2 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h2><p>可以结合实际需求尝试自己开发出更多类似的方法以扩展功能</p>
+<h2 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h2><p>由于时间有限，部分内容描述可能比较草率，还请各位积极指出不合适的地方，我将在之后逐个修正相关内容。</p>
+<p>(*本文内容均为作者原创，如有雷同纯属巧合)</p>
+<h2 id="相关链接"><a href="#相关链接" class="headerlink" title="相关链接"></a>相关链接</h2><ul>
+<li>【C# WinForms】如何以最爽的方式创建 ContextMenu&#x2F;Strip 右键菜单，不需要设计器_c# contextmenustrip-CSDN博客<br><a target="_blank" rel="noopener" href="https://blog.csdn.net/WHNdeCSDN/article/details/145893969">https://blog.csdn.net/WHNdeCSDN/article/details/145893969</a></li>
+<li>【C# WinForms】(后续) 使用 Builder 模式让右键菜单的创建更上一层楼-CSDN博客<br><a target="_blank" rel="noopener" href="https://blog.csdn.net/WHNdeCSDN/article/details/147685857">https://blog.csdn.net/WHNdeCSDN/article/details/147685857</a></li>
+<li>(后续) 使用 Builder 模式让右键菜单的创建更上一层楼 | WangHaonie 的博客<br><a href="https://wanghaonie.github.io/posts/e1fb75c4dbec/">https://wanghaonie.github.io/posts/e1fb75c4dbec/</a></li>
+</ul>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/Windows/" class="print-no-link">#Windows</a>
+      
+        <a href="/tags/CSharp/" class="print-no-link">#CSharp</a>
+      
+        <a href="/tags/WinForms/" class="print-no-link">#WinForms</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>如何以最爽的方式创建 ContextMenu/Strip 右键菜单，不需要设计器</div>
+      <div>https://wanghaonie.github.io/posts/95b4fdac793d/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>WangHaonie</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2025-05-03 20:00:59</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>更新于</div>
+          <div>2025-05-03 20:32:10</div>
+        </div>
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="NC - 非商业性使用">
+                    <i class="iconfont icon-nc"></i>
+                  </span>
+                </a>
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="SA - 相同方式共享">
+                    <i class="iconfont icon-sa"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/posts/e1fb75c4dbec/" title="(后续) 使用 Builder 模式让右键菜单的创建更上一层楼">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">(后续) 使用 Builder 模式让右键菜单的创建更上一层楼</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/posts/9cfa41f3ef00/" title="Flash 停止支持后，怎么打开 SWF？SWF 文件的正确打开方式">
+                        <span class="hidden-mobile">Flash 停止支持后，怎么打开 SWF？SWF 文件的正确打开方式</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span> Hexo </span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span> Fluid </span></a><br> <div><a> <span id="site-runtime">正在加载网站运行时间，请稍候...</span> <script src="/js/runtime.js"></script> </a></div> 
+    </div>
+  
+  
+  
+    <!-- 备案信息 ICP for China -->
+    <div class="beian">
+  <span>
+    <a rel="nofollow noopener">
+      Copyright © 2023-2025 WangHaonie
+    </a>
+  </span>
+  
+    
+      <span>
+        <a
+          href="https://icp.gov.moe/?keyword=20229939"
+          rel="nofollow noopener"
+          class="beian-police"
+          target="_blank"
+        >
+          
+            <span style="visibility: hidden; width: 0">|</span>
+            <img src="/img/icon_moeicp.png" srcset="/img/loading.gif" lazyload/>
+          
+          <span>萌ICP备20229939号</span>
+        </a>
+      </span>
+    
+  
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+
+
+
+  
+<script src="/js/customstyles.js"></script>
+<script src="/js/subsiteredirect.js"></script>
+<script src="/js/bgribbon.js"></script>
+<script src="/js/curfireworks.js"></script>
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
