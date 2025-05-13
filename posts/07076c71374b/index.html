@@ -1,0 +1,735 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=dark>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="WangHaonie">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="前言时间过得很快啊，距离 PlainCEETimer (原 CEETimerCSharpWinForms) 首发已经过去两年了。这篇文章主要分享一些感受，为什么两年了我还执着于 “高考倒计时” 这个几乎没有存在感的项目。 2023&amp;#x2F;10&amp;#x2F;28 v1.0 发布 是的你没有看错，1.0 就长这个样子，图片为真实大小，无缩放。它不能拖动，不能更改颜色&amp;#x2F;字体，不能设置考试名称">
+  
+  
+  
+  <title>【PlainCEETimer】两年了，分享一下开发感受 | WangHaonie 的博客</title>
+  <link rel="stylesheet" href="/css/frosted.css">
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"wanghaonie.github.io","root":"/","version":"1.9.6","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":true,"scope":"home"},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"left","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":6},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":{"measurement_id":"G-N644FC8JLJ"},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+    <!-- Google tag (gtag.js) -->
+    <script async>
+      if (!Fluid.ctx.dnt) {
+        Fluid.utils.createScript("https://www.googletagmanager.com/gtag/js?id=G-N644FC8JLJ", function() {
+          window.dataLayer = window.dataLayer || [];
+          function gtag() {
+            dataLayer.push(arguments);
+          }
+          gtag('js', new Date());
+          gtag('config', 'G-N644FC8JLJ');
+        });
+      }
+    </script>
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>WangHaonie 的博客</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span id="wanghaonie-nav" candidate-icon="🧿🔔📅🚩🧡">🎉更多</span>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                
+                <span>🏠主页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                
+                <span>😁关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                
+                <span>🏷️标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                
+                <span>📖文章</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" target="_self" href="javascript:;" role="button"
+                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                
+                <span>🌏分站</span>
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" onclick="redir2gh()" href="#" target="_self">
+                    
+                    <span>🌎主站：GitHub Pages</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" onclick="redir2lan()" href="#" target="_self">
+                    
+                    <span>🌎主站：本地局域网</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" onclick="redir2v()" href="#" target="_self">
+                    
+                    <span>🌎分站：Vercel</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" onclick="redir2n()" href="#" target="_self">
+                    
+                    <span>🌎分站：Netlify</span>
+                  </a>
+                
+              </div>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/reward" target="_self">
+                
+                <span>💰打赏</span>
+              </a>
+            </li>
+          
+        <!--
+        -->
+        <!--
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        -->
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" false
+     style="background: url('/null') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle">【PlainCEETimer】两年了，分享一下开发感受</span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2025-05-11 09:40" pubdate>
+          2025-05-11 09:40:46
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          2.1k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          18 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="padding-left: 2rem; margin-right: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">【PlainCEETimer】两年了，分享一下开发感受</h1>
+            
+              <p class="note note-info">
+                
+                  
+                    本文最后更新于：2 分钟前
+                  
+                
+              </p>
+            
+            
+              <div class="markdown-body">
+                
+                <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>时间过得很快啊，距离 PlainCEETimer (原 CEETimerCSharpWinForms) 首发已经过去两年了。这篇文章主要分享一些感受，为什么两年了我还执着于 “高考倒计时” 这个几乎没有存在感的项目。</p>
+<h2 id="2023-10-28-v1-0-发布"><a href="#2023-10-28-v1-0-发布" class="headerlink" title="2023&#x2F;10&#x2F;28 v1.0 发布"></a>2023&#x2F;10&#x2F;28 v1.0 发布</h2><p><img src="/archive-imgs/33/1-ceetimer-1-0.png" srcset="/img/loading.gif" lazyload></p>
+<p>是的你没有看错，1.0 就长这个样子，图片为真实大小，无缩放。它不能拖动，不能更改颜色&#x2F;字体，不能设置考试名称&#x2F;日期时间，只是一个单独的窗口。</p>
+<p>可能有朋友疑惑为什么仓库里面没有 1.0 版本 (准确来说是没有 1.6 之前的版本)，虽然原因在 1.6 的<a target="_blank" rel="noopener" href="https://github.com/WangHaonie/CEETimerCSharpWinForms/releases/tag/v1.6">更新日志</a>里有写，但表述的含糊不清：</p>
+<blockquote>
+<p>为什么没有 v1.6 之前的 Release？因为一些特殊原因所以删库重开了，所有从 1.0 开始的更新日志已合并。</p>
+</blockquote>
+<p>这里告诉大家真实原因：其实也不是什么大问题，就是因为当时软件的图标是在网上随便找的。后来意识到可能有版权问题，可是又不能直接卸下图标，因为 GitHub 是有提交记录的，就算我在后续版本中改用其他图标，旧图标仍然在仓库可见。于是索性就直接删库重开了。</p>
+<p>但是为了给自己留下纪念，我当然没有直接删除仓库，而是改名为 CEETimerCSharpWinFormsNull 并设置为私有，不对外公开而已。也就是说 <a target="_blank" rel="noopener" href="https://github.com/WangHaonie/CEETimerCSharpWinForms/">WangHaonie&#x2F;CEETimerCSharpWinForms</a> 并没有消失，它在我的仓库列表中仍然可见：</p>
+<p><img src="/archive-imgs/33/2-ceetimernull-repo.png" srcset="/img/loading.gif" lazyload></p>
+<p>PlainCEETimer 作为我在 C# 领域的处女作，说实话当时还没有什么编程概念。尽管我在那之前学过一点点 C#，但突然将学习过的知识投入使用也会让我有些措手不及，毕竟以前都是看，现在轮到自己亲手来写了。但不懂就学呗，我的学习来源很多：参考书、微软文档、其他开源项目。因此我学习 C# 的方式几乎是零基础上手，边写项目边学习。直到现在两年过去了，我已经对 C# 有一定的掌握。</p>
+<p>最后再来看看 1.0 的代码行数：(结果来自专业的源代码行数计算工具 <a target="_blank" rel="noopener" href="https://github.com/AlDanial/cloc">cloc</a>)</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs PLAIN">-------------------------------------------------------------------------------------<br>File                                              blank        comment           code<br>-------------------------------------------------------------------------------------<br>.\Form1.Designer.cs                                   7             17             55<br>.\Form1.cs                                           11              0             43<br>.\Properties\Resources.Designer.cs                    9             26             38<br>.\Properties\AssemblyInfo.cs                          4             17             17<br>.\Properties\Settings.Designer.cs                     5              9             16<br>.\Program.cs                                          2              1             15<br>-------------------------------------------------------------------------------------<br>SUM:                                                 38             70            184<br>-------------------------------------------------------------------------------------<br></code></pre></td></tr></table></figure>
+<p>如你所见，毫不夸张，184 行，就能完成一个高考倒计时。</p>
+<h2 id="2025-5-11-v5-0-1-发布"><a href="#2025-5-11-v5-0-1-发布" class="headerlink" title="2025&#x2F;5&#x2F;11 v5.0.1 发布"></a>2025&#x2F;5&#x2F;11 v5.0.1 发布</h2><p><img src="/archive-imgs/33/3-plainceetimer-5-0-1.png" srcset="/img/loading.gif" lazyload></p>
+<p>两年后的今天，v5.0.1 正式发布，这一路上高考倒计时的功能越来越丰富。先来看看源代码行数：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br></pre></td><td class="code"><pre><code class="hljs PLAIN">------------------------------------------------------------------------------------------------------------------<br>File                                                                           blank        comment           code<br>------------------------------------------------------------------------------------------------------------------<br>.\PlainCEETimer\Forms\SettingsForm.Designer.cs                                     5            227            773<br>.\PlainCEETimer\Forms\MainForm.cs                                                 96             10            672<br>.\PlainCEETimer\Forms\SettingsForm.cs                                             90              5            655<br>.\PlainCEETimer\Controls\ListViewDialog.cs                                        49             19            275<br>.\PlainCEETimer\Controls\AppForm.cs                                               65            103            270<br>.\PlainCEETimer\Dialogs\RuleDialog.Designer.cs                                     6             86            262<br>.\PlainCEETimer\Modules\App.cs                                                    24              0            214<br>.\PlainCEETimer\Interop\CommonDialogHelper.cs                                     35              7            186<br>.\PlainCEETimer\Dialogs\RuleDialog.cs                                             35              0            184<br>.\PlainCEETimer\Forms\AboutForm.Designer.cs                                        6             38            131<br>.\PlainCEETimer\Forms\DownloaderForm.cs                                           18              0            130<br>.\PlainCEETimer\Dialogs\CustomTextDialog.Designer.cs                               6             53            124<br>.\PlainCEETimer\Dialogs\ExamInfoDialog.Designer.cs                                 6             50            122<br>.\PlainCEETimer\Modules\Enums.cs                                                  17             12            120<br>.\PlainCEETimer\Modules\OptimizationHelper.cs                                     15              0            112<br>.\PlainCEETimer\Modules\Configuration\ConfigObject.cs                             19              0            111<br>.\PlainCEETimer\Forms\DownloaderForm.Designer.cs                                   5             35            106<br>.\PlainCEETimer\Modules\Validator.cs                                              23             12            103<br>.\PlainCEETimer\Dialogs\ExamInfoDialog.cs                                         16              0             95<br>.\PlainCEETimer\Dialogs\AppMessageBox.cs                                          13              0             87<br>.\PlainCEETimer\Modules\Configuration\ExamInfoObject.cs                           13              0             78<br>.\PlainCEETimer\Controls\ListViewEx.cs                                            14              0             76<br>.\PlainCEETimer\Dialogs\AppMessageBox.Designer.cs                                  6             35             75<br>.\PlainCEETimer\Modules\MessageBoxHelper.cs                                       26             16             72<br>.\PlainCEETimer\Dialogs\RulesManager.cs                                           11              0             70<br>.\PlainCEETimer\Modules\Http\Downloader.cs                                         7              0             69<br>.\PlainCEETimer\Controls\NavigationBar.cs                                         11             10             67<br>.\PlainCEETimer\Dialogs\CustomTextDialog.cs                                       11              0             66<br>.\PlainCEETimer\Controls\AppDialog.cs                                              9              0             64<br>.\PlainCEETimer\Modules\Configuration\DisplayObject.cs                            12              0             63<br>.\PlainCEETimer\Interop\ThemeManager.cs                                           16              9             58<br>.\PlainCEETimer\Forms\AboutForm.cs                                                 7              0             54<br>.\PlainCEETimer\Controls\ColorDialogEx.cs                                          8              0             51<br>.\PlainCEETimer\Forms\MainForm.Designer.cs                                         8             17             51<br>.\PlainCEETimer\Modules\UACHelper.cs                                              15              7             51<br>.\PlainCEETimer\Modules\Configuration\CustomRuleObject.cs                         13              0             49<br>.\PlainCEETimer\Modules\Updater.cs                                                 5              0             49<br>.\PlainCEETimer.Natives\ThemeManager\ThemeManager.cpp                             17             10             46<br>.\PlainCEETimer\Modules\JsonConverters\CustomRulesConverter.cs                     7              0             46<br>.\PlainCEETimer.Natives\ListViewHelper\ListViewHelper.cpp                         19             16             43<br>.\PlainCEETimer.Natives\TaskbarProgress\TaskbarProgress.cpp                       10              7             40<br>.\PlainCEETimer\Modules\Configuration\DefaultValues.cs                             6              0             39<br>.\PlainCEETimer\Modules\PlainButtonBase.cs                                         5              0             39<br>.\PlainCEETimer\Controls\ComboBoxEx.cs                                            12              7             38<br>.\PlainCEETimer\Controls\FontDialogEx.cs                                           5              0             37<br>.\PlainCEETimer\Controls\PlainGroupBox.cs                                          4              6             35<br>.\PlainCEETimer\Modules\Configuration\ConfigHandler.cs                             4              0             34<br>.\PlainCEETimer\Modules\RegistryHelper.cs                                         10              0             31<br>.\PlainCEETimer\Controls\PlainNumericUpDown.cs                                     3              0             29<br>.\PlainCEETimer\Modules\ProcessHelper.cs                                           3              8             29<br>.\PlainCEETimer\Controls\PlainTextBox.cs                                           4              0             27<br>.\PlainCEETimer\Modules\JsonConverters\ColorSetConverter.cs                        5              0             27<br>.\PlainCEETimer\Modules\JsonConverters\FontFormatConverter.cs                      5              0             26<br>.\PlainCEETimer\Interop\ListViewHelper.cs                                          4              0             25<br>.\PlainCEETimer\Modules\Constants.cs                                               0              0             25<br>.\PlainCEETimer\Modules\Extensions.cs                                             10              5             24<br>.\PlainCEETimer\Interop\IconHelper.cs                                              6              5             23<br>.\PlainCEETimer\Modules\ContextMenuBuilder.cs                                      6              0             23<br>.\PlainCEETimer\Modules\Http\HttpService.cs                                        4              0             23<br>.\PlainCEETimer\Controls\PlainButton.cs                                            3              0             22<br>.\PlainCEETimer\Modules\JsonConverters\PointFormatConverter.cs                     4              0             22<br>.\PlainCEETimer\Dialogs\ExamInfoManager.cs                                         3              0             19<br>.\PlainCEETimer.Natives\MemoryCleaner\MemoryCleaner.cpp                            8              5             18<br>.\PlainCEETimer\Modules\JsonConverters\CustomColorsConverter.cs                    2              0             18<br>.\PlainCEETimer\Interop\TaskbarProgress.cs                                         4              0             17<br>.\PlainCEETimer\Modules\Configuration\GeneralObject.cs                             7              0             17<br>.\PlainCEETimer\Modules\ResponseObject.cs                                          4              0             16<br>.\PlainCEETimer\Controls\Hyperlink.cs                                              2              0             14<br>.\PlainCEETimer\Controls\NavigationPage.cs                                         1              3             14<br>.\PlainCEETimer\Interop\RoundCorner.cs                                             2              0             13<br>.\PlainCEETimer\Modules\WindowsBuilds.cs                                           0              0             13<br>.\PlainCEETimer\Program.cs                                                         1              0             13<br>.\PlainCEETimer\Controls\PlainLinkLabel.cs                                         1              0             12<br>.\PlainCEETimer\Modules\Configuration\ColorSetObject.cs                            2              0             12<br>.\PlainCEETimer\Properties\AssemblyInfo.cs                                         1              0             12<br>.\PlainCEETimer.Natives\RoundCorner\RoundCorner.cpp                                7              7             11<br>.\PlainCEETimer\Modules\JsonConverters\ExamTimeConverter.cs                        1              0             11<br>.\PlainCEETimer\Interop\MemoryCleaner.cs                                           1              0             10<br>.\PlainCEETimer\Modules\Http\DownloadReport.cs                                     0              0             10<br>.\PlainCEETimer\Modules\ISubDialog.cs                                              1              0             10<br>.\PlainCEETimer\Controls\PlainCheckBox.cs                                          1              0              9<br>.\PlainCEETimer\Controls\PlainRadioButton.cs                                       1              0              9<br>.\PlainCEETimer\Modules\ComboData.cs                                               0              0              8<br>.\PlainCEETimer\Modules\ICommonDialog.cs                                           1              0              8<br>.\PlainCEETimer\Modules\IListViewObject.cs                                         1              0              5<br>.\PlainCEETimer.Natives\pch.cpp                                                    0              0              1<br>------------------------------------------------------------------------------------------------------------------<br>SUM:                                                                             949            830           6848<br>------------------------------------------------------------------------------------------------------------------<br></code></pre></td></tr></table></figure>
+<p>6848 行，这个数字在众多同类开源项目中其实并不算太多，但对于 1.0 仅用 184 行的代码量就能完成，确实挺夸张的。增加了整整 6664 行代码，发生了什么变化？因为编写软件不光要满足用户的需求，还要与操作系统的设计达成一致，保证用户所需功能正常运行的同时也能更适应不同的系统环境。这个我不太说得清，如果屏幕前的你是个软件开发者的话，你应该能明白我的意思。概括一下就是除了要做用户需要的功能以外还要写很多不属于用户所需功能的代码，这些代码虽然写与不写，用户都无法察觉，但并不算累赘，而是一种约定俗成，是构建软件、增强用户体验的基石，让用户在任何环境下都能获得舒适、可靠的使用体验。</p>
+<p>要我说，我估计 5.0.1 真正最终实现倒计时的代码不会超过 300 行，感兴趣的朋友可以去数一下，也就只有那个 <a target="_blank" rel="noopener" href="https://github.com/WangHaonie/PlainCEETimer/blob/535fd8cb38f973f36bd5d84e83624581613a5ad1/PlainCEETimer/Forms/MainForm.cs#L568-L600"><code>CountdownCallback(object)</code></a> 方法及其调用的相关方法。</p>
+<h2 id="为什么不用-WPF-开发"><a href="#为什么不用-WPF-开发" class="headerlink" title="为什么不用 WPF 开发"></a>为什么不用 WPF 开发</h2><p>这个问题说实话我的回答可能会得罪人，但我并没有任何歧视，只是吐槽一下罢了，表现在以下三个方面。简单来说就是<strong>高考倒计时的开发用 WinForms 足够了</strong>。但无论怎么说，如果以后我还会开发新项目，肯定会根据具体需求优先考虑是否使用 WPF，毕竟有些功能用 WPF 实现也是挺方便的。</p>
+<h3 id="WPF-性能肯定没有-WinForms-好"><a href="#WPF-性能肯定没有-WinForms-好" class="headerlink" title="WPF 性能肯定没有 WinForms 好"></a>WPF 性能肯定没有 WinForms 好</h3><p>虽然 WPF 渲染使用的是 GPU (DirectX)，在各种动画绘制的精美程度上秒杀使用 CPU (GDI+) 的 WinForms。但高考倒计时不需要这些，Win32 原生动画也不是不能接受。除了动画方面，也就是运行时性能了。(以下数据来自 System Informer) 目前高考倒计时运行时内存占用可控制在 <strong>20 MB</strong> 以内 (未开启自动清理)，<strong>待机时</strong> CPU 平均占用也不会超出 **0.1%**，这样的性能 WPF 不一定做得到。</p>
+<h3 id="WPF-原生界面元素没有-WinForms-好看，尽管其可定制性很高"><a href="#WPF-原生界面元素没有-WinForms-好看，尽管其可定制性很高" class="headerlink" title="WPF 原生界面元素没有 WinForms 好看，尽管其可定制性很高"></a>WPF 原生界面元素没有 WinForms 好看，尽管其可定制性很高</h3><p>原生 UI 元素默认外观的简陋是我放弃 WPF 的原因之一，这意味着我必须得自行编写许多模板，或者直接安装第三方 UI 库。这样的话程序的体积将大大增加，其中至少 90% 的体积都花在 UI 上了，得不偿失。使用 WinForms 开发，主程序体积才 <strong>160+ KB</strong>，算上 JSON .NET 库等一共也就 <strong>800+ KB</strong>，压缩后安装程序体积也才 <strong>330+ KB</strong>。但不得不说 WPF 在 UI 方面确实挺好的以至于有的时候我也对它心动，只是在高考倒计时里用不上罢了。</p>
+<h3 id="WPF-给我一种把简单问题复杂化的感觉"><a href="#WPF-给我一种把简单问题复杂化的感觉" class="headerlink" title="WPF 给我一种把简单问题复杂化的感觉"></a>WPF 给我一种把简单问题复杂化的感觉</h3><p>那无非就是各种绑定了，好处就是 UI 与业务解耦 (MVVM)，为什么不以 WinForms 的直接访问 UI 和 事件驱动为主？其实仔细想想还是可以理解，最大的区别在于 WPF 只有一个消息循环，WinForms 对每一个控件都有一个消息循环，所以 WPF 这种新架构简直就是量身为 MVVM 打造的，两者有优也有劣吧。尽管也可以在 WPF 中也可以完全像 WinForms 这么干，但这也并非其设计初衷，反而倒不如直接用 WinForms。</p>
+<h2 id="为什么这么执着于高考倒计时"><a href="#为什么这么执着于高考倒计时" class="headerlink" title="为什么这么执着于高考倒计时"></a>为什么这么执着于高考倒计时</h2><p>提出编写高考倒计时的人来自我高中时期班上一位同学，是她才让高考倒计时有了今天，虽然在她看来她可能只是随口一说，但在我看来，这是一次深入 C# 编程领域绝佳时机。在此非常感谢这位同学给我的星星之火，为了不让它熄灭，我将坚持把高考倒计时做到最好。今天，我达成了这个目标，但并不意味着高考倒计时的更新会就此停止，一旦有时间，我也会打开代码看上几眼，找出其中的瑕疵与不足。如果你在<a target="_blank" rel="noopener" href="https://github.com/WangHaonie/PlainCEETimer/commits/main/">提交记录</a>中看到诸如 “整理了一些代码” “清理代码” 之类的字样说明我来找茬了，这些瑕疵只能在这种时候发现，在开发时根本察觉不到哈哈。</p>
+<h2 id="高考倒计时的奇葩用法"><a href="#高考倒计时的奇葩用法" class="headerlink" title="高考倒计时的奇葩用法"></a>高考倒计时的奇葩用法</h2><p>本高考倒计时支持对考试名称、日期时间的完全自定义。这意味着高考倒计时不再局限于 “高考”，任何考试都可以。另外只要你有创意，你还可以把一些奇怪的东西用来进行倒计时：</p>
+<p><img src="/archive-imgs/33/4-plain-usage.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="/archive-imgs/33/5-example-1.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="/archive-imgs/33/8-example-4.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="/archive-imgs/33/6-example-2.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="/archive-imgs/33/7-example-3.png" srcset="/img/loading.gif" lazyload></p>
+<p>你以为这样就完了吗？如果你觉得 “距离xx…x天x时x分x秒” 的内容有点无聊，你还可以自定义倒计时内容的格式，需要用到特定的占位符，详见<strong>全局自定义文本对话框</strong>或者是用户手册的 <a target="_blank" rel="noopener" href="https://github.com/WangHaonie/PlainCEETimer/blob/main/.github/Manual.md#-%E5%8D%A0%E4%BD%8D%E7%AC%A6%E4%B8%80%E8%A7%88">✨ 占位符一览</a>。在 设置&gt;显示 的规则管理器中，你可以设置不同时刻要显示的倒计时内容：</p>
+<p><img src="/archive-imgs/33/9-rulesmanager.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="/archive-imgs/33/10-rules-example.png" srcset="/img/loading.gif" lazyload></p>
+<p>不过若你不需要不同时刻显示不同的内容的话，你可以不用设置规则，直接去设置全局自定义文本：</p>
+<p><img src="/archive-imgs/33/11-custom-text.png" srcset="/img/loading.gif" lazyload></p>
+<p>更多相关详细教程还是推荐大家去看看 <a target="_blank" rel="noopener" href="https://github.com/WangHaonie/PlainCEETimer/blob/main/.github/Manual.md">📢 用户手册</a> 吧。</p>
+<h2 id="高考倒计时的价值远不止高考倒计时"><a href="#高考倒计时的价值远不止高考倒计时" class="headerlink" title="高考倒计时的价值远不止高考倒计时"></a>高考倒计时的价值远不止高考倒计时</h2><p>如题，我觉得高考倒计时的价值远不止高考倒计时，甚至它可以不用叫 “高考倒计时” 了。它所体现的的价值更多在于编程的素养，更贴合现代编程理念，有很多值得初学者学习的地方。欢迎访问源代码，互相交流与学习。</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/Windows/" class="print-no-link">#Windows</a>
+      
+        <a href="/tags/CSharp/" class="print-no-link">#CSharp</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>【PlainCEETimer】两年了，分享一下开发感受</div>
+      <div>https://wanghaonie.github.io/posts/07076c71374b/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>WangHaonie</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2025-05-11 09:40:46</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>更新于</div>
+          <div>2025-05-13 23:05:36</div>
+        </div>
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="NC - 非商业性使用">
+                    <i class="iconfont icon-nc"></i>
+                  </span>
+                </a>
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="SA - 相同方式共享">
+                    <i class="iconfont icon-sa"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/posts/17dc52648ff5/" title="通过编程方式获取 UAC 用户账户控制通知级别以及 UAC 的介绍">
+                        <span class="hidden-mobile">通过编程方式获取 UAC 用户账户控制通知级别以及 UAC 的介绍</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span> Hexo </span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span> Fluid </span></a><br> <div><a> <span id="site-runtime">正在加载网站运行时间，请稍候...</span> <script src="/js/runtime.js"></script> </a></div> 
+    </div>
+  
+  
+  
+    <!-- 备案信息 ICP for China -->
+    <div class="beian">
+  <span>
+    <a rel="nofollow noopener">
+      Copyright © 2023-2025 WangHaonie
+    </a>
+  </span>
+  
+    
+      <span>
+        <a
+          href="https://icp.gov.moe/?keyword=20229939"
+          rel="nofollow noopener"
+          class="beian-police"
+          target="_blank"
+        >
+          
+            <span style="visibility: hidden; width: 0">|</span>
+            <img src="/img/icon_moeicp.png" srcset="/img/loading.gif" lazyload/>
+          
+          <span>萌ICP备20229939号</span>
+        </a>
+      </span>
+    
+  
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+
+
+
+  
+<script src="/js/customstyles.js"></script>
+<script src="/js/subsiteredirect.js"></script>
+<script src="/js/bgribbon.js"></script>
+<script src="/js/curfireworks.js"></script>
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
