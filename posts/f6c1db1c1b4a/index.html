@@ -16,11 +16,11 @@
   <meta name="author" content="WangHaonie">
   <meta name="keywords" content="">
   
-    <meta name="description" content="前言如果你正在烦恼官方 Windows 安装向导不好用、有 TPM 等硬件检测、强制登录微软账户等，而导致无法正常安装系统，不妨试试 WinNTSetup，界面友好易上手，不仅可以帮你跳过硬件检测、跳过 OOBE，还能稍微优化一下系统，简直堪称装系统神器。 准备工作推荐在第三方 PE 系统里面运行，磁盘分区过程已跳过，以下只是简单说一下如何分区，具体步骤可以参考网络上的教程。  以 DiskGen">
+    <meta name="description" content="前言在之前的文章中，我们提到了如何切换为 Administrator 账户或者使当前账户具有管理员权限。但近期我发现网上似乎出现了一些抵制使用内置管理员为主账户的说法，所以到底是否可以将 Administrator 作为主账户，这期文章就来简单说明一下。 正文我从接触电脑开始，一直使用 Administrator 账户。因为当时还依赖盗版系统，默认就是 Administrator，后来自己学会安装">
   
   
   
-  <title>装系统神器！WinNTSetup 里你绝对没有用过的无人值守 | WangHaonie 的博客</title>
+  <title>关于 Administrator 账户的一个紧急发布 | WangHaonie 的博客</title>
   <link rel="stylesheet" href="/css/frosted.css">
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -254,7 +254,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle">装系统神器！WinNTSetup 里你绝对没有用过的无人值守</span>
+            <span id="subtitle">关于 Administrator 账户的一个紧急发布</span>
           
         </div>
 
@@ -265,8 +265,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2024-07-05 23:11" pubdate>
-          2024-07-05 23:11:03
+        <time datetime="2025-05-21 08:00" pubdate>
+          2025-05-21 08:00:26
         </time>
       </span>
     
@@ -277,7 +277,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          437 字
+          1.6k 字
         
       </span>
     
@@ -288,7 +288,7 @@
         
         
         
-          4 分钟
+          13 分钟
         
       </span>
     
@@ -338,12 +338,12 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">装系统神器！WinNTSetup 里你绝对没有用过的无人值守</h1>
+            <h1 id="seo-header">关于 Administrator 账户的一个紧急发布</h1>
             
               <p class="note note-info">
                 
                   
-                    本文最后更新于：8 个月前
+                    本文最后更新于：3 分钟前
                   
                 
               </p>
@@ -351,20 +351,34 @@
             
               <div class="markdown-body">
                 
-                <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>如果你正在烦恼官方 Windows 安装向导不好用、有 TPM 等硬件检测、强制登录微软账户等，而导致无法正常安装系统，不妨试试 WinNTSetup，界面友好易上手，不仅可以帮你跳过硬件检测、跳过 OOBE，还能稍微优化一下系统，简直堪称装系统神器。</p>
-<h2 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h2><p>推荐在第三方 PE 系统里面运行，磁盘分区过程已跳过，以下只是简单说一下如何分区，具体步骤可以参考网络上的教程。</p>
-<blockquote>
-<p>以 DiskGenius为例，如果你要装 Windows 7&#x2F;8&#x2F;8.1，推荐将硬盘分区表设置为MBR，并重建主引导记录，设置为活动分区；如果你要装 Windows 10&#x2F;11，推荐将硬盘分区表设置为 GPT(GUID)，并建立 ESP 分区。</p>
-</blockquote>
-<p>准备最新版 WinNTSetup，截止2024年6月15日最新版为 5.3.5.1，下载链接在文章末尾。</p>
-<h2 id="无人值守"><a href="#无人值守" class="headerlink" title="无人值守"></a>无人值守</h2><p>打开软件，选择好安装源、引导驱动器、系统驱动器、系统版本后，在下面有一个无人值守，点一下小箭头，选择 Win7-11-Select.xml<br><img src="/archive-imgs/16/16-01-select-unattend-xml.png" srcset="/img/loading.gif" lazyload><br>接下来会弹出一个窗口，在本地账户里填内置管理员 Administrator (其他名称也可以)；完整名称同上，填 Administrator；组织填管理员组 Administrators (不推荐修改为其他组，可以使创建的账户自带管理员权限，避免了一些麻烦)；计算机名称随意；工作组填 WORKGROUP，然后点击 关闭 就可以保存了。<br><img src="/archive-imgs/16/16-02-fill-info.png" srcset="/img/loading.gif" lazyload></p>
-<h2 id="优化调整"><a href="#优化调整" class="headerlink" title="优化调整"></a>优化调整</h2><p><img src="/archive-imgs/16/16-03-optimize.png" srcset="/img/loading.gif" lazyload><br>推荐勾选以下优化项<br><img src="/archive-imgs/16/16-04-select-optimize-options.png" srcset="/img/loading.gif" lazyload><br>点击关闭就可以保存，最后点击安装就行<br><img src="/archive-imgs/16/16-05-click-install.png" srcset="/img/loading.gif" lazyload></p>
-<h2 id="下载地址"><a href="#下载地址" class="headerlink" title="下载地址"></a>下载地址</h2><ul>
-<li>国内搬运<br>[<a target="_blank" rel="noopener" href="https://www.423down.com/2478.html">423Down</a>]</li>
-<li>官方链接<br>[<a target="_blank" rel="noopener" href="https://msfn.org/board/topic/149612-winntsetup">MSFN 论坛</a>] [<a target="_blank" rel="noopener" href="https://www.mediafire.com/folder/53um6k2nmhvd5/">MediaFire 网盘</a>] [<a target="_blank" rel="noopener" href="https://mega.nz/folder/ObATya7C#oR2t79bT-4MGjKxOAYwkbQ">Mega 网盘</a>]</li>
+                <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>在之前的<a href="https://wanghaonie.github.io/posts/54ae615f8ae4/">文章</a>中，我们提到了如何切换为 Administrator 账户或者使当前账户具有管理员权限。但近期我发现网上似乎出现了一些抵制使用内置管理员为主账户的说法，所以到底是否可以将 Administrator 作为主账户，这期文章就来简单说明一下。</p>
+<h2 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h2><p>我从接触电脑开始，一直使用 Administrator 账户。因为当时还依赖盗版系统，默认就是 Administrator，后来自己学会安装官方系统了，还主动切换到 Administrator 账户，因为它是真的香，懂得都懂。但相信大家在使用 Administrator 的时候，可能遇到过这样的情况：<strong>有些软件或其部分功能拒绝在管理员账户中运行</strong>。我也一直以来用过许多软件，目前为止有3款软件具有这种情况。第一款由于是好几年前的了，且<strong>不常用</strong>，已经忘记名称了，表现为：在管理员模式下直接警告无法运行。第二款就是最近遇到的，IDM，居然也不能在管理员模式下运行了，提示：<em>您正以管理员身份运行IDM。在该模式下，IDM 无法接管浏览器的下载事件</em>，更令人困惑的是，这在之前的版本是没有的，所以我又回退到之前用的版本。第三款，cvr (全称你们来猜)，居然不能在管理员模式下设置开机启动，这在以前的版本中也是没有的。</p>
+<p>我属实被这些软件迷惑行为给整不会了，因为它们在那之前都可以正常运行。有时我觉得这可能是开发者道听途说或者是<strong>误解</strong> (本文结尾提出我的猜测) 一些机制故意而为的，有时我又觉得是不是内置管理员真的不能用了？但是看到目前我电脑里的其他软件都能在管理员模式下正常运行和设置开机启动，我就更无法理解这样的做法了。</p>
+<p>我上网查找过相关说法，主要有以下几点：</p>
+<ul>
+<li>【安全方面】最低权限原则。内置管理员权限较高，默认绕过 UAC，作为主账户的话会导致恶意软件顺利提权并对计算机造成破坏。</li>
+<li>【特殊性】内置管理员是系统特殊账户，在某些方面具有一定的限制机制，将导致个别软件无法正常运行 (?)。</li>
 </ul>
-<h2 id="其他链接"><a href="#其他链接" class="headerlink" title="其他链接"></a>其他链接</h2><ul>
-<li>本作者CSDN_【Windows】装系统神器！WinNTSetup 里多数人没有用过的无人值守-CSDN博客<br><a target="_blank" rel="noopener" href="https://blog.csdn.net/WHNdeCSDN/article/details/139710610">https://blog.csdn.net/WHNdeCSDN/article/details/139710610</a></li>
+<p>首先第一点，我觉得只要有一定的安全意识，足以避免大多数安全问题。但凡一点安全意识都没有，那普通账户 (无管理员权限) 也救不了你了，恶意软件仍会弹出授权提示，而说不定你也会在不明不白中点个允许。除非你禁用 UAC，所有软件都以最低权限允许，但这也并非官方推荐。总之在我看来，对于第一点，你可以使用管理员或者是普通账户，实在放心不下就安装个火绒。</p>
+<p>第二点，说实话我不怎么相信这个说法，因为我没遇到过。说到特殊性的话，我觉得 Administrator 也没有 SYSTEM 以及相关一些服务账户那样特殊。但就算他有特殊性，那也不至于连个开机启动都不能设置吧，我也开发过程序 (<a target="_blank" rel="noopener" href="https://github.com/WangHaonie/PlainCEETimer">PlainCEETimer</a>)，也可以在 Administrator 下设置开机启动。</p>
+<p>此外，对于第二点，网上还有说法。若实在想使用自带管理员权限的账户，可以自己在 Administrators 组创建一个，然后关掉管理员批准模式，这都比直接使用内置管理员账户好得多。这个说法稍微看的过去，因为很多软件判断当前是否为管理员的方法，只是检测用户名是否为 Administrator，而不是去检测当前账户是否真的具有管理员权限。因此，使用自带管理员权限的非内置管理员账户，可以避开这个检测机制。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ul>
+<li>如果你现在正在使用 Administrator 且没有遇到致命的问题，可以继续使用。</li>
+<li>如果你准备重装系统，可以尝试创建一个自带管理员权限的非内置管理员账户，可以看看<a href="https://wanghaonie.github.io/posts/54ae615f8ae4/#%E6%83%85%E5%BD%A2%E4%B8%80%EF%BC%9A%E5%9C%A8%E8%A3%85%E7%B3%BB%E7%BB%9F%E4%B9%8B%E5%89%8D">这篇</a>文章。</li>
+<li>你也可以保持使用普通账户，但注意需要开启 UAC。</li>
+</ul>
+<h2 id="猜测"><a href="#猜测" class="headerlink" title="猜测"></a>猜测</h2><p>这里对于个别软件不让在管理员模式下运行的行为进行一个猜测。我觉得开发者应当更关心会话的问题。比如用户以 UserA 账户登入系统，但是却以管理员 (Administrator) 身份运行这个软件。如果设置开机启动或进行其他针对单个账户的操作的话，就要将写入 <code>%AppData%</code> 文件夹或者是注册表 <code>HKCU</code>，或者是用什么钩子之类的。然而此时获取到的 <code>%AppData%</code>、<code>HKCU</code>、装的钩子等是针对于 Administrator 的而不是 UserA 的。也就是说下次重启系统，UserA 登入后软件不会自动启动，相关钩子也钩错账户了，除非以 Administrator 账户登入。否则肯定无法达到预期。</p>
+<p>但事实是：如果用户不执行任何提权操作来运行软件的话，是可以设置开机启动和钩子并且生效的，无论是否为管理员。</p>
+<p>如果要避免这种 “脚踏两只船” 的情况的话，是可以进行判断的，而不应该直接禁止管理员模式下设置开机启动和启动钩子。思路就是运行外部命令获得输出 判断当前系统登入的账户与进程所有者账户的名称是否相等 (推荐先将输出转换为小写)，若相等则可以设置开机启动和钩子。具体方法如下：</p>
+<p>获取当前系统登入的账户：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs BASH">cmd /c <span class="hljs-built_in">echo</span> off &amp; <span class="hljs-keyword">for</span> /f <span class="hljs-string">&quot;tokens=2 delims==&quot;</span> %f <span class="hljs-keyword">in</span> (<span class="hljs-string">&#x27;wmic computersystem get username /value ^| find &quot;=&quot;&#x27;</span>) <span class="hljs-keyword">do</span> <span class="hljs-built_in">echo</span> %f<br></code></pre></td></tr></table></figure>
+
+<p>获取进程所有者：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs BASH"><span class="hljs-built_in">whoami</span><br></code></pre></td></tr></table></figure>
+
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li>一招教你 100% 成功获取管理员权限或提升为管理员账户 | WangHaonie 的博客<br><a href="https://wanghaonie.github.io/posts/54ae615f8ae4/">https://wanghaonie.github.io/posts/54ae615f8ae4/</a></li>
+<li>装系统神器！WinNTSetup 里你绝对没有用过的无人值守 | WangHaonie 的博客<br><a href="https://wanghaonie.github.io/posts/0e9bf7b6bb91/">https://wanghaonie.github.io/posts/0e9bf7b6bb91/</a></li>
 </ul>
 
                 
@@ -390,8 +404,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>装系统神器！WinNTSetup 里你绝对没有用过的无人值守</div>
-      <div>https://wanghaonie.github.io/posts/0e9bf7b6bb91/</div>
+      <div>关于 Administrator 账户的一个紧急发布</div>
+      <div>https://wanghaonie.github.io/posts/f6c1db1c1b4a/</div>
     </div>
     <div class="license-meta">
       
@@ -403,13 +417,13 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2024-07-05 23:11:03</div>
+          <div>2025-05-21 08:00:26</div>
         </div>
       
       
         <div class="license-meta-item license-meta-date">
           <div>更新于</div>
-          <div>2024-10-01 10:31:33</div>
+          <div>2025-05-21 09:40:06</div>
         </div>
       
       
@@ -452,18 +466,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/posts/400953fc4490/" title="Windows 应用程序开发人员必须考虑的功能，来看看你想到了吗">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">Windows 应用程序开发人员必须考虑的功能，来看看你想到了吗</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/posts/54ae615f8ae4/" title="一招教你 100% 成功获取管理员权限或提升为管理员账户">
-                        <span class="hidden-mobile">一招教你 100% 成功获取管理员权限或提升为管理员账户</span>
+                      <a href="/posts/07076c71374b/" title="【PlainCEETimer】两年了，分享一下开发感受">
+                        <span class="hidden-mobile">【PlainCEETimer】两年了，分享一下开发感受</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
