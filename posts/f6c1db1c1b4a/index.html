@@ -288,7 +288,7 @@
         
         
         
-          13 分钟
+          14 分钟
         
       </span>
     
@@ -343,7 +343,7 @@
               <p class="note note-info">
                 
                   
-                    本文最后更新于：3 分钟前
+                    本文最后更新于：1 分钟前
                   
                 
               </p>
@@ -370,12 +370,12 @@
 <h2 id="猜测"><a href="#猜测" class="headerlink" title="猜测"></a>猜测</h2><p>这里对于个别软件不让在管理员模式下运行的行为进行一个猜测。我觉得开发者应当更关心会话的问题。比如用户以 UserA 账户登入系统，但是却以管理员 (Administrator) 身份运行这个软件。如果设置开机启动或进行其他针对单个账户的操作的话，就要将写入 <code>%AppData%</code> 文件夹或者是注册表 <code>HKCU</code>，或者是用什么钩子之类的。然而此时获取到的 <code>%AppData%</code>、<code>HKCU</code>、装的钩子等是针对于 Administrator 的而不是 UserA 的。也就是说下次重启系统，UserA 登入后软件不会自动启动，相关钩子也钩错账户了，除非以 Administrator 账户登入。否则肯定无法达到预期。</p>
 <p>但事实是：如果用户不执行任何提权操作来运行软件的话，是可以设置开机启动和钩子并且生效的，无论是否为管理员。</p>
 <p>如果要避免这种 “脚踏两只船” 的情况的话，是可以进行判断的，而不应该直接禁止管理员模式下设置开机启动和启动钩子。思路就是运行外部命令获得输出 判断当前系统登入的账户与进程所有者账户的名称是否相等 (推荐先将输出转换为小写)，若相等则可以设置开机启动和钩子。具体方法如下：</p>
-<p>获取当前系统登入的账户：</p>
+<p>获取当前系统登入的账户 (注：wmic 在新版 Windows 中可能会以可选功能的形式推出，默认不安装，则下列命令将无法运行)：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs BASH">cmd /c <span class="hljs-built_in">echo</span> off &amp; <span class="hljs-keyword">for</span> /f <span class="hljs-string">&quot;tokens=2 delims==&quot;</span> %f <span class="hljs-keyword">in</span> (<span class="hljs-string">&#x27;wmic computersystem get username /value ^| find &quot;=&quot;&#x27;</span>) <span class="hljs-keyword">do</span> <span class="hljs-built_in">echo</span> %f<br></code></pre></td></tr></table></figure>
 
 <p>获取进程所有者：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs BASH"><span class="hljs-built_in">whoami</span><br></code></pre></td></tr></table></figure>
-
+<p>当然，如果是 C# 的话，除了上述方法外，也有通过 API 获取的方法，更直接与稳定。这里就不详细展开了，详见<a target="_blank" rel="noopener" href="https://github.com/WangHaonie/PlainCEETimer/blob/main/PlainCEETimer/Interop/Win32User.cs">此处</a>。</p>
 <h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
 <li>一招教你 100% 成功获取管理员权限或提升为管理员账户 | WangHaonie 的博客<br><a href="https://wanghaonie.github.io/posts/54ae615f8ae4/">https://wanghaonie.github.io/posts/54ae615f8ae4/</a></li>
 <li>装系统神器！WinNTSetup 里你绝对没有用过的无人值守 | WangHaonie 的博客<br><a href="https://wanghaonie.github.io/posts/0e9bf7b6bb91/">https://wanghaonie.github.io/posts/0e9bf7b6bb91/</a></li>
@@ -423,7 +423,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>更新于</div>
-          <div>2025-05-21 09:40:06</div>
+          <div>2025-06-02 18:41:17</div>
         </div>
       
       
