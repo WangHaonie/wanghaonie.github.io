@@ -1,0 +1,907 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=dark>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="WangHaonie">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="文章较长，请耐心阅读~  前言几天前我在清理 PlainCEETimer 项目的时候，发现有一类代码我忍它很久了可是都无从下手，那就是设计器生成的代码。于是为了减轻代码量达到优化的目的，我就在想有没有方法可以在不依赖设计器的情况下完成控件的添加以及排版布局。直到今天，它终于来了，我将它们命名为 Builder 模式 (通过模板构建控件) 和 半自动布局模式 (手动让各控件之间自动进行水平或竖直排列">
+  
+  
+  
+  <title>【WinForms】可定制性极高! 不用设计器，教你纯靠代码添加控件并完成布局 | WangHaonie 的博客</title>
+  <link rel="stylesheet" href="/css/frosted.css">
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"wanghaonie.github.io","root":"/","version":"1.9.6","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":true,"scope":"home"},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"left","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":6},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":{"measurement_id":"G-N644FC8JLJ"},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+    <!-- Google tag (gtag.js) -->
+    <script async>
+      if (!Fluid.ctx.dnt) {
+        Fluid.utils.createScript("https://www.googletagmanager.com/gtag/js?id=G-N644FC8JLJ", function() {
+          window.dataLayer = window.dataLayer || [];
+          function gtag() {
+            dataLayer.push(arguments);
+          }
+          gtag('js', new Date());
+          gtag('config', 'G-N644FC8JLJ');
+        });
+      }
+    </script>
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>WangHaonie 的博客</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span id="wanghaonie-nav" candidate-icon="🧿🔔📅🚩🧡">🎉更多</span>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                
+                <span>🏠主页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                
+                <span>😁关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                
+                <span>🏷️标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                
+                <span>📖文章</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" target="_self" href="javascript:;" role="button"
+                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                
+                <span>🌏分站</span>
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" onclick="redir2gh()" href="#" target="_self">
+                    
+                    <span>🌎主站：GitHub Pages</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" onclick="redir2lan()" href="#" target="_self">
+                    
+                    <span>🌎主站：本地局域网</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" onclick="redir2v()" href="#" target="_self">
+                    
+                    <span>🌎分站：Vercel</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" onclick="redir2n()" href="#" target="_self">
+                    
+                    <span>🌎分站：Netlify</span>
+                  </a>
+                
+              </div>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/reward" target="_self">
+                
+                <span>💰打赏</span>
+              </a>
+            </li>
+          
+        <!--
+        -->
+        <!--
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        -->
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" false
+     style="background: url('/null') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle">【WinForms】可定制性极高! 不用设计器，教你纯靠代码添加控件并完成布局</span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2025-06-18 21:28" pubdate>
+          2025-06-18 21:28:01
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          6.7k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          56 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="padding-left: 2rem; margin-right: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">【WinForms】可定制性极高! 不用设计器，教你纯靠代码添加控件并完成布局</h1>
+            
+              <p class="note note-info">
+                
+                  
+                    本文最后更新于：几秒前
+                  
+                
+              </p>
+            
+            
+              <div class="markdown-body">
+                
+                <p class="note note-danger">文章较长，请耐心阅读~</p>
+
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>几天前我在清理 <a target="_blank" rel="noopener" href="https://github.com/WangHaonie/PlainCEETimer">PlainCEETimer</a> 项目的时候，发现有一类代码我忍它很久了可是都无从下手，那就是设计器生成的代码。于是为了减轻代码量达到优化的目的，我就在想有没有方法可以在不依赖设计器的情况下完成控件的添加以及排版布局。直到今天，它终于来了，我将它们命名为 <strong>Builder 模式</strong> (通过模板构建控件) 和 <strong>半自动布局模式</strong> (手动让各控件之间自动进行水平或竖直排列)。</p>
+<p>如果你玩过 WPF 的 XAML 声明式 UI，使用 Grid 和 StackPanel 借助 Margins 等属性就可以实现各种复杂布局，这里我就姑且称它为自动布局。而我的<strong>半自动布局模式</strong>只是多了一步人工让控件 “活起来” 的步骤，虽然有一定局限性和瑕疵，但扩展空间极大。这里就分享给大家，各位如果有这方面需求的话，可以参考一下，以及进行扩展并加入自己想要的功能。</p>
+<p>在正式开始前，提到 WinForms 自动布局，你可能会想到 WinForms 内置的 TableLayoutPanel 和 FlowLayoutPanel，但我只能说这两个东西无法我预期的效果，不如自己来写布局逻辑。</p>
+<h2 id="基础知识"><a href="#基础知识" class="headerlink" title="基础知识"></a>基础知识</h2><p>其实要脱离设计器添加控件也不算什么难办的事，控件本身也是一种类，创建它们就像创建类实例一样，只不过额外要指定一些属性，以及事件绑定等。因此我们可以制作一个模板，其实就是一些方法罢了，不用每次都去 new 一个控件。然后主要的就是不使用设计器进行布局了，具体思路的话但凡你了解 UI 坐标系的话都能秒懂——相对坐标式布局。也就是说相对于一个控件的位置来决定另一个控件的位置，这与设计器采用的绝对坐标式布局不同。总之我们先来了解一些基础知识。</p>
+<h3 id="Control-类"><a href="#Control-类" class="headerlink" title="Control 类"></a>Control 类</h3><p>WinForms 几乎所有控件 (包括窗体，后文一律称之为控件) 都派生自这个基类 (ContextMenu、NotifyIcon 等例外，派生自 Component)，它可以表示所有的控件，并提供一些通用的属性 (位置，大小，文字)、事件 (Click，MouseMove 等) 和方法 (Focus，Invalidate 等)。</p>
+<h3 id="坐标系"><a href="#坐标系" class="headerlink" title="坐标系"></a>坐标系</h3><p>在 Windows 系统中，不管是控件、应用程序，还是屏幕等，每一个元素都有一套自己的 UI 坐标系，且原点始终是左上角的位置，接着从左向右是 x 轴，从上而下是 y 轴，如图：</p>
+<p><img src="/archive-imgs/35/1-x-y.png" srcset="/img/loading.gif" lazyload></p>
+<h3 id="Bounds-Rectangle-RECT-属性"><a href="#Bounds-Rectangle-RECT-属性" class="headerlink" title="Bounds (Rectangle&#x2F;RECT) 属性"></a>Bounds (Rectangle&#x2F;RECT) 属性</h3><p><code>Bounds</code> 是 Control 类下的一个属性，类型为 <code>Rectangle</code>，表示对象的位置 (<code>Location</code>)、大小 (<code>Size</code>)。另外如果你做过与 Win32 的 Interop 或者对 Win32 有一定的了解，你应该也见到过 <code>RECT</code> 这个类型，它也是用于存储位置和大小的数据结构。它们的不同在于决定 <code>Rectangle</code> 的主要参数也就是 <code>Left</code>、<code>Top</code>、<code>Width</code>、<code>Height</code>，而 <code>RECT</code> 是 <code>Left</code>、<code>Top</code>、<code>Right</code>、<code>Bottom</code>，后面 2 个在 <code>Rectangle</code> 里面也定义了，可以直接拿出来用，只是不那么常用罢了。两者各个参数的定义如图所示：</p>
+<p><img src="/archive-imgs/35/2-rect.png" srcset="/img/loading.gif" lazyload></p>
+<p>由此我们可以得到以下结论：</p>
+<ul>
+<li>Left &#x3D; X、Top &#x3D; Y</li>
+<li>Right &#x3D; Left + Width、Bottom &#x3D; Top + Height</li>
+</ul>
+<p>这里多说几个技巧与冷知识。</p>
+<ol>
+<li>当我们只需要改变控件的 X 或 Y 坐标时，我们可以直接设置 Left 或者是 Top 属性，而不是去设置 Location 属性并 new 一个 Point。同样的，只更改长或宽也可以直接设置 Width 或 Height 属性，而不是设置 Size 属性并 new 一个 Size。如果我们同时要设置位置和大小或者说混搭 (比如只想改变 Y 和 宽度)，这时即不建议大家设置 Location 和 Size 属性，也不建议分开设置 Left、Top、Width、Height 属性，而是直接调用 SetBounds 方法 (其实设置上述属性内部走的也是 SetBounds)，如果四个参数都需要更改，直接用第一个重载：<code>void SetBounds(int x, int y, int width, int height)</code>。除此之外如果只需要更改2个及以上的参数的话，一般用第二个重载：<code>void SetBounds(int x, int y, int width, int height, BoundsSpecified specified)</code>，这里的 <code>specified</code> 参数表示你要更改的是哪个参数，传入即可。比如要更改 Y 坐标和高度，可以用 <code>SetBounds(0, y值, 0, 高度, BoundsSpecified.Y | BoundsSpecified.Height)</code></li>
+<li>你可能会疑惑为什么控件的 <code>Right</code> 和 <code>Bottom</code> 属性是只读的？仔细想想，这两个分别表示 X + 宽度 和 Y + 高度，如果这两个属性可赋值的话，那 WinForms 怎么知道你传入的到底是 X？还是 Y？还是 W？还是 H？所以设置为只读也是可以理解的。一般情况下，我们只有在需要针对同一个控件的 X 和宽度 或 Y 和高度进行求和的，就可以直接去拿 <code>Right</code> 或 <code>Bottom</code> 属性，避免手动计算。</li>
+<li>关于 RECT 转 Rectangle：其实 .NET 内置了将 <code>RECT</code> 转换为 <code>Rectangle</code> 的方法，并不需要你手动在 RECT 上面做加减法。只不过这个方法的名字不是 <code>ToRectangle</code> 这么直接明了的，而是 <code>Reactangle.FormLTRB(int left, int top, int right, int bottom)</code>，其中 <code>LTRB</code> 不就是表示 <code>RECT</code> 结构的四个参数吗？于是我们可以在 RECT 结构体里自己写一个 <code>ToRectangle</code> 方法：</li>
+</ol>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs csharp">[<span class="hljs-meta">StructLayout(LayoutKind.Sequential)</span>]<br><span class="hljs-keyword">private</span> <span class="hljs-keyword">struct</span> RECT<br>&#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> Left;<br>    <span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> Top;<br>    <span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> Right;<br>    <span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> Bottom;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">readonly</span> Rectangle <span class="hljs-title">ToRectangle</span>()</span><br>    &#123;<br>        <span class="hljs-keyword">return</span> Rectangle.FromLTRB(Left, Top, Right, Bottom);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<ol start="4">
+<li>Rectangle 还内置了其他许多有用的属性和方法，值得大家逐个去理解和使用，这将带来很多简化：</li>
+</ol>
+<p><img src="/archive-imgs/35/3-rectangle.png" srcset="/img/loading.gif" lazyload></p>
+<h3 id="Form-的一些重要属性"><a href="#Form-的一些重要属性" class="headerlink" title="Form 的一些重要属性"></a>Form 的一些重要属性</h3><p>Form 类表示的是 WinForms 的窗体，也就是窗口。以下是常见且重要的属性，后面会用到。</p>
+<ul>
+<li><code>AutoScaleDimensions = new(96F, 96F)</code><br>表示设计时的 DPI 值，有助于以后在高 DPI 下执行正确的缩放，96 表示屏幕 100% 缩放下的 DPI 值，以及后续设置控件的 Bounds 都是基于 AutoScaleDimensions 和系统 DPI 进行调整的。<strong>保持默认即可</strong>。</li>
+<li><code>AutoScaleMode = AutoScaleMode.Dpi</code><br>表示控件缩放模式为 Dpi。如果你的应用程序有运行在高缩放 (高 DPI，100% 以上) 环境的需求时，就选择 Dpi 模式。如果是 Font 模式的话，WinForms 将根据系统字体大小来调整控件字体大小，基本不会调整控件的大小，除非设置了 AutoSize。<strong>大多数情况一般用 Dpi</strong>。</li>
+<li><code>AutoSize = true; AutoSizeMode = AutoSizeMode.GrowAndShrink</code><br>启用窗体的自适应大小，在本文中推荐开启；GrowAndShrink 表示窗体可以动态的缩小或变大，GrowOnly 表示只动态变大，不进行缩小。<strong>根据实际需求决定。</strong></li>
+<li><code>Font = new(&quot;Segoe UI&quot;, 9F, FontStyle.Regular, GraphicsUnit.Point, 0)</code><br>设置窗体及所有子控件的字体。<code>Segoe UI</code> 是 Windows 在英文界面下的默认字体，中文下是 <code>Microsoft YaHei</code> (微软雅黑)。不过我还是推荐直接用 Segoe UI，此时系统会让英文&#x2F;数字等使用 Segoe UI，中文字符使用微软雅黑 (类似于复合字体，但实际上是系统的字体回退机制，确保以最佳的字体渲染相应的字符集)。大小就用 Windows 默认的 9pt，约 12px。</li>
+</ul>
+<h3 id="Suspend-Resume-PerformLayout-方法"><a href="#Suspend-Resume-PerformLayout-方法" class="headerlink" title="Suspend&#x2F;Resume&#x2F;PerformLayout() 方法"></a>Suspend&#x2F;Resume&#x2F;PerformLayout() 方法</h3><p>如果你好奇打开过设计器生成的源文件，那么在 InitializeComponent() 方法中，你一定见过这三个方法必定会先后出现。</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs csharp"><span class="hljs-keyword">this</span>.SuspendLayout();<br><br><span class="hljs-comment">// 初始化控件实例</span><br><br><span class="hljs-comment">// 设置控件属性</span><br><br><span class="hljs-keyword">this</span>.ResumeLayout(<span class="hljs-literal">false</span>);<br><span class="hljs-keyword">this</span>.PerformLayout();<br></code></pre></td></tr></table></figure>
+<p>那么这三个方法有什么用呢？直译的话就是 挂起&#x2F;恢复&#x2F;执行布局。通俗的讲就是好比你做饭，你是打算做完一盘菜就开始吃饭然后洗碗接着再做一盘菜然后开吃然后洗碗，还是把所有菜都做好再吃饭，吃完饭菜再洗碗？因此 SuspendLayout() 的作用就是告诉所在容器 (窗体、Panel 等) 你要开始做饭 (添加控件) 了，让其从现在起处于挂起 (可以理解为等待、待机) 状态，不要边做边吃 (立即将每行代码响应在 UI 上)；然后就是 ResumeLayout(false) 了，相当于告诉容器你的饭菜都做好了 (控件、属性等设置完成)，但还没让开吃；最后 PerformLayout() 相当于告诉容器可以开吃了 (立即开始布局)</p>
+<p>实际上这三个方法最终目的还是将控件的 Bounds (Size、Location) 、Anchor、Dock 等属性生效 (特别是高 DPI 环境，这将有助于自动对控件进行缩放)，但凡你要设置这些属性，都必须在这三个方法之间完成。不过有些其他属性是会间接影响上述属性的，比如 Text 属性，如果启用了 AutoSize，那么控件的 Size 就会去适应 Text 渲染后的 Size，相当于在设置 Size 属性，也需要在此期间完成。事件的绑定理论上来说与布局无关，在任何地方都可以进行，设计器生成的代码中事件绑定与属性设置先后紧挨着进行也是顺便的事。总之在这三个方法之间对控件进行各种操作是利大于弊的，可以放心使用。</p>
+<p>热知识：ResumeLayout(false) + PerformLayout() &#x3D; ResumeLayout(true)。也就是说，调用 ResumeLayout(true) 之后，就可以不用调用 PerformLayout() 了。</p>
+<h2 id="如何创建控件"><a href="#如何创建控件" class="headerlink" title="如何创建控件"></a>如何创建控件</h2><p>首先我们来看看如何创建控件，基本思路就是尽可能不使用坐标，启用自适应大小，并保留常用的参数。</p>
+<h3 id="创建-ControlBuilder-实例类"><a href="#创建-ControlBuilder-实例类" class="headerlink" title="创建 ControlBuilder 实例类"></a>创建 ControlBuilder 实例类</h3><p>为了统一存放这些创建控件的方法，我建议直接将其放到一个单独的<strong>实例类</strong>里面，名叫 ControlBuilder。并且为了简化调用，我推荐大家可以省略方法名的动词，比如 CreateLabel() 之类的直接命名为 Label() 就行，毕竟这样也不会发生冲突。</p>
+<p>接下来就是创建各控件的方法了，我们需要先预设常用属性和事件 (获取这些东西的途径可以靠经验，也可以打开设计器生成的代码看看)，<strong>尽可能</strong>不显式设置 Location 和 Size 属性，并打开 AutoSize。为什么说尽可能呢？这就是我的这套机制的缺点了，不过问题不大。因为只需要给第一个要排列的控件设置一个初始坐标，就可以使后续排列的控件与容器边缘有一定的距离 (留白)；对于某些复杂容器的话，也推荐设置一个固定的大小 (或者必须设置宽度，高度的话后期可以做自适应，具体看情况)，这也算是意料之中的事，可以接受。</p>
+<p>你可能有疑惑，如果是在 WPF 中，可以设置控件 (应该叫 UI 元素) 的 Margin 属性来使其主动与父容器留白。但在 WinForms 其实也有这个属性，但不是预期的行为，这个属性是给具有完全自动布局的容器 (就比如上文提到的那两个 LayoutPanel) 使用的，在普通的控件里设置 Margin 是不会生效的。</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs csharp"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title">ControlBuilder</span><br>&#123;<br><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="Label"><a href="#Label" class="headerlink" title="Label"></a>Label</h3><p><strong>常用属性：Text</strong></p>
+<p>要注意的是，根据微软官方描述，Label 在设计器中添加时，设计器把默认把其 AutoSize 属性设置为 true，而通过代码创建的话，默认为 false。故需要我们手动将其设置为 true。由于上述提到的留白问题，并且实际中肯定有 Label 是第一个控件的情况，因此我们在方法参数中，仍需提供传入坐标 (比如常见的 <code>(3, 3)</code>) 的参数，推荐直接暴露 x, y 而不是传入 Point。这就需要两个重载了，一个只提供字符串可以创建 Label，另一个需提供坐标和字符串，如下：</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs csharp"><span class="hljs-function"><span class="hljs-keyword">public</span> Label <span class="hljs-title">Label</span>(<span class="hljs-params"><span class="hljs-built_in">string</span> text</span>)</span><br>&#123;<br>    <span class="hljs-keyword">return</span> Label(<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, text);<br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">public</span> Label <span class="hljs-title">Label</span>(<span class="hljs-params"><span class="hljs-built_in">int</span> x, <span class="hljs-built_in">int</span> y, <span class="hljs-built_in">string</span> text</span>)</span><br>&#123;<br>    <span class="hljs-keyword">var</span> ctrl = <span class="hljs-keyword">new</span> Label() &#123; Text = text &#125;;<br>    ctrl.SetBounds(x, y, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, BoundsSpecified.Location);<br>    ctrl.AutoSize = <span class="hljs-literal">true</span>;<br>    <span class="hljs-keyword">return</span> ctrl;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>有时我们的 Label 或许还需要自动换行的特性，这个的话推荐后期封装到单独的方法中，而不是再添加一个创建 Label 的重载 (因为此时不能判断父容器)，除非你确定自动换行时的宽度是固定的。但多数情况下，我们需要的应该是达到父容器宽度后就换行。此时可以在窗体&#x2F;基类&#x2F;派生类或者是其他地方 (作为扩展方法) 添加以下方法：</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs csharp"><span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">SetLabelAutoWrap</span>(<span class="hljs-params">Label target</span>)</span><br>&#123;<br>    target.MaximumSize = <span class="hljs-keyword">new</span>(target.Parent.Width - target.Left, <span class="hljs-number">0</span>);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="Button"><a href="#Button" class="headerlink" title="Button"></a>Button</h3><p><strong>常用属性：Text、AutoSize、AutoSizeMode、Enabled</strong><br><strong>常用事件：Click</strong></p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><code class="hljs csharp"><span class="hljs-function"><span class="hljs-keyword">public</span> Button <span class="hljs-title">Button</span>(<span class="hljs-params"><span class="hljs-built_in">string</span> text, EventHandler onClick</span>)</span><br>&#123;<br>    <span class="hljs-keyword">return</span> Button(text, <span class="hljs-literal">true</span>, <span class="hljs-literal">false</span>, onClick);<br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">public</span> Button <span class="hljs-title">Button</span>(<span class="hljs-params"><span class="hljs-built_in">string</span> text, <span class="hljs-built_in">bool</span> enabled, EventHandler onClick</span>)</span><br>&#123;<br>    <span class="hljs-keyword">return</span> Button(text, enabled, <span class="hljs-literal">false</span>, onClick);<br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">public</span> Button <span class="hljs-title">Button</span>(<span class="hljs-params"><span class="hljs-built_in">string</span> text, <span class="hljs-built_in">bool</span> enabled, <span class="hljs-built_in">bool</span> autoSize, EventHandler onClick</span>)</span><br>&#123;<br>    <span class="hljs-keyword">var</span> ctrl = <span class="hljs-keyword">new</span> Button() &#123; Text = text, Enabled = enabled &#125;;<br><br>    <span class="hljs-keyword">if</span> (autoSize)<br>    &#123;<br>        ctrl.AutoSize = <span class="hljs-literal">true</span>;<br>        ctrl.AutoSizeMode = AutoSizeMode.GrowAndShrink;<br>    &#125;<br><br>    ctrl.Click += onClick;<br>    <span class="hljs-keyword">return</span> ctrl;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>注意，(75, 23) 是按钮的默认大小，也挺合理的，可以保持默认。</p>
+<p>可能的疑问：</p>
+<ul>
+<li>事件绑定时不需要对事件处理器进行 null 检查？(后面也会遇到)<br><strong>答</strong>：不需要。(1) 这些方法基本上仅个人使用，你自己会闲得无聊传个 null 进去？<br>(2) 本来也没事，<code>+= null</code> 是合法的 <br>(3) 最多也只会对触发端造成影响导致抛空引用异常 (NullReferenceException)。因为如果 onClick 为 null 的话，直接 <code>onClick(this, e)</code> 确实会出错，但绝大多数情况下触发端的代码一定是这样写的 <code>onClick?.Invoke(this, e)</code>，因此也不会有任何问题。</li>
+</ul>
+<h3 id="CheckBox"><a href="#CheckBox" class="headerlink" title="CheckBox"></a>CheckBox</h3><p><strong>常用属性：Text</strong><br><strong>常用事件：CheckedChanged</strong></p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs csharp"><span class="hljs-function"><span class="hljs-keyword">public</span> CheckBox <span class="hljs-title">CheckBox</span>(<span class="hljs-params"><span class="hljs-built_in">string</span> text, EventHandler onCheckedChanged</span>)</span><br>&#123;<br>    <span class="hljs-keyword">var</span> ctrl = <span class="hljs-keyword">new</span> CheckBox &#123; Text = text, AutoSize = <span class="hljs-literal">true</span> &#125;;<br>    ctrl.CheckedChanged += onCheckedChanged;<br>    <span class="hljs-keyword">return</span> ctrl;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>注意 CheckBox 需要手动设置 AutoSize。</p>
+<h3 id="RadioButton"><a href="#RadioButton" class="headerlink" title="RadioButton"></a>RadioButton</h3><p><strong>常用属性：Text</strong><br><strong>常用事件：Click</strong></p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs csharp"><span class="hljs-function"><span class="hljs-keyword">public</span> RadioButton <span class="hljs-title">RadioButton</span>(<span class="hljs-params"><span class="hljs-built_in">string</span> text, EventHandler onClick</span>)</span><br>&#123;<br>    <span class="hljs-keyword">var</span> ctrl = <span class="hljs-keyword">new</span> RadioButton &#123; Text = text, AutoSize = <span class="hljs-literal">true</span> &#125;;<br>    ctrl.Click += onClick;<br>    <span class="hljs-keyword">return</span> ctrl;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>注意 RadioButton 也需要手动设置 AutoSize。</p>
+<h3 id="ComboBox"><a href="#ComboBox" class="headerlink" title="ComboBox"></a>ComboBox</h3><p><strong>常用属性：DataSource、DisplayMember、ValueMember、Enabled</strong><br><strong>常用事件：SelectedIndexChanged</strong></p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs csharp"><span class="hljs-function"><span class="hljs-keyword">public</span> ComboBox <span class="hljs-title">ComboBox</span>(<span class="hljs-params"><span class="hljs-built_in">int</span> w, <span class="hljs-built_in">bool</span> enabled, EventHandler onSelectedIndexChanged, <span class="hljs-keyword">params</span> <span class="hljs-built_in">string</span>[] strings</span>)</span><br>&#123;<br>    <span class="hljs-keyword">var</span> ctrl = <span class="hljs-keyword">new</span> ComboBox() &#123; Enabled = enabled &#125;;<br>    ctrl.SetBounds(<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, w, <span class="hljs-number">23</span>);<br><br>    <span class="hljs-keyword">var</span> dataLength = strings.Length;<br>    <span class="hljs-keyword">var</span> data = <span class="hljs-keyword">new</span> ComboData[dataLength];<br><br>    <span class="hljs-keyword">for</span> (<span class="hljs-built_in">int</span> i = <span class="hljs-number">0</span>; i &lt; dataLength; i++)<br>    &#123;<br>        data[i] = <span class="hljs-keyword">new</span>(strings[i], i);<br>    &#125;<br><br>    ctrl.DataSource = data;<br>    ctrl.DisplayMember = <span class="hljs-keyword">nameof</span>(ComboData.Display);<br>    ctrl.ValueMember = <span class="hljs-keyword">nameof</span>(ComboData.Value);<br>    ctrl.SelectedIndexChanged += onSelectedIndexChanged;<br>    <span class="hljs-keyword">return</span> ctrl;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>ComboBox 在这里需要手动指定宽度，高度 23 是设计器默认高度，可以保持默认。string[] 表示下拉列表的各项。此处还封装了将 string[] 转换为 ComboData[] 的功能，用于自动填充索引。ComboData 是一个自定义的 ComboBox 的数据源类型，包含了下拉菜单显示的文字以及后台的 “值”，便于保存配置。这里以 int 充当索引为例，以下是 ComboData 的实体类，请根据实际需求决定值的类型。</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs csharp"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title">ComboData</span>(<span class="hljs-params"><span class="hljs-built_in">string</span> display, <span class="hljs-built_in">int</span> <span class="hljs-keyword">value</span></span>)</span><br>&#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-built_in">string</span> Display &#123; <span class="hljs-keyword">get</span>; &#125; = display;<br>    <span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> Value &#123; <span class="hljs-keyword">get</span>; &#125; = <span class="hljs-keyword">value</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="TextBox"><a href="#TextBox" class="headerlink" title="TextBox"></a>TextBox</h3><p><strong>常用属性：MaxLength</strong><br><strong>常用事件：TextChanged</strong></p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs csharp"><span class="hljs-function"><span class="hljs-keyword">public</span> TextBox <span class="hljs-title">TextBox</span>(<span class="hljs-params"><span class="hljs-built_in">int</span> w, EventHandler onTextChanged</span>)</span><br>&#123;<br>    <span class="hljs-keyword">var</span> ctrl = <span class="hljs-keyword">new</span> TextBox();<br>    ctrl.SetBounds(<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, w, <span class="hljs-number">23</span>);<br>    ctrl.MaxLength = &lt;你想要的值&gt;;<br>    ctrl.TextChanged += onTextChanged;<br>    <span class="hljs-keyword">return</span> ctrl;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>TextBox 在这里需要手动指定宽度，高度 23 是设计器默认高度，可以保持默认。有时你或许需要限定 TextBox 的最大字符数，若在应用程序各个地方都固定不变的话，可以不提供为方法参数，根据具体需求来决定。</p>
+<h3 id="GroupBox"><a href="#GroupBox" class="headerlink" title="GroupBox"></a>GroupBox</h3><p><strong>常用属性：Text、Controls</strong></p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs csharp"><span class="hljs-function"><span class="hljs-keyword">public</span> PlainGroupBox <span class="hljs-title">GroupBox</span>(<span class="hljs-params"><span class="hljs-built_in">string</span> text, Control[] controls</span>)</span><br>&#123;<br>    <span class="hljs-keyword">var</span> ctrl = <span class="hljs-keyword">new</span> PlainGroupBox() &#123; Text = text &#125;;<br>    ctrl.SetBounds(<span class="hljs-number">6</span>, <span class="hljs-number">6</span>, <span class="hljs-number">323</span>, <span class="hljs-number">0</span>);<br>    ctrl.Controls.AddRange(controls);<br>    <span class="hljs-keyword">return</span> ctrl;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>这里的 GroupBox 具有初始坐标 (6, 6) 和 323 宽度，因为这在我的场景中都是不变的，可以作为默认值。Control[] 即为要包含的子控件。</p>
+<p>可能的疑惑：</p>
+<ul>
+<li>(后文提到了添加控件最好用 Add) 为什么不用 Add 而是 AddRange？(后面也会遇到)<br><strong>答</strong>：因为容器也是窗体的子控件，让它内部提前开始布局也无妨。</li>
+</ul>
+<h3 id="Panel"><a href="#Panel" class="headerlink" title="Panel"></a>Panel</h3><p><strong>常用属性：Controls</strong></p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs csharp"><span class="hljs-function"><span class="hljs-keyword">public</span> Panel <span class="hljs-title">Panel</span>(<span class="hljs-params"><span class="hljs-built_in">int</span> x, <span class="hljs-built_in">int</span> y, <span class="hljs-built_in">int</span> w, <span class="hljs-built_in">int</span> h, Control[] controls</span>)</span><br>&#123;<br>    <span class="hljs-keyword">var</span> ctrl = <span class="hljs-keyword">new</span> Panel();<br>    ctrl.SetBounds(x, y, w, h);<br>    ctrl.Controls.AddRange(controls);<br>    <span class="hljs-keyword">return</span> ctrl;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>和 GroupBox 类似，就不多介绍了。</p>
+<h3 id="万能模板"><a href="#万能模板" class="headerlink" title="万能模板"></a>万能模板</h3><p>如果你觉得上述方法没有出现你需要的控件，除了自行编写新方法以外，还可以使用 “万能模板” 来应付那些只需要出现一次的控件。</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs csharp"><span class="hljs-function"><span class="hljs-keyword">public</span> TControl <span class="hljs-title">New</span>&lt;<span class="hljs-title">TControl</span>&gt;(<span class="hljs-params"><span class="hljs-built_in">int</span> w, <span class="hljs-built_in">int</span> h, <span class="hljs-built_in">string</span> text</span>)</span><br><span class="hljs-function">    <span class="hljs-keyword">where</span> TControl : Control, <span class="hljs-keyword">new</span>()</span><br>&#123;<br>    <span class="hljs-keyword">var</span> ctrl = <span class="hljs-keyword">new</span> TControl() &#123; Text = text &#125;;<br>    ctrl.SetBounds(<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, w, h);<br>    <span class="hljs-keyword">return</span> ctrl;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>比如可以用来创建一个进度条控件 (ProgressBar)：</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs csharp">New&lt;ProgressBar&gt;(<span class="hljs-number">344</span>, <span class="hljs-number">22</span>, <span class="hljs-literal">null</span>)<br></code></pre></td></tr></table></figure>
+
+<p>如果需要特殊的属性也不用担心，也并不需要写在 New 方法里，可以用扩展方法：</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs csharp">New&lt;ProgressBar&gt;(<span class="hljs-number">344</span>, <span class="hljs-number">22</span>, <span class="hljs-literal">null</span>).With(c =&gt; c.Style = ProgressBarStyle.Continuous)<br></code></pre></td></tr></table></figure>
+<p>这样就可以创建一个样式为 Continuous 的进度条，有关该扩展方法详见下方 <a href="#%E7%BC%96%E8%BE%91%E7%8E%B0%E6%9C%89%E6%8E%A7%E4%BB%B6">编辑现有控件</a>：</p>
+<h3 id="创建-Extensions-静态类"><a href="#创建-Extensions-静态类" class="headerlink" title="创建 Extensions 静态类"></a>创建 Extensions 静态类</h3><p>创建一个名为 Extensions 的静态类可用于存放一些好用的扩展方法，这样可以方便开发，减少代码重复，提高可复用性。</p>
+<h3 id="添加控件"><a href="#添加控件" class="headerlink" title="添加控件"></a>添加控件</h3><p>首先可以写一个用于构建 Control[] 数组并向目标控件添加子控件的扩展方法：</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs csharp"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">AddControls</span>(<span class="hljs-params"><span class="hljs-keyword">this</span> Control ctrl, Func&lt;ControlBuilder, Control[]&gt; builder</span>)</span><br>&#123;<br>    <span class="hljs-keyword">var</span> ctrls = builder?.Invoke(<span class="hljs-keyword">new</span>());<br><br>    <span class="hljs-keyword">for</span> (<span class="hljs-built_in">int</span> i = <span class="hljs-number">0</span>; i &lt; ctrls.Length; i++)<br>    &#123;<br>        ctrl.Controls.Add(ctrls[i]);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>此时你可能会有以下几个疑惑点：</p>
+<ol>
+<li>为什么不用 Controls.AddRange，一次性传完整个 Control[] 数组？<br><strong>答</strong>：因为 Add 方法内部最终会调用 ResumeLayout(false)，而 AddRange 方法内部最终调用的是 ResumeLayout(true)，会导致 PerformLayout 提前，故不推荐。</li>
+<li>为什么不用 foreach 循环<br><strong>答</strong>：有关循环方式的选择方面的问题我自己也无法准确回答，只能说凭感觉 (大致方向就是需要索引就 for，反之 foreach)，大多数情况下两种循环方式在<strong>遍历数组</strong>时的性能差异不大，另外 WinForms 源码里在 AddRange 处也用的是 for 循环。不嫌弃的话可以参考我写的 <a href="https://wanghaonie.github.io/posts/d1afa7a5de7f/">【C#】for 和 foreach 循环的选择</a> (仅个人观点)。</li>
+<li>为什么要用 Func 委托？<br><strong>答</strong>：Func 是具有返回值的委托，这里用它来提供 ControlBuilder 的方法来创建控件并返回 Control[] 数组拿到控件集合。(Func 委托在 <a href="https://wanghaonie.github.io/posts/e1fb75c4dbec/">(后续) 使用 Builder 模式让右键菜单的创建更上一层楼</a> 中提到过，感兴趣的可以去看看)</li>
+<li>为什么该扩展方法基于 Control 而不是基于 Form？<br><strong>答</strong>：的确，在本文中，只会向 Form 添加子控件，其他容器的话 ControlBuilder 有专门的方法，但为了某种约定俗成，还是优先选择 Control，这个就看个人喜好了。</li>
+</ol>
+<p>最终调用时的效果可以看看：<a target="_blank" rel="noopener" href="https://github.com/WangHaonie/PlainCEETimer/blob/7fb3a4e/PlainCEETimer/UI/Forms/SettingsForm.cs#L107-L428">PlainCEETimer&#x2F;SettingsForm.cs: 107~428 行</a></p>
+<h3 id="编辑现有控件"><a href="#编辑现有控件" class="headerlink" title="编辑现有控件"></a>编辑现有控件</h3><p>如果你觉得 ControlBuilder 提供的方法预设不满足一些特殊情况 (需要额外的属性、事件等)，但又不想为单一的特殊情况专门写一个重载的话，可以添加以下扩展方法：</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs csharp"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> TControl <span class="hljs-title">With</span>&lt;<span class="hljs-title">TControl</span>&gt;(<span class="hljs-params"><span class="hljs-keyword">this</span> TControl control, Action&lt;TControl&gt; additions</span>)</span><br><span class="hljs-function">    <span class="hljs-keyword">where</span> TControl : Control</span><br>&#123;<br>    additions?.Invoke(control);<br>    <span class="hljs-keyword">return</span> control;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>此时你可能会有以下几个疑惑点：</p>
+<ol>
+<li>为什么返回值要用泛型 TControl，直接用 Control 不行吗？<br><strong>答</strong>：Control 是各种控件的基类，代表了几乎所有的控件。但 Control 和 各控件 (比如 Label 等) 是相对独立的，并不是同一个类，因此直接使用 Control 的话在传入时会进行一次隐式转换 (Label -&gt; Control)。并且返回时应当返回具体控件类型而不是 Control，这里要达到预期的话又要进行一次显式转换 (Control -&gt; Label)，将出现些许性能开销。故使用 TControl 泛型并约束为 Control 可以让 C# 直接推断出控件具体类型并只对派生自 Control 的类型显示扩展方法，同时也能确保拿到该控件特有的属性。</li>
+<li>为什么用 Action&lt;&gt; 而不是 Action 或 Func&lt;&gt;？<br><strong>答</strong>：与 Func 相反，Action 是没有返回值的委托，这里我们目的只是为了传入控件实例并在 Lambda 表达式里获取到其实例，然后执行修改属性或者绑定事件等操作，无需返回值，且用 Action 的话不能直接访问到控件实例哦，你可以试试，故应该用 Action&lt;&gt;。</li>
+</ol>
+<p>最终调用时的效果可以看看：<a target="_blank" rel="noopener" href="https://github.com/WangHaonie/PlainCEETimer/blob/7fb3a4e/PlainCEETimer/UI/Forms/SettingsForm.cs#L142-L144">PlainCEETimer&#x2F;SettingsForm.cs: 142~144 行</a></p>
+<h2 id="如何进行布局"><a href="#如何进行布局" class="headerlink" title="如何进行布局"></a>如何进行布局</h2><p class="note note-warning">有关布局的方法推荐放在你的应用程序的所有窗体的基类中。</p>
+
+<p>布局的方法在前面简单提过了，主要就是灵活的运用控件的 Left、Top、Width、Height 等属性，唯一的缺点就是每个方法只能对一个控件进行布局，参考的控件可能会有一个或两个，但也能接受。在开始之前，我们首先要清楚，第一，WinForms 控件不显式指定坐标的话，默认坐标为 (0, 0)，这意味着所有控件在添加完成后全部挤在了左上角，因此我们需要进行相对布局；第二，这样的布局方式不进行微调的话控件可能不会按照预期的那样对齐，特指不同类型控件之间的布局，主要也是因为 WinForms 不同控件的最小最适的高度是不一样的，不过微调之后都可以完美的对齐。废话不多说，直接进入正题。</p>
+<h3 id="获取-DPI-值"><a href="#获取-DPI-值" class="headerlink" title="获取 DPI 值"></a>获取 DPI 值</h3><p>首先我们最好要考虑高 DPI 的场景，因为微调的值必须手动进行缩放，Bounds 等属性将由 WinForms 自动完成缩放。获取 DPI 的方式有很多，你可以调用 Win32 API GetDpiForWindow&#x2F;System，也可以创建一个 Graphics 访问其 DpiX 属性，但前者只能在 Windows 10 1607 之后才生效，如果你的应用程序需要兼容 Windows 7 或其他系统的话，还是用后者比较保险。另外你或许也听说过 DeviceDpi 属性，这个的话我测试了很多次获取到的始终是 96，如果你测试没问题的话那就用它也可以。</p>
+<p>这里就以第二种方法为例，首先我们重写窗体的 OnHandleCreated 方法 (大致相当于订阅 HandleCreated 事件)，因为创建 Graphics 对象需要窗口句柄，在此方法触发时获取 DPI 是最安全的。</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs csharp"><span class="hljs-keyword">private</span> <span class="hljs-built_in">float</span> CurrentDpiRatio;<br><br><span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">override</span> <span class="hljs-keyword">void</span> <span class="hljs-title">OnHandleCreated</span>(<span class="hljs-params">EventArgs e</span>)</span><br>&#123;<br>    <span class="hljs-keyword">var</span> g = CreateGraphics();<br>    CurrentDpiRatio = g.DpiX / <span class="hljs-number">96F</span>;<br>    g.Dispose();<br>    <span class="hljs-keyword">base</span>.OnHandleCreated(e);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>要注意的是 DpiX 是当前窗体所在屏幕的 DPI 值，我们在后面用的时候主要使用 DPI 比值来缩放一些数值，这个比值是相对于 100% (96 DPI) 的，故这里需要除以 96，F 表示单精度浮点数 (float)。创建完 Graphics 后建议显式 Dispose 它。</p>
+<p>现在我们获取到了 DpiRatio 就可以编写一个方法用于缩放微调的数值了：</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs csharp"><span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-built_in">int</span> <span class="hljs-title">ScaleToDpi</span>(<span class="hljs-params"><span class="hljs-built_in">int</span> px</span>)</span><br>&#123;<br>    <span class="hljs-keyword">return</span> (<span class="hljs-built_in">int</span>)(px * CurrentDpiRatio);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>这个方法后面会用到。</p>
+<h3 id="将第一个控件放置到容器"><a href="#将第一个控件放置到容器" class="headerlink" title="将第一个控件放置到容器"></a>将第一个控件放置到容器</h3><p>也就是放置第一个控件，不然默认坐标是 (0, 0)，这样离容器太近了，也对后期的布局产生印象，我建议使用 (3, 3)，或者是 (6, 6)。加上 x, y 可选参数以便特殊情况调整。</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs csharp"><span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title">ArrangeFirstControl</span>(<span class="hljs-params">Control control, <span class="hljs-built_in">int</span> x = <span class="hljs-number">3</span>, <span class="hljs-built_in">int</span> y = <span class="hljs-number">3</span></span>)</span><br>&#123;<br>    control.SetBounds(x, y, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, BoundsSpecified.Location);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="一般水平排列"><a href="#一般水平排列" class="headerlink" title="一般水平排列"></a>一般水平排列</h3><p>打开你的空间思维，打不开的话就画在草稿纸上。现在我们要把第二个控件 (c2) 放在第一个控件 (上面提到的那个) (c1) 的右侧，且两者不能重叠，顶部也要对齐。于是聪明的你就可以得出，c2 的 X 坐标应该为 c1 的 X 加上 c1 的宽度 (WinForms 控件自带间隙，不用担心它们贴的太近了)，简化一下，<a href="#Bounds-Rectangle-RECT-%E5%B1%9E%E6%80%A7">本文开头</a>就提到过，对于同一个控件，X 加上宽度就等于 Right。综上所述，c2.X &#x3D; c1.Right。现在来处理 Y 坐标，我们要求 c2 的顶部与 c1 对齐，这就更简单了，直接让它等于 c1 的 Y，也就是 Top (也提到过，忘了快去看看)。于是 c2.Y &#x3D; c1.Top。</p>
+<p>恭喜你，你制作出了第一个布局方法！我们可以给他命名为 ArrangeControlXT (排列 控件 X轴 Top对齐)，同时加上偏移参数，以便进行微调，因为不同的控件高度或宽度是不一样的，有时会出现顶部并不对齐或者有重叠的情况，别忘了要乘以 DPI 哦。</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs csharp"><span class="hljs-comment"><span class="hljs-doctag">///</span> <span class="hljs-doctag">&lt;summary&gt;</span></span><br><span class="hljs-comment"><span class="hljs-doctag">///</span> 参考指定控件，在 X 方向上水平排列目标控件，并在 Y 方向上与指定控件的上边缘对齐</span><br><span class="hljs-comment"><span class="hljs-doctag">///</span> <span class="hljs-doctag">&lt;/summary&gt;</span></span><br><span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title">ArrangeControlXT</span>(<span class="hljs-params">Control target, Control reference, <span class="hljs-built_in">int</span> xOffset = <span class="hljs-number">0</span>, <span class="hljs-built_in">int</span> yOffset = <span class="hljs-number">0</span></span>)</span><br>&#123;<br>    target.SetBounds(reference.Right + ScaleToDpi(xOffset), reference.Top + ScaleToDpi(yOffset), <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, BoundsSpecified.Location);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="特殊水平排列"><a href="#特殊水平排列" class="headerlink" title="特殊水平排列"></a>特殊水平排列</h3><p>我们来进阶一下，因为有时仅靠 ArrangeControlXT 是不够用的，这里就以我遇到的情况为例：要求目标控件 (t) 与 c1 左边缘对齐，并与 c2 顶部对齐。同样打开思维，你就会得出 t.X &#x3D; c1.Left，t.Y &#x3D; c2.Top。</p>
+<p>我们将它命名为 ArrangeControlXLT (排列 控件 X轴 左对齐 上对齐)，同样加上偏移参数。</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs csharp"><span class="hljs-comment"><span class="hljs-doctag">///</span> <span class="hljs-doctag">&lt;summary&gt;</span></span><br><span class="hljs-comment"><span class="hljs-doctag">///</span> 参考指定控件，在 X 方向上水平排列目标控件，与 <span class="hljs-doctag">&lt;paramref name=&quot;reference1&quot;/&gt;</span> 左边缘对齐，并在 Y 方向上与 <span class="hljs-doctag">&lt;paramref name=&quot;reference2&quot;/&gt;</span> 上边缘对齐。</span><br><span class="hljs-comment"><span class="hljs-doctag">///</span> <span class="hljs-doctag">&lt;/summary&gt;</span></span><br><span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title">ArrangeControlXLT</span>(<span class="hljs-params">Control target, Control reference1, Control reference2, <span class="hljs-built_in">int</span> xOffset = <span class="hljs-number">0</span>, <span class="hljs-built_in">int</span> yOffset = <span class="hljs-number">0</span></span>)</span><br>&#123;<br>    target.SetBounds(reference1.Left + ScaleToDpi(xOffset), reference2.Top + ScaleToDpi(yOffset), <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, BoundsSpecified.Location);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>同样的，我们也可以制造出这样的效果：t 与 c1 右边缘对齐，与 c2 上边缘对齐。如法炮制：</p>
+<p>我们将它命名为 ArrangeControlXRT (排列 控件 X轴 右对齐 上对齐)，也加上偏移参数。</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs csharp"><span class="hljs-comment"><span class="hljs-doctag">///</span> <span class="hljs-doctag">&lt;summary&gt;</span></span><br><span class="hljs-comment"><span class="hljs-doctag">///</span> 参考指定控件，在 X 方向上水平排列目标控件，与 <span class="hljs-doctag">&lt;paramref name=&quot;reference1&quot;/&gt;</span> 右边缘对齐，并在 Y 方向上与 <span class="hljs-doctag">&lt;paramref name=&quot;reference2&quot;/&gt;</span> 上边缘对齐。</span><br><span class="hljs-comment"><span class="hljs-doctag">///</span> <span class="hljs-doctag">&lt;/summary&gt;</span></span><br><span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title">ArrangeControlXRT</span>(<span class="hljs-params">Control target, Control reference1, Control reference2, <span class="hljs-built_in">int</span> xOffset = <span class="hljs-number">0</span>, <span class="hljs-built_in">int</span> yOffset = <span class="hljs-number">0</span></span>)</span><br>&#123;<br>    target.SetBounds(reference1.Right + ScaleToDpi(xOffset), reference2.Top + ScaleToDpi(yOffset), <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, BoundsSpecified.Location);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="竖直排列"><a href="#竖直排列" class="headerlink" title="竖直排列"></a>竖直排列</h3><p>上面我们讲完了水平排列，怎么能少竖直排列呢？来看看，现在我们要把 c2 放在 c1 的下面，并要求 c2 与 c1 左对齐。打开思维，得出 c2.X &#x3D; c1.Left，c2.Y &#x3D; c2.Top + c2.Height &#x3D; c2.Bottom。</p>
+<p>我们将它命名为 ArrangeControlYL (排列 控件 Y轴 左对齐)</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs csharp"><span class="hljs-comment"><span class="hljs-doctag">///</span> <span class="hljs-doctag">&lt;summary&gt;</span></span><br><span class="hljs-comment"><span class="hljs-doctag">///</span> 参考指定控件，在 Y 方向上竖直排列目标控件，并在 X 方向上与指定控件的左边缘对齐</span><br><span class="hljs-comment"><span class="hljs-doctag">///</span> <span class="hljs-doctag">&lt;/summary&gt;</span></span><br><span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title">ArrangeControlYL</span>(<span class="hljs-params">Control target, Control reference, <span class="hljs-built_in">int</span> xOffset = <span class="hljs-number">0</span>, <span class="hljs-built_in">int</span> yOffset = <span class="hljs-number">0</span></span>)</span><br>&#123;<br>    target.SetBounds(reference.Left + ScaleToDpi(xOffset), reference.Bottom + ScaleToDpi(yOffset), <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, BoundsSpecified.Location);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="水平对齐"><a href="#水平对齐" class="headerlink" title="水平对齐"></a>水平对齐</h3><p>注意，新概念来了，这叫 对齐，不是排列。对齐表示指更改 X 或 Y，而排列两者都要更改。有时你可能不需要直接排列，对齐一下就行了。</p>
+<p>我们将它命名为 AlignControlXL (水平左对齐)：</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs csharp"><span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title">AlignControlXL</span>(<span class="hljs-params">Control target, Control reference, <span class="hljs-built_in">int</span> xOffset = <span class="hljs-number">0</span></span>)</span><br>&#123;<br>    target.Left = reference.Left + ScaleToDpi(xOffset);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>什么？你感觉应该叫 AlignControlYL？那我问你，Left 是什么，是不是对应 X？所以就叫 XL 没毛病。</p>
+<p>同样，也可以制作出水平右对齐，命名为 AlignControlXR：</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs csharp"><span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title">AlignControlXR</span>(<span class="hljs-params">Control target, Control reference, <span class="hljs-built_in">int</span> xOffset = <span class="hljs-number">0</span></span>)</span><br>&#123;<br>    target.Left = reference.Right - target.Width + ScaleToDpi(xOffset);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="竖直居中"><a href="#竖直居中" class="headerlink" title="竖直居中"></a>竖直居中</h3><p>这里才是重中之重，因为我们总不可能只排列同样的控件吧，如果是不同的控件的话，上述没有一个方法能保证竖直居中。这个方法需要与 ArrangeControlX 系列方法搭配使用，也就是先排列再居中。来打开你的思维，让你把 c2 与 c1 保持竖直居中，此时 c2 已经在 c1 后面了且上对齐，是不是只需要更改 Y 坐标就行了？假设 c2 高于 c1，… emmm，貌似有点难想象，来画个草图分析分析：</p>
+<p><img src="/archive-imgs/35/4-centercontrol-y-1.png" srcset="/img/loading.gif" lazyload></p>
+<p>问题就在于这里的长度怎么确定？一旦确定，我们就能得出 c2 的 Y 坐标。</p>
+<p><img src="/archive-imgs/35/4-centercontrol-y-2.png" srcset="/img/loading.gif" lazyload></p>
+<p>聪明的你一下就发现了，这玩意儿不就是 c2 与 c1 的高度差的一半嘛？</p>
+<p><img src="/archive-imgs/35/4-centercontrol-y-3.png" srcset="/img/loading.gif" lazyload></p>
+<p>于是你得出：c2.Y &#x3D; c1.Y + (c2.H - c1.H) &#x2F; 2</p>
+<p>我们将它命名为 CenterControlY：</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs csharp"><span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title">CenterControlY</span>(<span class="hljs-params">Control target, Control reference, <span class="hljs-built_in">int</span> yOffset = <span class="hljs-number">0</span></span>)</span><br>&#123;<br>    target.Top = reference.Top + (target.Height - reference.Height) / <span class="hljs-number">2</span> + ScaleToDpi(yOffset);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="水平紧凑"><a href="#水平紧凑" class="headerlink" title="水平紧凑"></a>水平紧凑</h3><p>同样的，我们有时发现在水平排列时，只需要把 c2 放在 c1 后面就行了，不用管 Y 坐标。于是你得出：c2.X &#x3D; c1.X + c1.W &#x3D; c1.R</p>
+<p>我们将它命名为 CompactControlX</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs csharp"><span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title">CompactControlX</span>(<span class="hljs-params">Control target, Control reference, <span class="hljs-built_in">int</span> xOffset = <span class="hljs-number">0</span></span>)</span><br>&#123;<br>    target.Left = reference.Right + ScaleToDpi(xOffset);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="竖直紧凑"><a href="#竖直紧凑" class="headerlink" title="竖直紧凑"></a>竖直紧凑</h3><p>有水平紧凑那必然有竖直紧凑，现将 c2 放在 c1 下面就行，不用管 X 坐标。于是你得出：c2.Y &#x3D; c1.Y + c1.H &#x3D; c1.B</p>
+<p>我们将它命名为 CompactControlY</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs csharp"><span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title">CompactControlY</span>(<span class="hljs-params">Control target, Control reference, <span class="hljs-built_in">int</span> yOffset = <span class="hljs-number">0</span></span>)</span><br>&#123;<br>    target.Top = reference.Bottom + ScaleToDpi(yOffset);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="GroupBox-中的特殊情况"><a href="#GroupBox-中的特殊情况" class="headerlink" title="GroupBox 中的特殊情况"></a>GroupBox 中的特殊情况</h3><p>你知道吗，像 GroupBox 这样的容器有着自己独立的一套坐标系，也就是 (0, 0) 在它们自己的左上角而不是在上级容器的左上角。</p>
+<p>但是，在 GroupBox 中，(0, 0) 并不是你想的位置。你会发现 (0, 0) 在其边框之外，也就是此时将一个 Label 放在 (0, 0) 的位置，它正好与 GroupBox 的标题文字重合。但我们希望它出现在标题文字的下方，也就是边框以内，怎么办呢？</p>
+<p>聪明的你又双叒叕想到了，如果能获取标题文字的高度不就行了吗？但怎么获取？</p>
+<p>控件是不是都有 Font 属性来存储当前控件的字体？一般情况下，若无专门设置，所有的控件均继承自窗体的字体。而窗体的 Font 里面是不是可以拿到 Height 属性？因此我们可以在一开始，即窗体启动的时候，就获取 Font.Height 并缓存下来，避免后续多次访问 Font.Height。</p>
+<p>但此时你可能想到了一个 “更好” 的方法，我们不是在前文说过字体大小默认为 9pt 吗？直接用就行，理论上可以，但是第一，pt 是 磅 (point)，不是 px，像素 (pixel)，而坐标布局应该使用 px，所以你还要进行单位换算；第二，高 DPI 怎么办，此时就不是 9pt 了。所以建议大家从 Font 里直接拿它的 Height:</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs csharp"><span class="hljs-keyword">private</span> <span class="hljs-built_in">int</span> FontHeight;<br><br><span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">override</span> <span class="hljs-keyword">void</span> <span class="hljs-title">OnLoad</span>(<span class="hljs-params">EventArgs e</span>)</span><br>&#123;<br>    FontHeight = Font.Height;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>现在我们确定了 Y 坐标，即字体高度，那 X 坐标呢？在我看来我觉得在 GroupBox 中，空出 6px 间隙最好。</p>
+<p>于是我们可以制作出适用于 GroupBox 的 “将第一个控件放置到容器” 的专属方法，我们将它命名为：GroupBoxArrageFirstControl</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs csharp"><span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title">GroupBoxArrageFirstControl</span>(<span class="hljs-params">Control target, <span class="hljs-built_in">int</span> xOffset = <span class="hljs-number">0</span>, <span class="hljs-built_in">int</span> yOffset = <span class="hljs-number">0</span></span>)</span><br>&#123;<br>    target.SetBounds(<span class="hljs-number">6</span> + ScaleToDpi(xOffset), FontHeight + ScaleToDpi(yOffset), <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, BoundsSpecified.Location);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>当然，GroupBox 还得具有自适应高度的功能，怎么实现？一个一个累加在竖直方向上的所有控件的高度？大戳特戳！开启 AutoSize？也戳！因为这样宽度也自适应了。</p>
+<p>是不是只需要获取在竖直方向上的最后一个控件的 Y 和 H 就行了？也就是 GroupBox.H &#x3D; c.Y + c.H &#x3D; c.B。</p>
+<p>我们将它命名为：GroupBoxAutoAdjustHeight</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs csharp"><span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title">GroupBoxAutoAdjustHeight</span>(<span class="hljs-params">GroupBox groupBox, Control yLast, <span class="hljs-built_in">int</span> yOffset = <span class="hljs-number">0</span></span>)</span><br>&#123;<br>    groupBox.Height = yLast.Bottom + ScaleToDpi(yOffset);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ul>
+<li>省去了所有设计器生成的代码并改用新方法后，PlainCEETimer 的主程序体积降低了 13KB (9%, 142KB -&gt; 129KB)。</li>
+<li>ControlBuilder 的一系列方法基本上可以满足大多数情况下的需求，如果需要创建其他控件的话，可以自行进行扩展。或者说使用 New 方法或直接在 AddControls 方法里传入控件实例，不依赖 ControlBuilder。比如在 <a target="_blank" rel="noopener" href="https://github.com/WangHaonie/PlainCEETimer/blob/e33fbb9/PlainCEETimer/UI/Controls/ListViewDialog.cs#L90">PlainCEETimer&#x2F;ListViewDialog.cs: 第 90 行</a> 创建 ListView 就没有使用 ControlBuilder。</li>
+<li>各种有关布局的方法目前只适用于窗体大小固定的场景下，其他场景的话可以自行编写更多方法，注意要使用 Anchor 固定控件等。</li>
+</ul>
+<h2 id="链接"><a href="#链接" class="headerlink" title="链接"></a>链接</h2><ul>
+<li>ControlBuilder.cs<br><a target="_blank" rel="noopener" href="https://github.com/WangHaonie/PlainCEETimer/blob/main/PlainCEETimer/UI/ControlBuilder.cs">https://github.com/WangHaonie/PlainCEETimer/blob/main/PlainCEETimer/UI/ControlBuilder.cs</a></li>
+<li>Extensions.cs<br><a target="_blank" rel="noopener" href="https://github.com/WangHaonie/PlainCEETimer/blob/main/PlainCEETimer/UI/Extensions.cs">https://github.com/WangHaonie/PlainCEETimer/blob/main/PlainCEETimer/UI/Extensions.cs</a></li>
+<li>布局系列方法<br><a target="_blank" rel="noopener" href="https://github.com/WangHaonie/PlainCEETimer/blob/7fb3a4e/PlainCEETimer/UI/Controls/AppForm.cs#L262-L350">https://github.com/WangHaonie/PlainCEETimer/blob/7fb3a4e/PlainCEETimer/UI/Controls/AppForm.cs#L262-L350</a></li>
+</ul>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/Windows/" class="print-no-link">#Windows</a>
+      
+        <a href="/tags/CSharp/" class="print-no-link">#CSharp</a>
+      
+        <a href="/tags/WinForms/" class="print-no-link">#WinForms</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>【WinForms】可定制性极高! 不用设计器，教你纯靠代码添加控件并完成布局</div>
+      <div>https://wanghaonie.github.io/posts/fa75e0e82b60/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>WangHaonie</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2025-06-18 21:28:01</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>更新于</div>
+          <div>2025-07-22 22:58:27</div>
+        </div>
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="NC - 非商业性使用">
+                    <i class="iconfont icon-nc"></i>
+                  </span>
+                </a>
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="SA - 相同方式共享">
+                    <i class="iconfont icon-sa"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/posts/3553aea0b24d/" title="【C#】List&lt;T&gt; 和 T[] 的选择">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">【C#】List&lt;T&gt; 和 T[] 的选择</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/posts/f6c1db1c1b4a/" title="关于 Administrator 账户的一个紧急发布">
+                        <span class="hidden-mobile">关于 Administrator 账户的一个紧急发布</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span> Hexo </span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span> Fluid </span></a><br> <div><a> <span id="site-runtime">正在加载网站运行时间，请稍候...</span> <script src="/js/runtime.js"></script> </a></div> 
+    </div>
+  
+  
+  
+    <!-- 备案信息 ICP for China -->
+    <div class="beian">
+  <span>
+    <a rel="nofollow noopener">
+      Copyright © 2023-2025 WangHaonie
+    </a>
+  </span>
+  
+    
+      <span>
+        <a
+          href="https://icp.gov.moe/?keyword=20229939"
+          rel="nofollow noopener"
+          class="beian-police"
+          target="_blank"
+        >
+          
+            <span style="visibility: hidden; width: 0">|</span>
+            <img src="/img/icon_moeicp.png" srcset="/img/loading.gif" lazyload/>
+          
+          <span>萌ICP备20229939号</span>
+        </a>
+      </span>
+    
+  
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+
+
+
+  
+<script src="/js/customstyles.js"></script>
+<script src="/js/subsiteredirect.js"></script>
+<script src="/js/bgribbon.js"></script>
+<script src="/js/curfireworks.js"></script>
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

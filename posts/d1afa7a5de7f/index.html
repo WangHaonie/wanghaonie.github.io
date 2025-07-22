@@ -16,11 +16,11 @@
   <meta name="author" content="WangHaonie">
   <meta name="keywords" content="">
   
-    <meta name="description" content="前言在之前的文章中，我们提到了如何切换为 Administrator 账户或者使当前账户具有管理员权限。但近期我发现网上似乎出现了一些抵制使用内置管理员为主账户的说法，所以到底是否可以将 Administrator 作为主账户，这期文章就来简单说明一下。 正文我从接触电脑开始，一直使用 Administrator 账户。因为当时还依赖盗版系统，默认就是 Administrator，后来自己学会安装">
+    <meta name="description" content="前言先简单看看一下 for 与 foreach 在遍历集合的区别，最根本的：for 更胜一筹  for -&amp;gt; 基于索引器 -&amp;gt; 调用本机代码 -&amp;gt; 拿出数据。 foreach -&amp;gt; 基于 Enumerator -&amp;gt; GetEnumerator() -&amp;gt; 进入 while 循环 -&amp;gt; 索引器拿出数据 -&amp;gt; MoveNext() (类似于 for 循环:">
   
   
   
-  <title>关于 Administrator 账户的一个紧急发布 | WangHaonie 的博客</title>
+  <title>【C#】for 和 foreach 循环的选择 | WangHaonie 的博客</title>
   <link rel="stylesheet" href="/css/frosted.css">
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -254,7 +254,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle">关于 Administrator 账户的一个紧急发布</span>
+            <span id="subtitle">【C#】for 和 foreach 循环的选择</span>
           
         </div>
 
@@ -265,8 +265,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2025-05-21 08:00" pubdate>
-          2025-05-21 08:00:26
+        <time datetime="2025-07-22 10:22" pubdate>
+          2025-07-22 10:22:01
         </time>
       </span>
     
@@ -277,7 +277,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          1.7k 字
+          615 字
         
       </span>
     
@@ -288,7 +288,7 @@
         
         
         
-          14 分钟
+          6 分钟
         
       </span>
     
@@ -338,12 +338,12 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">关于 Administrator 账户的一个紧急发布</h1>
+            <h1 id="seo-header">【C#】for 和 foreach 循环的选择</h1>
             
               <p class="note note-info">
                 
                   
-                    本文最后更新于：2 小时前
+                    本文最后更新于：11 分钟前
                   
                 
               </p>
@@ -351,34 +351,43 @@
             
               <div class="markdown-body">
                 
-                <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>在之前的<a href="https://wanghaonie.github.io/posts/54ae615f8ae4/">文章</a>中，我们提到了如何切换为 Administrator 账户或者使当前账户具有管理员权限。但近期我发现网上似乎出现了一些抵制使用内置管理员为主账户的说法，所以到底是否可以将 Administrator 作为主账户，这期文章就来简单说明一下。</p>
-<h2 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h2><p>我从接触电脑开始，一直使用 Administrator 账户。因为当时还依赖盗版系统，默认就是 Administrator，后来自己学会安装官方系统了，还主动切换到 Administrator 账户，因为它是真的香，懂得都懂。但相信大家在使用 Administrator 的时候，可能遇到过这样的情况：<strong>有些软件或其部分功能拒绝在管理员账户中运行</strong>。我也一直以来用过许多软件，目前为止有3款软件具有这种情况。第一款由于是好几年前的了，且<strong>不常用</strong>，已经忘记名称了，表现为：在管理员模式下直接警告无法运行。第二款就是最近遇到的，IDM，居然也不能在管理员模式下运行了，提示：<em>您正以管理员身份运行IDM。在该模式下，IDM 无法接管浏览器的下载事件</em>，更令人困惑的是，这在之前的版本是没有的，所以我又回退到之前用的版本，后来又被强制更新到最新版本，这个弹窗就没有出现过了。第三款，cvr (全称你们来猜)，居然不能在管理员模式下设置开机启动，这在以前的版本中也是没有的。</p>
-<p>我属实被这些软件迷惑行为给整不会了，因为它们在那之前都可以正常运行。有时我觉得这可能是开发者道听途说或者是<strong>误解</strong> (本文结尾提出我的猜测) 一些机制故意而为的，有时我又觉得是不是内置管理员真的不能用了？但是看到目前我电脑里的其他软件都能在管理员模式下正常运行和设置开机启动，我就更无法理解这样的做法了。</p>
-<p>我上网查找过相关说法，主要有以下几点：</p>
+                <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>先简单看看一下 for 与 foreach 在<strong>遍历集合</strong>的区别，最根本的：<strong>for 更胜一筹</strong></p>
 <ul>
-<li>【安全方面】最低权限原则。内置管理员权限较高，默认绕过 UAC，作为主账户的话会导致恶意软件顺利提权并对计算机造成破坏。</li>
-<li>【特殊性】内置管理员是系统特殊账户，在某些方面具有一定的限制机制，将导致个别软件无法正常运行 (?)。</li>
+<li>for -&gt; 基于索引器 -&gt; 调用本机代码 -&gt; 拿出数据。</li>
+<li>foreach -&gt; 基于 Enumerator -&gt; GetEnumerator() -&gt; 进入 while 循环 -&gt; 索引器拿出数据 -&gt; MoveNext() (类似于 for 循环: 检查索引是否合理，合理就自增 (true)，否则就退出 (false))。</li>
 </ul>
-<p>首先第一点，我觉得只要有一定的安全意识，足以避免大多数安全问题。但凡一点安全意识都没有，那普通账户 (无管理员权限) 也救不了你了，恶意软件仍会弹出授权提示，而说不定你也会在不明不白中点个允许。除非你禁用 UAC，所有软件都以最低权限允许，但这也并非官方推荐。总之在我看来，对于第一点，你可以使用管理员或者是普通账户，实在放心不下就安装个火绒。</p>
-<p>第二点，说实话我不怎么相信这个说法，因为我没遇到过。说到特殊性的话，我觉得 Administrator 也没有 SYSTEM 以及相关一些服务账户那样特殊。但就算他有特殊性，那也不至于连个开机启动都不能设置吧，我也开发过程序 (<a target="_blank" rel="noopener" href="https://github.com/WangHaonie/PlainCEETimer">PlainCEETimer</a>)，也可以在 Administrator 下设置开机启动。</p>
-<p>此外，对于第二点，网上还有说法。若实在想使用自带管理员权限的账户，可以自己在 Administrators 组创建一个，然后关掉管理员批准模式，这都比直接使用内置管理员账户好得多。这个说法稍微看的过去，因为很多软件判断当前是否为管理员的方法，只是检测用户名是否为 Administrator，而不是去检测当前账户是否真的具有管理员权限。因此，使用自带管理员权限的非内置管理员账户，可以避开这个检测机制。</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ul>
-<li>如果你现在正在使用 Administrator 且没有遇到致命的问题，可以继续使用。</li>
-<li>如果你准备重装系统，可以尝试创建一个自带管理员权限的非内置管理员账户，可以看看<a href="https://wanghaonie.github.io/posts/54ae615f8ae4/#%E6%83%85%E5%BD%A2%E4%B8%80%EF%BC%9A%E5%9C%A8%E8%A3%85%E7%B3%BB%E7%BB%9F%E4%B9%8B%E5%89%8D">这篇</a>文章。</li>
-<li>你也可以保持使用普通账户，但注意需要开启 UAC。</li>
-</ul>
-<h2 id="猜测"><a href="#猜测" class="headerlink" title="猜测"></a>猜测</h2><p>这里对于个别软件不让在管理员模式下运行的行为进行一个猜测。我觉得开发者应当更关心会话的问题。比如用户以 UserA 账户登入系统，但是却以管理员 (Administrator) 身份运行这个软件。如果设置开机启动或进行其他针对单个账户的操作的话，就要将写入 <code>%AppData%</code> 文件夹或者是注册表 <code>HKCU</code>，或者是用什么钩子之类的。然而此时获取到的 <code>%AppData%</code>、<code>HKCU</code>、装的钩子等是针对于 Administrator 的而不是 UserA 的。也就是说下次重启系统，UserA 登入后软件不会自动启动，相关钩子也钩错账户了，除非以 Administrator 账户登入。否则肯定无法达到预期。</p>
-<p>但事实是：如果用户不执行任何提权操作来运行软件的话，是可以设置开机启动和钩子并且生效的，无论是否为管理员。</p>
-<p>如果要避免这种 “脚踏两只船” 的情况的话，是可以进行判断的，而不应该直接禁止管理员模式下设置开机启动和启动钩子。思路就是运行外部命令获得输出 判断当前系统登入的账户与进程所有者账户的名称是否相等 (推荐先将输出转换为小写)，若相等则可以设置开机启动和钩子。具体方法如下：</p>
-<p>获取当前系统登入的账户 (注：wmic 在新版 Windows 11 中可能会以可选功能的形式推出，默认不安装，则下列命令将无法运行)：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs BASH">cmd /c <span class="hljs-built_in">echo</span> off &amp; <span class="hljs-keyword">for</span> /f <span class="hljs-string">&quot;tokens=2 delims==&quot;</span> %f <span class="hljs-keyword">in</span> (<span class="hljs-string">&#x27;wmic computersystem get username /value ^| find &quot;=&quot;&#x27;</span>) <span class="hljs-keyword">do</span> <span class="hljs-built_in">echo</span> %f<br></code></pre></td></tr></table></figure>
+<h2 id="for"><a href="#for" class="headerlink" title="for"></a>for</h2><p>假如现有一个非数组 (数组的遍历编译器会有优化，不存在下列问题) 的集合需要遍历，你可能会这么写：</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs csharp">List&lt;<span class="hljs-built_in">int</span>&gt; col = [<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>];<br><br><span class="hljs-keyword">for</span> (<span class="hljs-built_in">int</span> i = <span class="hljs-number">0</span>; i &lt; col.Count; i++)<br>&#123;<br>    Console.WriteLine(arr[i]);<br>&#125;<br></code></pre></td></tr></table></figure>
 
-<p>获取进程所有者：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs BASH"><span class="hljs-built_in">whoami</span><br></code></pre></td></tr></table></figure>
-<p>当然，如果是 C# 的话，除了上述方法外，也有通过 API 获取的方法，更直接与稳定。这里就不详细展开了，详见<a target="_blank" rel="noopener" href="https://github.com/WangHaonie/PlainCEETimer/blob/main/PlainCEETimer/Interop/Win32User.cs">此处</a>。</p>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
-<li>一招教你 100% 成功获取管理员权限或提升为管理员账户 | WangHaonie 的博客<br><a href="https://wanghaonie.github.io/posts/54ae615f8ae4/">https://wanghaonie.github.io/posts/54ae615f8ae4/</a></li>
-<li>装系统神器！WinNTSetup 里你绝对没有用过的无人值守 | WangHaonie 的博客<br><a href="https://wanghaonie.github.io/posts/0e9bf7b6bb91/">https://wanghaonie.github.io/posts/0e9bf7b6bb91/</a></li>
+<p>这里有一个细节，for 循环的条件写成了 <code>i &lt; col.Count</code>，这意味这每循环一次，都会访问 Count 这个属性，而这个属性在遍历期间肯定不会变的，因此这在无形中又增加了调用方法 (属性也是一种方法) 的开销，当然实际上这也是微乎其微的，来看看 IL：</p>
+<p><img src="/archive-imgs/37/1-for-il.png" srcset="/img/loading.gif" lazyload></p>
+<p>可见，尽管在编译后，编译器也没有进行优化，依旧在循环内部访问 Count 属性。</p>
+<p>这时有的朋友就要说了，你这是 IL，不代表在运行时也是这么操作的，那我们来看看 JIT，这里就直接借用 JacksonDunstan 的图了</p>
+<p><img src="/archive-imgs/37/2-jacksondunstan-benchmark.png" srcset="/img/loading.gif" lazyload></p>
+<p>可见，遍历数组时，由于编译器优化，无论是否缓存 .Length 属性，性能都几乎一样。但遍历非数组时，就惨了，蓝色的是没缓存 .Count 的，黄色是缓存了的。</p>
+<p>因此，在遍历非数组时，特别是数量很大的，就非常有必要缓存了。怎么缓存？也就是把 .Count 赋值给 for 循环外部的临时变量中，如下</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs csharp">List&lt;<span class="hljs-built_in">int</span>&gt; col = [<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>];<br><span class="hljs-keyword">var</span> count = col.Count;<br><br><span class="hljs-keyword">for</span> (<span class="hljs-built_in">int</span> i = <span class="hljs-number">0</span>; i &lt; count; i++)<br>&#123;<br>    Console.WriteLine(arr[i]);<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>再来看看 IL：</p>
+<p><img src="/archive-imgs/37/3-for-il-optmzd.png" srcset="/img/loading.gif" lazyload></p>
+<p>可见 get_Count() 被移到了循环外部，此时就能达到与遍历数组同等的性能了。</p>
+<h2 id="foreach"><a href="#foreach" class="headerlink" title="foreach"></a>foreach</h2><p>在文章开头我们就知道 foreach 循环依赖于对象实现的 Enumerator，先来看看 IL</p>
+<p>测试代码：平平无奇的 foreach 而已</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs csharp">List&lt;<span class="hljs-built_in">int</span>&gt; col = [<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>];<br><br><span class="hljs-keyword">foreach</span> (<span class="hljs-keyword">var</span> item <span class="hljs-keyword">in</span> col)<br>&#123;<br>    Console.WriteLine(item);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>然而编译后：</p>
+<p><img src="/archive-imgs/37/4-foreach-il.png" srcset="/img/loading.gif" lazyload></p>
+<p>可见，首先调用了 List&lt;T&gt;.GetEnumerator 拿到 Enumerator，进入 while 循环，再调用其中的 get_Current (背后实际上是就是索引器) 拿到元素，接着调用 MoveNext 进行索引自增，然后进入下一轮循环。</p>
+<p>你知道吗？foreach 在遍历数组时也会像 for 那样被优化，看看 IL：</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs csharp"><span class="hljs-built_in">int</span>[] col = [<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>];<br><br><span class="hljs-keyword">foreach</span> (<span class="hljs-keyword">var</span> item <span class="hljs-keyword">in</span> col)<br>&#123;<br>    Console.WriteLine(item);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p><img src="/../archive-imgs/37/5-foreach-array-il.png" srcset="/img/loading.gif" lazyload></p>
+<p>怎么样，是不是感觉非常舒服。</p>
+<h2 id="总结使用场景"><a href="#总结使用场景" class="headerlink" title="总结使用场景"></a>总结使用场景</h2><ul>
+<li><strong>for</strong>: 【<strong>任何情况下首选</strong>】性能敏感场景，遍历大型集合 (包括数组)，需要索引的时候。<br><strong>注意</strong>：遍历非数组大型集合时，需要提前缓存元素数量。</li>
+<li><strong>foreach</strong>: 不需要索引，遍历数组，小集合的时候。</li>
+</ul>
+<h2 id="链接"><a href="#链接" class="headerlink" title="链接"></a>链接</h2><ul>
+<li>JacksonDunstan.com | Should You Cache Array.Length and List.Count?<br><a target="_blank" rel="noopener" href="https://www.jacksondunstan.com/articles/3577">https://www.jacksondunstan.com/articles/3577</a></li>
 </ul>
 
                 
@@ -392,7 +401,7 @@
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
-        <a href="/tags/Windows/" class="print-no-link">#Windows</a>
+        <a href="/tags/CSharp/" class="print-no-link">#CSharp</a>
       
     </div>
   
@@ -404,8 +413,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>关于 Administrator 账户的一个紧急发布</div>
-      <div>https://wanghaonie.github.io/posts/f6c1db1c1b4a/</div>
+      <div>【C#】for 和 foreach 循环的选择</div>
+      <div>https://wanghaonie.github.io/posts/d1afa7a5de7f/</div>
     </div>
     <div class="license-meta">
       
@@ -417,13 +426,13 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2025-05-21 08:00:26</div>
+          <div>2025-07-22 10:22:01</div>
         </div>
       
       
         <div class="license-meta-item license-meta-date">
           <div>更新于</div>
-          <div>2025-07-22 20:49:37</div>
+          <div>2025-07-22 22:47:42</div>
         </div>
       
       
@@ -466,18 +475,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/posts/fa75e0e82b60/" title="【WinForms】可定制性极高! 不用设计器，教你纯靠代码添加控件并完成布局">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">【WinForms】可定制性极高! 不用设计器，教你纯靠代码添加控件并完成布局</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/posts/07076c71374b/" title="【PlainCEETimer】两年了，分享一下开发感受">
-                        <span class="hidden-mobile">【PlainCEETimer】两年了，分享一下开发感受</span>
+                      <a href="/posts/3553aea0b24d/" title="【C#】List&lt;T&gt; 和 T[] 的选择">
+                        <span class="hidden-mobile">【C#】List&lt;T&gt; 和 T[] 的选择</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>

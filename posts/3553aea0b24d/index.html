@@ -16,11 +16,11 @@
   <meta name="author" content="WangHaonie">
   <meta name="keywords" content="">
   
-    <meta name="description" content="前言在之前的文章中，我们提到了如何切换为 Administrator 账户或者使当前账户具有管理员权限。但近期我发现网上似乎出现了一些抵制使用内置管理员为主账户的说法，所以到底是否可以将 Administrator 作为主账户，这期文章就来简单说明一下。 正文我从接触电脑开始，一直使用 Administrator 账户。因为当时还依赖盗版系统，默认就是 Administrator，后来自己学会安装">
+    <meta name="description" content="前言在开始之前，我相信大家都知道 List&amp;lt;T&amp;gt; 是动态数组，可增删元素，必要时自动扩容；而 T[] 是真正意义上的数组，元素个数在创建时就确定了。但尽管如此，我发现大家在开发过程中即使遇到数据数量固定的场景也更喜欢用 List&amp;lt;T&amp;gt; 而不是 T[]。本文就带讲一下这两种数组的区别，以及合理的使用。注意为了区分，后文将 List&amp;lt;T&amp;gt; 称为 列表，T[] 称为">
   
   
   
-  <title>关于 Administrator 账户的一个紧急发布 | WangHaonie 的博客</title>
+  <title>【C#】List&lt;T&gt; 和 T[] 的选择 | WangHaonie 的博客</title>
   <link rel="stylesheet" href="/css/frosted.css">
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -254,7 +254,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle">关于 Administrator 账户的一个紧急发布</span>
+            <span id="subtitle">【C#】List<T> 和 T[] 的选择</span>
           
         </div>
 
@@ -265,8 +265,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2025-05-21 08:00" pubdate>
-          2025-05-21 08:00:26
+        <time datetime="2025-07-22 10:20" pubdate>
+          2025-07-22 10:20:28
         </time>
       </span>
     
@@ -277,7 +277,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          1.7k 字
+          1.1k 字
         
       </span>
     
@@ -288,7 +288,7 @@
         
         
         
-          14 分钟
+          10 分钟
         
       </span>
     
@@ -338,12 +338,12 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">关于 Administrator 账户的一个紧急发布</h1>
+            <h1 id="seo-header">【C#】List&lt;T&gt; 和 T[] 的选择</h1>
             
               <p class="note note-info">
                 
                   
-                    本文最后更新于：2 小时前
+                    本文最后更新于：6 分钟前
                   
                 
               </p>
@@ -351,35 +351,52 @@
             
               <div class="markdown-body">
                 
-                <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>在之前的<a href="https://wanghaonie.github.io/posts/54ae615f8ae4/">文章</a>中，我们提到了如何切换为 Administrator 账户或者使当前账户具有管理员权限。但近期我发现网上似乎出现了一些抵制使用内置管理员为主账户的说法，所以到底是否可以将 Administrator 作为主账户，这期文章就来简单说明一下。</p>
-<h2 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h2><p>我从接触电脑开始，一直使用 Administrator 账户。因为当时还依赖盗版系统，默认就是 Administrator，后来自己学会安装官方系统了，还主动切换到 Administrator 账户，因为它是真的香，懂得都懂。但相信大家在使用 Administrator 的时候，可能遇到过这样的情况：<strong>有些软件或其部分功能拒绝在管理员账户中运行</strong>。我也一直以来用过许多软件，目前为止有3款软件具有这种情况。第一款由于是好几年前的了，且<strong>不常用</strong>，已经忘记名称了，表现为：在管理员模式下直接警告无法运行。第二款就是最近遇到的，IDM，居然也不能在管理员模式下运行了，提示：<em>您正以管理员身份运行IDM。在该模式下，IDM 无法接管浏览器的下载事件</em>，更令人困惑的是，这在之前的版本是没有的，所以我又回退到之前用的版本，后来又被强制更新到最新版本，这个弹窗就没有出现过了。第三款，cvr (全称你们来猜)，居然不能在管理员模式下设置开机启动，这在以前的版本中也是没有的。</p>
-<p>我属实被这些软件迷惑行为给整不会了，因为它们在那之前都可以正常运行。有时我觉得这可能是开发者道听途说或者是<strong>误解</strong> (本文结尾提出我的猜测) 一些机制故意而为的，有时我又觉得是不是内置管理员真的不能用了？但是看到目前我电脑里的其他软件都能在管理员模式下正常运行和设置开机启动，我就更无法理解这样的做法了。</p>
-<p>我上网查找过相关说法，主要有以下几点：</p>
-<ul>
-<li>【安全方面】最低权限原则。内置管理员权限较高，默认绕过 UAC，作为主账户的话会导致恶意软件顺利提权并对计算机造成破坏。</li>
-<li>【特殊性】内置管理员是系统特殊账户，在某些方面具有一定的限制机制，将导致个别软件无法正常运行 (?)。</li>
-</ul>
-<p>首先第一点，我觉得只要有一定的安全意识，足以避免大多数安全问题。但凡一点安全意识都没有，那普通账户 (无管理员权限) 也救不了你了，恶意软件仍会弹出授权提示，而说不定你也会在不明不白中点个允许。除非你禁用 UAC，所有软件都以最低权限允许，但这也并非官方推荐。总之在我看来，对于第一点，你可以使用管理员或者是普通账户，实在放心不下就安装个火绒。</p>
-<p>第二点，说实话我不怎么相信这个说法，因为我没遇到过。说到特殊性的话，我觉得 Administrator 也没有 SYSTEM 以及相关一些服务账户那样特殊。但就算他有特殊性，那也不至于连个开机启动都不能设置吧，我也开发过程序 (<a target="_blank" rel="noopener" href="https://github.com/WangHaonie/PlainCEETimer">PlainCEETimer</a>)，也可以在 Administrator 下设置开机启动。</p>
-<p>此外，对于第二点，网上还有说法。若实在想使用自带管理员权限的账户，可以自己在 Administrators 组创建一个，然后关掉管理员批准模式，这都比直接使用内置管理员账户好得多。这个说法稍微看的过去，因为很多软件判断当前是否为管理员的方法，只是检测用户名是否为 Administrator，而不是去检测当前账户是否真的具有管理员权限。因此，使用自带管理员权限的非内置管理员账户，可以避开这个检测机制。</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ul>
-<li>如果你现在正在使用 Administrator 且没有遇到致命的问题，可以继续使用。</li>
-<li>如果你准备重装系统，可以尝试创建一个自带管理员权限的非内置管理员账户，可以看看<a href="https://wanghaonie.github.io/posts/54ae615f8ae4/#%E6%83%85%E5%BD%A2%E4%B8%80%EF%BC%9A%E5%9C%A8%E8%A3%85%E7%B3%BB%E7%BB%9F%E4%B9%8B%E5%89%8D">这篇</a>文章。</li>
-<li>你也可以保持使用普通账户，但注意需要开启 UAC。</li>
-</ul>
-<h2 id="猜测"><a href="#猜测" class="headerlink" title="猜测"></a>猜测</h2><p>这里对于个别软件不让在管理员模式下运行的行为进行一个猜测。我觉得开发者应当更关心会话的问题。比如用户以 UserA 账户登入系统，但是却以管理员 (Administrator) 身份运行这个软件。如果设置开机启动或进行其他针对单个账户的操作的话，就要将写入 <code>%AppData%</code> 文件夹或者是注册表 <code>HKCU</code>，或者是用什么钩子之类的。然而此时获取到的 <code>%AppData%</code>、<code>HKCU</code>、装的钩子等是针对于 Administrator 的而不是 UserA 的。也就是说下次重启系统，UserA 登入后软件不会自动启动，相关钩子也钩错账户了，除非以 Administrator 账户登入。否则肯定无法达到预期。</p>
-<p>但事实是：如果用户不执行任何提权操作来运行软件的话，是可以设置开机启动和钩子并且生效的，无论是否为管理员。</p>
-<p>如果要避免这种 “脚踏两只船” 的情况的话，是可以进行判断的，而不应该直接禁止管理员模式下设置开机启动和启动钩子。思路就是运行外部命令获得输出 判断当前系统登入的账户与进程所有者账户的名称是否相等 (推荐先将输出转换为小写)，若相等则可以设置开机启动和钩子。具体方法如下：</p>
-<p>获取当前系统登入的账户 (注：wmic 在新版 Windows 11 中可能会以可选功能的形式推出，默认不安装，则下列命令将无法运行)：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs BASH">cmd /c <span class="hljs-built_in">echo</span> off &amp; <span class="hljs-keyword">for</span> /f <span class="hljs-string">&quot;tokens=2 delims==&quot;</span> %f <span class="hljs-keyword">in</span> (<span class="hljs-string">&#x27;wmic computersystem get username /value ^| find &quot;=&quot;&#x27;</span>) <span class="hljs-keyword">do</span> <span class="hljs-built_in">echo</span> %f<br></code></pre></td></tr></table></figure>
+                <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>在开始之前，我相信大家都知道 <code>List&lt;T&gt;</code> 是动态数组，可增删元素，必要时自动扩容；而 <code>T[]</code> 是真正意义上的数组，元素个数在创建时就确定了。但尽管如此，我发现大家在开发过程中即使遇到数据数量固定的场景也更喜欢用 <code>List&lt;T&gt;</code> 而不是 <code>T[]</code>。本文就带讲一下这两种数组的区别，以及合理的使用。注意为了区分，后文将 <code>List&lt;T&gt;</code> 称为 <code>列表</code>，<code>T[]</code> 称为 <code>数组</code>。</p>
+<h2 id="数组"><a href="#数组" class="headerlink" title="数组"></a>数组</h2><p>先说一个冷知识，数组类型实际上有基类的，叫 <code>System.Array</code>，这个基类提供了很多有关操作数组的方法 (包括静态方法) 和属性，感兴趣的可以去了解一下，不是本文的重点。</p>
+<p>数组得益于其元素数量固定的特性，性能很高，但灵活性很小，一旦创建后就不能增删元素了，但并不意味着它就没有用武之地。我建议，在任何情况下，特别是不需要增删元素的情况下，优先考虑数组。</p>
+<p>什么？你不会创建数组？这可能是一个很奇葩的原因，因为曾有人跟我说数组没有像列表那样的 <code>Add</code> 或 <code>AddRange</code> 方法，写起来非常不爽，还说要用数组的时候都是从列表或者是其他类型的集合上进行 <code>ToArray</code> 得到的，但就因此，所以他更喜欢用列表。</p>
+<p>如果屏幕前的你也是因为这个原因的话，那就必须要纠正这种误区了，这里就演示两种创建创建数组的方法。</p>
+<p><strong>方法一：从元素创建</strong><br>如果已知各元素，我们可以在初始化集合的时候就将元素写进去。比如现要将 <code>1</code>，<code>2</code>，<code>3</code> 等元素塞入一个 <code>int[]</code> 数组，应该怎么操作？</p>
+<p>如果你在使用 C# 12 之前的版本，就这样：</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs csharp"><span class="hljs-keyword">var</span> array = <span class="hljs-keyword">new</span> <span class="hljs-built_in">int</span>[] &#123; <span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span> &#125;;<br></code></pre></td></tr></table></figure>
 
-<p>获取进程所有者：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs BASH"><span class="hljs-built_in">whoami</span><br></code></pre></td></tr></table></figure>
-<p>当然，如果是 C# 的话，除了上述方法外，也有通过 API 获取的方法，更直接与稳定。这里就不详细展开了，详见<a target="_blank" rel="noopener" href="https://github.com/WangHaonie/PlainCEETimer/blob/main/PlainCEETimer/Interop/Win32User.cs">此处</a>。</p>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
-<li>一招教你 100% 成功获取管理员权限或提升为管理员账户 | WangHaonie 的博客<br><a href="https://wanghaonie.github.io/posts/54ae615f8ae4/">https://wanghaonie.github.io/posts/54ae615f8ae4/</a></li>
-<li>装系统神器！WinNTSetup 里你绝对没有用过的无人值守 | WangHaonie 的博客<br><a href="https://wanghaonie.github.io/posts/0e9bf7b6bb91/">https://wanghaonie.github.io/posts/0e9bf7b6bb91/</a></li>
+<p>如果你使用的是 C# 12 及以上的版本，可以使用 集合表达式：</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs csharp"><span class="hljs-built_in">int</span>[] array = [<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>];<br></code></pre></td></tr></table></figure>
+
+<p><strong>方法二：先创建后填充</strong><br>若已知元素，但不方便直接把元素写到初始化语句里面。通常适用于将其他数组或集合转换为数组的场景，就可以这样操作，而不是用列表挨个去 <code>Add</code>。</p>
+<p class="note note-info">
+    <strong>Tip: 常见集合元素个数的获取</strong><br>
+    <strong>&nbsp;&nbsp;&nbsp;&nbsp;数组：</strong>Length 属性<br>
+    <strong>&nbsp;&nbsp;&nbsp;&nbsp;列表：</strong>Count 属性<br>
+    <strong>&nbsp;&nbsp;&nbsp;&nbsp;ICollection&lt;T&gt;：</strong>Count 属性<br>
+    <strong>&nbsp;&nbsp;&nbsp;&nbsp;IEnumerable&lt;T&gt;：</strong>Count() 方法<br>
+</p>
+
+<p>假设现有 <code>Person[]</code> 或者是 <code>List&lt;Person&gt;</code> 之类的集合，<code>Person</code> 里有一个属性用来存储编号，现在我要收集这些编号并封装为 <code>int[]</code>，此时就可以采用先建后填的方式：</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs csharp">Person[] data = <span class="hljs-comment">/*...*/</span>;<br><span class="hljs-keyword">var</span> length = data.Length;<br><span class="hljs-keyword">var</span> numbers = <span class="hljs-keyword">new</span> <span class="hljs-built_in">int</span>[length];  <span class="hljs-comment">// 创建已知长度的空数组</span><br><br><span class="hljs-keyword">for</span> (<span class="hljs-built_in">int</span> i = <span class="hljs-number">0</span>; i &lt; length; i++)<br>&#123;<br>    numbers[i] = data[i].Number; <span class="hljs-comment">// 通过索引器填充元素</span><br>&#125;<br><br><span class="hljs-keyword">return</span> numbers; <span class="hljs-comment">// 可选是否返回</span><br></code></pre></td></tr></table></figure>
+
+<p>如果你熟悉 LINQ，其实还可以简化很多，但推荐数据量少的情况下使用，数据<strong>太多</strong>的话还是自己写比较高效，尽管 LINQ 内部实现也和上面差不多，但是委托也会消耗一定的性能。</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs csharp">Person[] data = <span class="hljs-comment">/*...*/</span>;<br><br><span class="hljs-keyword">return</span> data.Select(x =&gt; x.Number).ToArray();<br><br><span class="hljs-comment">// 或 集合表达式</span><br><span class="hljs-keyword">return</span> [.. data.Select(x =&gt; x.Number)];<br></code></pre></td></tr></table></figure>
+<h2 id="列表"><a href="#列表" class="headerlink" title="列表"></a>列表</h2><p>列表的内部其实也是数组。以图为证：<a target="_blank" rel="noopener" href="https://github.com/dotnet/runtime/blob/91f4d57aa502181b4d87f91383defbe7b41f520f/src/libraries/System.Private.CoreLib/src/System/Collections/Generic/List.cs#L25">链接</a></p>
+<p><img src="/archive-imgs/36/1-list-src-1.png" srcset="/img/loading.gif" lazyload></p>
+<p>当你调用 Add 的时候，它在：</p>
+<p><img src="/archive-imgs/36/1-list-src-2.png" srcset="/img/loading.gif" lazyload></p>
+<p>能装就装，不能装就扩 (Resize)，扩完就装</p>
+<p><img src="/archive-imgs/36/1-list-src-3.png" srcset="/img/loading.gif" lazyload></p>
+<p>怎么扩？看看实现：</p>
+<p><img src="/archive-imgs/36/1-list-src-4.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="/archive-imgs/36/1-list-src-5.png" srcset="/img/loading.gif" lazyload></p>
+<p>在 Capacity 的 setter 中，肉眼可见它根据新的容量创建了一个空数组，然后调用 Array.Copy 将之前的元素全部复制进去，这样就相当于扩容了。</p>
+<p>虽然性能上肯定不如数组，但为了实现增删功能，做出这些牺牲是值得的。实际开发中，这些牺牲虽然微不足道，但也需引起重视，特别是数据量超大的时候，频繁的扩容肯定是不合适的。</p>
+<p>你可能会说，列表也可以设置初始容量，这样不就和数组一样了吗？我的建议是，只要你不增删，坚决不用列表。当你指定初始容量时，背后也是创建了一个相同容量的数组，都这样了还不如直接自己创建一个数组。</p>
+<p><img src="/archive-imgs/36/1-list-src-6.png" srcset="/img/loading.gif" lazyload></p>
+<h2 id="数组使用场景"><a href="#数组使用场景" class="headerlink" title="数组使用场景"></a>数组使用场景</h2><p>这里说说部分有必要使用数组的场景，除此之外请自行考虑清楚。</p>
+<ul>
+<li>JSON 配置实体类</li>
+<li>从一种集合中批量提取数据 (比如收集用户在 ListView 中存放的数据)</li>
+<li>编译时就能确认不再增删的情况</li>
 </ul>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>一句话，需要动态增删就 List&lt;T&gt;，只存只读就用 T[]。</p>
 
                 
               </div>
@@ -392,7 +409,7 @@
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
-        <a href="/tags/Windows/" class="print-no-link">#Windows</a>
+        <a href="/tags/CSharp/" class="print-no-link">#CSharp</a>
       
     </div>
   
@@ -404,8 +421,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>关于 Administrator 账户的一个紧急发布</div>
-      <div>https://wanghaonie.github.io/posts/f6c1db1c1b4a/</div>
+      <div>【C#】List&lt;T&gt; 和 T[] 的选择</div>
+      <div>https://wanghaonie.github.io/posts/3553aea0b24d/</div>
     </div>
     <div class="license-meta">
       
@@ -417,13 +434,13 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2025-05-21 08:00:26</div>
+          <div>2025-07-22 10:20:28</div>
         </div>
       
       
         <div class="license-meta-item license-meta-date">
           <div>更新于</div>
-          <div>2025-07-22 20:49:37</div>
+          <div>2025-07-22 22:52:28</div>
         </div>
       
       
@@ -466,9 +483,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/posts/fa75e0e82b60/" title="【WinForms】可定制性极高! 不用设计器，教你纯靠代码添加控件并完成布局">
+                      <a href="/posts/d1afa7a5de7f/" title="【C#】for 和 foreach 循环的选择">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">【WinForms】可定制性极高! 不用设计器，教你纯靠代码添加控件并完成布局</span>
+                        <span class="hidden-mobile">【C#】for 和 foreach 循环的选择</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -476,8 +493,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/posts/07076c71374b/" title="【PlainCEETimer】两年了，分享一下开发感受">
-                        <span class="hidden-mobile">【PlainCEETimer】两年了，分享一下开发感受</span>
+                      <a href="/posts/fa75e0e82b60/" title="【WinForms】可定制性极高! 不用设计器，教你纯靠代码添加控件并完成布局">
+                        <span class="hidden-mobile">【WinForms】可定制性极高! 不用设计器，教你纯靠代码添加控件并完成布局</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
