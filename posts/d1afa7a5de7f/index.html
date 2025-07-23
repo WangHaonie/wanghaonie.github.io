@@ -343,7 +343,7 @@
               <p class="note note-info">
                 
                   
-                    本文最后更新于：11 分钟前
+                    本文最后更新于：32 分钟前
                   
                 
               </p>
@@ -364,7 +364,7 @@
 <p>可见，尽管在编译后，编译器也没有进行优化，依旧在循环内部访问 Count 属性。</p>
 <p>这时有的朋友就要说了，你这是 IL，不代表在运行时也是这么操作的，那我们来看看 JIT，这里就直接借用 JacksonDunstan 的图了</p>
 <p><img src="/archive-imgs/37/2-jacksondunstan-benchmark.png" srcset="/img/loading.gif" lazyload></p>
-<p>可见，遍历数组时，由于编译器优化，无论是否缓存 .Length 属性，性能都几乎一样。但遍历非数组时，就惨了，蓝色的是没缓存 .Count 的，黄色是缓存了的。</p>
+<p>可见，遍历数组时，由于编译器优化，无论是否缓存 .Length 属性，性能都几乎一样。但遍历非数组时，就惨了，蓝色的是没缓存 .Count 的，橙色是缓存了的。</p>
 <p>因此，在遍历非数组时，特别是数量很大的，就非常有必要缓存了。怎么缓存？也就是把 .Count 赋值给 for 循环外部的临时变量中，如下</p>
 <figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs csharp">List&lt;<span class="hljs-built_in">int</span>&gt; col = [<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>];<br><span class="hljs-keyword">var</span> count = col.Count;<br><br><span class="hljs-keyword">for</span> (<span class="hljs-built_in">int</span> i = <span class="hljs-number">0</span>; i &lt; count; i++)<br>&#123;<br>    Console.WriteLine(arr[i]);<br>&#125;<br></code></pre></td></tr></table></figure>
 <p>再来看看 IL：</p>
@@ -432,7 +432,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>更新于</div>
-          <div>2025-07-22 22:47:42</div>
+          <div>2025-07-23 07:54:46</div>
         </div>
       
       
