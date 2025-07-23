@@ -460,7 +460,7 @@
 <p>因为上面说了，每个控件&#x2F;窗口都有一个独立的 WndProc，而我们在窗口中处理控件样式时只能获取到本窗体的 WndProc，虽然能收到一些发送给控件的消息，但有关控件样式的消息就必须拦截控件自己的 WndProc，所以 子类化 就相当于在窗口中监听所有系统发送给控件的消息 (因为系统给控件发送消息不会经过所在窗体的 WndProc)，从而进行更多自定义的功能。</p>
 <p>在 Win32 中，我们通常使用 CommCtrl.h 提供的 SetWindowSubclass 和 RemoveWindowSubclass 来对窗体进行&#x2F;移除子类化。</p>
 <p>但在 WinForms 中，我们不需要导入这两个函数来子类化，.NET 为我们提供了类似子类化的功能，叫 NativeWindow 类。它继承自 Component，是对 Win32 窗口的低级封装 (只提供 WndProc，不提供或提供少量其他功能就叫低级封装)，也就是传入 句柄 给 NativeWindow，我们相当于获取到了目标窗口的实例，而这个类也提供了 WndProc 虚方法，可供我们重写，来达到子类化的效果。</p>
-<h3 id="调用约定"><a href="#调用约定" class="headerlink" title="调用约定"></a>调用约定</h3><p>调用约定 (CallingConvention) 简单理解以下就行了，就是调用本机函数的方式 (好比你上网的方式，WiFi，移动数据等，但不用纠结有什么区别，保持一致就行)，WinAPI 默认就是 StdCall，C# 里 Interop 的 [DllImport] 默认也是 StdCall，后面我们导出函数也要声明为 StdCall。</p>
+<h3 id="调用约定"><a href="#调用约定" class="headerlink" title="调用约定"></a>调用约定</h3><p>调用约定 (CallingConvention) 简单知道有这么个东西就行了，就是调用本机函数的方式 (好比你上网的方式，WiFi，移动数据等，但不用纠结有什么区别，保持一致就行)，WinAPI 默认就是 StdCall，C# 里 Interop 的 [DllImport] 默认也是 StdCall，后面我们导出函数也要声明为 StdCall。</p>
 <h2 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h2><h3 id="安装-C-工具集-v143"><a href="#安装-C-工具集-v143" class="headerlink" title="安装 C++ (工具集 v143)"></a>安装 C++ (工具集 v143)</h3><p>某些 Interop，我们交给 C++ 会更好，用 C# 的话过于麻烦甚至无法完成。所以需要用到 C++，安装方法可以到网上查询，记得安装 Windows 11 SDK (10.0.22621.0)。</p>
 <p class="note note-warning">不要觉得难以维护什么的，毕竟需要同时编写 C# 和 C++，要知道 "工欲善其事，必先利其器"，这些都是写好一个软件的关键，有助于增强用户体验的我们怎么能不做呢？Visual Studio 里一个解决方案多个项目的也不少见，难道不是吗？</p>
 
@@ -724,7 +724,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>更新于</div>
-          <div>2025-07-23 23:22:43</div>
+          <div>2025-07-23 23:25:33</div>
         </div>
       
       
