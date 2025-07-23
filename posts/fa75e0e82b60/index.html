@@ -16,11 +16,11 @@
   <meta name="author" content="WangHaonie">
   <meta name="keywords" content="">
   
-    <meta name="description" content="文章较长，请耐心阅读~  前言几天前我在清理 PlainCEETimer 项目的时候，发现有一类代码我忍它很久了可是都无从下手，那就是设计器生成的代码。于是为了减轻代码量达到优化的目的，我就在想有没有方法可以在不依赖设计器的情况下完成控件的添加以及排版布局。直到今天，它终于来了，我将它们命名为 Builder 模式 (通过模板构建控件) 和 半自动布局模式 (手动让各控件之间自动进行水平或竖直排列">
+    <meta name="description" content="文章较长，请耐心阅读~  前言如果你不喜欢 WinForms 仅仅是因为控件的创建是从工具箱里拖出来的太幼稚了，那一定要看看这篇文章。 几天前我在清理 PlainCEETimer 项目的时候，发现有一类代码我忍它很久了可是都无从下手，那就是设计器生成的代码。于是为了减轻代码量达到优化的目的，我就在想有没有方法可以在不依赖设计器的情况下完成控件的添加以及排版布局。直到今天，它终于来了，我将它们命名为">
   
   
   
-  <title>【WinForms】可定制性极高! 不用设计器，教你纯靠代码添加控件并完成布局 | WangHaonie 的博客</title>
+  <title>可定制性极高! 不用设计器，教你纯靠代码添加控件并完成布局 | WangHaonie 的博客</title>
   <link rel="stylesheet" href="/css/frosted.css">
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -254,7 +254,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle">【WinForms】可定制性极高! 不用设计器，教你纯靠代码添加控件并完成布局</span>
+            <span id="subtitle">可定制性极高! 不用设计器，教你纯靠代码添加控件并完成布局</span>
           
         </div>
 
@@ -277,7 +277,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          6.6k 字
+          6.8k 字
         
       </span>
     
@@ -288,7 +288,7 @@
         
         
         
-          55 分钟
+          57 分钟
         
       </span>
     
@@ -338,12 +338,12 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">【WinForms】可定制性极高! 不用设计器，教你纯靠代码添加控件并完成布局</h1>
+            <h1 id="seo-header">可定制性极高! 不用设计器，教你纯靠代码添加控件并完成布局</h1>
             
               <p class="note note-info">
                 
                   
-                    本文最后更新于：3 分钟前
+                    本文最后更新于：11 小时前
                   
                 
               </p>
@@ -353,7 +353,8 @@
                 
                 <p class="note note-danger">文章较长，请耐心阅读~</p>
 
-<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>几天前我在清理 <a target="_blank" rel="noopener" href="https://github.com/WangHaonie/PlainCEETimer">PlainCEETimer</a> 项目的时候，发现有一类代码我忍它很久了可是都无从下手，那就是设计器生成的代码。于是为了减轻代码量达到优化的目的，我就在想有没有方法可以在不依赖设计器的情况下完成控件的添加以及排版布局。直到今天，它终于来了，我将它们命名为 <strong>Builder 模式</strong> (通过模板构建控件) 和 <strong>半自动布局模式</strong> (手动让各控件之间自动进行水平或竖直排列)。</p>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>如果你不喜欢 WinForms 仅仅是因为控件的创建是从工具箱里拖出来的太幼稚了，那一定要看看这篇文章。</p>
+<p>几天前我在清理 <a target="_blank" rel="noopener" href="https://github.com/WangHaonie/PlainCEETimer">PlainCEETimer</a> 项目的时候，发现有一类代码我忍它很久了可是都无从下手，那就是设计器生成的代码。于是为了减轻代码量达到优化的目的，我就在想有没有方法可以在不依赖设计器的情况下完成控件的添加以及排版布局。直到今天，它终于来了，我将它们命名为 <strong>Builder 模式</strong> (通过模板构建控件) 和 <strong>半自动布局模式</strong> (手动让各控件之间自动进行水平或竖直排列)。</p>
 <p>如果你玩过 WPF 的 XAML 声明式 UI，使用 Grid 和 StackPanel 借助 Margins 等属性就可以实现各种复杂布局，这里我就姑且称它为自动布局。而我的<strong>半自动布局模式</strong>只是多了一步人工让控件 “活起来” 的步骤，虽然有一定局限性和瑕疵，但扩展空间极大。这里就分享给大家，各位如果有这方面需求的话，可以参考一下，以及进行扩展并加入自己想要的功能。</p>
 <p>在正式开始前，提到 WinForms 自动布局，你可能会想到 WinForms 内置的 TableLayoutPanel 和 FlowLayoutPanel，但我只能说这两个东西无法我预期的效果，不如自己来写布局逻辑。</p>
 <h2 id="基础知识"><a href="#基础知识" class="headerlink" title="基础知识"></a>基础知识</h2><p>其实要脱离设计器添加控件也不算什么难办的事，控件本身也是一种类，创建它们就像创建类实例一样，只不过额外要指定一些属性，以及事件绑定等。因此我们可以制作一个模板，其实就是一些方法罢了，不用每次都去 new 一个控件。然后主要的就是不使用设计器进行布局了，具体思路的话但凡你了解 UI 坐标系的话都能秒懂——相对坐标式布局。也就是说相对于一个控件的位置来决定另一个控件的位置，这与设计器采用的绝对坐标式布局不同。总之我们先来了解一些基础知识。</p>
@@ -449,9 +450,11 @@
 <p>如果需要特殊的属性也不用担心，也并不需要写在 New 方法里，可以用扩展方法：</p>
 <figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs csharp">New&lt;ProgressBar&gt;(<span class="hljs-number">344</span>, <span class="hljs-number">22</span>, <span class="hljs-literal">null</span>).With(c =&gt; c.Style = ProgressBarStyle.Continuous)<br></code></pre></td></tr></table></figure>
 <p>这样就可以创建一个样式为 Continuous 的进度条，有关该扩展方法详见下方 <a href="#%E7%BC%96%E8%BE%91%E7%8E%B0%E6%9C%89%E6%8E%A7%E4%BB%B6">编辑现有控件</a>：</p>
-<h3 id="创建-Extensions-静态类"><a href="#创建-Extensions-静态类" class="headerlink" title="创建 Extensions 静态类"></a>创建 Extensions 静态类</h3><p>创建一个名为 Extensions 的静态类可用于存放一些好用的扩展方法，这样可以方便开发，减少代码重复，提高可复用性。</p>
-<h3 id="添加控件"><a href="#添加控件" class="headerlink" title="添加控件"></a>添加控件</h3><p>首先可以写一个用于构建 Control[] 数组并向目标控件添加子控件的扩展方法：</p>
-<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs csharp"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">AddControls</span>(<span class="hljs-params"><span class="hljs-keyword">this</span> Control ctrl, Func&lt;ControlBuilder, Control[]&gt; builder</span>)</span><br>&#123;<br>    <span class="hljs-keyword">var</span> ctrls = builder?.Invoke(<span class="hljs-keyword">new</span>());<br><br>    <span class="hljs-keyword">for</span> (<span class="hljs-built_in">int</span> i = <span class="hljs-number">0</span>; i &lt; ctrls.Length; i++)<br>    &#123;<br>        ctrl.Controls.Add(ctrls[i]);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h2 id="如何添加控件"><a href="#如何添加控件" class="headerlink" title="如何添加控件"></a>如何添加控件</h2><h3 id="创建-Extensions-静态类"><a href="#创建-Extensions-静态类" class="headerlink" title="创建 Extensions 静态类"></a>创建 Extensions 静态类</h3><p>创建一个名为 Extensions 的静态类可用于存放一些好用的扩展方法，这样可以方便开发，减少代码重复，提高可复用性。</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs csharp"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">class</span> <span class="hljs-title">Extensions</span><br>&#123;<br><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="添加控件"><a href="#添加控件" class="headerlink" title="添加控件"></a>添加控件</h3><p>首先可以写一个用于构建 Control[] 数组并向目标控件添加子控件的扩展方法，以后就可以在窗体构造函数里调用了，取代原来的 InitializeComponent()：</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs csharp"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">AddControls</span>(<span class="hljs-params"><span class="hljs-keyword">this</span> Control ctrl, Func&lt;ControlBuilder, Control[]&gt; builder</span>)</span><br>&#123;<br>    <span class="hljs-keyword">var</span> ctrls = builder?.Invoke(<span class="hljs-keyword">new</span>());<br>    <span class="hljs-keyword">var</span> collection = ctrl.Controls;<br><br>    <span class="hljs-keyword">for</span> (<span class="hljs-built_in">int</span> i = <span class="hljs-number">0</span>; i &lt; ctrls.Length; i++)<br>    &#123;<br>        collection.Add(ctrls[i]);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
 
 <p>此时你可能会有以下几个疑惑点：</p>
 <ol>
@@ -460,7 +463,9 @@
 <li>为什么要用 Func 委托？<br><strong>答</strong>：Func 是具有返回值的委托，这里用它来提供 ControlBuilder 的方法来创建控件并返回 Control[] 数组拿到控件集合。(Func 委托在 <a href="https://wanghaonie.github.io/posts/e1fb75c4dbec/">(后续) 使用 Builder 模式让右键菜单的创建更上一层楼</a> 中提到过，感兴趣的可以去看看)</li>
 <li>为什么该扩展方法基于 Control 而不是基于 Form？<br><strong>答</strong>：的确，在本文中，只会向 Form 添加子控件，其他容器的话 ControlBuilder 有专门的方法，但为了某种约定俗成，还是优先选择 Control，这个就看个人喜好了。</li>
 </ol>
-<p>最终调用时的效果可以看看：<a target="_blank" rel="noopener" href="https://github.com/WangHaonie/PlainCEETimer/blob/7fb3a4e/PlainCEETimer/UI/Forms/SettingsForm.cs#L107-L428">PlainCEETimer&#x2F;SettingsForm.cs: 107~428 行</a></p>
+<p>由于我们取代了 InitializeComponent，其中对窗体的某些设置也没了，所以我们需要手动编写以下必要属性并挂起布局，其他属性的话根据情况：</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs csharp"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">Form1</span>()</span><br>&#123;<br>    SuspendLayout();<br>    AutoScaleDimensions = <span class="hljs-keyword">new</span>(<span class="hljs-number">96F</span>, <span class="hljs-number">96F</span>);<br>    AutoScaleMode = AutoScaleMode.Dpi;<br>    AutoSize = <span class="hljs-literal">true</span>;<br>    AutoSizeMode = AutoSizeMode.GrowAndShrink;<br>    Font = <span class="hljs-keyword">new</span>(<span class="hljs-string">&quot;Segoe UI&quot;</span>, <span class="hljs-number">9F</span>, FontStyle.Regular, GraphicsUnit.Point, <span class="hljs-number">0</span>);<br>    <br>    <span class="hljs-keyword">this</span>.AddControl(<span class="hljs-comment">/* ... */</span>);<br><br>    ResumeLayout(<span class="hljs-literal">true</span>);<br>&#125;<br></code></pre></td></tr></table></figure>
+
 <h3 id="编辑现有控件"><a href="#编辑现有控件" class="headerlink" title="编辑现有控件"></a>编辑现有控件</h3><p>如果你觉得 ControlBuilder 提供的方法预设不满足一些特殊情况 (需要额外的属性、事件等)，但又不想为单一的特殊情况专门写一个重载的话，可以添加以下扩展方法：</p>
 <figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs csharp"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> TControl <span class="hljs-title">With</span>&lt;<span class="hljs-title">TControl</span>&gt;(<span class="hljs-params"><span class="hljs-keyword">this</span> TControl control, Action&lt;TControl&gt; additions</span>)</span><br><span class="hljs-function">    <span class="hljs-keyword">where</span> TControl : Control</span><br>&#123;<br>    additions?.Invoke(control);<br>    <span class="hljs-keyword">return</span> control;<br>&#125;<br></code></pre></td></tr></table></figure>
 
@@ -475,13 +480,19 @@
 <p>布局的方法在前面简单提过了，主要就是灵活的运用控件的 Left、Top、Width、Height 等属性，唯一的缺点就是每个方法只能对一个控件进行布局，参考的控件可能会有一个或两个，但也能接受。在开始之前，我们首先要清楚，第一，WinForms 控件不显式指定坐标的话，默认坐标为 (0, 0)，这意味着所有控件在添加完成后全部挤在了左上角，因此我们需要进行相对布局；第二，这样的布局方式不进行微调的话控件可能不会按照预期的那样对齐，特指不同类型控件之间的布局，主要也是因为 WinForms 不同控件的最小最适的高度是不一样的，不过微调之后都可以完美的对齐。废话不多说，直接进入正题。</p>
 <h3 id="获取-DPI-值"><a href="#获取-DPI-值" class="headerlink" title="获取 DPI 值"></a>获取 DPI 值</h3><p>首先我们最好要考虑高 DPI 的场景，因为微调的值必须手动进行缩放，Bounds 等属性将由 WinForms 自动完成缩放。获取 DPI 的方式有很多，你可以调用 Win32 API GetDpiForWindow&#x2F;System，也可以创建一个 Graphics 访问其 DpiX 属性，但前者只能在 Windows 10 1607 之后才生效，如果你的应用程序需要兼容 Windows 7 或其他系统的话，还是用后者比较保险。另外你或许也听说过 DeviceDpi 属性，这个的话我测试了很多次获取到的始终是 96，如果你测试没问题的话那就用它也可以。</p>
 <p>这里就以第二种方法为例，首先我们重写窗体的 OnHandleCreated 方法 (大致相当于订阅 HandleCreated 事件)，因为创建 Graphics 对象需要窗口句柄，在此方法触发时获取 DPI 是最安全的。</p>
-<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs csharp"><span class="hljs-keyword">private</span> <span class="hljs-built_in">float</span> CurrentDpiRatio;<br><br><span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">override</span> <span class="hljs-keyword">void</span> <span class="hljs-title">OnHandleCreated</span>(<span class="hljs-params">EventArgs e</span>)</span><br>&#123;<br>    <span class="hljs-keyword">var</span> g = CreateGraphics();<br>    CurrentDpiRatio = g.DpiX / <span class="hljs-number">96F</span>;<br>    g.Dispose();<br>    <span class="hljs-keyword">base</span>.OnHandleCreated(e);<br>&#125;<br></code></pre></td></tr></table></figure>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs csharp"><span class="hljs-keyword">private</span> <span class="hljs-built_in">float</span> CurrentDpiRatio;<br><span class="hljs-keyword">private</span> <span class="hljs-built_in">bool</span> IsHighDpi;<br><br><span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">override</span> <span class="hljs-keyword">void</span> <span class="hljs-title">OnHandleCreated</span>(<span class="hljs-params">EventArgs e</span>)</span><br>&#123;<br>    <span class="hljs-keyword">if</span> (CurrentDpiRatio == <span class="hljs-number">0F</span>) <span class="hljs-comment">// 防止重复查询 DPI 值，因为我们的应用程序最好使用 System aware 的 DPI 感知</span><br>                               <span class="hljs-comment">// ，如果你要用 Per-Monitor (V2) 的话，可以不用判断该条件。</span><br>    &#123;<br>        <span class="hljs-keyword">var</span> g = CreateGraphics();<br>        DpiRatio = g.DpiX / <span class="hljs-number">96F</span>;<br>        IsHighDpi = DpiRatio &gt; <span class="hljs-number">1F</span>;<br>        g.Dispose();<br>    &#125;<br><br>    <span class="hljs-keyword">base</span>.OnHandleCreated(e);<br>&#125;<br></code></pre></td></tr></table></figure>
 
 <p>要注意的是 DpiX 是当前窗体所在屏幕的 DPI 值，我们在后面用的时候主要使用 DPI 比值来缩放一些数值，这个比值是相对于 100% (96 DPI) 的，故这里需要除以 96，F 表示单精度浮点数 (float)。创建完 Graphics 后建议显式 Dispose 它。</p>
 <p>现在我们获取到了 DpiRatio 就可以编写一个方法用于缩放微调的数值了：</p>
 <figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs csharp"><span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-built_in">int</span> <span class="hljs-title">ScaleToDpi</span>(<span class="hljs-params"><span class="hljs-built_in">int</span> px</span>)</span><br>&#123;<br>    <span class="hljs-keyword">return</span> (<span class="hljs-built_in">int</span>)(px * CurrentDpiRatio);<br>&#125;<br></code></pre></td></tr></table></figure>
 
 <p>这个方法后面会用到。</p>
+<h3 id="开始布局虚方法"><a href="#开始布局虚方法" class="headerlink" title="开始布局虚方法"></a>开始布局虚方法</h3><p>推荐写一个虚方法 (抽象方法也行，根据具体情况) 在基类里，用于子类重写并在此调用各种布局方法。</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs csharp"><span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">virtual</span> <span class="hljs-keyword">void</span> <span class="hljs-title">StartLayout</span>(<span class="hljs-params"><span class="hljs-built_in">bool</span> isHighDpi</span>)</span><br>&#123;<br>    <span class="hljs-comment">// 不用实现，保持空就行</span><br>&#125;<br></code></pre></td></tr></table></figure>
+<p>StartLayout 自己也得有个执行时机吧？应该在什么时候执行呢？我推荐在 OnLoad 里，注意需要挂起布局。</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs csharp"><span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">sealed</span> <span class="hljs-keyword">override</span> <span class="hljs-keyword">void</span> <span class="hljs-title">OnLoad</span>(<span class="hljs-params">EventArgs e</span>)</span><br>&#123;<br>    SuspendLayout();<br>    StartLayout(IsHighDpi);<br>    ResumeLayout(<span class="hljs-literal">true</span>);<br>    <span class="hljs-keyword">base</span>.OnLoad(e);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+
 <h3 id="将第一个控件放置到容器"><a href="#将第一个控件放置到容器" class="headerlink" title="将第一个控件放置到容器"></a>将第一个控件放置到容器</h3><p>也就是放置第一个控件，不然默认坐标是 (0, 0)，这样离容器边缘太近了，也对后期的布局产生印象，我建议使用 (3, 3)，或者是 (6, 3)。加上 x, y 可选参数以便特殊情况调整。</p>
 <figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs csharp"><span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title">ArrangeFirstControl</span>(<span class="hljs-params">Control control, <span class="hljs-built_in">int</span> x = <span class="hljs-number">3</span>, <span class="hljs-built_in">int</span> y = <span class="hljs-number">3</span></span>)</span><br>&#123;<br>    control.SetBounds(x, y, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, BoundsSpecified.Location);<br>&#125;<br></code></pre></td></tr></table></figure>
 
@@ -542,6 +553,11 @@
 <p>我们将它命名为：GroupBoxAutoAdjustHeight</p>
 <figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs csharp"><span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title">GroupBoxAutoAdjustHeight</span>(<span class="hljs-params">GroupBox groupBox, Control yLast, <span class="hljs-built_in">int</span> yOffset = <span class="hljs-number">0</span></span>)</span><br>&#123;<br>    groupBox.Height = yLast.Bottom + ScaleToDpi(yOffset);<br>&#125;<br></code></pre></td></tr></table></figure>
 
+<h2 id="效果"><a href="#效果" class="headerlink" title="效果"></a>效果</h2><ul>
+<li>创建控件：<a target="_blank" rel="noopener" href="https://github.com/WangHaonie/PlainCEETimer/blob/7fb3a4e/PlainCEETimer/UI/Forms/SettingsForm.cs#L107-L428">PlainCEETimer&#x2F;SettingsForm.cs: 107~428 行</a></li>
+<li>半自动布局：<a target="_blank" rel="noopener" href="https://github.com/WangHaonie/PlainCEETimer/blob/7fb3a4e/PlainCEETimer/UI/Forms/SettingsForm.cs#L441-L559">PlainCEETimer&#x2F;SettingsForm.cs: 441~559 行</a></li>
+</ul>
+<p>这下写起来就很爽了，根本不用设计器。</p>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ul>
 <li>省去了所有设计器生成的代码并改用新方法后，PlainCEETimer 的主程序体积降低了 13KB (9%, 142KB -&gt; 129KB)。</li>
 <li>ControlBuilder 的一系列方法基本上可以满足大多数情况下的需求，如果需要创建其他控件的话，可以自行进行扩展。或者说使用 New 方法或直接在 AddControls 方法里传入控件实例，不依赖 ControlBuilder。比如在 <a target="_blank" rel="noopener" href="https://github.com/WangHaonie/PlainCEETimer/blob/e33fbb9/PlainCEETimer/UI/Controls/ListViewDialog.cs#L90">PlainCEETimer&#x2F;ListViewDialog.cs: 第 90 行</a> 创建 ListView 就没有使用 ControlBuilder。</li>
@@ -580,7 +596,7 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>【WinForms】可定制性极高! 不用设计器，教你纯靠代码添加控件并完成布局</div>
+      <div>可定制性极高! 不用设计器，教你纯靠代码添加控件并完成布局</div>
       <div>https://wanghaonie.github.io/posts/fa75e0e82b60/</div>
     </div>
     <div class="license-meta">
@@ -599,7 +615,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>更新于</div>
-          <div>2025-07-23 08:24:16</div>
+          <div>2025-07-23 12:24:20</div>
         </div>
       
       
