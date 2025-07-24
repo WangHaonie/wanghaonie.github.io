@@ -277,7 +277,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          9.3k 字
+          9.2k 字
         
       </span>
     
@@ -288,7 +288,7 @@
         
         
         
-          78 分钟
+          77 分钟
         
       </span>
     
@@ -343,7 +343,7 @@
               <p class="note note-info">
                 
                   
-                    本文最后更新于：4 分钟前
+                    本文最后更新于：1 小时前
                   
                 
               </p>
@@ -515,6 +515,8 @@
 <p>转到 ThemeManager，添加以下代码：</p>
 <figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs csharp"><span class="hljs-keyword">private</span> <span class="hljs-keyword">const</span> <span class="hljs-built_in">int</span> DWMWA_USE_IMMERSIVE_DARK_MODE_BEFORE_20H1 = <span class="hljs-number">19</span>; <span class="hljs-comment">// ≥ 1903 且 ≤ 20H1</span><br><span class="hljs-keyword">private</span> <span class="hljs-keyword">const</span> <span class="hljs-built_in">int</span> DWMWA_USE_IMMERSIVE_DARK_MODE = <span class="hljs-number">20</span>; <span class="hljs-comment">// 20H1 之后</span><br><br><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">FlushWindow</span>(<span class="hljs-params">IntPtr hWnd</span>)</span><br>&#123;<br>    <span class="hljs-keyword">if</span> (OSBuild &gt;= Windows10_1903)<br>    &#123;<br>        <span class="hljs-keyword">var</span> type = OSBuild &gt;= Windows10_20H1 ? DWMWA_USE_IMMERSIVE_DARK_MODE : DWMWA_USE_IMMERSIVE_DARK_MODE_BEFORE_20H1;<br>        <span class="hljs-keyword">var</span> enable = <span class="hljs-number">1</span>; <span class="hljs-comment">// 1 表示启用，0 禁用</span><br>        DwmSetWindowAttribute(hWnd, type, <span class="hljs-keyword">ref</span> enable, <span class="hljs-keyword">sizeof</span>(<span class="hljs-built_in">int</span>));<br>    &#125;<br>&#125;<br><br>[<span class="hljs-meta">DllImport(<span class="hljs-string">&quot;dwmapi.dll&quot;</span>)</span>]<br><span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">extern</span> <span class="hljs-built_in">int</span> <span class="hljs-title">DwmSetWindowAttribute</span>(<span class="hljs-params">IntPtr hWnd, <span class="hljs-built_in">int</span> dwAttribute, <span class="hljs-keyword">ref</span> <span class="hljs-built_in">int</span> pvAttribute, <span class="hljs-built_in">int</span> cbAttribute</span>)</span>;<br></code></pre></td></tr></table></figure>
 <p>回到 MyFormBase，重写 OnHandleCreated (表示当窗口句柄 (HWND) 创建时，此时可以拿到 Handle)，并密封防止子类修改 (根据具体需求决定)</p>
+<p class="note note-info"><strong>为什么要在 OnHandleCreated 方法里面调用 API，不能在构造函数里面吗？</strong><br>其一，此时获取句柄是最好的，在构造函数中获取句柄会导致其提前被创建，可能会有潜在的后果；其二，为了避免有时在运行过程中需要重绘导致句柄也重新创建的极端情况，所有推荐最好在 OnHandleCreated 里调用 API，不然一旦句柄重新创建，主题就没了。</p>
+
 <figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs csharp"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title">MyFormBase</span> : <span class="hljs-title">Form</span><br>&#123;<br>    <span class="hljs-comment">// ...</span><br><br>    <span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">sealed</span> <span class="hljs-keyword">override</span> <span class="hljs-keyword">void</span> <span class="hljs-title">OnHandleCreated</span>(<span class="hljs-params">EventArgs e</span>)</span><br>    &#123;<br>        <span class="hljs-keyword">if</span> (ThemeManager.CanUseDarkTheme)<br>        &#123;<br>            ThemeManager.FlushWindow(Handle);<br>        &#125;<br><br>        <span class="hljs-keyword">base</span>.OnHandleCreated(e);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
 <p>最终效果：</p>
 <p><img src="/archive-imgs/38/1-dark-form.png" srcset="/img/loading.gif" lazyload></p>
@@ -834,12 +836,8 @@
 <figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs csharp"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">new</span> DialogResult <span class="hljs-title">ShowDialog</span>()</span><br>&#123;<br>    Helper = <span class="hljs-keyword">new</span> CommonDialogHelper(<span class="hljs-keyword">this</span>, <span class="hljs-keyword">base</span>.HookProc);<br>    <span class="hljs-keyword">return</span> <span class="hljs-keyword">base</span>.ShowDialog();<br>&#125;<br></code></pre></td></tr></table></figure>
 <p>再来运行看看，非常好，没错了。</p>
 <p>那本文就到这里，下期再见~</p>
-<h2 id="可能的疑问"><a href="#可能的疑问" class="headerlink" title="可能的疑问"></a>可能的疑问</h2><h3 id="为什么要在-OnHandleCreated-方法里面调用-API，不能在构造函数里面吗？"><a href="#为什么要在-OnHandleCreated-方法里面调用-API，不能在构造函数里面吗？" class="headerlink" title="为什么要在 OnHandleCreated 方法里面调用 API，不能在构造函数里面吗？"></a>为什么要在 OnHandleCreated 方法里面调用 API，不能在构造函数里面吗？</h3><ol>
-<li>为了避免有时在运行过程中需要重绘导致句柄也重新创建的极端情况，所有推荐最好在 OnHandleCreated 里调用 API，不然一旦句柄重新创建，主题就没了。</li>
-<li>此时获取句柄是最好的，在构造函数中获取句柄会导致其提前被创建，可能会有潜在的后果。</li>
-</ol>
-<h2 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h2><p>由于原生深色主题是系统自带的功能，所以只要你的窗口框架或控件都是原生类型的话，理论上不光 C# 可以，其他编程语言比如 C&#x2F;C++ 等也可以实现原生深色主题。</p>
 <h2 id="相关链接"><a href="#相关链接" class="headerlink" title="相关链接"></a>相关链接</h2><ul>
+<li>PlainCEETimer<br><a target="_blank" rel="noopener" href="https://github.com/WangHaonie/PlainCEETimer">https://github.com/WangHaonie/PlainCEETimer</a></li>
 <li>Win32 Dark Mode<br><a target="_blank" rel="noopener" href="https://gist.github.com/rounk-ctrl/b04e5622e30e0d62956870d5c22b7017">https://gist.github.com/rounk-ctrl/b04e5622e30e0d62956870d5c22b7017</a></li>
 <li>ysc3839&#x2F;win32-darkmode: Example application shows how to use undocumented dark mode API introduced in Windows 10 1809.<br><a target="_blank" rel="noopener" href="https://github.com/ysc3839/win32-darkmode">https://github.com/ysc3839/win32-darkmode</a></li>
 <li>BlueMystical&#x2F;Dark-Mode-Forms: Apply Dark Mode to all Controls in a Form [WinForms]<br><a target="_blank" rel="noopener" href="https://github.com/BlueMystical/Dark-Mode-Forms">https://github.com/BlueMystical/Dark-Mode-Forms</a></li>
@@ -895,7 +893,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>更新于</div>
-          <div>2025-07-24 15:31:30</div>
+          <div>2025-07-24 17:08:05</div>
         </div>
       
       
