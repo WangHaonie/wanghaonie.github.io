@@ -343,7 +343,7 @@
               <p class="note note-info">
                 
                   
-                    本文最后更新于：几秒前
+                    本文最后更新于：3 分钟前
                   
                 
               </p>
@@ -404,11 +404,11 @@
 </ul>
 </li>
 </ul>
-<h2 id="基础知识"><a href="#基础知识" class="headerlink" title="基础知识"></a>基础知识</h2><h3 id="窗口句柄"><a href="#窗口句柄" class="headerlink" title="窗口句柄"></a>窗口句柄</h3><p>窗口句柄 (hWnd, Handle of Window)，可以理解为用于表示窗口的一种唯一标识符，所有的控件和窗口在创建时都会被分配一个全新的 HWND，有了它我们就可以在上面进行一切我们想做的事情。它在 Win32 中类型为 HWND，在 C# WinForms 中对应实现了 IWin32Window 的对象的 Handle 属性，类型为 IntPtr。</p>
-<p>另外，Win32 中 窗口 和 控件 的概念是模糊的，也就是说 控件即窗口，窗口即控件。这也就是为什么 WinForms 里 Form 和其他大多数控件都继承自 Control？因为 WinForms 本质就是对 Win32 的封装，类似于 MFC，架构什么的肯定要与 Win32 一致。</p>
+<h2 id="基础知识"><a href="#基础知识" class="headerlink" title="基础知识"></a>基础知识</h2><h3 id="窗口句柄"><a href="#窗口句柄" class="headerlink" title="窗口句柄"></a>窗口句柄</h3><p>窗口句柄 (hWnd, Handle of Window)，可以理解为用于窗口的一种唯一标识符，所有的控件和窗口在创建时都会被分配一个全新的 HWND，有了它我们就可以在上面进行一切我们想做的事情。它在 Win32 中类型为 HWND，在 C# WinForms 中对应实现了 IWin32Window 的对象的 Handle 属性，类型为 IntPtr。</p>
+<p>另外，在 Win32 中 控件即窗口，窗口即控件，两者概念几乎相同。这也就是为什么 WinForms 里 Form 和其他大多数控件都继承自 Control，因为 WinForms 本质就是对 Win32 的封装，类似于 MFC，架构什么的肯定要与 Win32 一致。</p>
 <p>不过只要有了 HWND，我们就能得知对方究竟是窗口还是控件。</p>
 <h3 id="消息循环"><a href="#消息循环" class="headerlink" title="消息循环"></a>消息循环</h3><p>消息循环是 Win32 中每个控件的核心。有了它，控件才能获取系统、用户对它的指示，从而做出相应的回应。</p>
-<p>消息的载体在 Win32 和 WinForms 中都被定义为 MSG&#x2F;Message 类型，它是一种结构体 (struct)，主要字段有：</p>
+<p>消息的载体在 Win32 和 WinForms 中被定义为 MSG&#x2F;Message 类型，它是一种结构体 (struct)，主要字段有：</p>
 <table>
 <thead>
 <tr>
@@ -455,12 +455,12 @@
 <p>在 WinForms 里，它通常长这个样子，非常类似于 Win32 的 WndProc：</p>
 <figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs csharp"><span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">virtual</span> IntPtr <span class="hljs-title">HookProc</span>(<span class="hljs-params">IntPtr hWnd, <span class="hljs-built_in">int</span> msg, IntPtr wparam, IntPtr lparam</span>)</span><br>&#123;<br>    <span class="hljs-keyword">switch</span> (msg)<br>	&#123;<br>        <span class="hljs-comment">// ... 处理各消息</span><br>	&#125;<br><br>	<span class="hljs-keyword">return</span> IntPtr.Zero; <span class="hljs-comment">// 钩子过程一般都返回 0</span><br>&#125;<br></code></pre></td></tr></table></figure>
 
-<h3 id="子类化"><a href="#子类化" class="headerlink" title="子类化"></a>子类化</h3><p>子类化 (Subclassing) 的作用有点类似于钩子，只不过它多用于钩住窗口中的子控件。在通常用于无法通过常规手段更改控件样式时使用。</p>
-<p>因为上面说了，每个控件&#x2F;窗口都有一个独立的 WndProc，而我们在窗口中处理控件样式时只能获取到本窗体的 WndProc，虽然能收到一些发送给控件的消息，但有关控件样式的消息就必须拦截控件自己的 WndProc，所以 子类化 就相当于在窗口中监听所有系统发送给控件的消息 (因为系统给控件发送消息不会经过所在窗体的 WndProc)，从而进行更多自定义的功能。</p>
+<h3 id="子类化"><a href="#子类化" class="headerlink" title="子类化"></a>子类化</h3><p>子类化 (Subclassing) 的作用有点类似于钩子，只不过它多用于钩住窗口中的子控件。只有在通常用于无法通过常规手段更改控件样式或行为时使用。</p>
+<p>因为上面说了，每个控件&#x2F;窗口都有一个独立的 WndProc，而我们在窗口中处理控件样式&#x2F;行为时只能获取到本窗体的 WndProc，虽然能收到一些发送给控件的消息，但有关绘制的消息就必须拦截控件自己的 WndProc，所以 子类化 就相当于在窗口中监听所有系统发送给控件的消息 (因为系统给控件发送消息基本不会经过所在窗体的 WndProc)，从而进行更多自定义的功能。</p>
 <p>在 Win32 中，我们通常使用 CommCtrl.h 提供的 SetWindowSubclass 和 RemoveWindowSubclass 来对窗体进行&#x2F;移除子类化。</p>
 <p>但在 WinForms 中，我们不需要导入这两个函数来子类化，.NET 为我们提供了类似子类化的功能，叫 NativeWindow 类。它继承自 Component，是对 Win32 窗口的低级封装 (只提供 WndProc，不提供或提供少量其他功能就叫低级封装)，也就是传入 句柄 给 NativeWindow，我们相当于获取到了目标窗口的实例，而这个类也提供了 WndProc 虚方法，可供我们重写，来达到子类化的效果。</p>
-<h3 id="调用约定"><a href="#调用约定" class="headerlink" title="调用约定"></a>调用约定</h3><p>调用约定 (CallingConvention) 简单知道有这么个东西就行了，就是调用本机函数的方式 (好比你上网的方式，WiFi，移动数据等，但不用纠结有什么区别，保持一致就行)，WinAPI 默认就是 StdCall，C# 里 Interop 的 [DllImport] 默认也是 StdCall，后面我们导出函数也要声明为 StdCall。</p>
-<h3 id="封送"><a href="#封送" class="headerlink" title="封送"></a>封送</h3><p>封送 (Marshaling)，指从非托管环境 (Unmanaged，即 Win32) 中将对象转换为托管环境 (Managed，即 C#) 对象的过程，以及反向转换的过程。常见的就是将返回值为 Win32 BOOL 的导入函数转换为 C# bool，一般这么写：</p>
+<h3 id="调用约定"><a href="#调用约定" class="headerlink" title="调用约定"></a>调用约定</h3><p>调用约定 (CallingConvention)，就是调用本机函数的方式 (好比你上网的方式，WiFi，移动数据等。简单知道有这么个东西就行了，不用纠结有什么区别，保持约定一致就行)，WinAPI 默认就是 StdCall，C# 里 Interop 的 [DllImport] 默认也是 StdCall，后面我们导出函数也要声明为 StdCall。</p>
+<h3 id="封送"><a href="#封送" class="headerlink" title="封送"></a>封送</h3><p>封送 (Marshaling)，指从非托管环境 (Unmanaged，即 Win32) 中将对象转换为托管环境 (Managed，即 C#) 对象的过程，以及反向转换的过程。常见的就是将返回值为 Win32 BOOL 的函数转换为 C# bool，一般这么写：</p>
 <figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs csharp">[<span class="hljs-meta">return: MarshalAs(UnmanagedType.Bool)</span>]<br></code></pre></td></tr></table></figure>
 
 <h2 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h2><h3 id="安装-C"><a href="#安装-C" class="headerlink" title="安装 C++"></a>安装 C++</h3><p>某些 Interop，我们交给 C++ 会更好，用 C# 的话过于麻烦甚至无法完成。所以需要用到 C++。</p>
@@ -597,6 +597,7 @@
 <p>其实 DarkMode_CFD 也可以，但只对 UpDownEdit 生效，使用 DarkMode_Explorer 的话两者都可以被应用深色主题。</p>
 <p>看看效果：</p>
 <p><img src="/../archive-imgs/38/21-dark-nud.png" srcset="/img/loading.gif" lazyload></p>
+<p>注意，Windows 11 之前的系统，UpDownButtons 没有深色主题是正常现象。</p>
 <h3 id="ListView"><a href="#ListView" class="headerlink" title="ListView"></a>ListView</h3><p>ListView 就比较复杂了，因为它也是复合控件，标题栏就是一个控件 (SysHeader32)，列表就是 ListView 本身，我们还是按照老办法来看看 Controls 集合。</p>
 <p>先创建 MyListView，设置必要属性</p>
 <figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><code class="hljs csharp"><span class="hljs-keyword">public</span> <span class="hljs-keyword">sealed</span> <span class="hljs-keyword">class</span> <span class="hljs-title">MyListView</span> : <span class="hljs-title">ListView</span><br>&#123;<br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">MyListView</span>()</span><br>    &#123;<br>        View = View.Details; <span class="hljs-comment">// 列表详细视图</span><br>        FullRowSelect = <span class="hljs-literal">true</span>; <span class="hljs-comment">// 整行选择</span><br>        HideSelection = <span class="hljs-literal">false</span>; <span class="hljs-comment">// 失去焦点不隐藏选中项</span><br>        ShowItemToolTips = <span class="hljs-literal">true</span>; <span class="hljs-comment">// 内容超出范围显示 ToolTip</span><br>        BorderStyle = BorderStyle.None; <span class="hljs-comment">// 不显示白色边框，这个看具体需求</span><br><br>        <span class="hljs-keyword">if</span> (ThemeManager.CanUseDarkTheme)<br>        &#123;<br>            ForeColor = ThemeManager.DarkFore;<br>            BackColor = ThemeManager.DarkBack;<br>        &#125;<br><br>        SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.OptimizedDoubleBuffer, <span class="hljs-literal">true</span>);<br>        <span class="hljs-comment">// 开启双缓冲，防止闪烁与卡顿</span><br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">override</span> <span class="hljs-keyword">void</span> <span class="hljs-title">OnHandleCreated</span>(<span class="hljs-params">EventArgs e</span>)</span><br>    &#123;<br>        <span class="hljs-keyword">var</span> b = Controls; <span class="hljs-comment">// &lt;- 打断点</span><br><br>        <span class="hljs-keyword">if</span> (ThemeManager.CanUseDarkTheme)<br>        &#123;<br>            ThemeManager.SetWindowTheme(Handle, <span class="hljs-string">&quot;DarkMode_ItemsView&quot;</span>, <span class="hljs-literal">null</span>);<br>        &#125;<br><br>        <span class="hljs-keyword">base</span>.OnHandleCreated(e);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
@@ -892,7 +893,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>更新于</div>
-          <div>2025-07-24 14:26:52</div>
+          <div>2025-07-24 14:44:33</div>
         </div>
       
       
