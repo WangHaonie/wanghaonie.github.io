@@ -16,11 +16,11 @@
   <meta name="author" content="WangHaonie">
   <meta name="keywords" content="">
   
-    <meta name="description" content="重要通知:1. 这篇文章刚发布没多久，UUPdump 就发布了一个更新，目前 (2022-12-23) 的 UUPdump 本地版服务器已经可以支持中文和查询老版本更新，本篇文章中的部分内容可能已不再适用，请按照实际情况参考！(等以后有时间了再重新整理一下这篇文章)2. 简单说一下查询老版本的方法：打开 \uup\config.ini，把 fetch_sync_current_only= 后面的">
+    <meta name="description" content="没看 COM API 基础篇的，快去看看: 【COM API】基础知识与使用方法  简介ITaskList3: 你可能不认识我，但你一定见过我的样子:  这就是 ITaskList 的功能之一，任务栏进度条。ITaskList3 是 ITaskList 的第三版，也就是在这个版本，微软加入了任务栏进度条的功能。 使用条件 系统：Windows 7 及以上 COM 运行环境：STA CLSID：CL">
   
   
   
-  <title>免费在本地搭建 UUPdump 同款网站 | WangHaonie 的博客</title>
+  <title>【COM API】心心念的 ITaskList3 使用方法 | WangHaonie 的博客</title>
   <link rel="stylesheet" href="/css/frosted.css">
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -254,7 +254,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle">免费在本地搭建 UUPdump 同款网站</span>
+            <span id="subtitle">【COM API】心心念的 ITaskList3 使用方法</span>
           
         </div>
 
@@ -265,8 +265,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2022-12-21 21:55" pubdate>
-          2022-12-21 21:55:57
+        <time datetime="2025-07-24 16:40" pubdate>
+          2025-07-24 16:40:24
         </time>
       </span>
     
@@ -277,7 +277,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          1.4k 字
+          563 字
         
       </span>
     
@@ -288,7 +288,7 @@
         
         
         
-          12 分钟
+          5 分钟
         
       </span>
     
@@ -338,12 +338,12 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">免费在本地搭建 UUPdump 同款网站</h1>
+            <h1 id="seo-header">【COM API】心心念的 ITaskList3 使用方法</h1>
             
               <p class="note note-info">
                 
                   
-                    本文最后更新于：6 小时前
+                    本文最后更新于：几秒前
                   
                 
               </p>
@@ -351,82 +351,66 @@
             
               <div class="markdown-body">
                 
-                <p class="note note-warning"><strong>重要通知:</strong><br>1. 这篇文章刚发布没多久，UUPdump 就发布了一个更新，目前 (2022-12-23) 的 UUPdump 本地版服务器已经可以支持中文和查询老版本更新，本篇文章中的部分内容可能已不再适用，请按照实际情况参考！(等以后有时间了再重新整理一下这篇文章)<br>2. 简单说一下查询老版本的方法：打开 <code>\uup\config.ini</code>，把 <code>fetch_sync_current_only=</code> 后面的 <code>false</code> 改为 <code>true</code></p>
+                <p class="note note-warning">没看 COM API 基础篇的，快去看看: <a href="https://wanghaonie.github.io/posts/921e4b4f8e14/">【COM API】基础知识与使用方法</a></p>
 
-<h2 id="准备工具"><a href="#准备工具" class="headerlink" title="准备工具"></a>准备工具</h2><ol>
-<li><code>uupdump-x64.7z</code><br><a target="_blank" rel="noopener" href="https://drive.google.com/drive/folders/1xWHnjdge-XacYHwH7QCTUDLde3YV-47l">https://drive.google.com/drive/folders/1xWHnjdge-XacYHwH7QCTUDLde3YV-47l</a> (官方)<br><a target="_blank" rel="noopener" href="https://mega.nz/folder/YoAFAY6S#YK8llN-X4wi3fyumy_Zbxw">https://mega.nz/folder/YoAFAY6S#YK8llN-X4wi3fyumy_Zbxw</a> (官方备用)</li>
-<li>Microsoft Visual C++ 2015-2022 Redistributable (x64) Runtime<br><a target="_blank" rel="noopener" href="https://aka.ms/vs/17/release/vc_redist.x64.exe">https://aka.ms/vs/17/release/vc_redist.x64.exe</a> (64 位, 根据实际情况选择安装)<br><a target="_blank" rel="noopener" href="https://aka.ms/vs/17/release/vc_redist.x86.exe">https://aka.ms/vs/17/release/vc_redist.x86.exe</a> (32 位, 根据实际情况选择安装)</li>
-</ol>
-<h2 id="开始部署服务器"><a href="#开始部署服务器" class="headerlink" title="开始部署服务器"></a>开始部署服务器</h2><ol>
-<li><p>首先解压下载好的压缩包，然后运行 <code>uupdump-run-website.cmd</code> 来启动服务器。<br><img src="/archive-imgs/14/img-13-1-run-server.png" srcset="/img/loading.gif" lazyload alt="image"></p>
-</li>
-<li><p>服务器控制台运行情况如下，此时会自动打开浏览器对应的服务器地址和页面。<br><img src="/archive-imgs/14/img-13-2-server-console.png" srcset="/img/loading.gif" lazyload alt="image"></p>
-</li>
-<li><p>打开的页面如下，是不是觉得很熟悉了呢，这个本地版的服务器包含了与官方服务器同样的功能，但美中不足的一点就是貌似只有英文界面，没有中文<br><img src="/archive-imgs/14/img-13-3-local-uupdump-look.png" srcset="/img/loading.gif" lazyload alt="image"></p>
-<blockquote>
-<ol>
-<li>如果控制台没有自动打开浏览器，则需要手动打开浏览器，并在地址栏输入 <a target="_blank" rel="noopener" href="http://127.0.0.1:44400/"><code>127.0.0.1:44400</code></a> 即可进入网页。</li>
-<li>可以使用浏览器自带的翻译功能来把页面翻译成中文</li>
-</ol>
-</blockquote>
-</li>
-<li><p>与官网不同的一点就是，在官网我们可以看到有很多微软最新发布的更新，而这里一个也没有。所以在这里我们需要手动添加更新，我们点击左上角的New build。<br><img src="/archive-imgs/14/img-13-4-click-new-build.png" srcset="/img/loading.gif" lazyload alt="image"></p>
-</li>
-<li><p>然后我们就来到了这个页面。第一个选项 Architecture 指的是架构，我们一般就选择64位的就行，若有特殊需求则更改的对应的架构即可。第二个选项 Channel 就是微软发布更新的各个频道，Dev 是开发版，Beta 是测试版，Release Preview 是预览版，Retail 是零售版，根据个人需求选择对应的频道即可。<br><img src="/archive-imgs/14/img-13-5-select-retail.png" srcset="/img/loading.gif" lazyload alt="image"></p>
-</li>
-<li><p>第三个选项 Build 在这里我们要填入系统的构建号，这里就以 Windows 10 22H2 的构建号 <code>19045</code> 为例，后面最好再添一个 <code>.1</code>，第四个选项就是系统的版本这里就默认它为专业版 (Pro)，然后点击 Next。<br><img src="/archive-imgs/14/img-13-6-go-next.png" srcset="/img/loading.gif" lazyload alt="image"></p>
-<blockquote>
-<p>此页面目存在一个问题就是无论选择哪个 Channel，只要 Build 是填对了的都会反映出相应的版本，另外就是当填入老版本的 Build 的时候，返回的却是最新版本，大家有兴趣的可以自己琢磨一下。</p>
-</blockquote>
-</li>
-<li><p>如图所示，服务器成功的返回了我们这频道最新的一个更新，然后我们点击第二个进入。<br><img src="/archive-imgs/14/img-13-7-click-uup.png" srcset="/img/loading.gif" lazyload alt="image"></p>
-</li>
-<li><p>进入到这个界面以后，我们发现这里有个提示说这个更新的元数据还没有生成，虽然说下面有一个 生成元数据 的按钮，但是我们最好是回到刚才的文件夹，然后运行另一个程序来生成元数据。<br><img src="/archive-imgs/14/img-13-8-do-not-click-generate-metadata-1.png" srcset="/img/loading.gif" lazyload alt="image"></p>
-</li>
-<li><p>如下图所示，运行 <code>uupdump-get-packs.cmd</code><br><img src="/archive-imgs/14/img-13-9-click-uupdump-get-packs-bat.png" srcset="/img/loading.gif" lazyload alt="image"></p>
-</li>
-<li><p>程序运行结果如下图所示。<br><img src="/archive-imgs/14/img-13-10-get-packs-console.png" srcset="/img/loading.gif" lazyload alt="image"></p>
-</li>
-<li><p>然后我们等待运行完毕，直到出现 <code>请按任意键继续...</code> 时就可以回到网页了<br><img src="/archive-imgs/14/img-13-11-get-packs-done.png" srcset="/img/loading.gif" lazyload alt="image"></p>
-</li>
-<li><p>回到网页后，我们点击浏览器的刷新按钮刷新一下，如下图所示。<br><img src="/archive-imgs/14/img-13-12-get-packs-done-webpage.png" srcset="/img/loading.gif" lazyload alt="image"></p>
-</li>
-<li><p>可以看到在这里他是默认为英语的，所以我们需要点击后面的倒三角按钮，展开下拉列表，然后往上滑，找到并点击简体中文 (<code>Chinese (Simplified)</code>)<br><img src="/archive-imgs/14/img-13-13-select-language-zh-cn.png" srcset="/img/loading.gif" lazyload alt="image"></p>
-</li>
-<li><p>选择完语言以后，然后点击 Next。<br><img src="/archive-imgs/14/img-13-14-click-next.png" srcset="/img/loading.gif" lazyload alt="image"></p>
-</li>
-<li><p>在这里选择系统版本，我们只把专业版勾上就行了，把上面的家庭版取消勾选，然后点击 Next。<br><img src="/archive-imgs/14/img-13-15-select-version.png" srcset="/img/loading.gif" lazyload alt="image"></p>
-</li>
-<li><p>在这个页面我们依次点击 <code>下载并转换为 ISO 文件</code>、<code>当可用时集成更新</code>、<code>在集成更新后运行清理</code>、<code>集成 .NET Framework 3.5</code>、<code>使用固实压缩</code>，最后点击 创建下载包。<br><img src="/archive-imgs/14/img-13-16-create-download-pack.png" srcset="/img/loading.gif" lazyload alt="image"></p>
-</li>
-<li><p>将下载的文件解压到一个路径只有英文但不包含空格的文件夹下，然后右键 <code>uup_download_windows.cmd</code> 选择以管理员身份运行，若当前账户已是管理员 (Administrator) 可以直接双击运行。<br><img src="/archive-imgs/14/img-13-17-start-uup-download.png" srcset="/img/loading.gif" lazyload alt="image"></p>
-</li>
-<li><p>出现下图的这个情况，说明我们搭建的本地服务器没有问题，已经成功下载了。<br><img src="/archive-imgs/14/img-13-18-aria2c-download-script-succ.png" srcset="/img/loading.gif" lazyload alt="image"></p>
-</li>
-<li><p>后面的就是全自动化的操作，注意程序运行过程中尽量不要运行其他程序，因为该程序到后面压缩镜像时比较占用系统资源，以免造成卡顿。<br><br><img src="/archive-imgs/14/img-13-19-uup-set-downloading.png" srcset="/img/loading.gif" lazyload alt="image"></p>
-</li>
-</ol>
-<h2 id="可能存在的问题"><a href="#可能存在的问题" class="headerlink" title="可能存在的问题"></a>可能存在的问题</h2><ol>
-<li><code>uup_download_windows.cmd</code> 运行开始会下载一些第三方程序以确保能够成功地制作出 ISO，然而下载这些文件需要连接到 github.com，这对某些 DNS 被污染的地区非常不友好，但可以挂加速器等方法解决，有关此方面的详细信息可以观看这个视频: <a target="_blank" rel="noopener" href="https://b23.tv/Sq3RI3N">b23.tv&#x2F;Sq3RI3N</a>。对此，UUPdump 官方也推出了一个比较靠谱的解决方案，具体步骤如下</li>
-</ol>
-<blockquote>
-<ol>
-<li>手动下载 <br>(1) <a target="_blank" rel="noopener" href="https://github.com/uup-dump/containment-zone/raw/master/7zr.exe">https://github.com/uup-dump/containment-zone/raw/master/7zr.exe</a><br>(2) <a target="_blank" rel="noopener" href="https://github.com/uup-dump/containment-zone/raw/master/aria2c.exe">https://github.com/uup-dump/containment-zone/raw/master/aria2c.exe</a><br>(3) <a target="_blank" rel="noopener" href="https://github.com/uup-dump/containment-zone/raw/master/uup-converter-wimlib.7z">https://github.com/uup-dump/containment-zone/raw/master/uup-converter-wimlib.7z</a><br>这3个文件</li>
-<li>然后放在 UUP 下载包解压后的 <code>files</code> 文件夹里面，不要重命名</li>
-<li>用记事本等你习惯的编辑器打开 <code>uup_download_windows.cmd</code>，然后删除这行代码。<u><code>powershell -NoProfile -ExecutionPolicy Unrestricted .\files\depends_win.ps1 || (pause &amp; exit /b 1)</code></u></li>
-<li>重新运行 <code>uup_download_windows.cmd</code> 就 OK 了。</li>
-</ol>
-</blockquote>
-<h2 id="总结一下"><a href="#总结一下" class="headerlink" title="总结一下"></a>总结一下</h2><ol>
-<li><code>uupdump-x64.7z</code> 时不时地会更新 API 确保网站的正常运行，所以每到一段时间之后要去查看链接中是否有更新，要养成定时更新的好习惯。</li>
-<li>说实话这个方法不建议日常经常使用，偶尔折腾一下就行了，毕竟 <a target="_blank" rel="noopener" href="https://uupdump.net/?lang=zh-cn">UUPdump</a> 目前还可以正常使用，此方法仅做备用方案。就算官网真的不能用了，国内还有 <a target="_blank" rel="noopener" href="https://www.uupdump.cn/">uupdump.cn</a> 撑着的，国外也有 <a target="_blank" rel="noopener" href="https://uup.rg-adguard.net/">uup.rg-adguard.net</a>，完全不用担心！</li>
-</ol>
-<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ol>
-<li>How to use uupdump 7z - YouTube<br><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=1BIQJTD3dmg">https://www.youtube.com/watch?v=1BIQJTD3dmg</a></li>
-<li>• Discord | #main | UUPdump<br><a target="_blank" rel="noopener" href="https://discord.com/channels/600104690684002321/600104690684002323/1053404611110776873">https://discord.com/channels/600104690684002321/600104690684002323/1053404611110776873</a></li>
-<li>• Discord | #main | UUPdump<br><a target="_blank" rel="noopener" href="https://discord.com/channels/600104690684002321/600104690684002323/1054141568942084156">https://discord.com/channels/600104690684002321/600104690684002323/1054141568942084156</a></li>
-<li>[DISCUSSION] UUPdump - download Windows 10 UUPs with ease | Page 223 | My Digital Life Forums<br><a target="_blank" rel="noopener" href="https://forums.mydigitallife.net/threads/discussion-uup-dump-download-windows-10-uups-with-ease.75052/page-223#post-1767162">https://forums.mydigitallife.net/threads/discussion-uup-dump-download-windows-10-uups-with-ease.75052/page-223#post-1767162</a></li>
-</ol>
+<h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>ITaskList3: 你可能不认识我，但你一定见过我的样子:</p>
+<p><img src="/../archive-imgs/40/1-tasklist-taskprogress.gif" srcset="/img/loading.gif" lazyload></p>
+<p>这就是 ITaskList 的功能之一，任务栏进度条。ITaskList3 是 ITaskList 的第三版，也就是在这个版本，微软加入了任务栏进度条的功能。</p>
+<h2 id="使用条件"><a href="#使用条件" class="headerlink" title="使用条件"></a>使用条件</h2><ul>
+<li>系统：Windows 7 及以上</li>
+<li>COM 运行环境：STA</li>
+<li>CLSID：CLSID_TaskbarList</li>
+<li>IID：IID_ITaskbarList3</li>
+</ul>
+<h2 id="创建头文件"><a href="#创建头文件" class="headerlink" title="创建头文件"></a>创建头文件</h2><p>声明引用和导出函数。命名为 TaskbarProgress.h</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-meta">#<span class="hljs-keyword">pragma</span> once</span><br><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;ShObjIdl.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;Windows.h&gt;</span></span><br><br><span class="hljs-built_in">cexport</span>(<span class="hljs-type">void</span>) <span class="hljs-built_in">InitializeTaskbarList</span>(HWND hWnd);<br><span class="hljs-built_in">cexport</span>(<span class="hljs-type">void</span>) <span class="hljs-built_in">SetTaskbarProgressState</span>(TBPFLAG tbpFlags);<br><span class="hljs-built_in">cexport</span>(<span class="hljs-type">void</span>) <span class="hljs-built_in">SetTaskbarProgressValue</span>(ULONGLONG ullCompleted, ULONGLONG ullTotal);<br><span class="hljs-built_in">cexport</span>(<span class="hljs-type">void</span>) <span class="hljs-built_in">ReleaseTaskbarList</span>();<br></code></pre></td></tr></table></figure>
+<h2 id="创建源文件"><a href="#创建源文件" class="headerlink" title="创建源文件"></a>创建源文件</h2><p>声明我们的接口指针以及必要的字段。命名为 TaskbarProgress.cpp</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&quot;pch.h&quot;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&quot;TaskbarProgress.h&quot;</span></span><br><br><span class="hljs-type">static</span> ITaskbarList3* pList = <span class="hljs-literal">nullptr</span>;<br><span class="hljs-type">static</span> HWND targetHwnd = <span class="hljs-literal">nullptr</span>;<br><span class="hljs-type">static</span> BOOL initialized = FALSE;<br></code></pre></td></tr></table></figure>
+
+<h2 id="初始化-COM-和-接口指针"><a href="#初始化-COM-和-接口指针" class="headerlink" title="初始化 COM 和 接口指针"></a>初始化 COM 和 接口指针</h2><p>由于我们这里导出给 WinForms 应用程序的 UI 线程中调用，该线程本身处于 STA，所以就不用初始化 COM 运行时了。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">InitializeTaskbarList</span><span class="hljs-params">(HWND hWnd)</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-keyword">if</span> (!initialized &amp;&amp; hWnd &amp;&amp; <span class="hljs-comment">// 确保是在没有初始化过且传入的 HWND 有效的情况下才进行</span><br>        <span class="hljs-built_in">SUCCEEDED</span>(<span class="hljs-built_in">CoCreateInstance</span>(CLSID_TaskbarList, <span class="hljs-literal">nullptr</span>, CLSCTX_ALL, IID_ITaskbarList3, (LPVOID*)&amp;pList)))<br>    &#123;<br>        targetHwnd = hWnd; <span class="hljs-comment">// 保存目标窗口的 HWND</span><br>        pList-&gt;<span class="hljs-built_in">HrInit</span>(); <span class="hljs-comment">// 调用 TaskList 提供的初始化</span><br>        initialized = TRUE; <span class="hljs-comment">// 设置标志</span><br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h2 id="设置进度状态"><a href="#设置进度状态" class="headerlink" title="设置进度状态"></a>设置进度状态</h2><p>设置进度条的状态。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">SetTaskbarProgressState</span><span class="hljs-params">(TBPFLAG tbpFlags)</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-keyword">if</span> (initialized)<br>    &#123;<br>        pList-&gt;<span class="hljs-built_in">SetProgressState</span>(targetHwnd, tbpFlags);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>TBPFLAG 为我们提供了可用的状态枚举：</p>
+<table>
+<thead>
+<tr>
+<th>枚举</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>TBPF_NOPROGRESS</td>
+<td>关闭进度条</td>
+</tr>
+<tr>
+<td>TBPF_INDETERMINATE</td>
+<td>不停的滚动</td>
+</tr>
+<tr>
+<td>TBPF_NORMAL</td>
+<td>正常样式，蓝色 (系统主题颜色)</td>
+</tr>
+<tr>
+<td>TBPF_ERROR</td>
+<td>发生错误，红色</td>
+</tr>
+<tr>
+<td>TBPF_PAUSED</td>
+<td>暂停，黄色</td>
+</tr>
+</tbody></table>
+<h2 id="设置进度值"><a href="#设置进度值" class="headerlink" title="设置进度值"></a>设置进度值</h2><p>设置进度条的进度值。两个参数分别表示 当前、总共</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">SetTaskbarProgressValue</span><span class="hljs-params">(ULONGLONG ullCompleted, ULONGLONG ullTotal)</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-keyword">if</span> (initialized)<br>    &#123;<br>        pList-&gt;<span class="hljs-built_in">SetProgressValue</span>(targetHwnd, ullCompleted, ullTotal);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>由于类型是 ULONGLONG (C#-&gt;ulong)，所以我们可以不用将最大值设置为 100。</p>
+<p>这样的设计有个好处就是，比如我们想显示下载文件时的进度，此时就可以直接分别传入 已下载大小 和 总大小，由 ITaskList 帮我们计算百分比并反映在 UI 上。</p>
+<p>如果把 ulong.MaxValue (<code>18,446,744,073,709,551,615</code>, 即 2^64 - 1) 看作单位为 B (byte) 的文件大小的话，约等于 <code>18,446,744</code> TB，对于一个文件来说相当于无穷大了，然鹅并不会有这么大的文件，所以我们也不用担心会溢出。</p>
+<h2 id="释放资源"><a href="#释放资源" class="headerlink" title="释放资源"></a>释放资源</h2><p>在窗体关闭时，我们可以调用此函数来释放所有 ITaskList 占用的资源</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">ReleaseTaskbarList</span><span class="hljs-params">()</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-keyword">if</span> (initialized)<br>    &#123;<br>        <span class="hljs-keyword">if</span> (pList) pList-&gt;<span class="hljs-built_in">Release</span>(); <span class="hljs-comment">// 调用 IUnknown 提供的释放函数</span><br>        pList = <span class="hljs-literal">nullptr</span>; <span class="hljs-comment">// 置空</span><br>        targetHwnd = <span class="hljs-literal">nullptr</span>; <span class="hljs-comment">// 置空</span><br>        initialized = FALSE; <span class="hljs-comment">// 重置标志</span><br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h2 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h2><p>尽量保持单例，也就是尽量避免同时在多个窗体中进行初始化和使用。</p>
+<p>实际上也可以，那我们就不需要保存 targetHwnd，在 SetTaskbarProgressState 或 SetTaskbarProgressValue 时直接传入 HWND 就行了，大家可以根据需求来决定。</p>
 
                 
               </div>
@@ -441,6 +425,10 @@
       
         <a href="/tags/Windows/" class="print-no-link">#Windows</a>
       
+        <a href="/tags/CSharp/" class="print-no-link">#CSharp</a>
+      
+        <a href="/tags/Cpp/" class="print-no-link">#Cpp</a>
+      
     </div>
   
 </div>
@@ -451,8 +439,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>免费在本地搭建 UUPdump 同款网站</div>
-      <div>https://wanghaonie.github.io/posts/7310cbb599a3/</div>
+      <div>【COM API】心心念的 ITaskList3 使用方法</div>
+      <div>https://wanghaonie.github.io/posts/a92b9edaa723/</div>
     </div>
     <div class="license-meta">
       
@@ -464,13 +452,13 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2022-12-21 21:55:57</div>
+          <div>2025-07-24 16:40:24</div>
         </div>
       
       
         <div class="license-meta-item license-meta-date">
           <div>更新于</div>
-          <div>2025-07-24 17:45:28</div>
+          <div>2025-07-25 00:07:11</div>
         </div>
       
       
@@ -513,15 +501,21 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/posts/2f700cb73bdf/" title="这才是 Windows Subsystem for Android™ 的正确打开方式">
+                      <a href="/posts/956faabe5ac6/" title="【COM API】操作 TaskScheduler 加快程序开机自启">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">这才是 Windows Subsystem for Android™ 的正确打开方式</span>
+                        <span class="hidden-mobile">【COM API】操作 TaskScheduler 加快程序开机自启</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
                   </article>
                   <article class="post-next col-6">
                     
+                    
+                      <a href="/posts/921e4b4f8e14/" title="【COM API】基础知识与使用方法">
+                        <span class="hidden-mobile">【COM API】基础知识与使用方法</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
                     
                   </article>
                 </div>

@@ -16,11 +16,11 @@
   <meta name="author" content="WangHaonie">
   <meta name="keywords" content="">
   
-    <meta name="description" content="重要通知:1. 这篇文章刚发布没多久，UUPdump 就发布了一个更新，目前 (2022-12-23) 的 UUPdump 本地版服务器已经可以支持中文和查询老版本更新，本篇文章中的部分内容可能已不再适用，请按照实际情况参考！(等以后有时间了再重新整理一下这篇文章)2. 简单说一下查询老版本的方法：打开 \uup\config.ini，把 fetch_sync_current_only= 后面的">
+    <meta name="description" content="初识 COM API和 WinAPI 类似，COM API 也提供了一系列函数供应用程序调用来实现功能。两者都属于 Windows API 范畴，但在调用方式上有着很大的不同。    WinAPI COM API    调用 DLL 中导出的函数 通过接口指针调用虚函数   指定函数名就可以调用 指定 CLSID 和 IID 进行初始化   调用完不需要释放函数 调用完需手动释放以及销毁接口指针">
   
   
   
-  <title>免费在本地搭建 UUPdump 同款网站 | WangHaonie 的博客</title>
+  <title>【COM API】基础知识与使用方法 | WangHaonie 的博客</title>
   <link rel="stylesheet" href="/css/frosted.css">
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -254,7 +254,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle">免费在本地搭建 UUPdump 同款网站</span>
+            <span id="subtitle">【COM API】基础知识与使用方法</span>
           
         </div>
 
@@ -265,8 +265,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2022-12-21 21:55" pubdate>
-          2022-12-21 21:55:57
+        <time datetime="2025-07-24 16:40" pubdate>
+          2025-07-24 16:40:12
         </time>
       </span>
     
@@ -277,7 +277,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          1.4k 字
+          1.1k 字
         
       </span>
     
@@ -288,7 +288,7 @@
         
         
         
-          12 分钟
+          9 分钟
         
       </span>
     
@@ -338,12 +338,12 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">免费在本地搭建 UUPdump 同款网站</h1>
+            <h1 id="seo-header">【COM API】基础知识与使用方法</h1>
             
               <p class="note note-info">
                 
                   
-                    本文最后更新于：6 小时前
+                    本文最后更新于：33 分钟前
                   
                 
               </p>
@@ -351,82 +351,81 @@
             
               <div class="markdown-body">
                 
-                <p class="note note-warning"><strong>重要通知:</strong><br>1. 这篇文章刚发布没多久，UUPdump 就发布了一个更新，目前 (2022-12-23) 的 UUPdump 本地版服务器已经可以支持中文和查询老版本更新，本篇文章中的部分内容可能已不再适用，请按照实际情况参考！(等以后有时间了再重新整理一下这篇文章)<br>2. 简单说一下查询老版本的方法：打开 <code>\uup\config.ini</code>，把 <code>fetch_sync_current_only=</code> 后面的 <code>false</code> 改为 <code>true</code></p>
+                <h2 id="初识-COM-API"><a href="#初识-COM-API" class="headerlink" title="初识 COM API"></a>初识 COM API</h2><p>和 WinAPI 类似，COM API 也提供了一系列函数供应用程序调用来实现功能。两者都属于 Windows API 范畴，但在调用方式上有着很大的不同。</p>
+<table>
+<thead>
+<tr>
+<th>WinAPI</th>
+<th>COM API</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>调用 DLL 中导出的函数</td>
+<td>通过接口指针调用虚函数</td>
+</tr>
+<tr>
+<td>指定函数名就可以调用</td>
+<td>指定 CLSID 和 IID 进行初始化</td>
+</tr>
+<tr>
+<td>调用完不需要释放函数</td>
+<td>调用完需手动释放以及销毁接口指针</td>
+</tr>
+</tbody></table>
+<p>从现在开始，本文将向大家讲述有关 COM API 的基础知识以及使用模板，我们将使用 C++ 将 COM API 封装为 WinAPI 供 C# 或其他程序调用 (C# 本来也可以初始化和使用 COM API，但不是本文重点)。</p>
+<h2 id="HRESULT"><a href="#HRESULT" class="headerlink" title="HRESULT"></a>HRESULT</h2><p>HRESULT 几乎是所有 COM API 函数的返回类型，用于表示函数是否执行成功。可以把它类比为 BOOL，因为它们本质上都是整型 (long 和 int)。但两者在真假判定上也有区别。</p>
+<table>
+<thead>
+<tr>
+<th>BOOL</th>
+<th>HRESULT</th>
+<th>真假</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>!= 0</code></td>
+<td><code>&gt;= 0</code></td>
+<td><code>true</code></td>
+</tr>
+<tr>
+<td><code>== 0</code></td>
+<td><code>&lt; 0</code></td>
+<td><code>false</code></td>
+</tr>
+</tbody></table>
+<p>那我们怎么在编程中判断两者的真假呢？</p>
+<p>BOOL：直接写在 if 表达式里就行。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs c++">BOOL b = ...;<br><br><span class="hljs-keyword">if</span> (b)<br>&#123;<br>    <span class="hljs-comment">// true</span><br>&#125;<br><span class="hljs-keyword">else</span><br>&#123;<br>    <span class="hljs-comment">// false</span><br>&#125;<br><br><span class="hljs-keyword">if</span> (!b)<br>&#123;<br>    <span class="hljs-comment">// false</span><br>&#125;<br><span class="hljs-keyword">else</span><br>&#123;<br>    <span class="hljs-comment">// true</span><br>&#125;<br></code></pre></td></tr></table></figure>
 
-<h2 id="准备工具"><a href="#准备工具" class="headerlink" title="准备工具"></a>准备工具</h2><ol>
-<li><code>uupdump-x64.7z</code><br><a target="_blank" rel="noopener" href="https://drive.google.com/drive/folders/1xWHnjdge-XacYHwH7QCTUDLde3YV-47l">https://drive.google.com/drive/folders/1xWHnjdge-XacYHwH7QCTUDLde3YV-47l</a> (官方)<br><a target="_blank" rel="noopener" href="https://mega.nz/folder/YoAFAY6S#YK8llN-X4wi3fyumy_Zbxw">https://mega.nz/folder/YoAFAY6S#YK8llN-X4wi3fyumy_Zbxw</a> (官方备用)</li>
-<li>Microsoft Visual C++ 2015-2022 Redistributable (x64) Runtime<br><a target="_blank" rel="noopener" href="https://aka.ms/vs/17/release/vc_redist.x64.exe">https://aka.ms/vs/17/release/vc_redist.x64.exe</a> (64 位, 根据实际情况选择安装)<br><a target="_blank" rel="noopener" href="https://aka.ms/vs/17/release/vc_redist.x86.exe">https://aka.ms/vs/17/release/vc_redist.x86.exe</a> (32 位, 根据实际情况选择安装)</li>
-</ol>
-<h2 id="开始部署服务器"><a href="#开始部署服务器" class="headerlink" title="开始部署服务器"></a>开始部署服务器</h2><ol>
-<li><p>首先解压下载好的压缩包，然后运行 <code>uupdump-run-website.cmd</code> 来启动服务器。<br><img src="/archive-imgs/14/img-13-1-run-server.png" srcset="/img/loading.gif" lazyload alt="image"></p>
-</li>
-<li><p>服务器控制台运行情况如下，此时会自动打开浏览器对应的服务器地址和页面。<br><img src="/archive-imgs/14/img-13-2-server-console.png" srcset="/img/loading.gif" lazyload alt="image"></p>
-</li>
-<li><p>打开的页面如下，是不是觉得很熟悉了呢，这个本地版的服务器包含了与官方服务器同样的功能，但美中不足的一点就是貌似只有英文界面，没有中文<br><img src="/archive-imgs/14/img-13-3-local-uupdump-look.png" srcset="/img/loading.gif" lazyload alt="image"></p>
-<blockquote>
-<ol>
-<li>如果控制台没有自动打开浏览器，则需要手动打开浏览器，并在地址栏输入 <a target="_blank" rel="noopener" href="http://127.0.0.1:44400/"><code>127.0.0.1:44400</code></a> 即可进入网页。</li>
-<li>可以使用浏览器自带的翻译功能来把页面翻译成中文</li>
-</ol>
-</blockquote>
-</li>
-<li><p>与官网不同的一点就是，在官网我们可以看到有很多微软最新发布的更新，而这里一个也没有。所以在这里我们需要手动添加更新，我们点击左上角的New build。<br><img src="/archive-imgs/14/img-13-4-click-new-build.png" srcset="/img/loading.gif" lazyload alt="image"></p>
-</li>
-<li><p>然后我们就来到了这个页面。第一个选项 Architecture 指的是架构，我们一般就选择64位的就行，若有特殊需求则更改的对应的架构即可。第二个选项 Channel 就是微软发布更新的各个频道，Dev 是开发版，Beta 是测试版，Release Preview 是预览版，Retail 是零售版，根据个人需求选择对应的频道即可。<br><img src="/archive-imgs/14/img-13-5-select-retail.png" srcset="/img/loading.gif" lazyload alt="image"></p>
-</li>
-<li><p>第三个选项 Build 在这里我们要填入系统的构建号，这里就以 Windows 10 22H2 的构建号 <code>19045</code> 为例，后面最好再添一个 <code>.1</code>，第四个选项就是系统的版本这里就默认它为专业版 (Pro)，然后点击 Next。<br><img src="/archive-imgs/14/img-13-6-go-next.png" srcset="/img/loading.gif" lazyload alt="image"></p>
-<blockquote>
-<p>此页面目存在一个问题就是无论选择哪个 Channel，只要 Build 是填对了的都会反映出相应的版本，另外就是当填入老版本的 Build 的时候，返回的却是最新版本，大家有兴趣的可以自己琢磨一下。</p>
-</blockquote>
-</li>
-<li><p>如图所示，服务器成功的返回了我们这频道最新的一个更新，然后我们点击第二个进入。<br><img src="/archive-imgs/14/img-13-7-click-uup.png" srcset="/img/loading.gif" lazyload alt="image"></p>
-</li>
-<li><p>进入到这个界面以后，我们发现这里有个提示说这个更新的元数据还没有生成，虽然说下面有一个 生成元数据 的按钮，但是我们最好是回到刚才的文件夹，然后运行另一个程序来生成元数据。<br><img src="/archive-imgs/14/img-13-8-do-not-click-generate-metadata-1.png" srcset="/img/loading.gif" lazyload alt="image"></p>
-</li>
-<li><p>如下图所示，运行 <code>uupdump-get-packs.cmd</code><br><img src="/archive-imgs/14/img-13-9-click-uupdump-get-packs-bat.png" srcset="/img/loading.gif" lazyload alt="image"></p>
-</li>
-<li><p>程序运行结果如下图所示。<br><img src="/archive-imgs/14/img-13-10-get-packs-console.png" srcset="/img/loading.gif" lazyload alt="image"></p>
-</li>
-<li><p>然后我们等待运行完毕，直到出现 <code>请按任意键继续...</code> 时就可以回到网页了<br><img src="/archive-imgs/14/img-13-11-get-packs-done.png" srcset="/img/loading.gif" lazyload alt="image"></p>
-</li>
-<li><p>回到网页后，我们点击浏览器的刷新按钮刷新一下，如下图所示。<br><img src="/archive-imgs/14/img-13-12-get-packs-done-webpage.png" srcset="/img/loading.gif" lazyload alt="image"></p>
-</li>
-<li><p>可以看到在这里他是默认为英语的，所以我们需要点击后面的倒三角按钮，展开下拉列表，然后往上滑，找到并点击简体中文 (<code>Chinese (Simplified)</code>)<br><img src="/archive-imgs/14/img-13-13-select-language-zh-cn.png" srcset="/img/loading.gif" lazyload alt="image"></p>
-</li>
-<li><p>选择完语言以后，然后点击 Next。<br><img src="/archive-imgs/14/img-13-14-click-next.png" srcset="/img/loading.gif" lazyload alt="image"></p>
-</li>
-<li><p>在这里选择系统版本，我们只把专业版勾上就行了，把上面的家庭版取消勾选，然后点击 Next。<br><img src="/archive-imgs/14/img-13-15-select-version.png" srcset="/img/loading.gif" lazyload alt="image"></p>
-</li>
-<li><p>在这个页面我们依次点击 <code>下载并转换为 ISO 文件</code>、<code>当可用时集成更新</code>、<code>在集成更新后运行清理</code>、<code>集成 .NET Framework 3.5</code>、<code>使用固实压缩</code>，最后点击 创建下载包。<br><img src="/archive-imgs/14/img-13-16-create-download-pack.png" srcset="/img/loading.gif" lazyload alt="image"></p>
-</li>
-<li><p>将下载的文件解压到一个路径只有英文但不包含空格的文件夹下，然后右键 <code>uup_download_windows.cmd</code> 选择以管理员身份运行，若当前账户已是管理员 (Administrator) 可以直接双击运行。<br><img src="/archive-imgs/14/img-13-17-start-uup-download.png" srcset="/img/loading.gif" lazyload alt="image"></p>
-</li>
-<li><p>出现下图的这个情况，说明我们搭建的本地服务器没有问题，已经成功下载了。<br><img src="/archive-imgs/14/img-13-18-aria2c-download-script-succ.png" srcset="/img/loading.gif" lazyload alt="image"></p>
-</li>
-<li><p>后面的就是全自动化的操作，注意程序运行过程中尽量不要运行其他程序，因为该程序到后面压缩镜像时比较占用系统资源，以免造成卡顿。<br><br><img src="/archive-imgs/14/img-13-19-uup-set-downloading.png" srcset="/img/loading.gif" lazyload alt="image"></p>
-</li>
-</ol>
-<h2 id="可能存在的问题"><a href="#可能存在的问题" class="headerlink" title="可能存在的问题"></a>可能存在的问题</h2><ol>
-<li><code>uup_download_windows.cmd</code> 运行开始会下载一些第三方程序以确保能够成功地制作出 ISO，然而下载这些文件需要连接到 github.com，这对某些 DNS 被污染的地区非常不友好，但可以挂加速器等方法解决，有关此方面的详细信息可以观看这个视频: <a target="_blank" rel="noopener" href="https://b23.tv/Sq3RI3N">b23.tv&#x2F;Sq3RI3N</a>。对此，UUPdump 官方也推出了一个比较靠谱的解决方案，具体步骤如下</li>
-</ol>
-<blockquote>
-<ol>
-<li>手动下载 <br>(1) <a target="_blank" rel="noopener" href="https://github.com/uup-dump/containment-zone/raw/master/7zr.exe">https://github.com/uup-dump/containment-zone/raw/master/7zr.exe</a><br>(2) <a target="_blank" rel="noopener" href="https://github.com/uup-dump/containment-zone/raw/master/aria2c.exe">https://github.com/uup-dump/containment-zone/raw/master/aria2c.exe</a><br>(3) <a target="_blank" rel="noopener" href="https://github.com/uup-dump/containment-zone/raw/master/uup-converter-wimlib.7z">https://github.com/uup-dump/containment-zone/raw/master/uup-converter-wimlib.7z</a><br>这3个文件</li>
-<li>然后放在 UUP 下载包解压后的 <code>files</code> 文件夹里面，不要重命名</li>
-<li>用记事本等你习惯的编辑器打开 <code>uup_download_windows.cmd</code>，然后删除这行代码。<u><code>powershell -NoProfile -ExecutionPolicy Unrestricted .\files\depends_win.ps1 || (pause &amp; exit /b 1)</code></u></li>
-<li>重新运行 <code>uup_download_windows.cmd</code> 就 OK 了。</li>
-</ol>
-</blockquote>
-<h2 id="总结一下"><a href="#总结一下" class="headerlink" title="总结一下"></a>总结一下</h2><ol>
-<li><code>uupdump-x64.7z</code> 时不时地会更新 API 确保网站的正常运行，所以每到一段时间之后要去查看链接中是否有更新，要养成定时更新的好习惯。</li>
-<li>说实话这个方法不建议日常经常使用，偶尔折腾一下就行了，毕竟 <a target="_blank" rel="noopener" href="https://uupdump.net/?lang=zh-cn">UUPdump</a> 目前还可以正常使用，此方法仅做备用方案。就算官网真的不能用了，国内还有 <a target="_blank" rel="noopener" href="https://www.uupdump.cn/">uupdump.cn</a> 撑着的，国外也有 <a target="_blank" rel="noopener" href="https://uup.rg-adguard.net/">uup.rg-adguard.net</a>，完全不用担心！</li>
-</ol>
-<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ol>
-<li>How to use uupdump 7z - YouTube<br><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=1BIQJTD3dmg">https://www.youtube.com/watch?v=1BIQJTD3dmg</a></li>
-<li>• Discord | #main | UUPdump<br><a target="_blank" rel="noopener" href="https://discord.com/channels/600104690684002321/600104690684002323/1053404611110776873">https://discord.com/channels/600104690684002321/600104690684002323/1053404611110776873</a></li>
-<li>• Discord | #main | UUPdump<br><a target="_blank" rel="noopener" href="https://discord.com/channels/600104690684002321/600104690684002323/1054141568942084156">https://discord.com/channels/600104690684002321/600104690684002323/1054141568942084156</a></li>
-<li>[DISCUSSION] UUPdump - download Windows 10 UUPs with ease | Page 223 | My Digital Life Forums<br><a target="_blank" rel="noopener" href="https://forums.mydigitallife.net/threads/discussion-uup-dump-download-windows-10-uups-with-ease.75052/page-223#post-1767162">https://forums.mydigitallife.net/threads/discussion-uup-dump-download-windows-10-uups-with-ease.75052/page-223#post-1767162</a></li>
-</ol>
+<p>HRESULT：使用 SUCCEEDED 或 FAILED 宏，两者分别用于判断是否执行成功或失败。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs c++">HRESULT hr = ...;<br><br><span class="hljs-keyword">if</span> (<span class="hljs-built_in">SUCCEEDED</span>(hr))<br>&#123;<br>    <span class="hljs-comment">// true</span><br>&#125;<br><span class="hljs-keyword">else</span><br>&#123;<br>    <span class="hljs-comment">// false</span><br>&#125;<br><br><span class="hljs-keyword">if</span> (<span class="hljs-built_in">FAILED</span>(hr))<br>&#123;<br>    <span class="hljs-comment">// false</span><br>&#125;<br><span class="hljs-keyword">else</span><br>&#123;<br>    <span class="hljs-comment">// true</span><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h2 id="初始化-取消初始化-COM-运行时"><a href="#初始化-取消初始化-COM-运行时" class="headerlink" title="初始化&#x2F;取消初始化 COM 运行时"></a>初始化&#x2F;取消初始化 COM 运行时</h2><p>在初始化 COM API 前，我们需要初始化 COM 运行时。一旦初始化之后且离开作用域，我们必须取消初始化 COM 运行时。</p>
+<p>也就是两个步骤必须成对进行，在哪里初始化的，就必须要在哪里取消初始化，二者缺一不可。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;combaseapi.h&gt;</span></span><br><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">InitializeCom</span><span class="hljs-params">()</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-built_in">CoInitializeEx</span>(<span class="hljs-literal">nullptr</span>, COINIT_APARTMENTTHREADED);<br>&#125;<br><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">UninitializeCom</span><span class="hljs-params">()</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-built_in">CoUninitialize</span>();<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>这里仅供演示需要引入 combaseapi.h，实际开发中引入接口所在的头文件就行。</p>
+<p>我们调用了 CoInitializeEx 函数来初始化 COM 运行时，COINIT_APARTMENTTHREADED 表示单线程单元模型（STA）, 与之相对的还有 COINIT_MULTITHREADED 多线程单元模型 (MTA)。我们不用清楚两者有什么区别，只需要知道几乎所有 COM API 的运行环境都是 STA 就行了。</p>
+<p>如果你开发过 WinForms 或者是 WPF，在 Main 方法上，你都能看到被标注了 <code>[STAThread]</code>，这个属性的背后就是 CLR 运行时在此初始化了 COM 运行环境为 STA。也就是说，对于 WinForms 或 WPF 应用程序，我们在调用 COM API 之前就可以不用初始化 COM 运行时了，因为 CLR 已经完成了初始化，重复初始化可能会发生潜在的问题。</p>
+<p>CoUninitialize 表示取消初始化 COM 运行环境。同样的，如果是 WinForms 或 WPF 的话，我们也无需再手动取消初始化，CLR 会帮我们完成。</p>
+<h2 id="初始化-COM-API-接口指针"><a href="#初始化-COM-API-接口指针" class="headerlink" title="初始化 COM API 接口指针"></a>初始化 COM API 接口指针</h2><p>如果我们已经初始化了 COM 运行时并获取到了 COM 接口实体，以及它的 CLSID、IID (接口 ID)，接下来就可以进行初始化，成功后便可以调用其中的虚函数了。</p>
+<p>我们通常使用接口指针来表示要初始化的 COM 对象，因为 COM 本身就是一堆虚函数，我们只有通过指针来调用它们。</p>
+<p>接着调用 CoCreateInstance，传入 CLSID、IID、指向接口指针的指针，并使用 SUCCEEDED 宏判断是否成功：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-type">static</span> IExample* pExample = <span class="hljs-literal">nullptr</span>;<br><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">InitializeExample</span><span class="hljs-params">()</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-comment">// 我们可以根据具体需求在此处初始化 COM 运行时</span><br>    <span class="hljs-comment">// CoInitializeEx(nullptr, COINIT_APARTMENTTHREADED);</span><br><br>    <span class="hljs-keyword">if</span> (<span class="hljs-built_in">SUCCEEDED</span>(<span class="hljs-built_in">CoCreateInstance</span>(CLSID_Example, <span class="hljs-literal">nullptr</span>, CLSCTX_ALL, IID_IExample, (LPVOID*)&amp;pExample)))<br>    &#123;<br>        pExample-&gt;<span class="hljs-built_in">Init</span>(); <span class="hljs-comment">// 一般来说，COM API 自己还有一个具有初始化作用的函数，通常也在此处完成调用</span><br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h2 id="调用-COM-API"><a href="#调用-COM-API" class="headerlink" title="调用 COM API"></a>调用 COM API</h2><p>当运行时和接口指针都初始化成功后，我们就可以调用我们想要的函数了</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">SayHello</span><span class="hljs-params">()</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-keyword">if</span> (pExample) <span class="hljs-comment">// 确保指针有效</span><br>    &#123;<br>        pExample-&gt;<span class="hljs-built_in">Hello</span>();<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h2 id="释放-COM-API-接口指针"><a href="#释放-COM-API-接口指针" class="headerlink" title="释放 COM API 接口指针"></a>释放 COM API 接口指针</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">ReleaseExample</span><span class="hljs-params">()</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-keyword">if</span> (pExample) <span class="hljs-comment">// 确保指针有效</span><br>    &#123;<br>        pExample-&gt;<span class="hljs-built_in">Release</span>(); <span class="hljs-comment">// 调用接口提供的 Release</span><br>        pExample = <span class="hljs-literal">nullptr</span>; <span class="hljs-comment">// 置空</span><br>    &#125;<br><br>    <span class="hljs-comment">// 我们可以根据具体需求在此处取消初始化 COM 运行时</span><br>    <span class="hljs-comment">// CoUninitialize();</span><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h2 id="封装为-WinAPI"><a href="#封装为-WinAPI" class="headerlink" title="封装为 WinAPI"></a>封装为 WinAPI</h2><p>很简单，将我们上面提到的函数导出就行，注意保持调用约定一致 (StdCall)。</p>
+<p>为了方便导出，我们可以添加一个宏定义：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-meta">#<span class="hljs-keyword">define</span> cexport(type) extern <span class="hljs-string">&quot;C&quot;</span> __declspec(dllexport) type WINAPI</span><br></code></pre></td></tr></table></figure>
+
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-built_in">cexport</span>(<span class="hljs-type">void</span>) <span class="hljs-built_in">InitializeExample</span>();<br><span class="hljs-built_in">cexport</span>(<span class="hljs-type">void</span>) <span class="hljs-built_in">SayHello</span>();<br><span class="hljs-built_in">cexport</span>(<span class="hljs-type">void</span>) <span class="hljs-built_in">ReleaseExample</span>();<br></code></pre></td></tr></table></figure>
+
+<h2 id="可能的疑惑"><a href="#可能的疑惑" class="headerlink" title="可能的疑惑"></a>可能的疑惑</h2><ul>
+<li><strong>为什么导出后，函数类型是 void 而不是 HRESULT？</strong><br>这个我只能说是个人习惯吧，如果你想在调用端获取执行状态的话，可以导出为 HRESULT 返回类型。但是要知道这些 COM API 同 WinAPI 一样，只要我们符合规范没写错的话，出错率是很小的，很多情况出现异常通常都是我们自己的问题，肯定是哪里漏写之类的，不太可能是系统的问题。就算真不是我们的问题，那到时候再来调试也行，故返回值就没太大必要了。</li>
+</ul>
 
                 
               </div>
@@ -441,6 +440,10 @@
       
         <a href="/tags/Windows/" class="print-no-link">#Windows</a>
       
+        <a href="/tags/CSharp/" class="print-no-link">#CSharp</a>
+      
+        <a href="/tags/Cpp/" class="print-no-link">#Cpp</a>
+      
     </div>
   
 </div>
@@ -451,8 +454,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>免费在本地搭建 UUPdump 同款网站</div>
-      <div>https://wanghaonie.github.io/posts/7310cbb599a3/</div>
+      <div>【COM API】基础知识与使用方法</div>
+      <div>https://wanghaonie.github.io/posts/921e4b4f8e14/</div>
     </div>
     <div class="license-meta">
       
@@ -464,13 +467,13 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2022-12-21 21:55:57</div>
+          <div>2025-07-24 16:40:12</div>
         </div>
       
       
         <div class="license-meta-item license-meta-date">
           <div>更新于</div>
-          <div>2025-07-24 17:45:28</div>
+          <div>2025-07-24 23:34:29</div>
         </div>
       
       
@@ -513,15 +516,21 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/posts/2f700cb73bdf/" title="这才是 Windows Subsystem for Android™ 的正确打开方式">
+                      <a href="/posts/a92b9edaa723/" title="【COM API】心心念的 ITaskList3 使用方法">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">这才是 Windows Subsystem for Android™ 的正确打开方式</span>
+                        <span class="hidden-mobile">【COM API】心心念的 ITaskList3 使用方法</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
                   </article>
                   <article class="post-next col-6">
                     
+                    
+                      <a href="/posts/00d12b183e8c/" title="从零开始让你的 WinForms 应用程序也用上原生深色主题">
+                        <span class="hidden-mobile">从零开始让你的 WinForms 应用程序也用上原生深色主题</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
                     
                   </article>
                 </div>
