@@ -16,11 +16,11 @@
   <meta name="author" content="WangHaonie">
   <meta name="keywords" content="">
   
-    <meta name="description" content="没看 COM API 基础篇的，快去看看: 【COM API】基础知识与使用方法  简介ITaskList3: 你可能不认识我，但你一定见过我的样子:  这就是 ITaskList 的功能之一，任务栏进度条。ITaskList3 是 ITaskList 的第三版，也就是在这个版本，微软加入了任务栏进度条的功能。 使用条件 系统：Windows 7 及以上 COM 运行环境：STA CLSID：CL">
+    <meta name="description" content="简介ITaskbarList3: 你可能不认识我，但你一定见过我的样子:  这就是 ITaskbarList 的功能之一，任务栏进度条。ITaskbarList3 是 ITaskbarList 的第三版，也就是在这个版本，微软加入了任务栏进度条的功能。 使用条件 系统：Windows 7 及以上 COM 运行环境：STA CLSID：CLSID_TaskbarList IID：IID_ITaskb">
   
   
   
-  <title>【COM API】心心念的 ITaskList3 使用方法 | WangHaonie 的博客</title>
+  <title>【COM API】心心念的 ITaskbarList3 使用方法 | WangHaonie 的博客</title>
   <link rel="stylesheet" href="/css/frosted.css">
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -254,7 +254,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle">【COM API】心心念的 ITaskList3 使用方法</span>
+            <span id="subtitle">【COM API】心心念的 ITaskbarList3 使用方法</span>
           
         </div>
 
@@ -277,7 +277,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          563 字
+          564 字
         
       </span>
     
@@ -338,12 +338,12 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">【COM API】心心念的 ITaskList3 使用方法</h1>
+            <h1 id="seo-header">【COM API】心心念的 ITaskbarList3 使用方法</h1>
             
               <p class="note note-info">
                 
                   
-                    本文最后更新于：几秒前
+                    本文最后更新于：3 小时前
                   
                 
               </p>
@@ -351,11 +351,9 @@
             
               <div class="markdown-body">
                 
-                <p class="note note-warning">没看 COM API 基础篇的，快去看看: <a href="https://wanghaonie.github.io/posts/921e4b4f8e14/">【COM API】基础知识与使用方法</a></p>
-
-<h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>ITaskList3: 你可能不认识我，但你一定见过我的样子:</p>
+                <h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>ITaskbarList3: 你可能不认识我，但你一定见过我的样子:</p>
 <p><img src="/../archive-imgs/40/1-tasklist-taskprogress.gif" srcset="/img/loading.gif" lazyload></p>
-<p>这就是 ITaskList 的功能之一，任务栏进度条。ITaskList3 是 ITaskList 的第三版，也就是在这个版本，微软加入了任务栏进度条的功能。</p>
+<p>这就是 ITaskbarList 的功能之一，任务栏进度条。ITaskbarList3 是 ITaskbarList 的第三版，也就是在这个版本，微软加入了任务栏进度条的功能。</p>
 <h2 id="使用条件"><a href="#使用条件" class="headerlink" title="使用条件"></a>使用条件</h2><ul>
 <li>系统：Windows 7 及以上</li>
 <li>COM 运行环境：STA</li>
@@ -368,7 +366,7 @@
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&quot;pch.h&quot;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&quot;TaskbarProgress.h&quot;</span></span><br><br><span class="hljs-type">static</span> ITaskbarList3* pList = <span class="hljs-literal">nullptr</span>;<br><span class="hljs-type">static</span> HWND targetHwnd = <span class="hljs-literal">nullptr</span>;<br><span class="hljs-type">static</span> BOOL initialized = FALSE;<br></code></pre></td></tr></table></figure>
 
 <h2 id="初始化-COM-和-接口指针"><a href="#初始化-COM-和-接口指针" class="headerlink" title="初始化 COM 和 接口指针"></a>初始化 COM 和 接口指针</h2><p>由于我们这里导出给 WinForms 应用程序的 UI 线程中调用，该线程本身处于 STA，所以就不用初始化 COM 运行时了。</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">InitializeTaskbarList</span><span class="hljs-params">(HWND hWnd)</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-keyword">if</span> (!initialized &amp;&amp; hWnd &amp;&amp; <span class="hljs-comment">// 确保是在没有初始化过且传入的 HWND 有效的情况下才进行</span><br>        <span class="hljs-built_in">SUCCEEDED</span>(<span class="hljs-built_in">CoCreateInstance</span>(CLSID_TaskbarList, <span class="hljs-literal">nullptr</span>, CLSCTX_ALL, IID_ITaskbarList3, (LPVOID*)&amp;pList)))<br>    &#123;<br>        targetHwnd = hWnd; <span class="hljs-comment">// 保存目标窗口的 HWND</span><br>        pList-&gt;<span class="hljs-built_in">HrInit</span>(); <span class="hljs-comment">// 调用 TaskList 提供的初始化</span><br>        initialized = TRUE; <span class="hljs-comment">// 设置标志</span><br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">InitializeTaskbarList</span><span class="hljs-params">(HWND hWnd)</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-keyword">if</span> (!initialized &amp;&amp; hWnd &amp;&amp; <span class="hljs-comment">// 确保是在没有初始化过且传入的 HWND 有效的情况下才进行</span><br>        <span class="hljs-built_in">SUCCEEDED</span>(<span class="hljs-built_in">CoCreateInstance</span>(CLSID_TaskbarList, <span class="hljs-literal">nullptr</span>, CLSCTX_ALL, IID_ITaskbarList3, (LPVOID*)&amp;pList)))<br>    &#123;<br>        targetHwnd = hWnd; <span class="hljs-comment">// 保存目标窗口的 HWND</span><br>        pList-&gt;<span class="hljs-built_in">HrInit</span>(); <span class="hljs-comment">// 调用 TaskbarList 提供的初始化</span><br>        initialized = TRUE; <span class="hljs-comment">// 设置标志</span><br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
 
 <h2 id="设置进度状态"><a href="#设置进度状态" class="headerlink" title="设置进度状态"></a>设置进度状态</h2><p>设置进度条的状态。</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">SetTaskbarProgressState</span><span class="hljs-params">(TBPFLAG tbpFlags)</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-keyword">if</span> (initialized)<br>    &#123;<br>        pList-&gt;<span class="hljs-built_in">SetProgressState</span>(targetHwnd, tbpFlags);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
@@ -405,12 +403,16 @@
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">SetTaskbarProgressValue</span><span class="hljs-params">(ULONGLONG ullCompleted, ULONGLONG ullTotal)</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-keyword">if</span> (initialized)<br>    &#123;<br>        pList-&gt;<span class="hljs-built_in">SetProgressValue</span>(targetHwnd, ullCompleted, ullTotal);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
 
 <p>由于类型是 ULONGLONG (C#-&gt;ulong)，所以我们可以不用将最大值设置为 100。</p>
-<p>这样的设计有个好处就是，比如我们想显示下载文件时的进度，此时就可以直接分别传入 已下载大小 和 总大小，由 ITaskList 帮我们计算百分比并反映在 UI 上。</p>
+<p>这样的设计有个好处就是，比如我们想显示下载文件时的进度，此时就可以直接分别传入 已下载大小 和 总大小，由 ITaskbarList 帮我们计算百分比并反映在 UI 上。</p>
 <p>如果把 ulong.MaxValue (<code>18,446,744,073,709,551,615</code>, 即 2^64 - 1) 看作单位为 B (byte) 的文件大小的话，约等于 <code>18,446,744</code> TB，对于一个文件来说相当于无穷大了，然鹅并不会有这么大的文件，所以我们也不用担心会溢出。</p>
-<h2 id="释放资源"><a href="#释放资源" class="headerlink" title="释放资源"></a>释放资源</h2><p>在窗体关闭时，我们可以调用此函数来释放所有 ITaskList 占用的资源</p>
+<h2 id="释放资源"><a href="#释放资源" class="headerlink" title="释放资源"></a>释放资源</h2><p>在窗体关闭时，我们可以调用此函数来释放所有 ITaskbarList 占用的资源</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">ReleaseTaskbarList</span><span class="hljs-params">()</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-keyword">if</span> (initialized)<br>    &#123;<br>        <span class="hljs-keyword">if</span> (pList) pList-&gt;<span class="hljs-built_in">Release</span>(); <span class="hljs-comment">// 调用 IUnknown 提供的释放函数</span><br>        pList = <span class="hljs-literal">nullptr</span>; <span class="hljs-comment">// 置空</span><br>        targetHwnd = <span class="hljs-literal">nullptr</span>; <span class="hljs-comment">// 置空</span><br>        initialized = FALSE; <span class="hljs-comment">// 重置标志</span><br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
 <h2 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h2><p>尽量保持单例，也就是尽量避免同时在多个窗体中进行初始化和使用。</p>
-<p>实际上也可以，那我们就不需要保存 targetHwnd，在 SetTaskbarProgressState 或 SetTaskbarProgressValue 时直接传入 HWND 就行了，大家可以根据需求来决定。</p>
+<p>实际上也可以，那我们就不需要保存 targetHwnd，在每一次调用 SetTaskbarProgressState 或 SetTaskbarProgressValue 时直接加个参数传入 HWND 就行了，大家可以根据需求来决定。</p>
+<h2 id="链接"><a href="#链接" class="headerlink" title="链接"></a>链接</h2><ul>
+<li>【COM API】基础知识与使用方法<br><a href="https://wanghaonie.github.io/posts/921e4b4f8e14/">https://wanghaonie.github.io/posts/921e4b4f8e14/</a></li>
+<li>TaskbarProgress Source<br><a target="_blank" rel="noopener" href="https://github.com/WangHaonie/PlainCEETimer/tree/main/PlainCEETimer.Natives/TaskbarProgress">https://github.com/WangHaonie/PlainCEETimer/tree/main/PlainCEETimer.Natives/TaskbarProgress</a></li>
+</ul>
 
                 
               </div>
@@ -439,7 +441,7 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>【COM API】心心念的 ITaskList3 使用方法</div>
+      <div>【COM API】心心念的 ITaskbarList3 使用方法</div>
       <div>https://wanghaonie.github.io/posts/a92b9edaa723/</div>
     </div>
     <div class="license-meta">
@@ -458,7 +460,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>更新于</div>
-          <div>2025-07-25 00:07:11</div>
+          <div>2025-07-25 08:09:45</div>
         </div>
       
       
@@ -500,12 +502,6 @@
                 <div class="post-prevnext my-3">
                   <article class="post-prev col-6">
                     
-                    
-                      <a href="/posts/956faabe5ac6/" title="【COM API】操作 TaskScheduler 加快程序开机自启">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">【COM API】操作 TaskScheduler 加快程序开机自启</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
                     
                   </article>
                   <article class="post-next col-6">
