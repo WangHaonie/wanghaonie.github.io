@@ -343,7 +343,7 @@
               <p class="note note-info">
                 
                   
-                    本文最后更新于：2 天前
+                    本文最后更新于：22 分钟前
                   
                 
               </p>
@@ -358,10 +358,10 @@
 <p>如果屏幕前的你也是因为这个原因的话，那就必须要纠正这种误区了，这里就演示两种创建创建数组的方法。</p>
 <p><strong>方法一：从元素创建</strong><br>如果已知各元素，我们可以在初始化集合的时候就将元素写进去。比如现要将 <code>1</code>，<code>2</code>，<code>3</code> 等元素塞入一个 <code>int[]</code> 数组，应该怎么操作？</p>
 <p>如果你在使用 C# 12 之前的版本，就这样：</p>
-<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs csharp"><span class="hljs-keyword">var</span> array = <span class="hljs-keyword">new</span> <span class="hljs-built_in">int</span>[] &#123; <span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span> &#125;;<br></code></pre></td></tr></table></figure>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c#"><span class="hljs-keyword">var</span> array = <span class="hljs-keyword">new</span> <span class="hljs-built_in">int</span>[] &#123; <span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span> &#125;;<br></code></pre></td></tr></table></figure>
 
 <p>如果你使用的是 C# 12 及以上的版本，可以使用 集合表达式：</p>
-<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs csharp"><span class="hljs-built_in">int</span>[] array = [<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>];<br></code></pre></td></tr></table></figure>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c#"><span class="hljs-built_in">int</span>[] array = [<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>];<br></code></pre></td></tr></table></figure>
 
 <p><strong>方法二：先创建后填充</strong><br>若已知元素，但不方便直接把元素写到初始化语句里面。通常适用于将其他数组或集合转换为数组的场景，就可以这样操作，而不是用列表挨个去 <code>Add</code>。</p>
 <p class="note note-info">
@@ -373,10 +373,10 @@
 </p>
 
 <p>假设现有 <code>Person[]</code> 或者是 <code>List&lt;Person&gt;</code> 之类的集合，<code>Person</code> 里有一个属性用来存储编号，现在我要收集这些编号并封装为 <code>int[]</code>，此时就可以采用先建后填的方式：</p>
-<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs csharp">Person[] data = <span class="hljs-comment">/*...*/</span>;<br><span class="hljs-keyword">var</span> length = data.Length;<br><span class="hljs-keyword">var</span> numbers = <span class="hljs-keyword">new</span> <span class="hljs-built_in">int</span>[length];  <span class="hljs-comment">// 创建已知长度的空数组</span><br><br><span class="hljs-keyword">for</span> (<span class="hljs-built_in">int</span> i = <span class="hljs-number">0</span>; i &lt; length; i++)<br>&#123;<br>    numbers[i] = data[i].Number; <span class="hljs-comment">// 通过索引器填充元素</span><br>&#125;<br><br><span class="hljs-keyword">return</span> numbers; <span class="hljs-comment">// 可选是否返回</span><br></code></pre></td></tr></table></figure>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs c#">Person[] data = <span class="hljs-comment">/*...*/</span>;<br><span class="hljs-keyword">var</span> length = data.Length;<br><span class="hljs-keyword">var</span> numbers = <span class="hljs-keyword">new</span> <span class="hljs-built_in">int</span>[length];  <span class="hljs-comment">// 创建已知长度的空数组</span><br><br><span class="hljs-keyword">for</span> (<span class="hljs-built_in">int</span> i = <span class="hljs-number">0</span>; i &lt; length; i++)<br>&#123;<br>    numbers[i] = data[i].Number; <span class="hljs-comment">// 通过索引器填充元素</span><br>&#125;<br><br><span class="hljs-keyword">return</span> numbers; <span class="hljs-comment">// 可选是否返回</span><br></code></pre></td></tr></table></figure>
 
 <p>如果你熟悉 LINQ，其实还可以简化很多，但推荐数据量少的情况下使用，数据<strong>太多</strong>的话还是自己写比较高效，尽管 LINQ 内部实现也和上面差不多，但是委托也会消耗一定的性能。</p>
-<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs csharp">Person[] data = <span class="hljs-comment">/*...*/</span>;<br><br><span class="hljs-keyword">return</span> data.Select(x =&gt; x.Number).ToArray();<br><br><span class="hljs-comment">// 或 集合表达式</span><br><span class="hljs-keyword">return</span> [.. data.Select(x =&gt; x.Number)];<br></code></pre></td></tr></table></figure>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs c#">Person[] data = <span class="hljs-comment">/*...*/</span>;<br><br><span class="hljs-keyword">return</span> data.Select(x =&gt; x.Number).ToArray();<br><br><span class="hljs-comment">// 或 集合表达式</span><br><span class="hljs-keyword">return</span> [.. data.Select(x =&gt; x.Number)];<br></code></pre></td></tr></table></figure>
 <h2 id="列表"><a href="#列表" class="headerlink" title="列表"></a>列表</h2><p>列表的内部其实也是数组。以图为证：<a target="_blank" rel="noopener" href="https://github.com/dotnet/runtime/blob/91f4d57aa502181b4d87f91383defbe7b41f520f/src/libraries/System.Private.CoreLib/src/System/Collections/Generic/List.cs#L25">链接</a></p>
 <p><img src="/archive-imgs/36/1-list-src-1.png" srcset="/img/loading.gif" lazyload></p>
 <p>当你调用 Add 的时候，它在：</p>
@@ -440,7 +440,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>更新于</div>
-          <div>2025-07-23 12:10:52</div>
+          <div>2025-07-25 20:21:34</div>
         </div>
       
       
@@ -505,6 +505,50 @@
             </div>
 
             
+  
+  
+    <article id="comments" lazyload>
+      
+    <div id="giscus" class="giscus"></div>
+    <script type="text/javascript">
+      Fluid.utils.loadComments('#giscus', function() {
+        var options = {"repo":"WangHaonie/wanghaonie.github.io","repo-id":"MDEwOlJlcG9zaXRvcnkzODM3MTI4NzU=","category":"General","category-id":"DIC_kwDOFt7-a84CtZ7y","theme-light":"light","theme-dark":"dark","mapping":"pathname","reactions-enabled":1,"emit-metadata":0,"input-position":"top","lang":"zh-CN"};
+        var attributes = {};
+        for (let option in options) {
+          if (!option.startsWith('theme-')) {
+            var key = option.startsWith('data-') ? option : 'data-' + option;
+            attributes[key] = options[option];
+          }
+        }
+        var light = 'light';
+        var dark = 'dark';
+        window.GiscusThemeLight = light;
+        window.GiscusThemeDark = dark;
+        attributes['data-theme'] = document.documentElement.getAttribute('data-user-color-scheme') === 'dark' ? dark : light;
+        for (let attribute in attributes) {
+          var value = attributes[attribute];
+          if (value === undefined || value === null || value === '') {
+            delete attributes[attribute];
+          }
+        }
+        var s = document.createElement('script');
+        s.setAttribute('src', 'https://giscus.app/client.js');
+        s.setAttribute('crossorigin', 'anonymous');
+        for (let attribute in attributes) {
+          s.setAttribute(attribute, attributes[attribute]);
+        }
+        var ss = document.getElementsByTagName('script');
+        var e = ss.length > 0 ? ss[ss.length - 1] : document.head || document.documentElement;
+        e.parentNode.insertBefore(s, e.nextSibling);
+      });
+    </script>
+    <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
           </article>
         </div>
       </div>
@@ -562,7 +606,7 @@
     <div class="footer-inner">
   
     <div class="footer-content">
-       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span> Hexo </span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span> Fluid </span></a><br> <div><a> <span id="site-runtime">正在加载网站运行时间，请稍候...</span> <script src="/js/runtime.js"></script> </a></div> 
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span> Hexo </span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span> Fluid </span></a><br> <div><a> <span id="site-runtime">正在加载网站运行时间，请稍候...</span> <script src="/js/runtime.js"></script> </a></div>
     </div>
   
   

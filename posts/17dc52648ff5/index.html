@@ -343,7 +343,7 @@
               <p class="note note-info">
                 
                   
-                    本文最后更新于：2 天前
+                    本文最后更新于：22 分钟前
                   
                 
               </p>
@@ -423,12 +423,12 @@
 </tr>
 </tbody></table>
 <p>这样我们就可以用 C# 代码来进行判断了，首先我们创建一个枚举 (依次对应 Level 1~4)，方面我们标识 UAC 通知级别：</p>
-<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs csharp"><span class="hljs-keyword">public</span> <span class="hljs-built_in">enum</span> UACNotifyLevel<br>&#123;<br>    AllDimming,<br>    AppsOnlyDimming,<br>    AppsOnlyNoDimming,<br>    Never,<br>    Disabled, <span class="hljs-comment">// 表示已禁用 UAC</span><br>    Unknown <span class="hljs-comment">// 作为不属于上述所有情况的缓冲，防止报错</span><br>&#125;<br></code></pre></td></tr></table></figure>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs c#"><span class="hljs-keyword">public</span> <span class="hljs-built_in">enum</span> UACNotifyLevel<br>&#123;<br>    AllDimming,<br>    AppsOnlyDimming,<br>    AppsOnlyNoDimming,<br>    Never,<br>    Disabled, <span class="hljs-comment">// 表示已禁用 UAC</span><br>    Unknown <span class="hljs-comment">// 作为不属于上述所有情况的缓冲，防止报错</span><br>&#125;<br></code></pre></td></tr></table></figure>
 
 <p>然后建立一个辅助类专门用于获取 UAC 通知等级：</p>
-<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><code class="hljs csharp"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">class</span> <span class="hljs-title">UACHelper</span><br>&#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-built_in">bool</span> IsUACDisabled &#123; <span class="hljs-keyword">get</span>; &#125;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> UACNotifyLevel Level &#123; <span class="hljs-keyword">get</span>; &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-title">UACHelper</span>()</span><br><span class="hljs-function">    <span class="hljs-comment">// 显式使用静态构造函数是为了保证那两个属性具有一先一后的赋值顺序</span></span><br>    &#123;<br>        Level = GetUACNotifyLevel();<br>        IsUACDisabled = Level &gt;= UACNotifyLevel.Never;<br>        <span class="hljs-comment">// 只要 UAC 设置在 Level 3 及以上就可以保证正常提权了，故 UAC 是否禁用就可以这样判断</span><br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> UACNotifyLevel <span class="hljs-title">GetUACNotifyLevel</span>()</span><br>    &#123;<br>        <span class="hljs-keyword">using</span> <span class="hljs-keyword">var</span> reg = Registry.LocalMachine.OpenSubKey(<span class="hljs-string">@&quot;SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System&quot;</span>, <span class="hljs-literal">false</span>); <span class="hljs-comment">// false 代表以只读方式打开注册表，因为这些键只能在 HKLM 中找到，且在 HKLM 写入需要管理员权限。但我们只需要读取就行，故为只读模式，确保在无管理员权限下也可以正常查询</span><br><br>        <span class="hljs-keyword">return</span> ((<span class="hljs-built_in">int</span>)reg.GetValue(<span class="hljs-string">&quot;EnableLUA&quot;</span>, <span class="hljs-number">0</span>), (<span class="hljs-built_in">int</span>)reg.GetValue(<span class="hljs-string">&quot;ConsentPromptBehaviorAdmin&quot;</span>, <span class="hljs-number">0</span>), (<span class="hljs-built_in">int</span>)reg.GetValue(<span class="hljs-string">&quot;PromptOnSecureDesktop&quot;</span>, <span class="hljs-number">0</span>)) <span class="hljs-keyword">switch</span><br>        &#123;<br>            (<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">1</span>) =&gt; UACNotifyLevel.AllDimming,<br>            (<span class="hljs-number">1</span>, <span class="hljs-number">5</span>, <span class="hljs-number">1</span>) =&gt; UACNotifyLevel.AppsOnlyDimming,<br>            (<span class="hljs-number">1</span>, <span class="hljs-number">5</span>, <span class="hljs-number">0</span>) =&gt; UACNotifyLevel.AppsOnlyNoDimming,<br>            (<span class="hljs-number">1</span> <span class="hljs-keyword">or</span> <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>) =&gt; UACNotifyLevel.Never,<br>            (<span class="hljs-number">0</span>, _, _) =&gt; UACNotifyLevel.Disabled,<br>            _ =&gt; UACNotifyLevel.Unknown<br>        &#125;;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><code class="hljs c#"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">class</span> <span class="hljs-title">UACHelper</span><br>&#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-built_in">bool</span> IsUACDisabled &#123; <span class="hljs-keyword">get</span>; &#125;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> UACNotifyLevel Level &#123; <span class="hljs-keyword">get</span>; &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-title">UACHelper</span>()</span><br><span class="hljs-function">    <span class="hljs-comment">// 显式使用静态构造函数是为了保证那两个属性具有一先一后的赋值顺序</span></span><br>    &#123;<br>        Level = GetUACNotifyLevel();<br>        IsUACDisabled = Level &gt;= UACNotifyLevel.Never;<br>        <span class="hljs-comment">// 只要 UAC 设置在 Level 3 及以上就可以保证正常提权了，故 UAC 是否禁用就可以这样判断</span><br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> UACNotifyLevel <span class="hljs-title">GetUACNotifyLevel</span>()</span><br>    &#123;<br>        <span class="hljs-keyword">using</span> <span class="hljs-keyword">var</span> reg = Registry.LocalMachine.OpenSubKey(<span class="hljs-string">@&quot;SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System&quot;</span>, <span class="hljs-literal">false</span>); <span class="hljs-comment">// false 代表以只读方式打开注册表，因为这些键只能在 HKLM 中找到，且在 HKLM 写入需要管理员权限。但我们只需要读取就行，故为只读模式，确保在无管理员权限下也可以正常查询</span><br><br>        <span class="hljs-keyword">return</span> ((<span class="hljs-built_in">int</span>)reg.GetValue(<span class="hljs-string">&quot;EnableLUA&quot;</span>, <span class="hljs-number">0</span>), (<span class="hljs-built_in">int</span>)reg.GetValue(<span class="hljs-string">&quot;ConsentPromptBehaviorAdmin&quot;</span>, <span class="hljs-number">0</span>), (<span class="hljs-built_in">int</span>)reg.GetValue(<span class="hljs-string">&quot;PromptOnSecureDesktop&quot;</span>, <span class="hljs-number">0</span>)) <span class="hljs-keyword">switch</span><br>        &#123;<br>            (<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">1</span>) =&gt; UACNotifyLevel.AllDimming,<br>            (<span class="hljs-number">1</span>, <span class="hljs-number">5</span>, <span class="hljs-number">1</span>) =&gt; UACNotifyLevel.AppsOnlyDimming,<br>            (<span class="hljs-number">1</span>, <span class="hljs-number">5</span>, <span class="hljs-number">0</span>) =&gt; UACNotifyLevel.AppsOnlyNoDimming,<br>            (<span class="hljs-number">1</span> <span class="hljs-keyword">or</span> <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>) =&gt; UACNotifyLevel.Never,<br>            (<span class="hljs-number">0</span>, _, _) =&gt; UACNotifyLevel.Disabled,<br>            _ =&gt; UACNotifyLevel.Unknown<br>        &#125;;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
 <p>接着在合适的位置调用 <code>UACHelper</code>，这里仅供测试：</p>
-<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs csharp"><span class="hljs-keyword">internal</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">class</span> <span class="hljs-title">Program</span><br>&#123;<br>    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Main</span>()</span><br>    &#123;<br>        <span class="hljs-keyword">var</span> state = UACHelper.IsUACDisabled;<br>        <span class="hljs-keyword">var</span> level = UACHelper.Level;<br><br>        MessageBox.Show(<br>        <span class="hljs-string">$&quot;&quot;</span><span class="hljs-string">&quot;</span><br><span class="hljs-string">        UAC 通知等级检测结果：</span><br><span class="hljs-string">        </span><br><span class="hljs-string">        是否禁用 UAC：&#123;(state ? &quot;</span>是<span class="hljs-string">&quot; : &quot;</span>否<span class="hljs-string">&quot;)&#125;</span><br><span class="hljs-string">        当前 UAC 通知级别：&#123;level&#125; (Level &#123;(int)(level + 1)&#125;)</span><br><span class="hljs-string">        提权状态：&#123;(state ? &quot;</span>无法提权<span class="hljs-string">&quot; : &quot;</span>可以正常提权<span class="hljs-string">&quot;)&#125;</span><br><span class="hljs-string">        &quot;</span><span class="hljs-string">&quot;&quot;</span>);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs c#"><span class="hljs-keyword">internal</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">class</span> <span class="hljs-title">Program</span><br>&#123;<br>    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Main</span>()</span><br>    &#123;<br>        <span class="hljs-keyword">var</span> state = UACHelper.IsUACDisabled;<br>        <span class="hljs-keyword">var</span> level = UACHelper.Level;<br><br>        MessageBox.Show(<br>        <span class="hljs-string">$&quot;&quot;</span><span class="hljs-string">&quot;</span><br><span class="hljs-string">        UAC 通知等级检测结果：</span><br><span class="hljs-string">        </span><br><span class="hljs-string">        是否禁用 UAC：&#123;(state ? &quot;</span>是<span class="hljs-string">&quot; : &quot;</span>否<span class="hljs-string">&quot;)&#125;</span><br><span class="hljs-string">        当前 UAC 通知级别：&#123;level&#125; (Level &#123;(int)(level + 1)&#125;)</span><br><span class="hljs-string">        提权状态：&#123;(state ? &quot;</span>无法提权<span class="hljs-string">&quot; : &quot;</span>可以正常提权<span class="hljs-string">&quot;)&#125;</span><br><span class="hljs-string">        &quot;</span><span class="hljs-string">&quot;&quot;</span>);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
 <p>最后来看看效果：</p>
 <p><img src="/archive-imgs/32/9-helper-l1.png" srcset="/img/loading.gif" lazyload></p>
 <p><img src="/archive-imgs/32/10-helper-l2.png" srcset="/img/loading.gif" lazyload></p>
@@ -488,7 +488,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>更新于</div>
-          <div>2025-07-23 12:24:23</div>
+          <div>2025-07-25 20:21:44</div>
         </div>
       
       
@@ -553,6 +553,50 @@
             </div>
 
             
+  
+  
+    <article id="comments" lazyload>
+      
+    <div id="giscus" class="giscus"></div>
+    <script type="text/javascript">
+      Fluid.utils.loadComments('#giscus', function() {
+        var options = {"repo":"WangHaonie/wanghaonie.github.io","repo-id":"MDEwOlJlcG9zaXRvcnkzODM3MTI4NzU=","category":"General","category-id":"DIC_kwDOFt7-a84CtZ7y","theme-light":"light","theme-dark":"dark","mapping":"pathname","reactions-enabled":1,"emit-metadata":0,"input-position":"top","lang":"zh-CN"};
+        var attributes = {};
+        for (let option in options) {
+          if (!option.startsWith('theme-')) {
+            var key = option.startsWith('data-') ? option : 'data-' + option;
+            attributes[key] = options[option];
+          }
+        }
+        var light = 'light';
+        var dark = 'dark';
+        window.GiscusThemeLight = light;
+        window.GiscusThemeDark = dark;
+        attributes['data-theme'] = document.documentElement.getAttribute('data-user-color-scheme') === 'dark' ? dark : light;
+        for (let attribute in attributes) {
+          var value = attributes[attribute];
+          if (value === undefined || value === null || value === '') {
+            delete attributes[attribute];
+          }
+        }
+        var s = document.createElement('script');
+        s.setAttribute('src', 'https://giscus.app/client.js');
+        s.setAttribute('crossorigin', 'anonymous');
+        for (let attribute in attributes) {
+          s.setAttribute(attribute, attributes[attribute]);
+        }
+        var ss = document.getElementsByTagName('script');
+        var e = ss.length > 0 ? ss[ss.length - 1] : document.head || document.documentElement;
+        e.parentNode.insertBefore(s, e.nextSibling);
+      });
+    </script>
+    <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
           </article>
         </div>
       </div>
@@ -610,7 +654,7 @@
     <div class="footer-inner">
   
     <div class="footer-content">
-       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span> Hexo </span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span> Fluid </span></a><br> <div><a> <span id="site-runtime">正在加载网站运行时间，请稍候...</span> <script src="/js/runtime.js"></script> </a></div> 
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span> Hexo </span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span> Fluid </span></a><br> <div><a> <span id="site-runtime">正在加载网站运行时间，请稍候...</span> <script src="/js/runtime.js"></script> </a></div>
     </div>
   
   

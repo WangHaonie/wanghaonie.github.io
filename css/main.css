@@ -776,13 +776,13 @@ sup > a::before,
   padding: 3rem 0;
 }
 html {
-  font-size: 14px;
+  font-size: 15px;
   letter-spacing: 0.02em;
 }
 html,
 body {
   height: 100%;
-  font-family: var(--font-family-sans-serif);
+  font-family: system-ui;
   overflow-wrap: break-word;
 }
 body {
@@ -889,7 +889,7 @@ i.iconfont {
     --scrollbar-hover-color: #9da8b3;
     --button-bg-color: transparent;
     --button-hover-bg-color: #46647e;
-    --highlight-bg-color: #303030;
+    --highlight-bg-color: #0d1117;
     --inlinecode-bg-color: rgba(99,110,123,0.4);
     --fold-title-color: #3c4858;
     --fold-border-color: #eaecef;
@@ -943,7 +943,7 @@ i.iconfont {
     --scrollbar-hover-color: #9da8b3;
     --button-bg-color: transparent;
     --button-hover-bg-color: #46647e;
-    --highlight-bg-color: #303030;
+    --highlight-bg-color: #0d1117;
     --inlinecode-bg-color: rgba(99,110,123,0.4);
     --fold-title-color: #3c4858;
     --fold-border-color: #eaecef;
@@ -1435,7 +1435,7 @@ figure.highlight td.code > pre {
 .markdown-body {
   font-size: 1rem;
   line-height: 1.6;
-  font-family: var(--font-family-sans-serif);
+  font-family: system-ui;
   margin-bottom: 2rem;
   color: var(--post-text-color);
 }

@@ -343,7 +343,7 @@
               <p class="note note-info">
                 
                   
-                    本文最后更新于：2 天前
+                    本文最后更新于：23 分钟前
                   
                 
               </p>
@@ -357,7 +357,7 @@
 <li>foreach -&gt; 基于 Enumerator -&gt; GetEnumerator() -&gt; 进入 while 循环 -&gt; 索引器拿出数据 -&gt; MoveNext() (类似于 for 循环: 检查索引是否合理，合理就自增 (true)，否则就退出 (false))。</li>
 </ul>
 <h2 id="for"><a href="#for" class="headerlink" title="for"></a>for</h2><p>假如现有一个非数组 (数组的遍历编译器会有优化，不存在下列问题) 的集合需要遍历，你可能会这么写：</p>
-<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs csharp">List&lt;<span class="hljs-built_in">int</span>&gt; col = [<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>];<br><br><span class="hljs-keyword">for</span> (<span class="hljs-built_in">int</span> i = <span class="hljs-number">0</span>; i &lt; col.Count; i++)<br>&#123;<br>    Console.WriteLine(arr[i]);<br>&#125;<br></code></pre></td></tr></table></figure>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs c#">List&lt;<span class="hljs-built_in">int</span>&gt; col = [<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>];<br><br><span class="hljs-keyword">for</span> (<span class="hljs-built_in">int</span> i = <span class="hljs-number">0</span>; i &lt; col.Count; i++)<br>&#123;<br>    Console.WriteLine(arr[i]);<br>&#125;<br></code></pre></td></tr></table></figure>
 
 <p>这里有一个细节，for 循环的条件写成了 <code>i &lt; col.Count</code>，这意味这每循环一次，都会访问 Count 这个属性，而这个属性在遍历期间肯定不会变的，因此这在无形中又增加了调用方法 (属性也是一种方法) 的开销，当然实际上这也是微乎其微的，来看看 IL：</p>
 <p><img src="/archive-imgs/37/1-for-il.png" srcset="/img/loading.gif" lazyload></p>
@@ -366,19 +366,19 @@
 <p><img src="/archive-imgs/37/2-jacksondunstan-benchmark.png" srcset="/img/loading.gif" lazyload></p>
 <p>可见，遍历数组时，由于编译器优化，无论是否缓存 .Length 属性，性能都几乎一样。但遍历非数组时，就惨了，蓝色的是没缓存 .Count 的，橙色是缓存了的。</p>
 <p>因此，在遍历非数组时，特别是数量很大的，就非常有必要缓存了。怎么缓存？也就是把 .Count 赋值给 for 循环外部的临时变量中，如下</p>
-<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs csharp">List&lt;<span class="hljs-built_in">int</span>&gt; col = [<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>];<br><span class="hljs-keyword">var</span> count = col.Count;<br><br><span class="hljs-keyword">for</span> (<span class="hljs-built_in">int</span> i = <span class="hljs-number">0</span>; i &lt; count; i++)<br>&#123;<br>    Console.WriteLine(arr[i]);<br>&#125;<br></code></pre></td></tr></table></figure>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs c#">List&lt;<span class="hljs-built_in">int</span>&gt; col = [<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>];<br><span class="hljs-keyword">var</span> count = col.Count;<br><br><span class="hljs-keyword">for</span> (<span class="hljs-built_in">int</span> i = <span class="hljs-number">0</span>; i &lt; count; i++)<br>&#123;<br>    Console.WriteLine(arr[i]);<br>&#125;<br></code></pre></td></tr></table></figure>
 <p>再来看看 IL：</p>
 <p><img src="/archive-imgs/37/3-for-il-optmzd.png" srcset="/img/loading.gif" lazyload></p>
 <p>可见 get_Count() 被移到了循环外部，此时就能达到与遍历数组同等的性能了。</p>
 <h2 id="foreach"><a href="#foreach" class="headerlink" title="foreach"></a>foreach</h2><p>在文章开头我们就知道 foreach 循环依赖于对象实现的 Enumerator，先来看看 IL</p>
 <p>测试代码：平平无奇的 foreach 而已</p>
-<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs csharp">List&lt;<span class="hljs-built_in">int</span>&gt; col = [<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>];<br><br><span class="hljs-keyword">foreach</span> (<span class="hljs-keyword">var</span> item <span class="hljs-keyword">in</span> col)<br>&#123;<br>    Console.WriteLine(item);<br>&#125;<br></code></pre></td></tr></table></figure>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs c#">List&lt;<span class="hljs-built_in">int</span>&gt; col = [<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>];<br><br><span class="hljs-keyword">foreach</span> (<span class="hljs-keyword">var</span> item <span class="hljs-keyword">in</span> col)<br>&#123;<br>    Console.WriteLine(item);<br>&#125;<br></code></pre></td></tr></table></figure>
 
 <p>然而编译后：</p>
 <p><img src="/archive-imgs/37/4-foreach-il.png" srcset="/img/loading.gif" lazyload></p>
 <p>可见，首先调用了 List&lt;T&gt;.GetEnumerator 拿到 Enumerator，进入 while 循环，再调用其中的 get_Current (背后实际上是就是索引器) 拿到元素，接着调用 MoveNext 进行索引自增，然后进入下一轮循环。</p>
 <p>你知道吗？foreach 在遍历数组时也会像 for 那样被优化，看看 IL：</p>
-<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs csharp"><span class="hljs-built_in">int</span>[] col = [<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>];<br><br><span class="hljs-keyword">foreach</span> (<span class="hljs-keyword">var</span> item <span class="hljs-keyword">in</span> col)<br>&#123;<br>    Console.WriteLine(item);<br>&#125;<br></code></pre></td></tr></table></figure>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs c#"><span class="hljs-built_in">int</span>[] col = [<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>];<br><br><span class="hljs-keyword">foreach</span> (<span class="hljs-keyword">var</span> item <span class="hljs-keyword">in</span> col)<br>&#123;<br>    Console.WriteLine(item);<br>&#125;<br></code></pre></td></tr></table></figure>
 
 <p><img src="/../archive-imgs/37/5-foreach-array-il.png" srcset="/img/loading.gif" lazyload></p>
 <p>怎么样，是不是感觉非常舒服。</p>
@@ -432,7 +432,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>更新于</div>
-          <div>2025-07-23 12:10:47</div>
+          <div>2025-07-25 20:21:31</div>
         </div>
       
       
@@ -497,6 +497,50 @@
             </div>
 
             
+  
+  
+    <article id="comments" lazyload>
+      
+    <div id="giscus" class="giscus"></div>
+    <script type="text/javascript">
+      Fluid.utils.loadComments('#giscus', function() {
+        var options = {"repo":"WangHaonie/wanghaonie.github.io","repo-id":"MDEwOlJlcG9zaXRvcnkzODM3MTI4NzU=","category":"General","category-id":"DIC_kwDOFt7-a84CtZ7y","theme-light":"light","theme-dark":"dark","mapping":"pathname","reactions-enabled":1,"emit-metadata":0,"input-position":"top","lang":"zh-CN"};
+        var attributes = {};
+        for (let option in options) {
+          if (!option.startsWith('theme-')) {
+            var key = option.startsWith('data-') ? option : 'data-' + option;
+            attributes[key] = options[option];
+          }
+        }
+        var light = 'light';
+        var dark = 'dark';
+        window.GiscusThemeLight = light;
+        window.GiscusThemeDark = dark;
+        attributes['data-theme'] = document.documentElement.getAttribute('data-user-color-scheme') === 'dark' ? dark : light;
+        for (let attribute in attributes) {
+          var value = attributes[attribute];
+          if (value === undefined || value === null || value === '') {
+            delete attributes[attribute];
+          }
+        }
+        var s = document.createElement('script');
+        s.setAttribute('src', 'https://giscus.app/client.js');
+        s.setAttribute('crossorigin', 'anonymous');
+        for (let attribute in attributes) {
+          s.setAttribute(attribute, attributes[attribute]);
+        }
+        var ss = document.getElementsByTagName('script');
+        var e = ss.length > 0 ? ss[ss.length - 1] : document.head || document.documentElement;
+        e.parentNode.insertBefore(s, e.nextSibling);
+      });
+    </script>
+    <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
           </article>
         </div>
       </div>
@@ -554,7 +598,7 @@
     <div class="footer-inner">
   
     <div class="footer-content">
-       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span> Hexo </span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span> Fluid </span></a><br> <div><a> <span id="site-runtime">正在加载网站运行时间，请稍候...</span> <script src="/js/runtime.js"></script> </a></div> 
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span> Hexo </span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span> Fluid </span></a><br> <div><a> <span id="site-runtime">正在加载网站运行时间，请稍候...</span> <script src="/js/runtime.js"></script> </a></div>
     </div>
   
   
