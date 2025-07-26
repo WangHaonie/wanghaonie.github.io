@@ -343,7 +343,7 @@
               <p class="note note-info">
                 
                   
-                    本文最后更新于：15 小时前
+                    本文最后更新于：2 分钟前
                   
                 
               </p>
@@ -367,7 +367,7 @@
 <p>怎么样，是不是有那味儿了？但总感觉少了点细节，System Informer 的导航栏的选中框是空心的，然后这里却是实心的，而且并没有相关属性可以设置。</p>
 <p>于是我毫不犹豫打开它的设置窗口的源代码，在窗口过程那里 (他写的是 <code>PhOptionsDialogProc</code>) 直接找 <code>WM_INITDIALOG</code> 分支，高亮出有关 <code>Tree</code> 的字段，然后发现了这段代码，毫无疑问，这就是关键所在。</p>
 <p><img src="/archive-imgs/31/5-si-src-options.png" srcset="/img/loading.gif" lazyload></p>
-<p>那么看到这个函数 <code>PhSetControlTheme</code> 还传了个 <code>explorer</code> 进去，我马上就想到了 <code>uxtheme.dll</code> 里面的 <code>SetWindowTheme</code> 函数 (因为之前做 <a target="_blank" rel="noopener" href="https://github.com/WangHaonie/PlainCEETimer">PlainCEETimer</a> 的深色模式用到过)，但还是看看它在这里的定义：</p>
+<p>那么看到这个函数 <code>PhSetControlTheme</code> 还传了个 <code>explorer</code> 进去，我马上就想到了 <code>uxtheme.dll</code> 里面的 <code>SetWindowTheme</code> 函数 (因为之前做 <a target="_blank" rel="noopener" href="https://github.com/WangHaonie/PlainCEETimer">PlainCEETimer</a> 的<a href="https://wanghaonie.github.io/posts/00d12b183e8c/">深色模式</a>用到过)，但还是看看它在这里的定义：</p>
 <p><img src="/archive-imgs/31/6-si-src-setwindowtheme.png" srcset="/img/loading.gif" lazyload></p>
 <p><img src="/archive-imgs/31/7-si-src-setwindowtheme-def.png" srcset="/img/loading.gif" lazyload></p>
 <p>果然如此，接着在<a target="_blank" rel="noopener" href="https://learn.microsoft.com/zh-cn/windows/win32/api/uxtheme/nf-uxtheme-setwindowtheme">文档</a>里查看签名之后就可以 P&#x2F;Invoke 导入了：</p>
@@ -448,7 +448,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>更新于</div>
-          <div>2025-07-25 20:21:48</div>
+          <div>2025-07-26 12:13:13</div>
         </div>
       
       
