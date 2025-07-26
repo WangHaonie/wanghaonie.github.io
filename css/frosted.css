@@ -12,6 +12,14 @@ html{
     backdrop-filter: blur(5px) !important;
 }
 
+pre, code, .code {
+    font-family: 'Fira Code', 'JetBrains Mono', 'Source Code Pro', Monaco, Consolas, 'Courier New', system-ui !important;
+}
+
+.code-widget-dark.code-widget.copy-btn {
+    font-size: 1em;
+}
+
 #wanghaonie-nav {
     color: rgb(255, 255, 255) !important;
     font-size: 14px !important;
