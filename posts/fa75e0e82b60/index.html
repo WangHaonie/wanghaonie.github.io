@@ -16,7 +16,7 @@
   <meta name="author" content="WangHaonie">
   <meta name="keywords" content="">
   
-    <meta name="description" content="文章较长，请耐心阅读~  前言如果你不喜欢 WinForms 仅仅是因为控件的创建是从工具箱里拖出来的太幼稚了，那一定要看看这篇文章。 几天前我在清理 PlainCEETimer 项目的时候，发现有一类代码我忍它很久了可是都无从下手，那就是设计器生成的代码。于是为了减轻代码量达到优化的目的，我就在想有没有方法可以在不依赖设计器的情况下完成控件的添加以及排版布局。直到今天，它终于来了，我将它们命名为">
+    <meta name="description" content="文章较长，请耐心阅读~  前言如果你不喜欢 WinForms 仅仅是因为控件的创建是从工具箱里拖出来的太幼稚了，没有声明式 UI (XAML) 那么爽，那一定要看看这篇文章。 几天前我在清理 PlainCEETimer 项目的时候，发现有一类代码我忍它很久了可是都无从下手，那就是设计器生成的代码。于是为了减轻代码量达到优化的目的，我就在想有没有方法可以在不依赖设计器的情况下完成控件的添加以及排版布">
   
   
   
@@ -343,7 +343,7 @@
               <p class="note note-info">
                 
                   
-                    本文最后更新于：15 小时前
+                    本文最后更新于：2 分钟前
                   
                 
               </p>
@@ -353,12 +353,12 @@
                 
                 <p class="note note-danger">文章较长，请耐心阅读~</p>
 
-<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>如果你不喜欢 WinForms 仅仅是因为控件的创建是从工具箱里拖出来的太幼稚了，那一定要看看这篇文章。</p>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>如果你不喜欢 WinForms 仅仅是因为控件的创建是从工具箱里拖出来的太幼稚了，没有声明式 UI (XAML) 那么爽，那一定要看看这篇文章。</p>
 <p>几天前我在清理 <a target="_blank" rel="noopener" href="https://github.com/WangHaonie/PlainCEETimer">PlainCEETimer</a> 项目的时候，发现有一类代码我忍它很久了可是都无从下手，那就是设计器生成的代码。于是为了减轻代码量达到优化的目的，我就在想有没有方法可以在不依赖设计器的情况下完成控件的添加以及排版布局。直到今天，它终于来了，我将它们命名为 <strong>Builder 模式</strong> (通过模板构建控件) 和 <strong>半自动布局模式</strong> (手动让各控件之间自动进行水平或竖直排列)。</p>
-<p>如果你玩过 WPF 的 XAML 声明式 UI，使用 Grid 和 StackPanel 借助 Margins 等属性就可以实现各种复杂布局，这里我就姑且称它为自动布局。而我的<strong>半自动布局模式</strong>只是多了一步人工让控件 “活起来” 的步骤，虽然有一定局限性和瑕疵，但扩展空间极大。这里就分享给大家，各位如果有这方面需求的话，可以参考一下，以及进行扩展并加入自己想要的功能。</p>
+<p>如果你玩过 WPF 的 XAML 声明式 UI，使用 Grid 和 StackPanel 等借助 Margins 等属性就可以实现各种复杂布局，这里我就姑且称它为自动布局。而我的<strong>半自动布局模式</strong>只是多了一步人工让控件 “活起来” 的步骤，虽然有一定局限性和瑕疵，但扩展空间极大。这里就分享给大家，各位如果有这方面需求的话，可以参考一下，以及进行扩展并加入自己想要的功能。</p>
 <p>在正式开始前，提到 WinForms 自动布局，你可能会想到 WinForms 内置的 TableLayoutPanel 和 FlowLayoutPanel，但我只能说这两个东西无法我预期的效果，不如自己来写布局逻辑。</p>
-<h2 id="基础知识"><a href="#基础知识" class="headerlink" title="基础知识"></a>基础知识</h2><p>其实要脱离设计器添加控件也不算什么难办的事，控件本身也是一种类，创建它们就像创建类实例一样，只不过额外要指定一些属性，以及事件绑定等。因此我们可以制作一个模板，其实就是一些方法罢了，不用每次都去 new 一个控件。然后主要的就是不使用设计器进行布局了，具体思路的话但凡你了解 UI 坐标系的话都能秒懂——相对坐标式布局。也就是说相对于一个控件的位置来决定另一个控件的位置，这与设计器采用的绝对坐标式布局不同。总之我们先来了解一些基础知识。</p>
-<h3 id="Control-类"><a href="#Control-类" class="headerlink" title="Control 类"></a>Control 类</h3><p>WinForms 几乎所有控件 (包括窗体，后文一律称之为控件) 都派生自这个基类 (ContextMenu、NotifyIcon 等例外，派生自 Component)，它可以表示所有的控件，并提供一些通用的属性 (位置，大小，文字)、事件 (Click，MouseMove 等) 和方法 (Focus，Invalidate 等)。</p>
+<p>其实要脱离设计器添加控件也不算什么难办的事，控件本身也是一种类，创建它们就像创建类实例一样，只不过额外要指定一些属性，以及事件绑定等。因此我们可以制作一个模板，其实就是一些方法罢了，不用每次都去 new 一个控件。然后主要的就是不使用设计器进行布局了，具体思路的话但凡你了解 UI 坐标系的话都能秒懂——相对坐标式布局。也就是说相对于一个控件的位置来决定另一个控件的位置，这与设计器采用的绝对坐标式布局不同。总之我们先来了解一些基础知识。</p>
+<h2 id="基础知识"><a href="#基础知识" class="headerlink" title="基础知识"></a>基础知识</h2><h3 id="Control-类"><a href="#Control-类" class="headerlink" title="Control 类"></a>Control 类</h3><p>WinForms 几乎所有控件 (包括窗体，后文一律称之为控件) 都派生自这个基类 (ContextMenu、NotifyIcon 等例外，派生自 Component)，它可以表示所有的控件，并提供一些通用的属性 (位置，大小，文字)、事件 (Click，MouseMove 等) 和方法 (Focus，Invalidate 等)。</p>
 <h3 id="坐标系"><a href="#坐标系" class="headerlink" title="坐标系"></a>坐标系</h3><p>在 Windows 系统中，不管是控件、应用程序，还是屏幕等，每一个元素都有一套自己的 UI 坐标系，且原点始终是左上角的位置，接着从左向右是 x 轴，从上而下是 y 轴，如图：</p>
 <p><img src="/archive-imgs/35/1-x-y.png" srcset="/img/loading.gif" lazyload></p>
 <h3 id="Bounds-Rectangle-RECT-属性"><a href="#Bounds-Rectangle-RECT-属性" class="headerlink" title="Bounds (Rectangle&#x2F;RECT) 属性"></a>Bounds (Rectangle&#x2F;RECT) 属性</h3><p><code>Bounds</code> 是 Control 类下的一个属性，类型为 <code>Rectangle</code>，表示对象的位置 (<code>Location</code>)、大小 (<code>Size</code>)。另外如果你做过与 Win32 的 Interop 或者对 Win32 有一定的了解，你应该也见到过 <code>RECT</code> 这个类型，它也是用于存储位置和大小的数据结构。它们的不同在于决定 <code>Rectangle</code> 的主要参数也就是 <code>Left</code>、<code>Top</code>、<code>Width</code>、<code>Height</code>，而 <code>RECT</code> 是 <code>Left</code>、<code>Top</code>、<code>Right</code>、<code>Bottom</code>，后面 2 个在 <code>Rectangle</code> 里面也定义了，可以直接拿出来用，只是不那么常用罢了。两者各个参数的定义如图所示：</p>
@@ -391,7 +391,7 @@
 <p>那么这三个方法有什么用呢？直译的话就是 挂起&#x2F;恢复&#x2F;执行布局。通俗的讲就是好比你做饭，你是打算做完一盘菜就开始吃饭然后洗碗接着再做一盘菜然后开吃然后洗碗，还是把所有菜都做好再吃饭，吃完饭菜再洗碗？因此 SuspendLayout() 的作用就是告诉所在容器 (窗体、Panel 等) 你要开始做饭 (添加控件) 了，让其从现在起处于挂起 (可以理解为等待、待机) 状态，不要边做边吃 (立即将每行代码响应在 UI 上)；然后就是 ResumeLayout(false) 了，相当于告诉容器你的饭菜都做好了 (控件、属性等设置完成)，但还没让开吃；最后 PerformLayout() 相当于告诉容器可以开吃了 (立即开始布局)</p>
 <p>实际上这三个方法最终目的还是将控件的 Bounds (Size、Location) 、Anchor、Dock 等属性生效 (特别是高 DPI 环境，这将有助于自动对控件进行缩放)，但凡你要设置这些属性，都必须在这三个方法之间完成。不过有些其他属性是会间接影响上述属性的，比如 Text 属性，如果启用了 AutoSize，那么控件的 Size 就会去适应 Text 渲染后的 Size，相当于在设置 Size 属性，也需要在此期间完成。事件的绑定理论上来说与布局无关，在任何地方都可以进行，设计器生成的代码中事件绑定与属性设置先后紧挨着进行也是顺便的事。总之在这三个方法之间对控件进行各种操作是利大于弊的，可以放心使用。</p>
 <p>热知识：ResumeLayout(false) + PerformLayout() &#x3D; ResumeLayout(true)。也就是说，调用 ResumeLayout(true) 之后，就可以不用调用 PerformLayout() 了。</p>
-<h2 id="如何创建控件"><a href="#如何创建控件" class="headerlink" title="如何创建控件"></a>如何创建控件</h2><p>首先我们来看看如何创建控件，基本思路就是尽可能不使用坐标，启用自适应大小，并保留常用的参数。</p>
+<h2 id="创建控件"><a href="#创建控件" class="headerlink" title="创建控件"></a>创建控件</h2><p>首先我们来看看如何创建控件，基本思路就是尽可能不使用坐标，启用自适应大小，并保留常用的参数。</p>
 <h3 id="创建-ControlBuilder-实例类"><a href="#创建-ControlBuilder-实例类" class="headerlink" title="创建 ControlBuilder 实例类"></a>创建 ControlBuilder 实例类</h3><p>为了统一存放这些创建控件的方法，我建议直接将其放到一个单独的<strong>实例类</strong>里面，名叫 ControlBuilder。并且为了简化调用，我推荐大家可以省略方法名的动词，比如 CreateLabel() 之类的直接命名为 Label() 就行，毕竟这样也不会发生冲突。</p>
 <p>接下来就是创建各控件的方法了，我们需要先预设常用属性和事件 (获取这些东西的途径可以靠经验，也可以打开设计器生成的代码看看)，<strong>尽可能</strong>不显式设置 Location 和 Size 属性，并打开 AutoSize。为什么说尽可能呢？这就是我的这套机制的缺点了，不过问题不大。因为只需要给第一个要排列的控件设置一个初始坐标，就可以使后续排列的控件与容器边缘有一定的距离 (留白)；对于某些复杂容器的话，也推荐设置一个固定的大小 (或者必须设置宽度，高度的话后期可以做自适应，具体看情况)，这也算是意料之中的事，可以接受。</p>
 <p>你可能有疑惑，如果是在 WPF 中，可以设置控件 (应该叫 UI 元素) 的 Margin 属性来使其主动与父容器留白。但在 WinForms 其实也有这个属性，但不是预期的行为，这个属性是给具有完全自动布局的容器 (就比如上文提到的那两个 LayoutPanel) 使用的，在普通的控件里设置 Margin 是不会生效的。</p>
@@ -407,10 +407,8 @@
 <figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><code class="hljs c#"><span class="hljs-function"><span class="hljs-keyword">public</span> Button <span class="hljs-title">Button</span>(<span class="hljs-params"><span class="hljs-built_in">string</span> text, EventHandler onClick</span>)</span><br>&#123;<br>    <span class="hljs-keyword">return</span> Button(text, <span class="hljs-literal">true</span>, <span class="hljs-literal">false</span>, onClick);<br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">public</span> Button <span class="hljs-title">Button</span>(<span class="hljs-params"><span class="hljs-built_in">string</span> text, <span class="hljs-built_in">bool</span> enabled, EventHandler onClick</span>)</span><br>&#123;<br>    <span class="hljs-keyword">return</span> Button(text, enabled, <span class="hljs-literal">false</span>, onClick);<br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">public</span> Button <span class="hljs-title">Button</span>(<span class="hljs-params"><span class="hljs-built_in">string</span> text, <span class="hljs-built_in">bool</span> enabled, <span class="hljs-built_in">bool</span> autoSize, EventHandler onClick</span>)</span><br>&#123;<br>    <span class="hljs-keyword">var</span> ctrl = <span class="hljs-keyword">new</span> Button() &#123; Text = text, Enabled = enabled &#125;;<br><br>    <span class="hljs-keyword">if</span> (autoSize)<br>    &#123;<br>        ctrl.AutoSize = <span class="hljs-literal">true</span>;<br>        ctrl.AutoSizeMode = AutoSizeMode.GrowAndShrink;<br>    &#125;<br><br>    ctrl.Click += onClick;<br>    <span class="hljs-keyword">return</span> ctrl;<br>&#125;<br></code></pre></td></tr></table></figure>
 
 <p>注意，(75, 23) 是按钮的默认大小，也挺合理的，可以保持默认。</p>
-<p>可能的疑问：</p>
-<ul>
-<li>事件绑定时不需要对事件处理器进行 null 检查？(后面也会遇到)<br><strong>答</strong>：不需要。(1) 这些方法基本上仅个人使用，你自己会闲得无聊传个 null 进去？<br>(2) 本来也没事，<code>+= null</code> 是合法的 <br>(3) 最多也只会对触发端造成影响导致抛空引用异常 (NullReferenceException)。因为如果 onClick 为 null 的话，直接 <code>onClick(this, e)</code> 确实会出错，但绝大多数情况下触发端的代码一定是这样写的 <code>onClick?.Invoke(this, e)</code>，因此也不会有任何问题。</li>
-</ul>
+<p class="note note-info"><strong>事件绑定时不需要对事件处理器进行 null 检查？—— 不需要。</strong><br>1. 这些方法基本上仅我们自己使用，谁自己会闲得没事传个 null 进去？<br>2. 本来也没事，+= null 是合法的<br>3. 最多也只会对触发端造成影响导致抛空引用异常 (NullReferenceException)。因为如果 onClick 为 null 的话，直接 <code>onClick(this, e)</code> 确实会出错，但绝大多数情况下触发端的代码一定是这样写的 </code>onClick?.Invoke(this, e)</code>，因此也不会有任何问题</p>
+
 <h3 id="CheckBox"><a href="#CheckBox" class="headerlink" title="CheckBox"></a>CheckBox</h3><p><strong>常用属性：Text</strong><br><strong>常用事件：CheckedChanged</strong></p>
 <figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs c#"><span class="hljs-function"><span class="hljs-keyword">public</span> CheckBox <span class="hljs-title">CheckBox</span>(<span class="hljs-params"><span class="hljs-built_in">string</span> text, EventHandler onCheckedChanged</span>)</span><br>&#123;<br>    <span class="hljs-keyword">var</span> ctrl = <span class="hljs-keyword">new</span> CheckBox &#123; Text = text, AutoSize = <span class="hljs-literal">true</span> &#125;;<br>    ctrl.CheckedChanged += onCheckedChanged;<br>    <span class="hljs-keyword">return</span> ctrl;<br>&#125;<br></code></pre></td></tr></table></figure>
 
@@ -433,15 +431,13 @@
 <figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs c#"><span class="hljs-function"><span class="hljs-keyword">public</span> PlainGroupBox <span class="hljs-title">GroupBox</span>(<span class="hljs-params"><span class="hljs-built_in">string</span> text, Control[] controls</span>)</span><br>&#123;<br>    <span class="hljs-keyword">var</span> ctrl = <span class="hljs-keyword">new</span> PlainGroupBox() &#123; Text = text &#125;;<br>    ctrl.SetBounds(<span class="hljs-number">6</span>, <span class="hljs-number">6</span>, <span class="hljs-number">323</span>, <span class="hljs-number">0</span>);<br>    ctrl.Controls.AddRange(controls);<br>    <span class="hljs-keyword">return</span> ctrl;<br>&#125;<br></code></pre></td></tr></table></figure>
 
 <p>这里的 GroupBox 具有初始坐标 (6, 6) 和 323 宽度，因为这在我的场景中都是不变的，可以作为默认值。Control[] 即为要包含的子控件。</p>
-<p>可能的疑惑：</p>
-<ul>
-<li>(后文提到了添加控件最好用 Add) 为什么不用 Add 而是 AddRange？(后面也会遇到)<br><strong>答</strong>：因为容器也是窗体的子控件，让它内部提前开始布局也无妨。</li>
-</ul>
+<p class="note note-info"><strong>(后文提到了添加控件最好用 Add) 为什么不用 Add 而是 AddRange？</strong><br>因为容器也是窗体的子控件，让它内部提前开始布局也无妨，不会引起整个窗体布局提前就行。</p>
+
 <h3 id="Panel"><a href="#Panel" class="headerlink" title="Panel"></a>Panel</h3><p><strong>常用属性：Controls</strong></p>
 <figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs c#"><span class="hljs-function"><span class="hljs-keyword">public</span> Panel <span class="hljs-title">Panel</span>(<span class="hljs-params"><span class="hljs-built_in">int</span> x, <span class="hljs-built_in">int</span> y, <span class="hljs-built_in">int</span> w, <span class="hljs-built_in">int</span> h, Control[] controls</span>)</span><br>&#123;<br>    <span class="hljs-keyword">var</span> ctrl = <span class="hljs-keyword">new</span> Panel();<br>    ctrl.SetBounds(x, y, w, h);<br>    ctrl.Controls.AddRange(controls);<br>    <span class="hljs-keyword">return</span> ctrl;<br>&#125;<br></code></pre></td></tr></table></figure>
 
 <p>和 GroupBox 类似，就不多介绍了。</p>
-<h3 id="万能模板"><a href="#万能模板" class="headerlink" title="万能模板"></a>万能模板</h3><p>如果你觉得上述方法没有出现你需要的控件，除了自行编写新方法以外，还可以使用 “万能模板” 来应付那些只需要出现一次的控件。</p>
+<h3 id="万能模板"><a href="#万能模板" class="headerlink" title="万能模板"></a>万能模板</h3><p>如果你觉得上述方法没有出现你需要的控件，除了自行编写新方法以外，还可以使用 “万能模板” 来应付那些只需要一次的控件。</p>
 <figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs c#"><span class="hljs-function"><span class="hljs-keyword">public</span> TControl <span class="hljs-title">New</span>&lt;<span class="hljs-title">TControl</span>&gt;(<span class="hljs-params"><span class="hljs-built_in">int</span> w, <span class="hljs-built_in">int</span> h, <span class="hljs-built_in">string</span> text</span>)</span><br><span class="hljs-function">    <span class="hljs-keyword">where</span> TControl : Control, <span class="hljs-keyword">new</span>()</span><br>&#123;<br>    <span class="hljs-keyword">var</span> ctrl = <span class="hljs-keyword">new</span> TControl() &#123; Text = text &#125;;<br>    ctrl.SetBounds(<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, w, h);<br>    <span class="hljs-keyword">return</span> ctrl;<br>&#125;<br></code></pre></td></tr></table></figure>
 
 <p>比如可以用来创建一个进度条控件 (ProgressBar)：</p>
@@ -450,32 +446,32 @@
 <p>如果需要特殊的属性也不用担心，也并不需要写在 New 方法里，可以用扩展方法：</p>
 <figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c#">New&lt;ProgressBar&gt;(<span class="hljs-number">344</span>, <span class="hljs-number">22</span>, <span class="hljs-literal">null</span>).With(c =&gt; c.Style = ProgressBarStyle.Continuous)<br></code></pre></td></tr></table></figure>
 <p>这样就可以创建一个样式为 Continuous 的进度条，有关该扩展方法详见下方 <a href="#%E7%BC%96%E8%BE%91%E7%8E%B0%E6%9C%89%E6%8E%A7%E4%BB%B6">编辑现有控件</a>：</p>
-<h2 id="如何添加控件"><a href="#如何添加控件" class="headerlink" title="如何添加控件"></a>如何添加控件</h2><h3 id="创建-Extensions-静态类"><a href="#创建-Extensions-静态类" class="headerlink" title="创建 Extensions 静态类"></a>创建 Extensions 静态类</h3><p>创建一个名为 Extensions 的静态类可用于存放一些好用的扩展方法，这样可以方便开发，减少代码重复，提高可复用性。</p>
+<h2 id="添加控件"><a href="#添加控件" class="headerlink" title="添加控件"></a>添加控件</h2><h3 id="创建-Extensions-静态类"><a href="#创建-Extensions-静态类" class="headerlink" title="创建 Extensions 静态类"></a>创建 Extensions 静态类</h3><p>创建一个名为 Extensions 的静态类可用于存放一些好用的扩展方法，这样可以方便开发，减少代码重复，提高可复用性。</p>
 <figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs c#"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">class</span> <span class="hljs-title">Extensions</span><br>&#123;<br><br>&#125;<br></code></pre></td></tr></table></figure>
 
-<h3 id="添加控件"><a href="#添加控件" class="headerlink" title="添加控件"></a>添加控件</h3><p>首先可以写一个用于构建 Control[] 数组并向目标控件添加子控件的扩展方法，以后就可以在窗体构造函数里调用了，取代原来的 InitializeComponent()：</p>
+<h3 id="添加控件-1"><a href="#添加控件-1" class="headerlink" title="添加控件"></a>添加控件</h3><p>首先可以写一个用于构建 Control[] 数组并向目标控件添加子控件的扩展方法，以后就可以在窗体构造函数里调用了，取代原来的 InitializeComponent()：</p>
 <figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs c#"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">AddControls</span>(<span class="hljs-params"><span class="hljs-keyword">this</span> Control ctrl, Func&lt;ControlBuilder, Control[]&gt; builder</span>)</span><br>&#123;<br>    <span class="hljs-keyword">var</span> ctrls = builder?.Invoke(<span class="hljs-keyword">new</span>());<br>    <span class="hljs-keyword">var</span> collection = ctrl.Controls;<br><br>    <span class="hljs-keyword">for</span> (<span class="hljs-built_in">int</span> i = <span class="hljs-number">0</span>; i &lt; ctrls.Length; i++)<br>    &#123;<br>        collection.Add(ctrls[i]);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p class="note note-info"><strong>为什么不用 Controls.AddRange，一次性传完整个 Control[] 数组？</strong><br>因为 Add 方法内部最终会调用 ResumeLayout(false)，而 AddRange 方法内部最终调用的是 ResumeLayout(true)，会导致 PerformLayout 提前，故不推荐。</p>
 
-<p>此时你可能会有以下几个疑惑点：</p>
-<ol>
-<li>为什么不用 Controls.AddRange，一次性传完整个 Control[] 数组？<br><strong>答</strong>：因为 Add 方法内部最终会调用 ResumeLayout(false)，而 AddRange 方法内部最终调用的是 ResumeLayout(true)，会导致 PerformLayout 提前，故不推荐。</li>
-<li>为什么不用 foreach 循环<br><strong>答</strong>：有关循环方式的选择方面的问题我自己也无法准确回答，只能说凭感觉 (大致方向就是需要索引就 for，反之 foreach)，大多数情况下两种循环方式在<strong>遍历数组</strong>时的性能差异不大，另外 WinForms 源码里在 AddRange 处也用的是 for 循环。不嫌弃的话可以参考我写的 <a href="https://wanghaonie.github.io/posts/d1afa7a5de7f/">【C#】for 和 foreach 循环的选择</a> (仅个人观点)。</li>
-<li>为什么要用 Func 委托？<br><strong>答</strong>：Func 是具有返回值的委托，这里用它来提供 ControlBuilder 的方法来创建控件并返回 Control[] 数组拿到控件集合。(Func 委托在 <a href="https://wanghaonie.github.io/posts/e1fb75c4dbec/">(后续) 使用 Builder 模式让右键菜单的创建更上一层楼</a> 中提到过，感兴趣的可以去看看)</li>
-<li>为什么该扩展方法基于 Control 而不是基于 Form？<br><strong>答</strong>：的确，在本文中，只会向 Form 添加子控件，其他容器的话 ControlBuilder 有专门的方法，但为了某种约定俗成，还是优先选择 Control，这个就看个人喜好了。</li>
-</ol>
+<p class="note note-info"><strong>为什么不用 foreach 循环</strong><br>有关循环方式的选择方面的问题我自己也无法准确回答，只能说凭感觉 (大致方向就是需要索引就 for，反之 foreach)，但大多数情况下两种循环方式在 <strong>遍历数组</strong> 时的性能几乎一样，另外 WinForms 源码在 AddRange 里也用的是 for 循环。有关更多信息的话如果不嫌弃可以参考我写的 <a href="https://wanghaonie.github.io/posts/d1afa7a5de7f/" target="_blank">【C#】for 和 foreach 循环的选择</a> (仅个人观点)。</p>
+
+<p class="note note-info"><strong>为什么要用 Func 委托？</strong><br>Func 是具有返回值的委托，这里用它来提供 ControlBuilder 的方法来创建控件并返回 Control[] 数组拿到控件集合。(Func 委托在 <a href="https://wanghaonie.github.io/posts/e1fb75c4dbec/" target="_blank">(后续) 使用 Builder 模式让右键菜单的创建更上一层楼</a> 中提到过，感兴趣的可以去看看)</p>
+
+<p class="note note-info"><strong>为什么该扩展方法基于 Control 而不是基于 Form？</strong><br>的确，在本文中，只会向 Form 添加子控件，其他容器的话 ControlBuilder 有专门的方法，但为了某种约定俗成，还是优先选择 Control，这个就看个人喜好了</p>
+
 <p>由于我们取代了 InitializeComponent，其中对窗体的某些设置也没了，所以我们需要手动编写以下必要属性并挂起布局，其他属性的话根据情况：</p>
 <figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs c#"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">Form1</span>()</span><br>&#123;<br>    SuspendLayout();<br>    AutoScaleDimensions = <span class="hljs-keyword">new</span>(<span class="hljs-number">96F</span>, <span class="hljs-number">96F</span>);<br>    AutoScaleMode = AutoScaleMode.Dpi;<br>    AutoSize = <span class="hljs-literal">true</span>;<br>    AutoSizeMode = AutoSizeMode.GrowAndShrink;<br>    Font = <span class="hljs-keyword">new</span>(<span class="hljs-string">&quot;Segoe UI&quot;</span>, <span class="hljs-number">9F</span>, FontStyle.Regular, GraphicsUnit.Point, <span class="hljs-number">0</span>);<br>    <br>    <span class="hljs-keyword">this</span>.AddControl(<span class="hljs-comment">/* ... */</span>);<br><br>    ResumeLayout(<span class="hljs-literal">true</span>);<br>&#125;<br></code></pre></td></tr></table></figure>
 
 <h3 id="编辑现有控件"><a href="#编辑现有控件" class="headerlink" title="编辑现有控件"></a>编辑现有控件</h3><p>如果你觉得 ControlBuilder 提供的方法预设不满足一些特殊情况 (需要额外的属性、事件等)，但又不想为单一的特殊情况专门写一个重载的话，可以添加以下扩展方法：</p>
 <figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs c#"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> TControl <span class="hljs-title">With</span>&lt;<span class="hljs-title">TControl</span>&gt;(<span class="hljs-params"><span class="hljs-keyword">this</span> TControl control, Action&lt;TControl&gt; additions</span>)</span><br><span class="hljs-function">    <span class="hljs-keyword">where</span> TControl : Control</span><br>&#123;<br>    additions?.Invoke(control);<br>    <span class="hljs-keyword">return</span> control;<br>&#125;<br></code></pre></td></tr></table></figure>
 
-<p>此时你可能会有以下几个疑惑点：</p>
-<ol>
-<li>为什么返回值要用泛型 TControl，直接用 Control 不行吗？<br><strong>答</strong>：Control 是各种控件的基类，代表了几乎所有的控件。但 Control 和 各控件 (比如 Label 等) 是相对独立的，并不是同一个类，因此直接使用 Control 的话在传入时会进行一次隐式转换 (Label -&gt; Control)。并且返回时应当返回具体控件类型而不是 Control，这里要达到预期的话又要进行一次显式转换 (Control -&gt; Label)，将出现些许性能开销。故使用 TControl 泛型并约束为 Control 可以让 C# 直接推断出控件具体类型并只对派生自 Control 的类型显示扩展方法，同时也能确保拿到该控件特有的属性。</li>
-<li>为什么用 Action&lt;&gt; 而不是 Action 或 Func&lt;&gt;？<br><strong>答</strong>：与 Func 相反，Action 是没有返回值的委托，这里我们目的只是为了传入控件实例并在 Lambda 表达式里获取到其实例，然后执行修改属性或者绑定事件等操作，无需返回值，且用 Action 的话不能直接访问到控件实例哦，你可以试试，故应该用 Action&lt;&gt;。</li>
-</ol>
+<p class="note note-info"><strong>为什么返回值要用泛型 TControl，直接用 Control 不行吗？</strong><br>Control 是各种控件的基类，代表了几乎所有的控件。但 Control 和 各控件 (比如 Label 等) 是相对独立的，并不是同一个类，因此直接使用 Control 的话在传入时会进行一次隐式转换 (Label -> Control)。并且返回时应当返回具体控件类型而不是 Control，这里要达到预期的话又要进行一次显式转换 (Control -> Label)，将出现些许性能开销。故使用 TControl 泛型并约束为 Control 可以让 C# 直接推断出控件具体类型并只对派生自 Control 的类型显示扩展方法，同时也能确保拿到该控件特有的属性。</p>
+
+<p class="note note-info"><strong>为什么用 Action<> 而不是 Action 或 Func<>？</strong><br>与 Func 相反，Action 是没有返回值的委托，这里我们目的只是为了传入控件实例并在 Lambda 表达式里获取到其实例，然后执行修改属性或者绑定事件等操作，无需返回值，且用 Action 的话不能直接访问到控件实例哦，你可以试试，故应该用 Action<></p>
+
+
 <p>最终调用时的效果可以看看：<a target="_blank" rel="noopener" href="https://github.com/WangHaonie/PlainCEETimer/blob/7fb3a4e/PlainCEETimer/UI/Forms/SettingsForm.cs#L142-L144">PlainCEETimer&#x2F;SettingsForm.cs: 142~144 行</a></p>
-<h2 id="如何进行布局"><a href="#如何进行布局" class="headerlink" title="如何进行布局"></a>如何进行布局</h2><p class="note note-warning">有关布局的方法推荐放在你的应用程序的所有窗体的基类中。</p>
+<h2 id="进行布局"><a href="#进行布局" class="headerlink" title="进行布局"></a>进行布局</h2><p class="note note-warning">有关布局的方法推荐放在你的应用程序的所有窗体的基类中。</p>
 
 <p>布局的方法在前面简单提过了，主要就是灵活的运用控件的 Left、Top、Width、Height 等属性，唯一的缺点就是每个方法只能对一个控件进行布局，参考的控件可能会有一个或两个，但也能接受。在开始之前，我们首先要清楚，第一，WinForms 控件不显式指定坐标的话，默认坐标为 (0, 0)，这意味着所有控件在添加完成后全部挤在了左上角，因此我们需要进行相对布局；第二，这样的布局方式不进行微调的话控件可能不会按照预期的那样对齐，特指不同类型控件之间的布局，主要也是因为 WinForms 不同控件的最小最适的高度是不一样的，不过微调之后都可以完美的对齐。废话不多说，直接进入正题。</p>
 <h3 id="获取-DPI-值"><a href="#获取-DPI-值" class="headerlink" title="获取 DPI 值"></a>获取 DPI 值</h3><p>首先我们最好要考虑高 DPI 的场景，因为微调的值必须手动进行缩放，Bounds 等属性将由 WinForms 自动完成缩放。获取 DPI 的方式有很多，你可以调用 Win32 API GetDpiForWindow&#x2F;System，也可以创建一个 Graphics 访问其 DpiX 属性，但前者只能在 Windows 10 1607 之后才生效，如果你的应用程序需要兼容 Windows 7 或其他系统的话，还是用后者比较保险。另外你或许也听说过 DeviceDpi 属性，这个的话我测试了很多次获取到的始终是 96，如果你测试没问题的话那就用它也可以。</p>
@@ -617,7 +613,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>更新于</div>
-          <div>2025-07-25 20:21:38</div>
+          <div>2025-07-26 11:32:45</div>
         </div>
       
       
