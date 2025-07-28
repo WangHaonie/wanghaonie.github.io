@@ -1,0 +1,798 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=dark>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="WangHaonie">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="开门见山各位想过在 C# 里直接使用 HWND、BOOL、COLORREF、HRESULT、HDC 等这些常见的 Win32 类型吗？感兴趣的话就来看看吧。 起因为什么我会想到这种操作呢？这还得从下面两件事说起 万恶之源—RECT经常做 Interop 的朋友们一定都写过这个类型吧，它是用来表示对象位置的大小的结构体： 12345678[StructLayout(LayoutKind.Sequen">
+  
+  
+  
+  <title>在 C# 里引入 C++ 类型，增强 Interop 体验 | WangHaonie 的博客</title>
+  <link rel="stylesheet" href="/css/frosted.css">
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"wanghaonie.github.io","root":"/","version":"1.9.6","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":true,"scope":"home"},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":false},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"left","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":6},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":{"measurement_id":"G-N644FC8JLJ"},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+    <!-- Google tag (gtag.js) -->
+    <script async>
+      if (!Fluid.ctx.dnt) {
+        Fluid.utils.createScript("https://www.googletagmanager.com/gtag/js?id=G-N644FC8JLJ", function() {
+          window.dataLayer = window.dataLayer || [];
+          function gtag() {
+            dataLayer.push(arguments);
+          }
+          gtag('js', new Date());
+          gtag('config', 'G-N644FC8JLJ');
+        });
+      }
+    </script>
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>WangHaonie 的博客</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span id="wanghaonie-nav" candidate-icon="🧿🔔📅🚩🧡">🎉更多</span>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                
+                <span>🏠主页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                
+                <span>😁关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                
+                <span>🏷️标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                
+                <span>📖文章</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" target="_self" href="javascript:;" role="button"
+                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                
+                <span>🌏分站</span>
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" onclick="redir2gh()" href="#" target="_self">
+                    
+                    <span>🌎主站：GitHub Pages</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" onclick="redir2lan()" href="#" target="_self">
+                    
+                    <span>🌎主站：本地局域网</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" onclick="redir2v()" href="#" target="_self">
+                    
+                    <span>🌎分站：Vercel</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" onclick="redir2n()" href="#" target="_self">
+                    
+                    <span>🌎分站：Netlify</span>
+                  </a>
+                
+              </div>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/reward" target="_self">
+                
+                <span>💰打赏</span>
+              </a>
+            </li>
+          
+        <!--
+        -->
+        <!--
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        -->
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" false
+     style="background: url('/null') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle">在 C# 里引入 C++ 类型，增强 Interop 体验</span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2025-07-28 09:54" pubdate>
+          2025-07-28 09:54:58
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          1.8k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          15 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="padding-left: 2rem; margin-right: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">在 C# 里引入 C++ 类型，增强 Interop 体验</h1>
+            
+              <p class="note note-info">
+                
+                  
+                    本文最后更新于：几秒前
+                  
+                
+              </p>
+            
+            
+              <div class="markdown-body">
+                
+                <h2 id="开门见山"><a href="#开门见山" class="headerlink" title="开门见山"></a>开门见山</h2><p>各位想过在 C# 里直接使用 HWND、BOOL、COLORREF、HRESULT、HDC 等这些常见的 Win32 类型吗？感兴趣的话就来看看吧。</p>
+<h2 id="起因"><a href="#起因" class="headerlink" title="起因"></a>起因</h2><p>为什么我会想到这种操作呢？这还得从下面两件事说起</p>
+<h3 id="万恶之源—RECT"><a href="#万恶之源—RECT" class="headerlink" title="万恶之源—RECT"></a>万恶之源—RECT</h3><p>经常做 Interop 的朋友们一定都写过这个类型吧，它是用来表示对象位置的大小的结构体：</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs c#">[<span class="hljs-meta">StructLayout(LayoutKind.Sequential)</span>]<br><span class="hljs-keyword">public</span> <span class="hljs-keyword">struct</span> RECT<br>&#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> Left;<br>    <span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> Top;<br>    <span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> Right;<br>    <span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> Bottom;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>那大家想过没有，这本来就是一个 Win32 类型，我们在 C# 中定义，居然也能正常运行？</p>
+<p>这得得益于 Win32 类型基本上都是值类型，且所有的字段都是 Blittable 的，也就是在内存中的排列是有序 (Sequential) 的，且和 C# 类型 (int、uint、long、ulong 等基本值类型) 相同，两者都是 Blittable 类型，C# 端只管将各字段按顺序读取或写入内存就行了。</p>
+<p>格局打开，既然 RECT 这个类型我们都能在 C# 定义并正常运作，那为何不尝试定义一下其他更常见的类型呢？</p>
+<h3 id="CsWin32—强大的源生成器"><a href="#CsWin32—强大的源生成器" class="headerlink" title="CsWin32—强大的源生成器"></a>CsWin32—强大的源生成器</h3><p>如果你时常在 <a target="_blank" rel="noopener" href="https://source.dot.net/">source.dot.net</a> 上浏览 WinForms 的源码，你一定会看到一些 Win32 类型：</p>
+<p><img src="/../archive-imgs/41/1-sdn-win32-types.png" srcset="/img/loading.gif" lazyload></p>
+<p>上图就出现了诸如 LRESULT、HWND、WPARAM、LPARAM 等 Win32 类型，如果你好奇它们是怎么被定义的，当你点击进去，你会发现：</p>
+<p><img src="/../archive-imgs/41/2-sdn-partial-hwnd-struct.png" srcset="/img/loading.gif" lazyload></p>
+<p>它被声明为了 partial，这意味着我们不能在这里看到它的完整实现了。另一半代码的话，反正我是没在 source.dot.net 和 GitHub 上找到，但还有一个更直接的方法。</p>
+<p>于是聪明的你发现它位于 System.Private.Windows.Core 程序集中的 Windows.Win32.Foundation 命名空间下，接着你便直接用 Everything 通缉电脑中相关文件</p>
+<p><img src="/../archive-imgs/41/3-everything-index-dll.png" srcset="/img/loading.gif" lazyload></p>
+<p>连家都被偷了，还愁找不到完整代码吗？接下来我要做什么大家应该都清楚吧。</p>
+<p>直接挑一个最大的 (通常说明版本更新)，拖入到某反编译软件中，并展开到 Windows.Win32.Foundation 命名空间：</p>
+<p><img src="/../archive-imgs/41/4-ilspy-win32-types.png" srcset="/img/loading.gif" lazyload></p>
+<p>各种 Win32 类型尽收眼底，那我们还是打开 HWND 的定义看看</p>
+<p><img src="/../archive-imgs/41/5-ilspy-hwnd-struct.png" srcset="/img/loading.gif" lazyload></p>
+<p>这不就是完整实现吗？</p>
+<p>并且你还发现这个 struct 被加上了一个很吸引眼球的特性：</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c#">[<span class="hljs-meta">GeneratedCode(<span class="hljs-string">&quot;Microsoft.Windows.CsWin32&quot;</span>, <span class="hljs-string">&quot;0.3.106+a37a0b4b70&quot;</span>)</span>]<br></code></pre></td></tr></table></figure>
+
+<p>这表示该代码是被生成的，不是人为编写的，并且该生成器的名称是 <code>Microsoft.Windows.CsWin32</code>，于是你便去全网通缉它</p>
+<p><img src="/../archive-imgs/41/6-cswin32-on-google.png" srcset="/img/loading.gif" lazyload></p>
+<p>第一个就是，还是在微软官方的 GitHub 仓库。</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/microsoft/CsWin32">点</a>进去后，我们得知，这是个用来快速生成 P&#x2F;Invoke 方法以及相应的类型的库，旨在释放开发者们的双手，不必手动书写各种 Win32 定义了，并且指针、句柄安全，无需我们自己去释放什么的 (如果有的话)。</p>
+<p>那就没得说了，于是你的格局在这里一下就被打开了，你觉得有必要为自己也来一套这样的机制。</p>
+<p>但你发现生成器生成的代码太多了，有点多此一举。因为，就连我们熟悉的 RECT 类型，本该7行代码就能完成的，居然变成了这样</p>
+<p><img src="/../archive-imgs/41/7-ilspy-rect-struct.png" srcset="/img/loading.gif" lazyload></p>
+<p>这你能忍？虽然目的都是为了更好的使用，但还是略显臃肿。</p>
+<p>所以我们就可以手写这些类型：</p>
+<h2 id="手写-Win32-类型"><a href="#手写-Win32-类型" class="headerlink" title="手写 Win32 类型"></a>手写 Win32 类型</h2><p>这里就给出部分常用的 Win32 类型在 C# 中的定义，其他请自行套用类似的方法来构造，但一定确保双方 (C# 和 C++) 的类型都是 Blittable。</p>
+<h3 id="BOOL"><a href="#BOOL" class="headerlink" title="BOOL"></a>BOOL</h3><p>那我们先来盘一下 BOOL，首先得知道 BOOL 对应 C# 的什么类型？</p>
+<p>你以为是 bool？戳了，看看 C++ 中的定义</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-keyword">typedef</span> <span class="hljs-type">int</span>                 BOOL; <span class="hljs-comment">// 来自 minwindef.h</span><br></code></pre></td></tr></table></figure>
+<p>所以 BOOL 实际上是 int，而 int 确实是 Blittable 类型，那我们就可以在 C# 中定义了。</p>
+<p>怎么定义？写个结构，命名为 BOOL，把 int 放进去</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs c#">[<span class="hljs-meta">DebuggerDisplay(<span class="hljs-string">&quot;&#123;Value&#125;&quot;</span>)</span>] <span class="hljs-comment">// 方便我们进行调试时 Visual Studio 直接显示 Value 字段的值而不是类型</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">readonly</span> <span class="hljs-keyword">struct</span> BOOL<br>&#123;<br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">readonly</span> <span class="hljs-built_in">int</span> Value;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>完成了，就这么简单，现在你可以把那些声明的导入函数中写的 bool 全部换成 BOOL 了，也就是把</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs c#">[<span class="hljs-meta">DllImport(<span class="hljs-string">&quot;somedll.dll&quot;</span>)</span>]<br>[<span class="hljs-meta">return: MarshalAs(UnmanagedType.Bool)</span>]<br><span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">extern</span> <span class="hljs-built_in">bool</span> <span class="hljs-title">Function</span>(<span class="hljs-params">[MarshalAs(UnmanagedType.Bool</span>)] <span class="hljs-built_in">bool</span> enabled)</span>;<br></code></pre></td></tr></table></figure>
+<p>改成</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs c#">[<span class="hljs-meta">DllImport(<span class="hljs-string">&quot;somedll.dll&quot;</span>)</span>]<br><span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">extern</span> BOOL <span class="hljs-title">Function</span>(<span class="hljs-params">BOOL enabled</span>)</span>;<br></code></pre></td></tr></table></figure>
+
+<p>为了更方便我们使用，比如我们想用 Win32 的 <code>TRUE</code> 和 <code>FALSE</code>，以及可以让 BOOL 写在 C# 的 if 语句里，我们可以扩展一下该结构体</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><code class="hljs c#">[<span class="hljs-meta">DebuggerDisplay(<span class="hljs-string">&quot;&#123;Value&#125;&quot;</span>)</span>]<br><span class="hljs-keyword">public</span> <span class="hljs-keyword">readonly</span> <span class="hljs-keyword">struct</span> BOOL<br>&#123;<br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">readonly</span> <span class="hljs-built_in">int</span> Value;<br><br>    <span class="hljs-comment">// 为了不用每次使用都创建新实例，我们可以创建一个静态字段来表示 TRUE 和 FALSE</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">readonly</span> BOOL TRUE = <span class="hljs-keyword">new</span>(<span class="hljs-literal">true</span>);<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">readonly</span> BOOL FALSE = <span class="hljs-keyword">new</span>(<span class="hljs-literal">false</span>);<br><br>    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-title">BOOL</span>(<span class="hljs-params"><span class="hljs-built_in">bool</span> <span class="hljs-keyword">value</span></span>)</span><br>    &#123;<br>        Value = <span class="hljs-keyword">value</span> ? <span class="hljs-number">1</span> : <span class="hljs-number">0</span>;<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">implicit</span> <span class="hljs-keyword">operator</span> <span class="hljs-title">bool</span>(<span class="hljs-params">BOOL b</span>)</span><br>    &#123;<br>        <span class="hljs-comment">// 隐式转换运算符重载，BOOL -&gt; bool</span><br>        <span class="hljs-keyword">return</span> b.Value != <span class="hljs-number">0</span>; <span class="hljs-comment">// 我们规定在这里返回结果为 true 的 bool 语句</span><br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">explicit</span> <span class="hljs-keyword">operator</span> <span class="hljs-title">BOOL</span>(<span class="hljs-params"><span class="hljs-built_in">bool</span> b</span>)</span><br>    &#123;<br>        <span class="hljs-comment">// 显式转换运算符重载，bool -&gt; BOOL</span><br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span>(b);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>这样就大功告成了，我来写个示例代码，看看效果</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs c#"><span class="hljs-function"><span class="hljs-keyword">private</span> BOOL <span class="hljs-title">Test</span>()</span><br>&#123;<br>    <span class="hljs-keyword">var</span> b = (BOOL)<span class="hljs-literal">true</span>; <span class="hljs-comment">// 显式转换</span><br><br>    <span class="hljs-keyword">if</span> (b) <span class="hljs-comment">// 隐式转换</span><br>    &#123;<br>        <span class="hljs-keyword">return</span> BOOL.TRUE;<br>    &#125;<br><br>    <span class="hljs-keyword">return</span> BOOL.FALSE;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="COLORREF"><a href="#COLORREF" class="headerlink" title="COLORREF"></a>COLORREF</h3><p>这就是 Win32 中表示颜色的结构，底层也是 int。C# 中可以使用 ColorTranslator.ToWin32() 将 Color 转换为 int，即 COLORREF。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-keyword">typedef</span> <span class="hljs-type">unsigned</span> <span class="hljs-type">long</span>       DWORD;<br><span class="hljs-keyword">typedef</span> DWORD               COLORREF;<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs c#"><span class="hljs-keyword">public</span> <span class="hljs-keyword">readonly</span> <span class="hljs-keyword">struct</span> COLORREF<br>&#123;<br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">readonly</span> <span class="hljs-built_in">int</span> Value;<br><br>    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-title">COLORREF</span>(<span class="hljs-params">Color color</span>)</span><br>    &#123;<br>        Value = ColorTranslator.ToWin32(color);<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">implicit</span> <span class="hljs-keyword">operator</span> <span class="hljs-title">COLORREF</span>(<span class="hljs-params">Color c</span>)</span><br>    &#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span>(c);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>什么？为什么不用 ulong？因为 COLORREF (0x00BBGGRR) 不会超出 int.MaxValue</p>
+<h3 id="RECT"><a href="#RECT" class="headerlink" title="RECT"></a>RECT</h3><p>虽然文章开头提到了，但这里还是给出完整实现</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-keyword">typedef</span> <span class="hljs-keyword">struct</span> <span class="hljs-title class_">tagRECT</span><br>&#123;<br>    LONG    left;<br>    LONG    top;<br>    LONG    right;<br>    LONG    bottom;<br>&#125; RECT<br></code></pre></td></tr></table></figure>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs c#">[<span class="hljs-meta">StructLayout(LayoutKind.Sequential)</span>]<br><span class="hljs-keyword">public</span> <span class="hljs-keyword">struct</span> RECT<br>&#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> Left;<br>    <span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> Top;<br>    <span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> Right;<br>    <span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> Bottom;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">implicit</span> <span class="hljs-keyword">operator</span> <span class="hljs-title">Rectangle</span>(<span class="hljs-params">RECT r</span>)</span><br>    &#123;<br>        <span class="hljs-keyword">return</span> Rectangle.FromLTRB(r.Left, r.Top, r.Right, r.Bottom);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h3 id="HWND"><a href="#HWND" class="headerlink" title="HWND"></a>HWND</h3><p>这个类型也挺常用的，就是窗口句柄嘛，在 C# 里我们通常用 IntPtr 表示。</p>
+<p>这里就不多讲解了，直接上代码</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><code class="hljs c#"><span class="hljs-keyword">public</span> <span class="hljs-keyword">readonly</span> <span class="hljs-keyword">struct</span> HWND<br>&#123;<br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">readonly</span> IntPtr Value;<br><br>    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-title">HWND</span>(<span class="hljs-params">IntPtr <span class="hljs-keyword">value</span></span>)</span><br>    &#123;<br>        Value = <span class="hljs-keyword">value</span>;<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">implicit</span> <span class="hljs-keyword">operator</span> <span class="hljs-title">bool</span>(<span class="hljs-params">HWND hWnd</span>)</span><br>    &#123;<br>        <span class="hljs-keyword">return</span> hWnd.Value != IntPtr.Zero;<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">implicit</span> <span class="hljs-keyword">operator</span> <span class="hljs-title">HWND</span>(<span class="hljs-params">IntPtr ptr</span>)</span><br>    &#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span>(ptr);<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">explicit</span> <span class="hljs-keyword">operator</span> <span class="hljs-title">IntPtr</span>(<span class="hljs-params">HWND hWnd</span>)</span><br>    &#123;<br>        <span class="hljs-keyword">return</span> hWnd.Value;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="HDC"><a href="#HDC" class="headerlink" title="HDC"></a>HDC</h3><p>这个结构也对应 C# 中 IntPtr，和 HWND 除了名字以外一模一样</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><code class="hljs c#"><span class="hljs-keyword">public</span> <span class="hljs-keyword">readonly</span> <span class="hljs-keyword">struct</span> HDC<br>&#123;<br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">readonly</span> IntPtr Value;<br><br>    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-title">HDC</span>(<span class="hljs-params">IntPtr <span class="hljs-keyword">value</span></span>)</span><br>    &#123;<br>        Value = <span class="hljs-keyword">value</span>;<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">implicit</span> <span class="hljs-keyword">operator</span> <span class="hljs-title">bool</span>(<span class="hljs-params">HDC hDC</span>)</span><br>    &#123;<br>        <span class="hljs-keyword">return</span> hDC.Value != IntPtr.Zero;<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">implicit</span> <span class="hljs-keyword">operator</span> <span class="hljs-title">HDC</span>(<span class="hljs-params">IntPtr ptr</span>)</span><br>    &#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span>(ptr);<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">explicit</span> <span class="hljs-keyword">operator</span> <span class="hljs-title">IntPtr</span>(<span class="hljs-params">HDC hDC</span>)</span><br>    &#123;<br>        <span class="hljs-keyword">return</span> hDC.Value;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h2 id="疑难解答"><a href="#疑难解答" class="headerlink" title="疑难解答"></a>疑难解答</h2><ul>
+<li><strong>BOOL 在 Win32 被定义为 int，但在 C# 里你却用 BOOL 来封装 int，这河里？</strong><br>这恒河里。并且这个问题问的有点奇怪，因为是在不同的层面上提出的。要理解的话，那我们就假设根本就没有 BOOL 这个东西，只有 int。这样在 C# 里我们直接写 int 就行，没有问题吧？现在我用一个结构把 int 封装起来，也就是嵌套了 (本来传 int 就行，现在传的是被 BOOL 封装的 int)，看样子有问题，但实际上没问题。因为 CLR 在封送时会展开 (Flatten，平展，<a target="_blank" rel="noopener" href="https://learn.microsoft.com/zh-cn/dotnet/framework/interop/marshalling-classes-structures-and-unions">参考</a>) 所有字段到最基本的类型，也就是会扒了 BOOL 的皮，只拿出里面的 int。还是没理解？那你自己做个小实验，先定义一个 RECT，再定义一个 MyRect 结构，里面只放一个字段 <code>public RECT rc;</code>，再把 MyRect 作为某 WinAPI 函数的返回值或参数的类型，运行看看得到的 MyRect 里的 RECT 里有没有值，你就恍然大悟了。我帮你试过了，看看：</li>
+</ul>
+<p><img src="/../archive-imgs/41/8-nested-rect.png" srcset="/img/loading.gif" lazyload></p>
+<ul>
+<li><strong>你在定义了 BOOL 时使用了静态字段来表示 TRUE 和 FALSE，这些字段不会被 CLR 封送？</strong><br>不会，封送时只针对实例字段。</li>
+<li><strong>为什么有些结构体加了 LayoutKind.Sequential，有些没有？</strong><br>1. 如果你的 struct 只有一个字段，那肯定不需要的，因为一个字段不存在顺不顺序的问题<br>2. 在 C# struct 中，各实例字段<strong>默认</strong>本来就是按顺序排列的，理论上来说我们都可以不用加。但为了防止 CLR 某些优化导致顺序的可能发生改变，最好显式标注 LayoutKind.Sequential。这个特性告诉 CLR 该结构的所有实例字段必须按顺序排列，不要把它优化了。</li>
+<li><strong>为什么没有定义 LPCWSTR 等 Win32 常见字符串类型？</strong><br>因为双方 (string 和 LPCWSTR) 都不是 Blittable 类型 (<a target="_blank" rel="noopener" href="https://learn.microsoft.com/zh-cn/dotnet/framework/interop/blittable-and-non-blittable-types">参考</a>)，这意味这你得自行处理各种指针以及转换，还要注意生命周期的问题等，所以不建议人工定义。如果非得要用这个类型的话，可以让 CsWin32 生成，或者用传统的 <code>[MarshalAs(UnmanageType.LPWStr)]</code> 特性也足够了 (其实这个也可以不用加，当定义了 CharSet.Unicode 后，C# 默认当宽字符处理，除非是其他类型的字符串，比如 BSTR 就要加)。</li>
+</ul>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/Windows/" class="print-no-link">#Windows</a>
+      
+        <a href="/tags/CSharp/" class="print-no-link">#CSharp</a>
+      
+        <a href="/tags/Cpp/" class="print-no-link">#Cpp</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>在 C# 里引入 C++ 类型，增强 Interop 体验</div>
+      <div>https://wanghaonie.github.io/posts/27d8f4ba0ca2/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>WangHaonie</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2025-07-28 09:54:58</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>更新于</div>
+          <div>2025-07-28 17:25:22</div>
+        </div>
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="NC - 非商业性使用">
+                    <i class="iconfont icon-nc"></i>
+                  </span>
+                </a>
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="SA - 相同方式共享">
+                    <i class="iconfont icon-sa"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+    <div id="giscus" class="giscus"></div>
+    <script type="text/javascript">
+      Fluid.utils.loadComments('#giscus', function() {
+        var options = {"repo":"WangHaonie/wanghaonie.github.io","repo-id":"MDEwOlJlcG9zaXRvcnkzODM3MTI4NzU=","category":"General","category-id":"DIC_kwDOFt7-a84CtZ7y","theme-light":"light","theme-dark":"dark","mapping":"pathname","reactions-enabled":1,"emit-metadata":0,"input-position":"top","lang":"zh-CN"};
+        var attributes = {};
+        for (let option in options) {
+          if (!option.startsWith('theme-')) {
+            var key = option.startsWith('data-') ? option : 'data-' + option;
+            attributes[key] = options[option];
+          }
+        }
+        var light = 'light';
+        var dark = 'dark';
+        window.GiscusThemeLight = light;
+        window.GiscusThemeDark = dark;
+        attributes['data-theme'] = document.documentElement.getAttribute('data-user-color-scheme') === 'dark' ? dark : light;
+        for (let attribute in attributes) {
+          var value = attributes[attribute];
+          if (value === undefined || value === null || value === '') {
+            delete attributes[attribute];
+          }
+        }
+        var s = document.createElement('script');
+        s.setAttribute('src', 'https://giscus.app/client.js');
+        s.setAttribute('crossorigin', 'anonymous');
+        for (let attribute in attributes) {
+          s.setAttribute(attribute, attributes[attribute]);
+        }
+        var ss = document.getElementsByTagName('script');
+        var e = ss.length > 0 ? ss[ss.length - 1] : document.head || document.documentElement;
+        e.parentNode.insertBefore(s, e.nextSibling);
+      });
+    </script>
+    <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span> Hexo </span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span> Fluid </span></a><br> <div><a> <span id="site-runtime">正在加载网站运行时间，请稍候...</span> <script src="/js/runtime.js"></script> </a></div>
+    </div>
+  
+  
+  
+    <!-- 备案信息 ICP for China -->
+    <div class="beian">
+  <span>
+    <a rel="nofollow noopener">
+      Copyright © 2023-2025 WangHaonie
+    </a>
+  </span>
+  
+    
+      <span>
+        <a
+          href="https://icp.gov.moe/?keyword=20229939"
+          rel="nofollow noopener"
+          class="beian-police"
+          target="_blank"
+        >
+          
+            <span style="visibility: hidden; width: 0">|</span>
+            <img src="/img/icon_moeicp.png" srcset="/img/loading.gif" lazyload/>
+          
+          <span>萌ICP备20229939号</span>
+        </a>
+      </span>
+    
+  
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+
+
+
+  
+<script src="/js/customstyles.js"></script>
+<script src="/js/subsiteredirect.js"></script>
+<script src="/js/bgribbon.js"></script>
+<script src="/js/curfireworks.js"></script>
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

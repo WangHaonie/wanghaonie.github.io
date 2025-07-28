@@ -52,7 +52,7 @@
   <script id="fluid-configs">
     var Fluid = window.Fluid || {};
     Fluid.ctx = Object.assign({}, Fluid.ctx)
-    var CONFIG = {"hostname":"wanghaonie.github.io","root":"/","version":"1.9.6","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":true,"scope":"home"},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"left","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":6},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":{"measurement_id":"G-N644FC8JLJ"},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+    var CONFIG = {"hostname":"wanghaonie.github.io","root":"/","version":"1.9.6","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":true,"scope":"home"},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":false},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"left","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":6},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":{"measurement_id":"G-N644FC8JLJ"},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
 
     if (CONFIG.web_analytics.follow_dnt) {
       var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
@@ -286,13 +286,57 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h2 class="index-header">
         
-        <a href="/posts/a92b9edaa723/" target="_self">
+        <a href="/posts/27d8f4ba0ca2/" target="_blank">
+          在 C# 里引入 C++ 类型，增强 Interop 体验
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/posts/27d8f4ba0ca2/" target="_blank">
+        <div>
+          开门见山各位想过在 C# 里直接使用 HWND、BOOL、COLORREF、HRESULT、HDC 等这些常见的 Win32 类型吗？感兴趣的话就来看看吧。 起因为什么我会想到这种操作呢？这还得从下面两件事说起 万恶之源—RECT经常做 Interop 的朋友们一定都写过这个类型吧，它是用来表示对象位置的大小的结构体： 12345678[StructLayout(LayoutKind.Sequen
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2025-07-28 09:54" pubdate>
+              2025-07-28
+            </time>
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/Windows/">#Windows</a>
+            
+              <a href="/tags/CSharp/">#CSharp</a>
+            
+              <a href="/tags/Cpp/">#Cpp</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/posts/a92b9edaa723/" target="_blank">
           【COM API】心心念的 ITaskbarList3 使用方法
         </a>
       </h2>
 
       
-      <a class="index-excerpt index-excerpt__noimg" href="/posts/a92b9edaa723/" target="_self">
+      <a class="index-excerpt index-excerpt__noimg" href="/posts/a92b9edaa723/" target="_blank">
         <div>
           简介ITaskbarList3: 你可能不认识我，但你一定见过我的样子:  这就是 ITaskbarList 的功能之一，任务栏进度条。ITaskbarList3 是 ITaskbarList 的第三版，也就是在这个版本，微软加入了任务栏进度条的功能。 使用条件 系统：Windows 7 及以上 COM 运行环境：STA CLSID：CLSID_TaskbarList IID：IID_ITaskb
         </div>
@@ -330,13 +374,13 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h2 class="index-header">
         
-        <a href="/posts/921e4b4f8e14/" target="_self">
+        <a href="/posts/921e4b4f8e14/" target="_blank">
           【COM API】基础知识与使用方法
         </a>
       </h2>
 
       
-      <a class="index-excerpt index-excerpt__noimg" href="/posts/921e4b4f8e14/" target="_self">
+      <a class="index-excerpt index-excerpt__noimg" href="/posts/921e4b4f8e14/" target="_blank">
         <div>
           初识 COM API和 WinAPI 类似，COM API 也提供了一系列函数供应用程序调用来实现功能。两者都属于 Windows API 范畴，但在调用方式上有着很大的不同。    WinAPI COM API    调用 DLL 中导出的函数 通过接口指针调用虚函数   指定函数名就可以调用 指定 CLSID 和 IID 进行初始化   调用完不需要释放函数 调用完需手动释放以及销毁接口指针
         </div>
@@ -374,13 +418,13 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h2 class="index-header">
         
-        <a href="/posts/00d12b183e8c/" target="_self">
+        <a href="/posts/00d12b183e8c/" target="_blank">
           从零开始让你的 WinForms 应用程序也用上原生深色主题
         </a>
       </h2>
 
       
-      <a class="index-excerpt index-excerpt__noimg" href="/posts/00d12b183e8c/" target="_self">
+      <a class="index-excerpt index-excerpt__noimg" href="/posts/00d12b183e8c/" target="_blank">
         <div>
           文章较长，请耐心阅读~  前言如果你不喜欢 WinForms 仅仅是因为它不支持深色主题的话，那一定要看看这篇文章。要注意的是：  最新版 .NET 貌似已经支持深色模式，但本文只针对低版本 .NET； 推荐有一定 Win32&#x2F;C++ 编程经验的朋友们阅读，没有也没关系，我会尽量用通俗的语句来讲解，很简单的； 原生深色主题作用范围有限 (毕竟不是公开的)，不能达到 100% 覆盖，且仅支
         </div>
@@ -422,13 +466,13 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h2 class="index-header">
         
-        <a href="/posts/d1afa7a5de7f/" target="_self">
+        <a href="/posts/d1afa7a5de7f/" target="_blank">
           【C#】for 和 foreach 循环的选择
         </a>
       </h2>
 
       
-      <a class="index-excerpt index-excerpt__noimg" href="/posts/d1afa7a5de7f/" target="_self">
+      <a class="index-excerpt index-excerpt__noimg" href="/posts/d1afa7a5de7f/" target="_blank">
         <div>
           前言先简单看看一下 for 与 foreach 在遍历集合的区别，最根本的：for 更胜一筹  for -&gt; 基于索引器 -&gt; 调用本机代码 -&gt; 拿出数据。 foreach -&gt; 基于 Enumerator -&gt; GetEnumerator() -&gt; 进入 while 循环 -&gt; 索引器拿出数据 -&gt; MoveNext() (类似于 for 循环:
         </div>
@@ -462,13 +506,13 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h2 class="index-header">
         
-        <a href="/posts/3553aea0b24d/" target="_self">
+        <a href="/posts/3553aea0b24d/" target="_blank">
           【C#】List&lt;T&gt; 和 T[] 的选择
         </a>
       </h2>
 
       
-      <a class="index-excerpt index-excerpt__noimg" href="/posts/3553aea0b24d/" target="_self">
+      <a class="index-excerpt index-excerpt__noimg" href="/posts/3553aea0b24d/" target="_blank">
         <div>
           前言在开始之前，我相信大家都知道 List&lt;T&gt; 是动态数组，可增删元素，必要时自动扩容；而 T[] 是真正意义上的数组，元素个数在创建时就确定了。但尽管如此，我发现大家在开发过程中即使遇到数据数量固定的场景也更喜欢用 List&lt;T&gt; 而不是 T[]。本文就带讲一下这两种数组的区别，以及合理的使用。注意为了区分，后文将 List&lt;T&gt; 称为 列表，T[] 称为
         </div>
@@ -502,13 +546,13 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h2 class="index-header">
         
-        <a href="/posts/fa75e0e82b60/" target="_self">
+        <a href="/posts/fa75e0e82b60/" target="_blank">
           可定制性极高! 不用设计器，教你纯靠代码添加控件并完成布局
         </a>
       </h2>
 
       
-      <a class="index-excerpt index-excerpt__noimg" href="/posts/fa75e0e82b60/" target="_self">
+      <a class="index-excerpt index-excerpt__noimg" href="/posts/fa75e0e82b60/" target="_blank">
         <div>
           文章较长，请耐心阅读~  前言如果你不喜欢 WinForms 仅仅是因为控件的创建是从工具箱里拖出来的太幼稚了，没有声明式 UI (XAML) 那么爽，那一定要看看这篇文章。 几天前我在清理 PlainCEETimer 项目的时候，发现有一类代码我忍它很久了可是都无从下手，那就是设计器生成的代码。于是为了减轻代码量达到优化的目的，我就在想有没有方法可以在不依赖设计器的情况下完成控件的添加以及排版布
         </div>
@@ -548,13 +592,13 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h2 class="index-header">
         
-        <a href="/posts/f6c1db1c1b4a/" target="_self">
+        <a href="/posts/f6c1db1c1b4a/" target="_blank">
           关于 Administrator 账户的一个紧急发布
         </a>
       </h2>
 
       
-      <a class="index-excerpt index-excerpt__noimg" href="/posts/f6c1db1c1b4a/" target="_self">
+      <a class="index-excerpt index-excerpt__noimg" href="/posts/f6c1db1c1b4a/" target="_blank">
         <div>
           前言在之前的文章中，我们提到了如何切换为 Administrator 账户或者使当前账户具有管理员权限。但近期我发现网上似乎出现了一些抵制使用内置管理员为主账户的说法，所以到底是否可以将 Administrator 作为主账户，这期文章就来简单说明一下。 正文我从接触电脑开始，一直使用 Administrator 账户。因为当时还依赖盗版系统，默认就是 Administrator，后来自己学会安装
         </div>
@@ -588,13 +632,13 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h2 class="index-header">
         
-        <a href="/posts/07076c71374b/" target="_self">
+        <a href="/posts/07076c71374b/" target="_blank">
           【PlainCEETimer】两年了，分享一下开发感受
         </a>
       </h2>
 
       
-      <a class="index-excerpt index-excerpt__noimg" href="/posts/07076c71374b/" target="_self">
+      <a class="index-excerpt index-excerpt__noimg" href="/posts/07076c71374b/" target="_blank">
         <div>
           前言时间过得很快啊，距离 PlainCEETimer (原 CEETimerCSharpWinForms) 首发已经过去两年了。这篇文章主要分享一些感受，为什么两年了我还执着于 “高考倒计时” 这个几乎没有存在感的项目。 PlainCEETimer 作为我在 C# 领域的首作，说实话当时还没有什么编程概念。尽管我在那之前学过一点点 C#，但突然将学习过的知识投入使用也会让我有些措手不及，毕竟以前都
         </div>
@@ -630,13 +674,13 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h2 class="index-header">
         
-        <a href="/posts/17dc52648ff5/" target="_self">
+        <a href="/posts/17dc52648ff5/" target="_blank">
           通过编程方式获取 UAC 用户账户控制通知级别以及 UAC 的介绍
         </a>
       </h2>
 
       
-      <a class="index-excerpt index-excerpt__noimg" href="/posts/17dc52648ff5/" target="_self">
+      <a class="index-excerpt index-excerpt__noimg" href="/posts/17dc52648ff5/" target="_blank">
         <div>
           前言提到 UAC，想必大家都见到过这种弹窗吧？  下图是 UAC 的设置界面  UAC 设置是我们在程序开发中启动的外部进程能否正常提权 (获取管理员权限) 的关键。因此，我们有必要事先获取当前系统的 UAC 通知级别来决定是否启动外部进程或者是提示用户进行相关操作从而避免因提权失败导致的异常现象。这期就讲讲如何在 C# 中获取系统 UAC 通知级别，可以适用于 Windows 7 ~ 11 (其
         </div>
@@ -659,50 +703,6 @@
               <a href="/tags/Windows/">#Windows</a>
             
               <a href="/tags/CSharp/">#CSharp</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h2 class="index-header">
-        
-        <a href="/posts/818a54b277f2/" target="_self">
-          摆脱 TabControl，教你打造高颜值原生样式的垂直导航栏
-        </a>
-      </h2>
-
-      
-      <a class="index-excerpt index-excerpt__noimg" href="/posts/818a54b277f2/" target="_self">
-        <div>
-          前言总所周知，目前很多软件的设置页面都基本上采用的是垂直导航栏。而看向 WinForms，能起到多页面导航的控件似乎只有 TabControl，虽然它是水平导航，外观也还凑合，但在大部队面前仍然显得格格不入。 在此之前，我也想在 WinForms 里制作一个垂直导航栏，但觉得只有 WPF 才能办到，于是就放弃了这个念头。直到有一天，我偶然发现 System Informer (原 Process
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2025-05-04 16:44" pubdate>
-              2025-05-04
-            </time>
-          </div>
-        
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/Windows/">#Windows</a>
-            
-              <a href="/tags/CSharp/">#CSharp</a>
-            
-              <a href="/tags/WinForms/">#WinForms</a>
             
           </div>
         

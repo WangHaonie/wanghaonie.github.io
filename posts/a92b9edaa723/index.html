@@ -58,7 +58,7 @@
   <script id="fluid-configs">
     var Fluid = window.Fluid || {};
     Fluid.ctx = Object.assign({}, Fluid.ctx)
-    var CONFIG = {"hostname":"wanghaonie.github.io","root":"/","version":"1.9.6","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":true,"scope":"home"},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"left","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":6},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":{"measurement_id":"G-N644FC8JLJ"},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+    var CONFIG = {"hostname":"wanghaonie.github.io","root":"/","version":"1.9.6","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":true,"scope":"home"},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":false},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"left","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":6},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":{"measurement_id":"G-N644FC8JLJ"},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
 
     if (CONFIG.web_analytics.follow_dnt) {
       var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
@@ -277,7 +277,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          564 字
+          585 字
         
       </span>
     
@@ -407,8 +407,8 @@
 <p>如果把 ulong.MaxValue (<code>18,446,744,073,709,551,615</code>, 即 2^64 - 1) 看作单位为 B (byte) 的文件大小的话，约等于 <code>18,446,744</code> TB，对于一个文件来说相当于无穷大了，然鹅并不会有这么大的文件，所以我们也不用担心会溢出。</p>
 <h2 id="释放资源"><a href="#释放资源" class="headerlink" title="释放资源"></a>释放资源</h2><p>在窗体关闭时，我们可以调用此函数来释放所有 ITaskbarList 占用的资源</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">ReleaseTaskbarList</span><span class="hljs-params">()</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-keyword">if</span> (initialized)<br>    &#123;<br>        <span class="hljs-keyword">if</span> (pList) pList-&gt;<span class="hljs-built_in">Release</span>(); <span class="hljs-comment">// 调用 IUnknown 提供的释放函数</span><br>        pList = <span class="hljs-literal">nullptr</span>; <span class="hljs-comment">// 置空</span><br>        targetHwnd = <span class="hljs-literal">nullptr</span>; <span class="hljs-comment">// 置空</span><br>        initialized = FALSE; <span class="hljs-comment">// 重置标志</span><br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
-<h2 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h2><p>尽量保持单例，也就是尽量避免同时在多个窗体中进行初始化和使用。</p>
-<p>实际上也可以，那我们就不需要保存 targetHwnd，在每一次调用 SetTaskbarProgressState 或 SetTaskbarProgressValue 时直接加个参数传入 HWND 就行了，大家可以根据需求来决定。</p>
+<h2 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h2><p>上述代码实现仅保证单例运行，也就是不能同时在多个窗体中进行初始化和使用。</p>
+<p>如果各位有多实例需求的话，那就不需要保存 targetHwnd 了，只需要直接加个参数在每一次调用 SetTaskbarProgressState 或 SetTaskbarProgressValue 时传入 HWND 就行了，因为 TaskbarList 原生支持多实例，也不需要再初始化一个 ITaskbarList3。</p>
 <h2 id="链接"><a href="#链接" class="headerlink" title="链接"></a>链接</h2><ul>
 <li>【COM API】基础知识与使用方法<br><a href="https://wanghaonie.github.io/posts/921e4b4f8e14/">https://wanghaonie.github.io/posts/921e4b4f8e14/</a></li>
 <li>TaskbarProgress Source<br><a target="_blank" rel="noopener" href="https://github.com/WangHaonie/PlainCEETimer/tree/main/PlainCEETimer.Natives/TaskbarProgress">https://github.com/WangHaonie/PlainCEETimer/tree/main/PlainCEETimer.Natives/TaskbarProgress</a></li>
@@ -460,7 +460,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>更新于</div>
-          <div>2025-07-25 08:09:45</div>
+          <div>2025-07-27 18:39:40</div>
         </div>
       
       
@@ -498,23 +498,6 @@
 
 
 
-              
-                <div class="post-prevnext my-3">
-                  <article class="post-prev col-6">
-                    
-                    
-                  </article>
-                  <article class="post-next col-6">
-                    
-                    
-                      <a href="/posts/921e4b4f8e14/" title="【COM API】基础知识与使用方法">
-                        <span class="hidden-mobile">【COM API】基础知识与使用方法</span>
-                        <span class="visible-mobile">下一篇</span>
-                        <i class="iconfont icon-arrowright"></i>
-                      </a>
-                    
-                  </article>
-                </div>
               
             </div>
 
@@ -594,8 +577,6 @@
   
 
 
-
-  
 
 
 
@@ -778,8 +759,6 @@
   });
 </script>
 
-
-  <script>Fluid.plugins.imageCaption();</script>
 
 
 
