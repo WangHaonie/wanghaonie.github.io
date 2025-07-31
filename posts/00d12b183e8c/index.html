@@ -343,7 +343,7 @@
               <p class="note note-info">
                 
                   
-                    本文最后更新于：1 分钟前
+                    本文最后更新于：21 分钟前
                   
                 
               </p>
@@ -602,7 +602,7 @@
 <p>其实 DarkMode_CFD 也可以，但只对 UpDownEdit 生效，使用 DarkMode_Explorer 的话两者都可以被应用深色主题。</p>
 <p>看看效果：</p>
 <p><img src="/archive-imgs/38/21-dark-nud.png" srcset="/img/loading.gif" lazyload></p>
-<p>注意，Windows 11 之前的系统，UpDownButtons 没有深色主题是正常现象。</p>
+<p>注意，Windows 11 之前的系统，UpDownButtons 没有深色主题 (<code>DarkMode_Explorer::Spin</code>) 是正常现象。</p>
 <h3 id="ListView"><a href="#ListView" class="headerlink" title="ListView"></a>ListView</h3><p>ListView 就比较复杂了，因为它也是复合控件，标题栏就是一个控件 (SysHeader32)，列表就是 ListView 本身，我们还是按照老办法来看看 Controls 集合。</p>
 <p>先创建 MyListView，设置必要属性</p>
 <figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><code class="hljs c#"><span class="hljs-keyword">public</span> <span class="hljs-keyword">sealed</span> <span class="hljs-keyword">class</span> <span class="hljs-title">MyListView</span> : <span class="hljs-title">ListView</span><br>&#123;<br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">MyListView</span>()</span><br>    &#123;<br>        View = View.Details; <span class="hljs-comment">// 列表详细视图</span><br>        FullRowSelect = <span class="hljs-literal">true</span>; <span class="hljs-comment">// 整行选择</span><br>        HideSelection = <span class="hljs-literal">false</span>; <span class="hljs-comment">// 失去焦点不隐藏选中项</span><br>        ShowItemToolTips = <span class="hljs-literal">true</span>; <span class="hljs-comment">// 内容超出范围显示 ToolTip</span><br>        BorderStyle = BorderStyle.None; <span class="hljs-comment">// 不显示白色边框，这个看具体需求</span><br><br>        <span class="hljs-keyword">if</span> (ThemeManager.CanUseDarkTheme)<br>        &#123;<br>            ForeColor = ThemeManager.DarkFore;<br>            BackColor = ThemeManager.DarkBack;<br>        &#125;<br><br>        SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.OptimizedDoubleBuffer, <span class="hljs-literal">true</span>);<br>        <span class="hljs-comment">// 开启双缓冲，防止闪烁与卡顿</span><br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">override</span> <span class="hljs-keyword">void</span> <span class="hljs-title">OnHandleCreated</span>(<span class="hljs-params">EventArgs e</span>)</span><br>    &#123;<br>        <span class="hljs-keyword">var</span> b = Controls; <span class="hljs-comment">// &lt;- 打断点</span><br><br>        <span class="hljs-keyword">if</span> (ThemeManager.CanUseDarkTheme)<br>        &#123;<br>            ThemeManager.SetWindowTheme(Handle, <span class="hljs-string">&quot;DarkMode_ItemsView&quot;</span>, <span class="hljs-literal">null</span>);<br>        &#125;<br><br>        <span class="hljs-keyword">base</span>.OnHandleCreated(e);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
@@ -669,7 +669,7 @@
 <p>完辣！简直就是道高一尺魔高一丈，我们每想个新方法总能遇到把我们打回原形的情况。这俩小白条压根就没句柄，那我们也没必要指望什么 ListView_GetH&#x2F;VScrollBar 了，因为微软也没有提供相关的宏。</p>
 <p>但要知道，在标准 Win32 控件里，ScrollBar 是个独立的控件，拥有 HWND。那这是怎么回事呢？</p>
 <p>因为这两小白条是 ListView 的 “私生子”，是被 ListView 画出来的，压根就没有走创建控件的方式，自然就没有 HWND 了。</p>
-<p>那这要怎么办呢？这就涉及到更底层的原理了，如果我们将控件的绘制想象为贴图的渲染，那这些贴图总得有个来源吧。所以我们要修改内部贴图？不，这工作量太大了。我们可以劫持！用 IAT Hook。这个 Hook 的工作原理通俗来说就是在对方毫不知情的情况下进行偷梁换柱。当 ListView 访问滚动条的贴图时，我们给它来个重定向，让它去画有深色主题的滚动条。</p>
+<p>那这要怎么办呢？这就涉及到更底层的原理了，如果我们将控件的绘制<strong>想象</strong>为贴图的渲染，那这些贴图总得有个来源吧。所以我们要修改内部贴图？不，这工作量太大了。我们可以劫持！用 IAT Hook。这个 Hook 的工作原理通俗来说就是在对方毫不知情的情况下进行偷梁换柱。当 ListView 访问滚动条的贴图时，我们给它来个重定向，让它去画有深色主题的滚动条。</p>
 <p>可能对于新手朋友来说理解起来又有些吃力了，那我们再来仿生一下。</p>
 <figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs text">(ListView 来到贴图商店 ...)<br><br>ListView: 老板，给我来一份 ScrollBar 的贴图<br>(ListView 调用了一个未公开的 API)<br><br>UxTheme: 好的，给你 Explorer::ScrollBar<br>(这是正常情况，但现在我们通过 IAT Hook 黑了老板的号，于是就变成了...)<br><br>IAT_Hook: (小声) @Natives (我们的 DLL)，ListView 来买 ScrollBar 了，快把新老板给我，我帮你替换<br><br>Natives: 收到！@IAT_Hook<br>(我们让 IAT Hook 更换了商店的老板，这个老板只听我们的话，且让新老板站在旧老板的位置)<br><br>UxTheme (Hacked): 好的，给你 DarkMode_Explorer::ScrollBar<br></code></pre></td></tr></table></figure>
 
@@ -928,7 +928,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>更新于</div>
-          <div>2025-07-29 09:19:19</div>
+          <div>2025-07-31 11:55:10</div>
         </div>
       
       
