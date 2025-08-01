@@ -277,7 +277,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          983 字
+          1.6k 字
         
       </span>
     
@@ -288,7 +288,7 @@
         
         
         
-          9 分钟
+          14 分钟
         
       </span>
     
@@ -382,11 +382,8 @@
 
 <p><img src="/../archive-imgs/37/5-foreach-array-il.png" srcset="/img/loading.gif" lazyload></p>
 <p>怎么样，是不是感觉非常舒服。</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><h3 id="一般场景"><a href="#一般场景" class="headerlink" title="一般场景"></a>一般场景</h3><ul>
-<li><strong>for</strong>: 【<strong>首选</strong>】性能敏感场景、遍历大型集合 (包括数组)、需要索引的时候。<br><strong>注意</strong>：遍历非数组大型集合时，需要提前缓存元素数量。</li>
-<li><strong>foreach</strong>: 不需要索引、遍历数组、小集合的时候。</li>
-</ul>
-<h3 id="特殊场景"><a href="#特殊场景" class="headerlink" title="特殊场景"></a>特殊场景</h3><p>但是，尽管 for 的性能较高，也并非所有看似适合 for 的场景都适用。来看看我遇到的案例。</p>
+<h2 id="特殊场景"><a href="#特殊场景" class="headerlink" title="特殊场景"></a>特殊场景</h2><p>如果你需要在遍历集合时增删该集合的元素时，就要注意了。因为大多数情况下直接在遍历过程中删除、添加元素都会引发问题。</p>
+<p>这里就以我遇到的为例。</p>
 <p>在 WinForms 中，我们要删除 ListView.SelectedItems 即选中的所有项时 (假设项数 &gt; 1)，如果此时我们还用 for 循环且不经过特殊处理的话：</p>
 <figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs c#"><span class="hljs-keyword">var</span> items = ListViewMain.SelectedItems;<br><span class="hljs-keyword">var</span> length = items.Count;<br><br><span class="hljs-keyword">for</span> (<span class="hljs-built_in">int</span> i = <span class="hljs-number">0</span>; i &lt; length; i++)<br>&#123;<br>    Delete(items[i]);<br>&#125;<br></code></pre></td></tr></table></figure>
 
@@ -394,20 +391,40 @@
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs log">System.ArgumentOutOfRangeException: InvalidArgument=Value of &#x27;1&#x27; is not valid for &#x27;index&#x27;.<br>Parameter name: index<br>   at System.Windows.Forms.ListView.SelectedListViewItemCollection.get_Item(Int32 index)<br>   at ...<br></code></pre></td></tr></table></figure>
 
 <p>显示索引超出范围了，可按理来说不可能出现这种错误才对吧，这是怎么回事？</p>
-<p>通过调试，我们发现当从该集合移除元素时，除了元素自己被删除以外，其余元素的索引也会随之发生更改。什么意思呢？看看模拟：</p>
+<p>通过调试，我们发现当从集合移除元素时，因为元素自己被删除，导致其余元素的索引也会随之发生更改。什么意思呢？看看模拟：</p>
 <figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs text">(假设现有 A、B 两个元素，索引分别是 0，1)<br>0 -&gt; A;<br>1 -&gt; B;<br><br>(for 循环开始，此时 i = 0)<br>(A 被删除，导致集合只有 B，且索引也被重新分配了)<br>0 -&gt; B;<br><br>(下一轮循环，此时 i = 1)<br>(索引 1 不对应任何元素，抛异常)<br></code></pre></td></tr></table></figure>
 
 <p>所以，针对这种特殊情况，有 3 种解决方法：</p>
-<p><strong>1. 使用 foreach 循环</strong>:</p>
-<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs c#"><span class="hljs-keyword">foreach</span> (ListViewItem item <span class="hljs-keyword">in</span> ListViewMain.SelectedItems)<br>&#123;<br>    Delete(item)；<br>&#125;<br></code></pre></td></tr></table></figure>
-<p>当然如果你不希望 GetEnumerator、MoveNext 带来的开销，可以看看下一种方法：</p>
-<p><strong>2. 继续使用 for 循环</strong><br>常规的 for 循环肯定是不行的。仔细想想，上述场景中，就是因为 for 循环导致的 i 自增引发的异常，那我们阻止 i 自增不就行了吗？也就是始终让它删除索引为 0 的项，永远不可能报错。</p>
+<p><strong>1. 继续使用 for 循环</strong><br>常规的 for 循环肯定是不行的。仔细想想，上述场景中，就是因为 for 循环中 i 自增引发的异常，那我们阻止 i 自增不就行了吗？也就是始终让它删除索引为 0 的项，永远不可能报错。</p>
 <figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs c#"><span class="hljs-keyword">var</span> items = ListViewMain.SelectedItems;<br><span class="hljs-keyword">var</span> length = items.Count;<br><br><span class="hljs-keyword">for</span> (<span class="hljs-built_in">int</span> i = <span class="hljs-number">0</span>; i &lt; length;)<br>&#123;<br>    Delete(items[i]);<br>&#125;<br></code></pre></td></tr></table></figure>
-<p>我们直接删除 i++ 就行。但与其这样，倒不如：</p>
-<p><strong>3. 使用 while 循环</strong></p>
+
+<p>我们直接删除 <code>i++</code> 就行。但，这样的 for 循环就没有灵魂了，因为 i 是定值。那我们非得要用 for 循环且还要注入灵魂，并保证不抛异常，应该怎么办？</p>
+<p>没错，倒序！</p>
+<p>仔细想想我们那个场景，i 从 0 自增带来的效果是什么？是不是相当于从集合的开头到结尾依次删除元素？那你有没有想过，如果从集合末尾开始删除元素的话，这样一来，元素也能删除，索引也不会改变。</p>
+<p>于是，<code>i--</code> 来了。怎么自减？从 0 开始？还是 length 开始？还是 length + 1 或 length - 1 开始？i 的初始值对于第一次用倒序 for 循环的朋友们来说也是一个值得深思的问题。</p>
+<p>那我们来思考一下这个问题：</p>
+<p>假设现有某集合内有 1 个元素，我们要遍历，是不是当 i &#x3D; 0 让它自己跑一次就完成了？那 0 是不是 &#x3D; 1 - 1，即 length - 1？没反应过来？那继续</p>
+<p>假设现有某集合内有 2 个元素，我们要遍历，是不是让 i &#x3D; 1 和 i &#x3D; 0 分别去跑一次，就完成了？那 1 是不是 &#x3D; 2 - 1，即 length - 1？</p>
+<p>所以 i 的初始值就是 length - 1。同时保证 i 自减最多只能到 0，所以条件是 i &gt;&#x3D; 0，这个就很好理解了。</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs c#"><span class="hljs-keyword">var</span> items = ListViewMain.SelectedItems;<br><br><span class="hljs-keyword">for</span> (<span class="hljs-built_in">int</span> i = items.Count - <span class="hljs-number">1</span>; i &gt;= <span class="hljs-number">0</span>; i--)<br>&#123;<br>    Delete(items[i]);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p><strong>2. 使用 while 循环</strong><br>其实 while 循环也可以，它在这里相当于上述第一种 for 循环，即始终传 0 给索引器，且集合中有元素再进行删除</p>
 <figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs c#"><span class="hljs-keyword">var</span> items = ListViewMain.SelectedItems;<br><br><span class="hljs-keyword">while</span> (items.Count &gt; <span class="hljs-number">0</span>)<br>&#123;<br>    Delete(items[<span class="hljs-number">0</span>]);<br>&#125;<br></code></pre></td></tr></table></figure>
 
-<p>这样就优雅很多了。</p>
+<p><strong>3. 使用 foreach 循环</strong>:</p>
+<p>没想到吧，foreach 也可以。</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs c#"><span class="hljs-keyword">foreach</span> (ListViewItem item <span class="hljs-keyword">in</span> ListViewMain.SelectedItems)<br>&#123;<br>    Delete(item)；<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>但是我们之前分析过，foreach 是一种原理类似 for 循环 (给定值，保条件，自增减) 但是性能不如 for 循环的循环。</p>
+<p>也就是说要是去遍历 List&lt;T&gt; 等集合的同时增删集合元素的话，foreach 绝对是不可行的。</p>
+<p>但为什么这里可以，因为这里是 <del>百年难得一遇的</del> 特殊情况。</p>
+<p>通过查阅源代码，我们发现 WinForms 的 ListView.SelectedItems 的类型 ListView.SelectedListViewItemCollection 在 GetEnumerator 时，返回的是 ListViewItem[] (数组) 的 GetEnumerator，也就是它巧妙的运用数组元素数量不可变的特性，遍历时用该数组，然后在循环体中增删自己的 Item，虽然同样会发生 Item 索引更改的情况，但这也不会导致正在遍历的那个数组的元素索引的改变。</p>
+<p>简而言之，这是一种 “先遍历快照，再借用快照拿到 Item 删除原集合元素” 的一种很微妙的实现，故称为 “特殊情况”。其他类型的集合大家可以试试是否也采用了类似的原理。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ul>
+<li><strong>for</strong>: 【<strong>首选</strong>】性能敏感场景、遍历大型集合 (包括数组)、需要索引的时候。<br><strong>注意</strong>：遍历非数组大型集合时，需要提前缓存元素数量。</li>
+<li><strong>foreach</strong>: 不需要索引、遍历数组、小集合的时候。</li>
+<li><strong>特殊场景</strong>：当需要在遍历集合时增删该集合的元素，注意根据实际情况选择<strong>倒序 for 循环</strong>、<strong>while 循环</strong>，以及部分集合类型<strong>允许的 foreach 循环</strong></li>
+</ul>
 <h2 id="链接"><a href="#链接" class="headerlink" title="链接"></a>链接</h2><ul>
 <li>JacksonDunstan.com | Should You Cache Array.Length and List.Count?<br><a target="_blank" rel="noopener" href="https://www.jacksondunstan.com/articles/3577">https://www.jacksondunstan.com/articles/3577</a></li>
 </ul>
@@ -454,7 +471,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>更新于</div>
-          <div>2025-07-31 23:44:34</div>
+          <div>2025-08-01 09:45:55</div>
         </div>
       
       
