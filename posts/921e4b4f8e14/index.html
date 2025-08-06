@@ -20,7 +20,7 @@
   
   
   
-  <title>【COM API】基础知识与使用方法 | WangHaonie 的博客</title>
+  <title>【COM API】(0) 基础知识与使用方法 | WangHaonie 的博客</title>
   <link rel="stylesheet" href="/css/frosted.css">
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -254,7 +254,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle">【COM API】基础知识与使用方法</span>
+            <span id="subtitle">【COM API】(0) 基础知识与使用方法</span>
           
         </div>
 
@@ -277,7 +277,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          1.1k 字
+          1.3k 字
         
       </span>
     
@@ -288,7 +288,7 @@
         
         
         
-          9 分钟
+          11 分钟
         
       </span>
     
@@ -338,12 +338,12 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">【COM API】基础知识与使用方法</h1>
+            <h1 id="seo-header">【COM API】(0) 基础知识与使用方法</h1>
             
               <p class="note note-info">
                 
                   
-                    本文最后更新于：12 天前
+                    本文最后更新于：2 分钟前
                   
                 
               </p>
@@ -410,7 +410,12 @@
 <h2 id="初始化-COM-API-接口指针"><a href="#初始化-COM-API-接口指针" class="headerlink" title="初始化 COM API 接口指针"></a>初始化 COM API 接口指针</h2><p>如果我们已经初始化了 COM 运行时并获取到了 COM 接口实体，以及它的 CLSID、IID (接口 ID)，接下来就可以进行初始化，成功后便可以调用其中的虚函数了。</p>
 <p>我们通常使用接口指针来表示要初始化的 COM 对象，因为 COM 本身就是一堆虚函数，我们只有通过指针来调用它们。</p>
 <p>接着调用 CoCreateInstance，传入 CLSID、IID、指向接口指针的指针，并使用 SUCCEEDED 宏判断是否成功：</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-type">static</span> IExample* pExample = <span class="hljs-literal">nullptr</span>;<br><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">InitializeExample</span><span class="hljs-params">()</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-comment">// 我们可以根据具体需求在此处初始化 COM 运行时</span><br>    <span class="hljs-comment">// CoInitializeEx(nullptr, COINIT_APARTMENTTHREADED);</span><br><br>    <span class="hljs-keyword">if</span> (<span class="hljs-built_in">SUCCEEDED</span>(<span class="hljs-built_in">CoCreateInstance</span>(CLSID_Example, <span class="hljs-literal">nullptr</span>, CLSCTX_ALL, IID_IExample, (LPVOID*)&amp;pExample)))<br>    &#123;<br>        pExample-&gt;<span class="hljs-built_in">Init</span>(); <span class="hljs-comment">// 一般来说，COM API 自己还有一个具有初始化作用的函数，通常也在此处完成调用</span><br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-type">static</span> IExample* pExample = <span class="hljs-literal">nullptr</span>;<br><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">InitializeExample</span><span class="hljs-params">()</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-comment">// 我们可以根据具体需求在此处初始化 COM 运行时</span><br>    <span class="hljs-comment">// CoInitializeEx(nullptr, COINIT_APARTMENTTHREADED);</span><br><br>    <span class="hljs-keyword">if</span> (<span class="hljs-built_in">SUCCEEDED</span>(<span class="hljs-built_in">CoCreateInstance</span>(CLSID_Example, <span class="hljs-literal">nullptr</span>, CLSCTX_INPROC_SERVER, IID_IExample, (LPVOID*)&amp;pExample))) <span class="hljs-comment">// LPVOID* 就是 void**</span><br>    &#123;<br>        pExample-&gt;<span class="hljs-built_in">Init</span>(); <span class="hljs-comment">// 一般来说，COM 接口自己还有一个具有初始化作用的函数，通常也在此处完成调用</span><br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>当然在这里，微软更建议使用 <code>IID_PPV_ARGS</code> 宏来转换那个指向接口指针的指针，作用除了保证类型安全 (确保都派生自 IUnknown) 以外，也确保了传入正确的 IID。实际上我们上面的方法也可以，毕竟我们一般不会传错 IID 或指针类型。</p>
+<p>这里还是给大家看看它的用法，不过在后续的文章中，我们可能依旧采用传统方式来进行转换。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-built_in">CoCreateInstance</span>(CLSID_Example, <span class="hljs-literal">nullptr</span>, CLSCTX_INPROC_SERVER, <span class="hljs-built_in">IID_PPV_ARGS</span>(&amp;pExample))<br></code></pre></td></tr></table></figure>
+
+<p class="note note-info"><strong>你猜为什么 IID_PPV_ARGS 要叫 IID_PPV_ARGS</strong><br>因为该宏会一次性填入两个参数 (ARGS)，分别为 IID 和 PPV，即 <code>IID_*</code> 和 <code>void**</code>。就是字面意思 "IID 和 PPV 参数"。因此我们在填入 CoCreateInstance 时，不需要指定 IID，这个宏会帮我们获取并填入。</p>
 
 <h2 id="调用-COM-API"><a href="#调用-COM-API" class="headerlink" title="调用 COM API"></a>调用 COM API</h2><p>当运行时和接口指针都初始化成功后，我们就可以调用我们想要的函数了</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">SayHello</span><span class="hljs-params">()</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-keyword">if</span> (pExample) <span class="hljs-comment">// 确保指针有效</span><br>    &#123;<br>        pExample-&gt;<span class="hljs-built_in">Hello</span>();<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
@@ -418,13 +423,13 @@
 <h2 id="释放-COM-API-接口指针"><a href="#释放-COM-API-接口指针" class="headerlink" title="释放 COM API 接口指针"></a>释放 COM API 接口指针</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">ReleaseExample</span><span class="hljs-params">()</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-keyword">if</span> (pExample) <span class="hljs-comment">// 确保指针有效</span><br>    &#123;<br>        pExample-&gt;<span class="hljs-built_in">Release</span>(); <span class="hljs-comment">// 调用接口提供的 Release</span><br>        pExample = <span class="hljs-literal">nullptr</span>; <span class="hljs-comment">// 置空</span><br>    &#125;<br><br>    <span class="hljs-comment">// 我们可以根据具体需求在此处取消初始化 COM 运行时</span><br>    <span class="hljs-comment">// CoUninitialize();</span><br>&#125;<br></code></pre></td></tr></table></figure>
 
 <h2 id="封装为-WinAPI"><a href="#封装为-WinAPI" class="headerlink" title="封装为 WinAPI"></a>封装为 WinAPI</h2><p>很简单，将我们上面提到的函数导出就行，注意保持调用约定一致 (StdCall)。</p>
-<p>为了方便导出，我们可以添加一个宏定义：</p>
+<p>为了方便导出，我们可以添加一个宏定义在 pch.h 里：</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-meta">#<span class="hljs-keyword">define</span> cexport(type) extern <span class="hljs-string">&quot;C&quot;</span> __declspec(dllexport) type WINAPI</span><br></code></pre></td></tr></table></figure>
 
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-built_in">cexport</span>(<span class="hljs-type">void</span>) <span class="hljs-built_in">InitializeExample</span>();<br><span class="hljs-built_in">cexport</span>(<span class="hljs-type">void</span>) <span class="hljs-built_in">SayHello</span>();<br><span class="hljs-built_in">cexport</span>(<span class="hljs-type">void</span>) <span class="hljs-built_in">ReleaseExample</span>();<br></code></pre></td></tr></table></figure>
 
 <h2 id="可能的疑惑"><a href="#可能的疑惑" class="headerlink" title="可能的疑惑"></a>可能的疑惑</h2><ul>
-<li><strong>为什么导出后，函数类型是 void 而不是 HRESULT？</strong><br>这个我只能说是个人习惯吧，如果你想在调用端获取执行状态的话，可以导出为 HRESULT 返回类型。但是要知道这些 COM API 同 WinAPI 一样，只要我们符合规范没写错的话，出错率是很小的，很多情况出现异常通常都是我们自己的问题，肯定是哪里漏写之类的，不太可能是系统的问题。就算真不是我们的问题，那到时候再来调试也行，故返回值就没太大必要了。</li>
+<li><strong>为什么导出后，函数类型是 void 而不是 HRESULT？</strong><br>这个我只能说是个人习惯吧，如果你想在调用端获取执行状态的话，可以导出为 HRESULT 返回类型。但是要知道这些 COM API 同 WinAPI 一样，只要我们符合规范 (按照官方文档，进行基本的空检查) 没写错的话，出错率是超级小的，很多情况出现异常通常都是我们自己的问题，肯定是哪里漏写之类的，不太可能是系统的问题。就算真不是我们的问题，那到时候再来调试也行，故返回值就没太大必要了。</li>
 </ul>
 
                 
@@ -454,7 +459,7 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>【COM API】基础知识与使用方法</div>
+      <div>【COM API】(0) 基础知识与使用方法</div>
       <div>https://wanghaonie.github.io/posts/921e4b4f8e14/</div>
     </div>
     <div class="license-meta">
@@ -473,7 +478,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>更新于</div>
-          <div>2025-07-24 23:34:29</div>
+          <div>2025-08-06 10:10:33</div>
         </div>
       
       

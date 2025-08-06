@@ -20,7 +20,7 @@
   
   
   
-  <title>【COM API】心心念的 ITaskbarList3 使用方法 | WangHaonie 的博客</title>
+  <title>【COM API】(1) 心心念的 ITaskbarList3 使用方法 | WangHaonie 的博客</title>
   <link rel="stylesheet" href="/css/frosted.css">
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -254,7 +254,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle">【COM API】心心念的 ITaskbarList3 使用方法</span>
+            <span id="subtitle">【COM API】(1) 心心念的 ITaskbarList3 使用方法</span>
           
         </div>
 
@@ -338,12 +338,12 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">【COM API】心心念的 ITaskbarList3 使用方法</h1>
+            <h1 id="seo-header">【COM API】(1) 心心念的 ITaskbarList3 使用方法</h1>
             
               <p class="note note-info">
                 
                   
-                    本文最后更新于：10 天前
+                    本文最后更新于：3 分钟前
                   
                 
               </p>
@@ -361,12 +361,12 @@
 <li>IID：IID_ITaskbarList3</li>
 </ul>
 <h2 id="创建头文件"><a href="#创建头文件" class="headerlink" title="创建头文件"></a>创建头文件</h2><p>声明引用和导出函数。命名为 TaskbarProgress.h</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-meta">#<span class="hljs-keyword">pragma</span> once</span><br><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;ShObjIdl.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;Windows.h&gt;</span></span><br><br><span class="hljs-built_in">cexport</span>(<span class="hljs-type">void</span>) <span class="hljs-built_in">InitializeTaskbarList</span>(HWND hWnd);<br><span class="hljs-built_in">cexport</span>(<span class="hljs-type">void</span>) <span class="hljs-built_in">SetTaskbarProgressState</span>(TBPFLAG tbpFlags);<br><span class="hljs-built_in">cexport</span>(<span class="hljs-type">void</span>) <span class="hljs-built_in">SetTaskbarProgressValue</span>(ULONGLONG ullCompleted, ULONGLONG ullTotal);<br><span class="hljs-built_in">cexport</span>(<span class="hljs-type">void</span>) <span class="hljs-built_in">ReleaseTaskbarList</span>();<br></code></pre></td></tr></table></figure>
-<h2 id="创建源文件"><a href="#创建源文件" class="headerlink" title="创建源文件"></a>创建源文件</h2><p>声明我们的接口指针以及必要的字段。命名为 TaskbarProgress.cpp</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&quot;pch.h&quot;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&quot;TaskbarProgress.h&quot;</span></span><br><br><span class="hljs-type">static</span> ITaskbarList3* pList = <span class="hljs-literal">nullptr</span>;<br><span class="hljs-type">static</span> HWND targetHwnd = <span class="hljs-literal">nullptr</span>;<br><span class="hljs-type">static</span> BOOL initialized = FALSE;<br></code></pre></td></tr></table></figure>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-meta">#<span class="hljs-keyword">pragma</span> once</span><br><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;Windows.h&gt;</span></span><br><br><span class="hljs-built_in">cexport</span>(<span class="hljs-type">void</span>) <span class="hljs-built_in">InitializeTaskbarList</span>(HWND hWnd);<br><span class="hljs-built_in">cexport</span>(<span class="hljs-type">void</span>) <span class="hljs-built_in">SetTaskbarProgressState</span>(TBPFLAG tbpFlags);<br><span class="hljs-built_in">cexport</span>(<span class="hljs-type">void</span>) <span class="hljs-built_in">SetTaskbarProgressValue</span>(ULONGLONG ullCompleted, ULONGLONG ullTotal);<br><span class="hljs-built_in">cexport</span>(<span class="hljs-type">void</span>) <span class="hljs-built_in">ReleaseTaskbarList</span>();<br></code></pre></td></tr></table></figure>
+<h2 id="创建源文件"><a href="#创建源文件" class="headerlink" title="创建源文件"></a>创建源文件</h2><p>命名为 TaskbarProgress.cpp，声明我们的接口指针以及必要的字段。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&quot;pch.h&quot;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&quot;TaskbarProgress.h&quot;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;ShObjIdl.h&gt;</span></span><br><br><span class="hljs-type">static</span> ITaskbarList3* pList = <span class="hljs-literal">nullptr</span>;<br><span class="hljs-type">static</span> HWND targetHwnd = <span class="hljs-literal">nullptr</span>;<br><span class="hljs-type">static</span> BOOL initialized = FALSE;<br></code></pre></td></tr></table></figure>
 
 <h2 id="初始化-COM-和-接口指针"><a href="#初始化-COM-和-接口指针" class="headerlink" title="初始化 COM 和 接口指针"></a>初始化 COM 和 接口指针</h2><p>由于我们这里导出给 WinForms 应用程序的 UI 线程中调用，该线程本身处于 STA，所以就不用初始化 COM 运行时了。</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">InitializeTaskbarList</span><span class="hljs-params">(HWND hWnd)</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-keyword">if</span> (!initialized &amp;&amp; hWnd &amp;&amp; <span class="hljs-comment">// 确保是在没有初始化过且传入的 HWND 有效的情况下才进行</span><br>        <span class="hljs-built_in">SUCCEEDED</span>(<span class="hljs-built_in">CoCreateInstance</span>(CLSID_TaskbarList, <span class="hljs-literal">nullptr</span>, CLSCTX_ALL, IID_ITaskbarList3, (LPVOID*)&amp;pList)))<br>    &#123;<br>        targetHwnd = hWnd; <span class="hljs-comment">// 保存目标窗口的 HWND</span><br>        pList-&gt;<span class="hljs-built_in">HrInit</span>(); <span class="hljs-comment">// 调用 TaskbarList 提供的初始化</span><br>        initialized = TRUE; <span class="hljs-comment">// 设置标志</span><br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">InitializeTaskbarList</span><span class="hljs-params">(HWND hWnd)</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-keyword">if</span> (!initialized &amp;&amp; hWnd &amp;&amp; <span class="hljs-comment">// 确保是在没有初始化过且传入的 HWND 有效的情况下才进行</span><br>        <span class="hljs-built_in">SUCCEEDED</span>(<span class="hljs-built_in">CoCreateInstance</span>(CLSID_TaskbarList, <span class="hljs-literal">nullptr</span>, CLSCTX_INPROC_SERVER, IID_ITaskbarList3, (LPVOID*)&amp;pList)))<br>    &#123;<br>        targetHwnd = hWnd; <span class="hljs-comment">// 保存目标窗口的 HWND</span><br>        pList-&gt;<span class="hljs-built_in">HrInit</span>(); <span class="hljs-comment">// 调用 TaskbarList 提供的初始化</span><br>        initialized = TRUE; <span class="hljs-comment">// 设置标志</span><br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
 
 <h2 id="设置进度状态"><a href="#设置进度状态" class="headerlink" title="设置进度状态"></a>设置进度状态</h2><p>设置进度条的状态。</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">SetTaskbarProgressState</span><span class="hljs-params">(TBPFLAG tbpFlags)</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-keyword">if</span> (initialized)<br>    &#123;<br>        pList-&gt;<span class="hljs-built_in">SetProgressState</span>(targetHwnd, tbpFlags);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
@@ -406,7 +406,7 @@
 <p>这样的设计有个好处就是，比如我们想显示下载文件时的进度，此时就可以直接分别传入 已下载大小 和 总大小，由 ITaskbarList 帮我们计算百分比并反映在 UI 上。</p>
 <p>如果把 ulong.MaxValue (<code>18,446,744,073,709,551,615</code>, 即 2^64 - 1) 看作单位为 B (byte) 的文件大小的话，约等于 <code>18,446,744</code> TB，对于一个文件来说相当于无穷大了，然鹅并不会有这么大的文件，所以我们也不用担心会溢出。</p>
 <h2 id="释放资源"><a href="#释放资源" class="headerlink" title="释放资源"></a>释放资源</h2><p>在窗体关闭时，我们可以调用此函数来释放所有 ITaskbarList 占用的资源</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">ReleaseTaskbarList</span><span class="hljs-params">()</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-keyword">if</span> (initialized)<br>    &#123;<br>        <span class="hljs-keyword">if</span> (pList) pList-&gt;<span class="hljs-built_in">Release</span>(); <span class="hljs-comment">// 调用 IUnknown 提供的释放函数</span><br>        pList = <span class="hljs-literal">nullptr</span>; <span class="hljs-comment">// 置空</span><br>        targetHwnd = <span class="hljs-literal">nullptr</span>; <span class="hljs-comment">// 置空</span><br>        initialized = FALSE; <span class="hljs-comment">// 重置标志</span><br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">ReleaseTaskbarList</span><span class="hljs-params">()</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-keyword">if</span> (pList) pList-&gt;<span class="hljs-built_in">Release</span>(); <span class="hljs-comment">// 调用 IUnknown 提供的释放函数</span><br>    pList = <span class="hljs-literal">nullptr</span>; <span class="hljs-comment">// 置空</span><br>    targetHwnd = <span class="hljs-literal">nullptr</span>; <span class="hljs-comment">// 置空</span><br>    initialized = FALSE; <span class="hljs-comment">// 重置标志</span><br>&#125;<br></code></pre></td></tr></table></figure>
 <h2 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h2><p>上述代码实现仅保证单例运行，也就是不能同时在多个窗体中进行初始化和使用。</p>
 <p>如果各位有多实例需求的话，那就不需要保存 targetHwnd 了，只需要直接加个参数在每一次调用 SetTaskbarProgressState 或 SetTaskbarProgressValue 时传入 HWND 就行了，因为 TaskbarList 原生支持多实例，也不需要再初始化一个 ITaskbarList3。</p>
 <h2 id="链接"><a href="#链接" class="headerlink" title="链接"></a>链接</h2><ul>
@@ -441,7 +441,7 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>【COM API】心心念的 ITaskbarList3 使用方法</div>
+      <div>【COM API】(1) 心心念的 ITaskbarList3 使用方法</div>
       <div>https://wanghaonie.github.io/posts/a92b9edaa723/</div>
     </div>
     <div class="license-meta">
@@ -460,7 +460,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>更新于</div>
-          <div>2025-07-27 18:39:40</div>
+          <div>2025-08-06 10:10:05</div>
         </div>
       
       
