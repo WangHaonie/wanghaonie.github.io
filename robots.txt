@@ -1,0 +1,2 @@
+User-agent: *
+Sitemap: https://wanghaonie.github.io/sitemap.xml
