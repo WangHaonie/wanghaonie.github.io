@@ -1,0 +1,882 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=dark>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="WangHaonie">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="前言在之前的文章中，我们学会了如何通过 HookProc 使 Font&amp;#x2F;ColorDialog 具有深色主题。可是其中 FontDialog 的效果非常令人不爽，如果按照常规思路处理自绘来强行应用深色主题的话肯定是行不通的，几乎无解。 然而今天我们就可以来解决这个问题，虽然效果并非 100%，但好歹有个 90%，总之比先前更好。 剖析 FontDialog首先我们得知道在 Win32&amp;#">
+  
+  
+  
+  <title>自定义 Font/ColorDialog 等常用对话框样式 | WangHaonie 的博客</title>
+  <link rel="stylesheet" href="/css/frosted.css">
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"wanghaonie.github.io","root":"/","version":"1.9.6","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":true,"scope":"home"},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":false},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"left","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":6},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":{"measurement_id":"G-N644FC8JLJ"},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+    <!-- Google tag (gtag.js) -->
+    <script async>
+      if (!Fluid.ctx.dnt) {
+        Fluid.utils.createScript("https://www.googletagmanager.com/gtag/js?id=G-N644FC8JLJ", function() {
+          window.dataLayer = window.dataLayer || [];
+          function gtag() {
+            dataLayer.push(arguments);
+          }
+          gtag('js', new Date());
+          gtag('config', 'G-N644FC8JLJ');
+        });
+      }
+    </script>
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>WangHaonie 的博客</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span id="wanghaonie-nav" candidate-icon="🧿🔔📅🚩🧡">🎉更多</span>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                
+                <span>🏠主页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                
+                <span>😁关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                
+                <span>🏷️标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                
+                <span>📖文章</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" target="_self" href="javascript:;" role="button"
+                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                
+                <span>🌏分站</span>
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" onclick="redir2gh()" href="#" target="_self">
+                    
+                    <span>🌎主站：GitHub Pages</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" onclick="redir2lan()" href="#" target="_self">
+                    
+                    <span>🌎主站：本地局域网</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" onclick="redir2v()" href="#" target="_self">
+                    
+                    <span>🌎分站：Vercel</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" onclick="redir2n()" href="#" target="_self">
+                    
+                    <span>🌎分站：Netlify</span>
+                  </a>
+                
+              </div>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/reward" target="_self">
+                
+                <span>💰打赏</span>
+              </a>
+            </li>
+          
+        <!--
+        -->
+        <!--
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        -->
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" false
+     style="background: url('/null') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle">自定义 Font/ColorDialog 等常用对话框样式</span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2025-08-28 19:34" pubdate>
+          2025-08-28 19:34:25
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          3.5k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          29 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="padding-left: 2rem; margin-right: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">自定义 Font/ColorDialog 等常用对话框样式</h1>
+            
+              <p class="note note-info">
+                
+                  
+                    本文最后更新于：1 分钟前
+                  
+                
+              </p>
+            
+            
+              <div class="markdown-body">
+                
+                <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>在<a href="https://wanghaonie.github.io/posts/00d12b183e8c/">之前</a>的文章中，我们学会了如何通过 HookProc 使 Font&#x2F;ColorDialog 具有深色主题。可是其中 FontDialog 的效果非常令人不爽，如果按照常规思路处理自绘来强行应用深色主题的话肯定是行不通的，几乎无解。</p>
+<p>然而今天我们就可以来解决这个问题，虽然效果并非 100%，但好歹有个 90%，总之比先前更好。</p>
+<h2 id="剖析-FontDialog"><a href="#剖析-FontDialog" class="headerlink" title="剖析 FontDialog"></a>剖析 FontDialog</h2><p>首先我们得知道在 Win32&#x2F;WinForms 中，弹出 Font&#x2F;ColorDialog 的最最核心的代码是什么。</p>
+<p>这里以 WinForms 的 FontDialog 为例，其他采用相同原理的对话框可以以此类推。</p>
+<p>想想我们是怎么弹出 FontDialog 的？是不是：</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c#"><span class="hljs-keyword">new</span> FontDialog().ShowDialog();<br></code></pre></td></tr></table></figure>
+
+<p>这是最简洁的方法，于是我们可以看看 ShowDialog() 的实现。</p>
+<p>我们将鼠标悬停在 ShowDialog() 方法上：</p>
+<p><img src="/archive-imgs/42/1-vs-tooltip-showdialog.png" srcset="/img/loading.gif" lazyload></p>
+<p>得知这个方法位于 CommonDialog 类中而不是 FontDialog。</p>
+<p>打开 <a target="_blank" rel="noopener" href="https://github.com/dotnet/winforms/blob/3774d9fe0b61fcfc9e2c20441b7ff117f6050a1e/src/System.Windows.Forms/System/Windows/Forms/Dialogs/CommonDialogs/CommonDialog.cs#L163">GitHub 仓库</a> 相关页面，发现这个方法调用了 ShowDialog(null)；</p>
+<p class="note note-info"><strong>为什么不直接在 Visual Studio 里查看定义或者使用反编译工具来获取源码？</strong><br>因为 C# 编译后再反编译出来会与编译前的代码有些许差别，所以打开官方仓库查看源代码更有意义。</p>
+
+<p>我们来分析一下这个方法的<a target="_blank" rel="noopener" href="https://github.com/dotnet/winforms/blob/3774d9fe0b61fcfc9e2c20441b7ff117f6050a1e/src/System.Windows.Forms/System/Windows/Forms/Dialogs/CommonDialogs/CommonDialog.cs#L168-L264">实现</a>：</p>
+<p><img src="/archive-imgs/42/2-gh-commdlg-showdlg-rundlg.png" srcset="/img/loading.gif" lazyload></p>
+<p>可见在这里调用了 RunDialog 方法，接着我们得知这是个抽象方法，由派生类即 FontDialog 自行实现，所以我们需要看看 FontDialog 是怎样<a target="_blank" rel="noopener" href="https://github.com/dotnet/winforms/blob/3774d9fe0b61fcfc9e2c20441b7ff117f6050a1e/src/System.Windows.Forms/System/Windows/Forms/Dialogs/CommonDialogs/FontDialog.cs#L380">实现</a>的：</p>
+<p><img src="/archive-imgs/42/3-gh-fontdlg-rundlg-cf-struct.png" srcset="/img/loading.gif" lazyload></p>
+<p>这里初始化了一个 CHOOSEFONT 结构，用屁股想都知道是配置 FontDialog 的，用于决定一些参数。那么这个结构体传到了<a target="_blank" rel="noopener" href="https://github.com/dotnet/winforms/blob/3774d9fe0b61fcfc9e2c20441b7ff117f6050a1e/src/System.Windows.Forms/System/Windows/Forms/Dialogs/CommonDialogs/FontDialog.cs#L417">哪里</a>呢？</p>
+<p><img src="/archive-imgs/42/4-gh-fontdlg-choosefont-func.png" srcset="/img/loading.gif" lazyload></p>
+<p>可见传入了一个名叫 ChooseFont 的 API 里，官方文档<a target="_blank" rel="noopener" href="https://learn.microsoft.com/zh-cn/previous-versions/windows/desktop/legacy/ms646914(v=vs.85)">在这</a>。</p>
+<p>毫无疑问，这就是最最核心的代码。对话框的弹出完全由 ChooseFont 函数实现，WinForms 只是封装了这个函数并做了一些擦边的事。</p>
+<h2 id="初识-CHOOSEFONT"><a href="#初识-CHOOSEFONT" class="headerlink" title="初识 CHOOSEFONT"></a>初识 CHOOSEFONT</h2><p>那么传入的那个 cf 结构体又包含了什么定义呢？打开<a target="_blank" rel="noopener" href="https://learn.microsoft.com/zh-cn/windows/win32/api/commdlg/ns-commdlg-choosefontw">官方文档</a>：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-keyword">typedef</span> <span class="hljs-keyword">struct</span> <span class="hljs-title class_">tagCHOOSEFONTW</span> &#123;<br>  DWORD        lStructSize;<br>  HWND         hwndOwner;<br>  HDC          hDC;<br>  LPLOGFONTW   lpLogFont;<br>  INT          iPointSize;<br>  DWORD        Flags;<br>  COLORREF     rgbColors;<br>  LPARAM       lCustData;<br>  LPCFHOOKPROC lpfnHook;<br>  LPCWSTR      lpTemplateName;<br>  HINSTANCE    hInstance;<br>  LPWSTR       lpszStyle;<br>  WORD         nFontType;<br>  WORD         ___MISSING_ALIGNMENT__;<br>  INT          nSizeMin;<br>  INT          nSizeMax;<br>&#125; CHOOSEFONTW;<br></code></pre></td></tr></table></figure>
+
+<p>有关这个结构体的字段，我们只需要知道以下几个重要的就行了</p>
+<ol>
+<li><p><strong>lStructSize</strong><br>该结构体在内存中的大小。Win32 的很多结构体都包含了类似的字段，比如其他常见的 cbSize、dwSize 之类的。该种字段的作用是告诉系统该结构体的大小，这能让系统来判断哪些字段可用，从而实现兼容并避免越界访问。人话就是表示是什么样的结构，或者说该结构的哪个版本。</p>
+</li>
+<li><p><strong>hwndOwner</strong><br>所有者的窗口句柄，也就是指定 FontDialog 的父窗体 (窗口) 是谁。</p>
+</li>
+<li><p><strong>lpLogFont</strong><br>初始以及用户选择的字体。</p>
+</li>
+<li><p><strong>Flags</strong><br>FontDialog 的参数，比如是否显示颜色选项、是否允许垂直字体等。详见 <a target="_blank" rel="noopener" href="https://learn.microsoft.com/zh-cn/windows/win32/api/commdlg/ns-commdlg-choosefontw#members">成员: Flags</a>。常用的有：</p>
+<ul>
+<li><strong>CF_ENABLEHOOK</strong>: 允许 HookProc。当包含此 Flag 时，FontDialog 将退回到旧版样式，否则为新版样式 (字体变成了 Segoe UI，以及包含一个跳转到系统字体设置界面的超链接，感兴趣朋友们的可以试试)</li>
+<li><strong>CF_ENABLETEMPLATE</strong>: 允许自定义对话框模板 (本文重点，后面会讲)</li>
+<li><strong>CF_FORCEFONTEXIST</strong>: 不允许用户输入不存在的字体的名称</li>
+<li><strong>CF_INITTOLOGFONTSTRUCT</strong>：允许 FontDialog 在打开后自动选中指定的字体</li>
+<li><strong>CF_LIMITSIZE</strong>: 设置允许用户选择字体的大小范围</li>
+<li><strong>CF_NOVERTFONTS</strong>: 不允许选择垂直样式的字体 (名称开头带有 @ 的字体)</li>
+<li><strong>CF_SCRIPTSONLY</strong>: 只能选择标准字体，比如那些包含或只有符号的，即不会被渲染为预期字符的那种字体</li>
+<li><strong>CF_TTONLY</strong>: 只能选择 TrueType 字体 (WinForms 就只支持 TrueType)</li>
+</ul>
+</li>
+<li><p><strong>lpfnHook</strong><br>HookProc 函数指针，也就是 C# 中的委托。要求 Flags 里包含 <strong>CF_ENABLEHOOK</strong>。</p>
+</li>
+<li><p><strong>lpTemplateName</strong> 和 <strong>hInstance</strong><br>指定 FontDialog 使用的对话框模板，前者表示模板的名称，后者表示模板所在的模块 (dll 或 exe 等) 的句柄。要求 Flags 里包含 <strong>CF_ENABLETEMPLATE</strong>。</p>
+</li>
+<li><p><strong>nSizeMin</strong> 和 <strong>nSizeMax</strong><br>指定用户可选择字体的大小范围，单位为 pt。要求 Flags 里包含 <strong>CF_LIMITSIZE</strong>。</p>
+</li>
+</ol>
+<h2 id="初始对话框模板"><a href="#初始对话框模板" class="headerlink" title="初始对话框模板"></a>初始对话框模板</h2><p>如果你曾做过 Win32 窗口开发，你可能清楚对话框模板是什么东西。没有开发过也没事，Resource Hacker 玩过吧，那你应该偶然打开过某 exe&#x2F;dll 的资源中的 Dialog，然后你就可以在这里看到目标软件的<strong>资源文件</strong>里包含的对话框的样式：</p>
+<p><img src="/archive-imgs/42/5-rsrc-hacker.png" srcset="/img/loading.gif" lazyload></p>
+<p>看到后面的代码了吗？那些就是对话框模板，只不过这里看到的与实际的还是有点差别，但基本一致。</p>
+<p>如果你做过 WinForms 开发，那你就可以简单将其理解为窗体设计器生成的代码，只不过对话框模板只包含了最基本的控件类型、文本、样式、位置、大小等信息，更小巧。</p>
+<p>还记得为什么我们对 FontDialog 的那四个 ComboBox 的深色主题无从下手吗？</p>
+<p>因为在 FontDialog 的模板 (Windows SDK\um\Font.Dlg) 中，分别是这样定义的：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs C++">COMBOBOX        cmb1, <span class="hljs-number">7</span>, <span class="hljs-number">16</span>, <span class="hljs-number">98</span>, <span class="hljs-number">76</span>,<br>                CBS_SIMPLE | CBS_AUTOHSCROLL | CBS_DISABLENOSCROLL |<br>                CBS_SORT | WS_VSCROLL | WS_TABSTOP | CBS_HASSTRINGS |<br>                CBS_OWNERDRAWFIXED<br><br>COMBOBOX        cmb2, <span class="hljs-number">110</span>, <span class="hljs-number">16</span>, <span class="hljs-number">74</span>, <span class="hljs-number">76</span>,<br>                CBS_SIMPLE | CBS_AUTOHSCROLL | CBS_DISABLENOSCROLL | <br>                WS_VSCROLL | WS_TABSTOP | CBS_HASSTRINGS | <br>                CBS_OWNERDRAWFIXED<br><br>COMBOBOX        cmb3, <span class="hljs-number">190</span>, <span class="hljs-number">16</span>, <span class="hljs-number">36</span>, <span class="hljs-number">76</span>,<br>                CBS_SIMPLE | CBS_AUTOHSCROLL | CBS_DISABLENOSCROLL |<br>                CBS_SORT | WS_VSCROLL | WS_TABSTOP | CBS_HASSTRINGS |<br>                CBS_OWNERDRAWFIXED<br>                <br>COMBOBOX        cmb5, <span class="hljs-number">110</span>, <span class="hljs-number">157</span>, <span class="hljs-number">116</span>, <span class="hljs-number">30</span>, CBS_DROPDOWNLIST |<br>                CBS_OWNERDRAWFIXED | CBS_AUTOHSCROLL | CBS_HASSTRINGS |<br>                WS_BORDER | WS_VSCROLL | WS_TABSTOP<br></code></pre></td></tr></table></figure>
+
+<p>没错，都启用了 CBS_OWNERDRAWFIXED，也就是自绘。</p>
+<p>当控件启用自绘后，不再使用系统默认的行为，(部分) 样式就几乎完全由开发者决定。</p>
+<p>而我们无法得知对方完整的自绘流程，虽然肯定有办法来达到类似的效果，但是工作量太大，也不推荐这样。</p>
+<p>你可能想到了，那我们在 HookProc 里取消各 ComboBox 的 CBS_OWNERDRAWFIXED 样式不就完了？</p>
+<p>还真不行，没有这样的 API 有这样的功能，就算有，也不会达到预期，甚至会出现副作用。</p>
+<p>这时对话框模板就发挥很大的作用了。</p>
+<p>因为控件样式只能在创建时指定，所以我们只需要将官方的 FontDialog 模板搬到我们的项目中，然后直接删除相关样式不就行了？</p>
+<p>这真是一个甜菜的想法，当然不是我想到的，是 <a target="_blank" rel="noopener" href="https://github.com/ozone10">ozone10</a> 在 <a target="_blank" rel="noopener" href="https://github.com/ozone10/darkmodelib/blob/ce3b48560fee4bee50e0022f9f02c3696fa2d297/include/DarkModeSubclass.h#L583-L591">DarkModeSubclass.h</a> 中提到的，给予了我启发。</p>
+<p>那我们就直接开干。</p>
+<p>这里就只说方法不附截图了，毕竟也确实不难。可以参考我的 <a target="_blank" rel="noopener" href="https://github.com/WangHaonie/PlainCEETimer">PlainCEETimer</a> 项目的相关文件，链接在文章末尾。</p>
+<h2 id="自定义对话框模板"><a href="#自定义对话框模板" class="headerlink" title="自定义对话框模板"></a>自定义对话框模板</h2><p>首先我们得获得官方的模板，上面说了，在 SDK 里的 Font.Dlg 文件里，找不到的话用 Everything 通缉一下。</p>
+<p>打开 Font.Dlg 后，我们会发现貌似有两个模板。这就是新版和旧版的 FontDialog，两个版本有什么区别呢？上面讲 CHOOSEFONT 时也说了，或者直接看代码和注释也能发现区别。</p>
+<p>那我们就复制新版的好了，主要因为字体是新的，看着舒服。注意要完整复制其中的以下内容：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs c++">NEWFORMATDLGWITHLINK DIALOG <span class="hljs-number">13</span>, <span class="hljs-number">54</span>, <span class="hljs-number">243</span>, <span class="hljs-number">234</span><br><br><span class="hljs-comment">// ...</span><br><br>END<br></code></pre></td></tr></table></figure>
+
+<p>接着打开项目里的 resource.h，添加以下引用和宏定义</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;dlgs.h&gt;</span> <span class="hljs-comment">// 包含控件 ID，确保自定义模板只更改样式/布局的同时保留功能</span></span><br><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> IDD_CHOOSEFONT          999 <span class="hljs-comment">// 数值随意</span></span><br><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> LIBRARYNAME 					  <span class="hljs-string">L&quot;Natives.dll&quot;</span></span><br><span class="hljs-comment">// 这个是当前项目的 DLL 的名字，如果是 EXE 的话就不用定义了</span><br></code></pre></td></tr></table></figure>
+
+<p>打开我们创建的 Natives 项目，<strong>单击</strong> Natives.rc 资源文件 (没有的话新建一个)，然后按下 F7 查看代码。接着找一个合适的位置 (最好在末尾)，粘贴我们复制的模板，注意把开头的 NEWFORMATDLGWITHLINK 改成我们定义的 IDD_CHOOSEFONT。</p>
+<p>接着我们就可以对它进行暴改了，比如删除一些自绘的样式或控件。</p>
+<p class="note note-info"><strong>哪些样式与自绘有关？</strong><br>FontDialog 的自绘重灾区主要就是所有的 ComboBox，相关的样式有 CBS_OWNERDRAWFIXED、CBS_HASSTRINGS。前者表示启用自绘，后者表示在自绘的情况下允许开发者可以通过 CB_GETLBTEXT 消息来获取到每个项的文本。我们不使用自绘，故两个都移除就行。</p>
+
+<p>注意控件的文本也需要更改，因为官方模板默认是英文的，而自定义后会失去 i18n (多语言) 支持。可以参考现有的 FontDialog 对照更改。</p>
+<p>然后我们保存并关闭打开的 resource.h 和 Natives.rc 标签页，<strong>双击</strong>项目的 Natives.rc 资源文件，会打开资源浏览器，不出意外的话就可以在 Dialog 目录下看到我们定义的对话框模板了。</p>
+<p><img src="/../archive-imgs/42/6-natives-rc-dialog.png" srcset="/img/loading.gif" lazyload></p>
+<p>然后双击对话框模板，可以打开设计器，移除我们不想要的控件，比如什么设置下划线，删除线、颜色什么的，以及下半部分那个很大的空白控件，可能有特殊用途，但是我发现删除了也没错误。</p>
+<p>接着就是排版了，我是这么排的：</p>
+<p><img src="/archive-imgs/42/7-fontdlg-design.png" srcset="/img/loading.gif" lazyload></p>
+<h2 id="封装为-WinAPI-导出"><a href="#封装为-WinAPI-导出" class="headerlink" title="封装为 WinAPI 导出"></a>封装为 WinAPI 导出</h2><p>前面我们说了，弹出 FontDialog 的核心代码就是调用了 ChooseFont 函数，为了尽可能减少在 C# 侧定义的大量 struct，我建议自己封装一个导出函数，在 C++ 侧完成对 CHOOSEFONT 的创建。</p>
+<p>这个函数我们可以命名为 RunFontDialog，参数的话主要有：</p>
+<ul>
+<li><strong>HWND hWndOwner</strong>：指定父窗口的句柄</li>
+<li><strong>LPFRHOOKPROC lpfnHookProc</strong>：传入 HookProc 过程</li>
+<li><strong>LPLOGFONT lpLogFont</strong>：传入或取回选择的字体</li>
+<li><strong>int nSizeLimit</strong>：字体大小的范围</li>
+</ul>
+<p>返回类型建议为 BOOL，可以用于判断对话框是否成功运行以及用户是否点击了确定来关闭对话框。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-comment">// CommonDialogs.h</span><br><br><span class="hljs-meta">#<span class="hljs-keyword">pragma</span> once</span><br><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;commdlg.h&gt;</span></span><br><br><span class="hljs-built_in">cexport</span>(BOOL) <span class="hljs-built_in">RunFontDialog</span>(HWND hWndOwner, LPFRHOOKPROC lpfnHookProc, LPLOGFONT lpLogFont, <span class="hljs-type">int</span> nSizeLimit);<br></code></pre></td></tr></table></figure>
+
+<p>实现如下：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-comment">// CommonDialogs.cpp</span><br><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&quot;pch.h&quot;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&quot;resource.h&quot;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&quot;CommonDialogs.h&quot;</span></span><br><br><span class="hljs-function">BOOL <span class="hljs-title">RunFontDialog</span><span class="hljs-params">(HWND hWndOwner, LPFRHOOKPROC lpfnHookProc, LPLOGFONT lpLogFont, <span class="hljs-type">int</span> nSizeLimit)</span></span><br><span class="hljs-function"></span>&#123;<br>	CHOOSEFONT cf = &#123; <span class="hljs-built_in">sizeof</span>(cf) &#125;; <span class="hljs-comment">// sizeof 用于获取该结构体的大小</span><br>	cf.hwndOwner = hWndOwner;<br>	cf.lpLogFont = lpLogFont;<br>	cf.Flags = CF_NOVERTFONTS | CF_TTONLY | CF_FORCEFONTEXIST | CF_LIMITSIZE | CF_SCRIPTSONLY | CF_INITTOLOGFONTSTRUCT | CF_ENABLEHOOK | CF_ENABLETEMPLATE; <span class="hljs-comment">// 常用 Flag，上面讲过</span><br>	cf.lpfnHook = lpfnHookProc;<br>	cf.lpTemplateName = <span class="hljs-built_in">MAKEINTRESOURCE</span>(IDD_CHOOSEFONT);<br>	cf.hInstance = <span class="hljs-built_in">GetModuleHandleW</span>(LIBRARYNAME);<br>	cf.nSizeMin = <span class="hljs-built_in">LOWORD</span>(nSizeLimit);<br>	cf.nSizeMax = <span class="hljs-built_in">HIWORD</span>(nSizeLimit);<br><br>	BOOL result = <span class="hljs-built_in">ChooseFont</span>(&amp;cf);<br><br>	<span class="hljs-keyword">if</span> (result)<br>	&#123;<br>		lpLogFont = cf.lpLogFont; <span class="hljs-comment">// 用户确定后传回选择的字体</span><br>	&#125;<br><br>	<span class="hljs-keyword">return</span> result;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p class="note note-info"><strong>初始化 CHOOSEFONT 时的 <code>&#123; sizeof(cf) &#125;</code> 写法是怎么回事？</strong><br>该种写法表示将 <code>sizeof(cf)</code> 的值赋值给该 struct 的第一个第一个字段，刚好就对应了 lStructSize。也就是说在 { } 里，允许按顺序挨个给 struct 里的字段赋值而不显式指定字段名称，进而初始化结构体。在这里等效于 <code>cf.lStructSize = sizeof(cf);</code>。</p>
+
+<p class="note note-info"><strong>关于 <code>lpTemplateName</code> 和 <code>hInstance</code> </strong><br>前面说过了，这两个字段用于指定对话框模板的名称以及所在的模块的句柄。填写方法也是有固定的套路，<code>lpTemplateName</code> 就用 <code>MAKEINTRESOURCE</code> 宏传入我们定义的 <code>IDD_CHOOSEFONT</code>；<code>hInstance</code> 就调用 <code>GetModuleHandleW</code>，若资源嵌入在我们的主程序里，就传入 nullptr，在这里我们是编译为 dll 用于 C# 调用，因此就要指定 dll 名称，就传入我们之前定义的 <code>LIBRARYNAME</code> 就行。</p>
+
+<p class="note note-info"><strong>设置字体大小限制明明需要两个整数，为什么这里只用一个整数就传递了范围？</strong><br>这算是一种编程技巧了，当我们需要传递多个 (别太多就行) 整型 (int 等) 以及布尔值 (可压缩为只占1位的 byte 类型) 时，就可以将它们合并为一个整型了，最后运算后的类型可以是 int、long 等，可以有效减少参数数量 (但是要注意每个数据在有效范围内，避免被截断)。这里的 <code>nSizeLimit</code> 的低位存储的是最小字体大小，提取时用 LOWORD 宏，高位是最大字体大小，用 HIWORD 宏提取。也不用担心会不够用，int 的高低位分别能存下最大 65535 的数值，足以表示字体大小。</p>
+
+<p>这样我们就完成了对 ChooseFont 函数的封装，导出为了 RunFontDialog 函数，快去编译看看吧。</p>
+<h2 id="C-二次封装"><a href="#C-二次封装" class="headerlink" title="C# 二次封装"></a>C# 二次封装</h2><p>在 C++ 封装了还没完，如果我们需要在 WinForms 里调用这个 FontDialog 的话，也需要进行封装，因为 .NET 的 FontDialog 使用的是官方旧版的模板，我们需要自己做一个 FontDialog，比如命名为 MyFontDialog。</p>
+<p>首先声明导入函数：</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs c#">[<span class="hljs-meta">DllImport(<span class="hljs-string">&quot;Natives.dll&quot;</span>)</span>]<br>[<span class="hljs-meta">return: MarshalAs(UnmanagedType.Bool)</span>]<br><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">extern</span> <span class="hljs-built_in">bool</span> <span class="hljs-title">RunFontDialog</span>(<span class="hljs-params">IntPtr hWndOwner, WNDPROC lpfnHookProc, <span class="hljs-keyword">ref</span> LOGFONT lpLogFont, <span class="hljs-built_in">int</span> nSizeLimit</span>)</span>;<br></code></pre></td></tr></table></figure>
+
+<p>或者这样：</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs c#">[<span class="hljs-meta">DllImport(<span class="hljs-string">&quot;Natives.dll&quot;</span>)</span>]<br><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">extern</span> BOOL <span class="hljs-title">RunFontDialog</span>(<span class="hljs-params">HWND hWndOwner, WNDPROC lpfnHookProc, <span class="hljs-keyword">ref</span> LOGFONT lpLogFont, <span class="hljs-built_in">int</span> nSizeLimit</span>)</span>;<br></code></pre></td></tr></table></figure>
+
+<p>这里用到了一些 Win32 类型 (BOOL、HWND，WNDPROC 在<a href="https://wanghaonie.github.io/posts/00d12b183e8c/">之前</a>已经定义了)，可以看看 <a href="https://wanghaonie.github.io/posts/27d8f4ba0ca2/">在 C# 里引入 C++ 类型，增强 Interop 体验</a> 这篇文章。</p>
+<p>还用到了 LOGFONT，这是 Win32 的字体类型，我们也可以实现与 .NET 的 Font 类型互相转换，.NET 也为我们提供了相应的转换方法 (只不过 LOGFONT 输出时字体大小的单位是 px，我们需要以 pt 的方式重新构造一下)，也不复杂。定义即转换如下：</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><code class="hljs c#">[<span class="hljs-meta">StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)</span>]<br><span class="hljs-keyword">public</span> <span class="hljs-keyword">struct</span> LOGFONT<br>&#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> lfHeight;<br>    <span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> lfWidth;<br>    <span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> lfEscapement;<br>    <span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> lfOrientation;<br>    <span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> lfWeight;<br>    <span class="hljs-keyword">public</span> <span class="hljs-built_in">byte</span> lfItalic;<br>    <span class="hljs-keyword">public</span> <span class="hljs-built_in">byte</span> lfUnderline;<br>    <span class="hljs-keyword">public</span> <span class="hljs-built_in">byte</span> lfStrikeOut;<br>    <span class="hljs-keyword">public</span> <span class="hljs-built_in">byte</span> lfCharSet;<br>    <span class="hljs-keyword">public</span> <span class="hljs-built_in">byte</span> lfOutPrecision;<br>    <span class="hljs-keyword">public</span> <span class="hljs-built_in">byte</span> lfClipPrecision;<br>    <span class="hljs-keyword">public</span> <span class="hljs-built_in">byte</span> lfQuality;<br>    <span class="hljs-keyword">public</span> <span class="hljs-built_in">byte</span> lfPitchAndFamily;<br><br>    [<span class="hljs-meta">MarshalAs(UnmanagedType.ByValTStr, SizeConst = 32)</span>]<br>    <span class="hljs-keyword">public</span> <span class="hljs-built_in">string</span> lfFaceName;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">readonly</span> Font <span class="hljs-title">ToFont</span>() <span class="hljs-comment">// 将 LOGFONT 转换为 Font</span></span><br>    &#123;<br>        <span class="hljs-keyword">var</span> font = Font.FromLogFont(<span class="hljs-keyword">this</span>);<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span>(font.FontFamily, font.SizeInPoints, font.Style, GraphicsUnit.Point, font.GdiCharSet, font.GdiVerticalFont);<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> LOGFONT <span class="hljs-title">FromFont</span>(<span class="hljs-params">Font font</span>) <span class="hljs-comment">// 将 Font 转换为 LOGFONT</span></span><br>    &#123;<br>        LOGFONT lf = <span class="hljs-keyword">new</span>();<br>        <span class="hljs-built_in">object</span> lfobj = lf;<br>        font.ToLogFont(lfobj);<br>        <span class="hljs-keyword">return</span> (LOGFONT)lfobj;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>当然我们在构造 nSizeLimit 时也需要一些方法，在 Win32 里我们可以用 MAKELONG 宏来完成，在 C# 里的话虽然可以直接写运算式，但为了语义性还是封装为方法比较好，这里就顺便用一下 C# 14 的扩展成员语法糖：</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs c#"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">class</span> <span class="hljs-title">Extensions</span><br>&#123;<br>    extension(<span class="hljs-built_in">int</span> <span class="hljs-keyword">value</span>)<br>    &#123;<br>        <span class="hljs-keyword">public</span> <span class="hljs-built_in">ushort</span> LoWord =&gt; (<span class="hljs-built_in">ushort</span>)(<span class="hljs-keyword">value</span> &amp; <span class="hljs-number">0xFFFF</span>);<br>        <span class="hljs-keyword">public</span> <span class="hljs-built_in">ushort</span> HiWord =&gt; (<span class="hljs-built_in">ushort</span>)(<span class="hljs-keyword">value</span> &gt;&gt; <span class="hljs-number">16</span>);<br><br>        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-built_in">int</span> <span class="hljs-title">MakeLong</span>(<span class="hljs-params"><span class="hljs-built_in">ushort</span> low, <span class="hljs-built_in">ushort</span> high</span>)</span><br>        &#123;<br>            <span class="hljs-keyword">return</span> low | (high &lt;&lt; <span class="hljs-number">16</span>);<br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p class="note note-info"><strong>为什么无论组合还是提取，都与 16 有关？</strong><br>因为 int 本来是 32 位，也就是有 32 个位，砍半分别来存放高低位正好就是 16。0xFFFF 只是语义上的直观表示了位，具体数值 (65535) 没有太大意义，一个 F 表示 4 个位，FFFF 就是 16 个位。</p>
+
+<p class="note note-info"><strong>int 的高低位怎么组合？</strong><br>这就涉及到位运算了，详细教程可以参考网络，这里我就简单讲一下。首先大家得知道高低位在哪里？拿出草稿纸，我们来手写一个二进制数，比如 1010，是从左往右书写的，所以左边是低位，右边是高位？戳！还记得我们在小学二年级 (高中) 学的怎么把二进制数转换为十进制数吗？是不是从右往左的运算方式？也就是用每个位上的数字乘以2的相应次幂: 0×2⁰+1×2¹+0×2²+1×2³=10，因此 1010 表示 10，所以低位在右边，高位在左边。这个例子只是让大家回忆一下并理解高低位在哪里，实际我们这里不需要进制转换。然后我们需要知道 | 运算符的作用，学名是按位或，我们直接来看例子：0b01 | 0b10 就等于 0b11，也就是把0全部填充为了 1；那 0b11 | 0b01 呢？也是 0b11，因为两者的低位都是 1，而高位分别是 1 和 0，结果为 1。难理解的话把它看成布尔运算符 ||，这个我们更常用。我们规定 0=false，1=true，那你说 false || false 是不是 false？false || true 是不是 true？true || true 是不是还是 true？这很类似与取并集，不然你猜为什么按位或要叫按位"或"。接着就是 << 了，学名叫左移运算符，相反也有 >>，后面就不讲了。比如 0b1 也就是 0b0001 被 << 2 后就变成 0b0100，更好理解对吧。为什么要左移？前面说了，左边是高位，计算机默认从低位开始填充，因此我们的 high << 16 就是把 high 的数值推到低 16 位之后，也就是腾出 16 个位 (有点晕的话草稿纸上画个示意图)，使它自己成为高位 ；最后再 | 上 low 就组合到一起了，因为 low 默认就是低位且我们没有处理，就自然而然地被填充到了低位。就完成了组合。</p>
+
+<p class="note note-info"><strong>int 的高低位怎么提取？</strong><br>先说说高位，因为最简单，直接 >> 16 就行。想象一下这个过程，int 本来就是 32 位的，把高 16 位直接右移 16 位使之成为低 16 位，是不是刚好把原来的低 16 位挤掉了？所以又自然而然地提取到了高 16 位，转换为 ushort 是强制再次截断低 16 位以外的位，以防万一原本的高 16 位之外还有位呢。低位的提取其实也简单，& 学名按位与运算符，0b01 & 0b10 等于 0，0b11 & 0b01 等于 0b01，不能理解的话还是类比布尔运算符 &&，false && false=false，false && true=false，true && true=true，有点类似于取交集：0b01 和 0b10 又重叠的吗？没有，那结果就为 0。那这里的 & 0xFFFF 是什么呢？小学二年级的都知道，这是十六进制数，对应二进制正好是 0b1111_1111_1111_1111，也就是 65535，将一个数 & 0xFFFF 后，表示取其低 16 位，其他位全部归 0 忽略，进而就获取到了低位。可能对于新手朋友来说，上述过程还是有点晕，这是正常的，因为我们涉及到了三种进制：MakeLong 传入的是十进制数，& 的是十六进制数，运算符底层又是按二进制进行的，这就需要多理解，总结经验了。</p>
+
+<p>现在就要编写 MyFontDialog 实现了，在此之前先想想应该继承自谁？</p>
+<p>继承 .NET 的 FontDialog？不行。FontDialog 本来就有默认实现，派生类虽然可以重写忽略，但还有其他的机制无法形成连贯，所以不行。</p>
+<p>不继承行不行？(隐式继承 Object) 貌似可行，但在 WinForms 这样的托管环境中弹出非托管对话框需要特殊处理，不建议直接弹出，也不行。</p>
+<p>那只有一种可能了，继承自 CommonDialog 类，就像 WinForms 自己的 FontDialog 也继承它一样。</p>
+<p>CommonDialog 是 WinForms 提供的抽象基类，要求派生类必须实现 RunDialog 和 Reset 这两个抽象方法，可选重写 HookProc 等虚成员。</p>
+<p>由于我们没有继承自 FontDialog，所以没有了 FontDialog 的一系列的常用属性，所有常用的属性我们都在 C++ 里实现了，C# 这里只对外公开一个 Font 属性就好了</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><code class="hljs c#"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">sealed</span> <span class="hljs-keyword">class</span> <span class="hljs-title">MyFontDialog</span>(<span class="hljs-params">Font existing</span>) : CommonDialog</span><br>&#123;<br>    <span class="hljs-keyword">public</span> Font Font =&gt; _font;<br><br>    <span class="hljs-keyword">private</span> CommonDialogHelper Helper;<br>    <span class="hljs-keyword">private</span> Font _font = existing; <span class="hljs-comment">// existing 表示传入的默认选择的字体</span><br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> DialogResult <span class="hljs-title">ShowDialog</span>(<span class="hljs-params">MyFormBase owner</span>) <span class="hljs-comment">// MyFormBase 是之前提到过的，是我们应用程序里所有窗体的基类</span></span><br>    &#123;<br>        Helper = <span class="hljs-keyword">new</span>(<span class="hljs-keyword">this</span>, owner, <span class="hljs-string">&quot;选择字体 - 高考倒计时&quot;</span>, <span class="hljs-keyword">base</span>.HookProc);<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">base</span>.ShowDialog(owner);<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">override</span> IntPtr <span class="hljs-title">HookProc</span>(<span class="hljs-params">IntPtr hWnd, <span class="hljs-built_in">int</span> msg, IntPtr wparam, IntPtr lparam</span>)</span><br>    &#123;<br>        <span class="hljs-keyword">return</span> Helper.HookProc(hWnd, msg, wparam, lparam);<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">override</span> <span class="hljs-built_in">bool</span> <span class="hljs-title">RunDialog</span>(<span class="hljs-params">IntPtr hwndOwner</span>)</span><br>    &#123;<br>      <br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">override</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Reset</span>()</span><br>    &#123;<br>        _font = <span class="hljs-literal">default</span>;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>这里 Reset 方法我们实际上可以留空，因为这个方法原本是用于重置设置的，然而我们的 MyFontDialog 并未开放任何设置项，都在 C++ 里写死了，因此就没必要了，如果各位有需求的话也可以自行尝试一下。这里我们还是假装重置一下 _font 为 null。</p>
+<p>其余的代码也在之前说过了，这里就不讲了。我们来讲一下 RunDialog 怎么写。</p>
+<p>总之我们的目的就是要运行我们导出的那个 RunFontDialog 函数，其实写出来就明白了：</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs c#"><span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">override</span> <span class="hljs-built_in">bool</span> <span class="hljs-title">RunDialog</span>(<span class="hljs-params">IntPtr hwndOwner</span>)</span><br>&#123;<br>    <span class="hljs-keyword">try</span><br>    &#123;<br>        <span class="hljs-keyword">var</span> lf = LOGFONT.FromFont(_font);<br>        <span class="hljs-keyword">var</span> result = CommonDialogs.RunFontDialog(hWndOwner, HookProc, <span class="hljs-keyword">ref</span> lf, <span class="hljs-built_in">int</span>.MakeLong(<span class="hljs-number">10</span>, <span class="hljs-number">36</span>));<br><br>        <span class="hljs-keyword">if</span> (result)<br>        &#123;<br>            _font = lf.ToFont();<br>        &#125;<br><br>        <span class="hljs-keyword">return</span> result;<br>    &#125;<br>    <span class="hljs-keyword">catch</span><br>    &#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>为什么要用 try…catch… ？因为这里有时会遇到 LOGFONT 转 Font 报错的情况，提示非 TTF 字体，但是我们明明就在 C++ 那里指定了只包含 TTF 字体，还是有点奇怪，估计是 WinForms 底层有 Bug 或者是其他未知问题。</p>
+<p>至此大功告成，运行看看效果：(以我在 PlainCEETimer 里实现的为例)</p>
+<p><img src="/archive-imgs/42/9-plain-fontdlg-light.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="/archive-imgs/42/8-plain-fontdlg.png" srcset="/img/loading.gif" lazyload></p>
+<p>如果以后还有机会的话，我会尝试是否可以更改那个预览部分的前背景色。</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li>ozone10&#x2F;darkmodelib: Library for custom colors and dark mode support for most common controls in applications using Win32 API<br><a target="_blank" rel="noopener" href="https://github.com/ozone10/darkmodelib">https://github.com/ozone10/darkmodelib</a></li>
+<li>在 C# 里引入 C++ 类型，增强 Interop 体验 | WangHaonie 的博客<br><a href="https://wanghaonie.github.io/posts/27d8f4ba0ca2/">https://wanghaonie.github.io/posts/27d8f4ba0ca2/</a></li>
+<li>从零开始让你的 WinForms 应用程序也用上原生深色主题 | WangHaonie 的博客<br><a href="https://wanghaonie.github.io/posts/00d12b183e8c/">https://wanghaonie.github.io/posts/00d12b183e8c/</a></li>
+<li>PlainCEETimer.Natives&#x2F;resource.h<br><a target="_blank" rel="noopener" href="https://github.com/WangHaonie/PlainCEETimer/blob/main/src/PlainCEETimer.Natives/resource.h">https://github.com/WangHaonie/PlainCEETimer/blob/main/src/PlainCEETimer.Natives/resource.h</a></li>
+<li>PlainCEETimer.Natives&#x2F;PlainCEETimer.Natives.rc<br><a target="_blank" rel="noopener" href="https://github.com/WangHaonie/PlainCEETimer/blob/main/src/PlainCEETimer.Natives/PlainCEETimer.Natives.rc">https://github.com/WangHaonie/PlainCEETimer/blob/main/src/PlainCEETimer.Natives/PlainCEETimer.Natives.rc</a></li>
+<li>PlainCEETimer.Natives&#x2F;CommonDialogs&#x2F;CommonDialogs.h<br><a target="_blank" rel="noopener" href="https://github.com/WangHaonie/PlainCEETimer/blob/main/src/PlainCEETimer.Natives/CommonDialogs/CommonDialogs.h">https://github.com/WangHaonie/PlainCEETimer/blob/main/src/PlainCEETimer.Natives/CommonDialogs/CommonDialogs.h</a></li>
+<li>PlainCEETimer.Natives&#x2F;CommonDialogs&#x2F;CommonDialogs.cpp<br><a target="_blank" rel="noopener" href="https://github.com/WangHaonie/PlainCEETimer/blob/main/src/PlainCEETimer.Natives/CommonDialogs/CommonDialogs.cpp">https://github.com/WangHaonie/PlainCEETimer/blob/main/src/PlainCEETimer.Natives/CommonDialogs/CommonDialogs.cpp</a></li>
+<li>PlainCEETimer&#x2F;UI&#x2F;Controls&#x2F;PlainFontDialog.cs<br><a target="_blank" rel="noopener" href="https://github.com/WangHaonie/PlainCEETimer/blob/main/src/PlainCEETimer/UI/Controls/PlainFontDialog.cs">https://github.com/WangHaonie/PlainCEETimer/blob/main/src/PlainCEETimer/UI/Controls/PlainFontDialog.cs</a></li>
+</ul>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/Windows/" class="print-no-link">#Windows</a>
+      
+        <a href="/tags/CSharp/" class="print-no-link">#CSharp</a>
+      
+        <a href="/tags/WinForms/" class="print-no-link">#WinForms</a>
+      
+        <a href="/tags/Cpp/" class="print-no-link">#Cpp</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>自定义 Font/ColorDialog 等常用对话框样式</div>
+      <div>https://wanghaonie.github.io/posts/3f71e409b6a3/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>WangHaonie</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2025-08-28 19:34:25</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>更新于</div>
+          <div>2025-08-29 12:49:16</div>
+        </div>
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="NC - 非商业性使用">
+                    <i class="iconfont icon-nc"></i>
+                  </span>
+                </a>
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="SA - 相同方式共享">
+                    <i class="iconfont icon-sa"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+    <div id="giscus" class="giscus"></div>
+    <script type="text/javascript">
+      Fluid.utils.loadComments('#giscus', function() {
+        var options = {"repo":"WangHaonie/wanghaonie.github.io","repo-id":"MDEwOlJlcG9zaXRvcnkzODM3MTI4NzU=","category":"General","category-id":"DIC_kwDOFt7-a84CtZ7y","theme-light":"light","theme-dark":"dark","mapping":"pathname","reactions-enabled":1,"emit-metadata":0,"input-position":"top","lang":"zh-CN"};
+        var attributes = {};
+        for (let option in options) {
+          if (!option.startsWith('theme-')) {
+            var key = option.startsWith('data-') ? option : 'data-' + option;
+            attributes[key] = options[option];
+          }
+        }
+        var light = 'light';
+        var dark = 'dark';
+        window.GiscusThemeLight = light;
+        window.GiscusThemeDark = dark;
+        attributes['data-theme'] = document.documentElement.getAttribute('data-user-color-scheme') === 'dark' ? dark : light;
+        for (let attribute in attributes) {
+          var value = attributes[attribute];
+          if (value === undefined || value === null || value === '') {
+            delete attributes[attribute];
+          }
+        }
+        var s = document.createElement('script');
+        s.setAttribute('src', 'https://giscus.app/client.js');
+        s.setAttribute('crossorigin', 'anonymous');
+        for (let attribute in attributes) {
+          s.setAttribute(attribute, attributes[attribute]);
+        }
+        var ss = document.getElementsByTagName('script');
+        var e = ss.length > 0 ? ss[ss.length - 1] : document.head || document.documentElement;
+        e.parentNode.insertBefore(s, e.nextSibling);
+      });
+    </script>
+    <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span> Hexo </span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span> Fluid </span></a><br> <div><a> <span id="site-runtime">正在加载网站运行时间，请稍候...</span> <script src="/js/runtime.js"></script> </a></div>
+    </div>
+  
+  
+  
+    <!-- 备案信息 ICP for China -->
+    <div class="beian">
+  <span>
+    <a rel="nofollow noopener">
+      Copyright © 2023-2025 WangHaonie
+    </a>
+  </span>
+  
+    
+      <span>
+        <a
+          href="https://icp.gov.moe/?keyword=20229939"
+          rel="nofollow noopener"
+          class="beian-police"
+          target="_blank"
+        >
+          
+            <span style="visibility: hidden; width: 0">|</span>
+            <img src="/img/icon_moeicp.png" srcset="/img/loading.gif" lazyload/>
+          
+          <span>萌ICP备20229939号</span>
+        </a>
+      </span>
+    
+  
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+
+
+
+  
+<script src="/js/customstyles.js"></script>
+<script src="/js/subsiteredirect.js"></script>
+<script src="/js/bgribbon.js"></script>
+<script src="/js/curfireworks.js"></script>
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
