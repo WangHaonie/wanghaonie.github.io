@@ -343,7 +343,7 @@
               <p class="note note-info">
                 
                   
-                    本文最后更新于：19 分钟前
+                    本文最后更新于：几秒前
                   
                 
               </p>
@@ -486,7 +486,7 @@
 <p>现在就要改写我们的 MyFontDialog 了，在此之前先想想应该继承自谁？</p>
 <p>继续继承 .NET 的 FontDialog？不行。FontDialog 本来就有默认实现，派生类虽然可以重写忽略，但还有其他的机制无法形成连贯，所以不行。</p>
 <p>不继承行不行？(隐式继承 Object) 貌似可行，但在 WinForms 这样的托管环境中弹出非托管对话框需要特殊处理，不建议直接弹出，也不行。</p>
-<p>那只有一种可能了，直接继承自 CommonDialog 类，就像 WinForms 自己的 FontDialog 也继承它一样。而前面也说过了，我们实现的 RunDialog 会在基类的 ShowDialog(IWin32Window) 中被调用，其中就包含了处理非托管对话框的机制。</p>
+<p>那只有一种可能了，直接继承自 CommonDialog 类，就像 WinForms 自己的 FontDialog 也继承它一样。而前面也说过了，我们实现的 RunDialog 会在基类的 ShowDialog(IWin32Window) 中被调用，其中就包含了处理非托管对话框的机制 (最最主要的是启动一个模态消息循环)。</p>
 <p>CommonDialog 是 WinForms 提供的抽象基类，要求派生类必须实现 RunDialog 和 Reset 这两个抽象方法，可选重写 HookProc 等虚成员。</p>
 <p>由于我们没有继承自 FontDialog，所以没有了 FontDialog 的一系列的常用属性，所有常用的属性我们都在 C++ 里实现了，C# 这里只对外公开一个 Font 属性就好了</p>
 <figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><code class="hljs c#"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">sealed</span> <span class="hljs-keyword">class</span> <span class="hljs-title">MyFontDialog</span>(<span class="hljs-params">Font existing</span>) : CommonDialog</span><br>&#123;<br>    <span class="hljs-keyword">public</span> Font Font =&gt; _font;<br><br>    <span class="hljs-keyword">private</span> CommonDialogHelper Helper;<br>    <span class="hljs-keyword">private</span> Font _font = existing; <span class="hljs-comment">// existing 表示传入的默认选择的字体</span><br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> DialogResult <span class="hljs-title">ShowDialog</span>(<span class="hljs-params">MyFormBase owner</span>) <span class="hljs-comment">// MyFormBase 是之前提到过的，是我们应用程序里所有窗体的基类</span></span><br>    &#123;<br>        Helper = <span class="hljs-keyword">new</span>(<span class="hljs-keyword">this</span>, owner, <span class="hljs-string">&quot;选择字体 - 高考倒计时&quot;</span>);  <span class="hljs-comment">// 由于我们完全自行封装了 FontDialog，所以也不需要给 Helper 传入 DefHookProc 了</span><br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">base</span>.ShowDialog(owner);<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">override</span> IntPtr <span class="hljs-title">HookProc</span>(<span class="hljs-params">IntPtr hWnd, <span class="hljs-built_in">int</span> msg, IntPtr wparam, IntPtr lparam</span>)</span><br>    &#123;<br>        <span class="hljs-keyword">return</span> Helper.HookProc(hWnd, msg, wparam, lparam);<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">override</span> <span class="hljs-built_in">bool</span> <span class="hljs-title">RunDialog</span>(<span class="hljs-params">IntPtr hwndOwner</span>)</span><br>    &#123;<br>      <br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">override</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Reset</span>()</span><br>    &#123;<br>        _font = <span class="hljs-literal">default</span>;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
@@ -564,7 +564,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>更新于</div>
-          <div>2025-08-30 10:36:26</div>
+          <div>2025-08-30 12:49:32</div>
         </div>
       
       
