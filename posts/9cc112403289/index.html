@@ -277,7 +277,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          749 字
+          772 字
         
       </span>
     
@@ -343,7 +343,7 @@
               <p class="note note-info">
                 
                   
-                    本文最后更新于：1 天前
+                    本文最后更新于：几秒前
                   
                 
               </p>
@@ -382,7 +382,7 @@
 <p>在上述代码中，也就是在判断当 a 和 b 恰好有一个为真的情况，于是我们可以这样优化：</p>
 <figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs c#"><span class="hljs-keyword">if</span> (a ^ b)<br>&#123;<br>    <span class="hljs-keyword">if</span> (a)<br>    &#123;<br><br>    &#125;<br>    <span class="hljs-keyword">else</span><br>    &#123;<br><br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
 
-<p>这里的 a ^ b 就是在做 XOR 运算，因为当这个表达式为 true 时，必定表示 a 和 b 恰有一个为 true，接着再继续判断究竟是哪一个为 true 就行了</p>
+<p>这里的 a ^ b 就是在做 XOR 运算，因为当这个语句为 true 时，必定表示 a 和 b 恰有一个为 true，于是我们甚至可以直接写为 a !&#x3D; b 更易懂，两者都是同样的原理。接着再继续判断究竟是哪一个为 true 就行了。</p>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>我遇到的也只有这些，如果还有的话，我会在此进行更新。先来总结一下要点</p>
 <ul>
 <li>注意隐式包含的条件：判断了 a 之后剩余分支都包含了 !a 的条件，不必重复书写</li>
@@ -432,7 +432,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>更新于</div>
-          <div>2025-09-04 08:43:52</div>
+          <div>2025-09-06 16:34:08</div>
         </div>
       
       
