@@ -277,7 +277,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          3.8k 字
+          3.9k 字
         
       </span>
     
@@ -288,7 +288,7 @@
         
         
         
-          32 分钟
+          33 分钟
         
       </span>
     
@@ -343,7 +343,7 @@
               <p class="note note-info">
                 
                   
-                    本文最后更新于：1 天前
+                    本文最后更新于：36 分钟前
                   
                 
               </p>
@@ -393,7 +393,7 @@
 <li><strong>CF_LIMITSIZE</strong>: 设置允许用户选择字体的大小范围</li>
 <li><strong>CF_NOVERTFONTS</strong>: 不允许选择垂直样式的字体 (名称开头带有 @ 的字体)</li>
 <li><strong>CF_SCRIPTSONLY</strong>: 只能选择标准字体，比如那些包含或只有符号的，即不会被渲染为预期字符的那种字体就不会在列表中</li>
-<li><strong>CF_TTONLY</strong>: 只能选择 TrueType 字体 (WinForms 就只支持 TrueType)</li>
+<li><strong>CF_TTONLY</strong>: 只能选择 TrueType 字体 (WinForms 就只支持 TrueType，即 TTF 格式)</li>
 </ul>
 </li>
 <li><p><strong>lpfnHook</strong><br>HookProc 函数指针，也就是 C# 中的委托。要求 Flags 里包含 <strong>CF_ENABLEHOOK</strong>。</p>
@@ -472,7 +472,9 @@
 <p class="note note-info"><strong>为什么 C++ 的 LPFRHOOKPROC 类型在 C# 里就变成了 WNDPROC？</strong><br>两者都表示函数指针，也就是委托，且签名都相同，只是名字不同而已，也是可以正常运行的。</p>
 
 <p>还用到了 LOGFONT，这是 Win32 的字体类型，我们也可以实现与 .NET 的 Font 类型互相转换，.NET 也为我们提供了相应的转换方法 (只不过 FromLogFont 返回的的字体大小的单位是 px，我们需要以 pt 的方式重新构造一下)，也不复杂。定义即转换如下：</p>
-<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><code class="hljs c#">[<span class="hljs-meta">StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)</span>]<br><span class="hljs-keyword">public</span> <span class="hljs-keyword">struct</span> LOGFONT<br>&#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> lfHeight;<br>    <span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> lfWidth;<br>    <span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> lfEscapement;<br>    <span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> lfOrientation;<br>    <span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> lfWeight;<br>    <span class="hljs-keyword">public</span> <span class="hljs-built_in">byte</span> lfItalic;<br>    <span class="hljs-keyword">public</span> <span class="hljs-built_in">byte</span> lfUnderline;<br>    <span class="hljs-keyword">public</span> <span class="hljs-built_in">byte</span> lfStrikeOut;<br>    <span class="hljs-keyword">public</span> <span class="hljs-built_in">byte</span> lfCharSet;<br>    <span class="hljs-keyword">public</span> <span class="hljs-built_in">byte</span> lfOutPrecision;<br>    <span class="hljs-keyword">public</span> <span class="hljs-built_in">byte</span> lfClipPrecision;<br>    <span class="hljs-keyword">public</span> <span class="hljs-built_in">byte</span> lfQuality;<br>    <span class="hljs-keyword">public</span> <span class="hljs-built_in">byte</span> lfPitchAndFamily;<br><br>    [<span class="hljs-meta">MarshalAs(UnmanagedType.ByValTStr, SizeConst = 32)</span>]<br>    <span class="hljs-keyword">public</span> <span class="hljs-built_in">string</span> lfFaceName;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">readonly</span> Font <span class="hljs-title">ToFont</span>() <span class="hljs-comment">// 将 LOGFONT 转换为 Font</span></span><br>    &#123;<br>        <span class="hljs-keyword">using</span> <span class="hljs-keyword">var</span> font = Font.FromLogFont(<span class="hljs-keyword">this</span>);<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span>(font.FontFamily, font.SizeInPoints, font.Style, GraphicsUnit.Point, font.GdiCharSet, font.GdiVerticalFont);<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> LOGFONT <span class="hljs-title">FromFont</span>(<span class="hljs-params">Font font</span>) <span class="hljs-comment">// 将 Font 转换为 LOGFONT</span></span><br>    &#123;<br>        LOGFONT lf = <span class="hljs-keyword">new</span>();<br>        <span class="hljs-built_in">object</span> lfobj = lf;<br>        font.ToLogFont(lfobj);<br>        <span class="hljs-keyword">return</span> (LOGFONT)lfobj;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs c#">[<span class="hljs-meta">StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode, Size = 92)</span>]<br><span class="hljs-keyword">public</span> <span class="hljs-keyword">struct</span> LOGFONT<br>&#123;<br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">readonly</span> Font <span class="hljs-title">ToFont</span>() <span class="hljs-comment">// 将 LOGFONT 转换为 Font</span></span><br>    &#123;<br>        <span class="hljs-keyword">using</span> <span class="hljs-keyword">var</span> font = Font.FromLogFont(<span class="hljs-keyword">this</span>);<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span>(font.FontFamily, font.SizeInPoints, font.Style, GraphicsUnit.Point, font.GdiCharSet, font.GdiVerticalFont);<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> LOGFONT <span class="hljs-title">FromFont</span>(<span class="hljs-params">Font font</span>) <span class="hljs-comment">// 将 Font 转换为 LOGFONT</span></span><br>    &#123;<br>        <span class="hljs-built_in">object</span> lfobj = <span class="hljs-literal">default</span>(LOGFONT);<br>        font.ToLogFont(lfobj);<br>        <span class="hljs-keyword">return</span> (LOGFONT)lfobj;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p class="note note-info"><strong>为什么这个 LOGFONT 里没有字段？</strong><br>因为我们这里主要用于中转这个结构，不访问其中的字段，只需 .NET 帮我们将其转换为 Font 类型即可，因此无需声明 LOGFONT 各字段，有这个类型就行。但有个关键点，空结构体的大小必须与原生 LOGFONT 相等，在 Unicode 下它的大小为 92 (可以从 Visual Studio 或网络上得知)，也必须在 StructLayout 里显式指定。</p>
 
 <p>当然我们在构造 nSizeLimit 时也需要一些方法，在 Win32 里我们可以用 MAKELONG 宏来完成，在 C# 里的话虽然可以直接写运算式，但为了语义性还是封装为方法比较好，这里就顺便用一下 C# 14 的扩展成员语法糖：</p>
 <figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs c#"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">class</span> <span class="hljs-title">Extensions</span><br>&#123;<br>    extension(<span class="hljs-built_in">int</span> <span class="hljs-keyword">value</span>)<br>    &#123;<br>        <span class="hljs-keyword">public</span> <span class="hljs-built_in">ushort</span> LoWord =&gt; (<span class="hljs-built_in">ushort</span>)(<span class="hljs-keyword">value</span> &amp; <span class="hljs-number">0xFFFF</span>);<br>        <span class="hljs-keyword">public</span> <span class="hljs-built_in">ushort</span> HiWord =&gt; (<span class="hljs-built_in">ushort</span>)((<span class="hljs-keyword">value</span> &gt;&gt; <span class="hljs-number">16</span>) &amp; <span class="hljs-number">0xFFFF</span>); <span class="hljs-comment">// &amp; 0xFFFF 可以省略</span><br><br>        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-built_in">int</span> <span class="hljs-title">MakeLong</span>(<span class="hljs-params"><span class="hljs-built_in">ushort</span> low, <span class="hljs-built_in">ushort</span> high</span>)</span><br>        &#123;<br>            <span class="hljs-keyword">return</span> low | (high &lt;&lt; <span class="hljs-number">16</span>);<br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
@@ -567,7 +569,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>更新于</div>
-          <div>2025-09-05 07:45:38</div>
+          <div>2025-10-02 10:15:30</div>
         </div>
       
       
