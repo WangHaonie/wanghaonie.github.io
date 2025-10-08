@@ -1,0 +1,782 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=dark>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="WangHaonie">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="前言关于 Marshal，中文名 封送，指 .NET 运行时 (CLR) 与非托管代码 (Managed &amp;lt;-&amp;gt; Unmanaged) 交互 (Interoperability) 时双向传输对象的机制。 封送主要有自动和手动两种。如果我们直接在导入函数签名或结构体等中声明 非 Blittable 类型，在互操作时 CLR 会自动处理；相对的，如果我们声明为 IntPtr，特别是涉及到指">
+  
+  
+  
+  <title>【C# Interop】Marshal 的魅力 - 定义结构体的另类方法 | WangHaonie 的博客</title>
+  <link rel="stylesheet" href="/css/frosted.css">
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"wanghaonie.github.io","root":"/","version":"1.9.6","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":true,"scope":"home"},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":false},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"left","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":6},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":{"measurement_id":"G-N644FC8JLJ"},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+    <!-- Google tag (gtag.js) -->
+    <script async>
+      if (!Fluid.ctx.dnt) {
+        Fluid.utils.createScript("https://www.googletagmanager.com/gtag/js?id=G-N644FC8JLJ", function() {
+          window.dataLayer = window.dataLayer || [];
+          function gtag() {
+            dataLayer.push(arguments);
+          }
+          gtag('js', new Date());
+          gtag('config', 'G-N644FC8JLJ');
+        });
+      }
+    </script>
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>WangHaonie 的博客</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span id="wanghaonie-nav" candidate-icon="🧿🔔📅🚩🧡">🎉更多</span>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                
+                <span>🏠主页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                
+                <span>😁关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                
+                <span>🏷️标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                
+                <span>📖文章</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" target="_self" href="javascript:;" role="button"
+                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                
+                <span>🌏分站</span>
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" onclick="redir2gh()" href="#" target="_self">
+                    
+                    <span>🌎主站：GitHub Pages</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" onclick="redir2lan()" href="#" target="_self">
+                    
+                    <span>🌎主站：本地局域网</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" onclick="redir2v()" href="#" target="_self">
+                    
+                    <span>🌎分站：Vercel</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" onclick="redir2n()" href="#" target="_self">
+                    
+                    <span>🌎分站：Netlify</span>
+                  </a>
+                
+              </div>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/reward" target="_self">
+                
+                <span>💰打赏</span>
+              </a>
+            </li>
+          
+        <!--
+        -->
+        <!--
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        -->
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" false
+     style="background: url('/null') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle">【C# Interop】Marshal 的魅力 - 定义结构体的另类方法</span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2025-10-08 10:32" pubdate>
+          2025-10-08 10:32:35
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          1.2k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          10 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="padding-left: 2rem; margin-right: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">【C# Interop】Marshal 的魅力 - 定义结构体的另类方法</h1>
+            
+              <p class="note note-info">
+                
+                  
+                    本文最后更新于：几秒前
+                  
+                
+              </p>
+            
+            
+              <div class="markdown-body">
+                
+                <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>关于 Marshal，中文名 封送，指 .NET 运行时 (CLR) 与非托管代码 (Managed &lt;-&gt; Unmanaged) 交互 (Interoperability) 时双向传输对象的机制。</p>
+<p>封送主要有自动和手动两种。如果我们直接在导入函数签名或结构体等中声明 <strong>非 <a target="_blank" rel="noopener" href="https://learn.microsoft.com/en-us/dotnet/framework/interop/blittable-and-non-blittable-types">Blittable</a> 类型</strong>，在互操作时 CLR 会自动处理；相对的，如果我们声明为 IntPtr，特别是涉及到指针的，此时就需要我们调用 System.Runtime.InteropServices.Marshal 这个静态类中一系列的方法来手动管理内存分配以及封送。</p>
+<p>在 Interop 中，我们通常会定义一大堆结构体，这其实是可以理解的。但是，如果我们遇到了以下特殊场景，就得用特殊手段了：(点击链接可以跳转到相应的部分)</p>
+<ul>
+<li>我只要求有这个类型就行，不关心其中的字段【<a href="#%E7%A9%BA%E7%BB%93%E6%9E%84%E4%BD%93%E7%9A%84%E7%A5%9E%E5%A5%87%E7%94%A8%E6%B3%95">空结构体的神奇用法</a>】</li>
+<li>我只从非托管到托管封送 (单向) 且只需要其中少量的字段，不想定义一个完整的结构体【<a href="#%E4%B8%8D%E5%AE%9A%E4%B9%89%E7%9B%B4%E6%8E%A5%E8%AE%BF%E9%97%AE%E5%AD%97%E6%AE%B5">不定义直接访问字段</a>】</li>
+</ul>
+<h2 id="空结构体的神奇用法"><a href="#空结构体的神奇用法" class="headerlink" title="空结构体的神奇用法"></a>空结构体的神奇用法</h2><p><strong>场景</strong>：使用 WinForms 自带的方法将 LOGFONT 转为 Font。(在 <a href="https://wanghaonie.github.io/posts/3f71e409b6a3/#C-%E4%BA%8C%E6%AC%A1%E5%B0%81%E8%A3%85">自定义 Font&#x2F;ColorDialog 等常用对话框样式</a> 中提到过)<br><strong>示例代码</strong>：<a target="_blank" rel="noopener" href="https://github.com/WangHaonie/PlainCEETimer/blob/536ff24212ac34272893bf6834f85bc85c8866b4/src/PlainCEETimer/Interop/Structs.cs#L233-L248">链接</a></p>
+<p>这是 LOGFONT 的定义：</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs c#">[<span class="hljs-meta">StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)</span>]<br><span class="hljs-keyword">public</span> <span class="hljs-keyword">struct</span> LOGFONT<br>&#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> lfHeight;<br>    <span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> lfWidth;<br>    <span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> lfEscapement;<br>    <span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> lfOrientation;<br>    <span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> lfWeight;<br>    <span class="hljs-keyword">public</span> <span class="hljs-built_in">byte</span> lfItalic;<br>    <span class="hljs-keyword">public</span> <span class="hljs-built_in">byte</span> lfUnderline;<br>    <span class="hljs-keyword">public</span> <span class="hljs-built_in">byte</span> lfStrikeOut;<br>    <span class="hljs-keyword">public</span> <span class="hljs-built_in">byte</span> lfCharSet;<br>    <span class="hljs-keyword">public</span> <span class="hljs-built_in">byte</span> lfOutPrecision;<br>    <span class="hljs-keyword">public</span> <span class="hljs-built_in">byte</span> lfClipPrecision;<br>    <span class="hljs-keyword">public</span> <span class="hljs-built_in">byte</span> lfQuality;<br>    <span class="hljs-keyword">public</span> <span class="hljs-built_in">byte</span> lfPitchAndFamily;<br><br>    [<span class="hljs-meta">MarshalAs(UnmanagedType.ByValTStr, SizeConst = 32)</span>]<br>    <span class="hljs-keyword">public</span> <span class="hljs-built_in">string</span> lfFaceName;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>如果你需要把它转换为 Font 类型使用，以及将 Font 转换为 LOGFONT，可以用以下方法：</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs c#"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">readonly</span> Font <span class="hljs-title">ToFont</span>()</span><br>&#123;<br>    <span class="hljs-keyword">using</span> <span class="hljs-keyword">var</span> tmp = Font.FromLogFont(<span class="hljs-keyword">this</span>);<br>    <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span>(tmp.FontFamily, tmp.SizeInPoints, tmp.Style, GraphicsUnit.Point, tmp.GdiCharSet, tmp.GdiVerticalFont);<br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> LOGFONT <span class="hljs-title">FromFont</span>(<span class="hljs-params">Font font</span>)</span><br>&#123;<br>    <span class="hljs-built_in">object</span> lfobj = <span class="hljs-keyword">new</span> LOGFONT();<br>    font.ToLogFont(lfobj);<br>    <span class="hljs-keyword">return</span> (LOGFONT)lfobj;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>可以看到，上述两个方法都没有用到 LOGFONT 的任何一个字段就完成了与 Font 的相互转换，那我们是否可以将字段全部省略呢？</p>
+<p>但是省略之后，结构体就空了，也就是没有大小了，传入导入函数必定会出错。</p>
+<p>如果你在写 StructLayout 特性时好奇过我们几乎不会用到的 Size 属性：</p>
+<p><img src="/../archive-imgs/44/1-vs-structlayoutattribute-ctor.png" srcset="/img/loading.gif" lazyload></p>
+<p>想必你已经突然意识到这个 Size 是干什么的了，也就是指定该结构的绝对大小，不受操作系统、字符集等的影响。有了这个，CLR 就会用我们定义的大小，而不是帮我们计算。</p>
+<p>也就是说我们删除 LOGFONT 所有字段后再显式指定 Size 属性就行，只要大小对的上，传入到函数就基本不会有问题。</p>
+<p>那 LOGFONT 的大小怎么获取呢？我们可以调用一下 Marshal.SizeOf 方法 (先别删除所有字段)：</p>
+<p><img src="/../archive-imgs/44/2-vs-get-logfont-size.png" srcset="/img/loading.gif" lazyload></p>
+<p>当然如果你也可以手动计算：<code>5个int+8个byte+32个宽字符=4x5+1x8+2x32=92</code>。</p>
+<p>除此之外如果你的 Visual Studio 安装了 C++ 以及 Windows SDK，你可以直接打开 LOGFONT 结构体所在头文件，并将光标悬停在类型名上，你就会发现：</p>
+<p><img src="/../archive-imgs/44/3-vs-logfontw-size.png" srcset="/img/loading.gif" lazyload></p>
+<p>于是我们就知道了 LOGFONT 的 Size 是 92，保险起见我们还是再指定字符集为 Unicode。完整代码如下：</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs c#">[<span class="hljs-meta">StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode, Size = 92)</span>]<br><span class="hljs-keyword">public</span> <span class="hljs-keyword">struct</span> LOGFONT<br>&#123;<br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">readonly</span> Font <span class="hljs-title">ToFont</span>()</span><br>    &#123;<br>        <span class="hljs-keyword">using</span> <span class="hljs-keyword">var</span> tmp = Font.FromLogFont(<span class="hljs-keyword">this</span>);<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span>(tmp.FontFamily, tmp.SizeInPoints, tmp.Style, GraphicsUnit.Point, tmp.GdiCharSet, tmp.GdiVerticalFont);<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> LOGFONT <span class="hljs-title">FromFont</span>(<span class="hljs-params">Font font</span>)</span><br>    &#123;<br>        <span class="hljs-built_in">object</span> lfobj = <span class="hljs-literal">default</span>(LOGFONT);<br>        font.ToLogFont(lfobj);<br>        <span class="hljs-keyword">return</span> (LOGFONT)lfobj;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>是不是感觉非常简洁？</p>
+<h2 id="不定义直接访问字段"><a href="#不定义直接访问字段" class="headerlink" title="不定义直接访问字段"></a>不定义直接访问字段</h2><p><strong>场景</strong>：使用 NMHDR 和 NMCUSTOMDRAW 控制 ListView 自绘行为 (在 <a href="https://wanghaonie.github.io/posts/00d12b183e8c/">从零开始让你的 WinForms 应用程序也用上原生深色主题</a> 中提到过)<br><strong>示例代码</strong>：<a target="_blank" rel="noopener" href="https://github.com/WangHaonie/PlainCEETimer/blob/536ff24212ac34272893bf6834f85bc85c8866b4/src/PlainCEETimer/UI/Controls/PlainListView.cs#L159-L177">链接</a></p>
+<p>这是 NMHDR 和 NMCUSTOMDRAW 的定义：</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs c#">[<span class="hljs-meta">StructLayout(LayoutKind.Sequential)</span>]<br><span class="hljs-keyword">public</span> <span class="hljs-keyword">struct</span> NMHDR<br>&#123;<br>    <span class="hljs-keyword">public</span> IntPtr hWndFrom;<br>    <span class="hljs-keyword">public</span> IntPtr idFrom;<br>    <span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> code;<br>&#125;<br><br>[<span class="hljs-meta">StructLayout(LayoutKind.Sequential)</span>]<br><span class="hljs-keyword">public</span> <span class="hljs-keyword">struct</span> NMCUSTOMDRAW<br>&#123;<br>    <span class="hljs-keyword">public</span> NMHDR hdr;<br>    <span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> dwDrawStage;<br>    <span class="hljs-keyword">public</span> IntPtr hdc;<br>    <span class="hljs-keyword">public</span> RECT rc;<br>    <span class="hljs-keyword">public</span> IntPtr dwItemSpec;<br>    <span class="hljs-keyword">public</span> <span class="hljs-built_in">uint</span> uItemState;<br>    <span class="hljs-keyword">public</span> IntPtr lItemlParam;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>并通过以下代码来控制 ListView 自绘</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs c#"><span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">override</span> <span class="hljs-keyword">void</span> <span class="hljs-title">WndProc</span>(<span class="hljs-params"><span class="hljs-keyword">ref</span> Message m</span>)</span><br>&#123;<br>    <span class="hljs-keyword">if</span> (m.Msg == WM_NOTIFY &amp;&amp;<br>        Marshal.PtrToStructure&lt;NMHDR&gt;(m.LParam).code == NM_CUSTOMDRAW)<br>    &#123;<br>        <span class="hljs-keyword">var</span> nmcd = Marshal.PtrToStructure&lt;NMCUSTOMDRAW&gt;(m.LParam);<br><br>        <span class="hljs-keyword">switch</span> (nmcd.dwDrawStage)<br>        &#123;<br>            <span class="hljs-keyword">case</span> CDDS_PREPAINT:<br>                m.Result = <span class="hljs-keyword">new</span>(CDRF_NOTIFYITEMDRAW);<br>                <span class="hljs-keyword">return</span>;<br>            <span class="hljs-keyword">case</span> CDDS_ITEMPREPAINT:<br>                SetTextColor(nmcd.hdc, Color.White);<br>                m.Result = <span class="hljs-keyword">new</span>(CDRF_DODEFAULT);<br>                <span class="hljs-keyword">return</span>;<br>        &#125;<br>    &#125;<br><br>    <span class="hljs-keyword">base</span>.WndProc(<span class="hljs-keyword">ref</span> m);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>可以看到我们定义的结构体字段还是比较多的，且只从非托管拷贝，读取其中字段，不需要我们创建实例。因此就显得不必大费周章地去定义结构体。</p>
+<p>那有没有办法能够不定义，就能读取到字段呢？还真有。</p>
+<p>如果我们知道了指向该结构体的指针 (m.LParam)，并知道想要的字段在哪个地方 (偏移)，以及字段的类型 (决定了要读多少内存)，那么是不是就可以拿到字段的值了？</p>
+<p>我们要获取的字段及类型有</p>
+<ul>
+<li>int NMHDR.code</li>
+<li>int NMCUSTOMDRAW.dwDrawStage</li>
+<li>IntPtr NMCUSTOMDRAW.hdc</li>
+</ul>
+<p>在 Marshal 类中，有这样的一些方法：(未列举未在本场景使用的方法)</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs c#"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">unsafe</span> <span class="hljs-keyword">static</span> <span class="hljs-built_in">int</span> <span class="hljs-title">ReadInt32</span>(<span class="hljs-params">IntPtr ptr, <span class="hljs-built_in">int</span> ofs</span>)</span>;<br><br><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> IntPtr <span class="hljs-title">ReadIntPtr</span>(<span class="hljs-params">IntPtr ptr, <span class="hljs-built_in">int</span> ofs</span>)</span>;<br></code></pre></td></tr></table></figure>
+
+<p>这些方法允许我们传入指针，以及偏移，就能拿到相应的对象。这不就是我们想要的吗？</p>
+<p>这里又有一个新问题，我们应该怎么样才能得到字段的偏移？</p>
+<p>不用担心，Marshal 也有对应的方法 OffsetOf，以 NMHDR.code 为例：</p>
+<p><img src="/../archive-imgs/44/4-vs-get-struct-field-offset.png" srcset="/img/loading.gif" lazyload></p>
+<p>同样的，像前面看 LOGFONT 的大小一样，Visual Studio 也能直接看到结构体的各字段偏移。我们还是先把光标悬停在 NMHDR 的类型名上，点击内存布局 (Memory Layout)，会弹出一个标签页，如下：</p>
+<p><img src="/../archive-imgs/44/5-vs-nmhdr-memlayout.png" srcset="/img/loading.gif" lazyload></p>
+<p>这样一来，我们就得到了所需字段的偏移，于是我们现在就可以删除那两个结构体的定义了，完整代码如下：</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs c#"><span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">override</span> <span class="hljs-keyword">void</span> <span class="hljs-title">WndProc</span>(<span class="hljs-params"><span class="hljs-keyword">ref</span> Message m</span>)</span><br>&#123;<br>    <span class="hljs-keyword">if</span> (m.Msg == WM_NOTIFY &amp;&amp;<br>        Marshal.ReadInt32(m.LParam, <span class="hljs-number">16</span>) == NM_CUSTOMDRAW)<br>    &#123;<br>        <span class="hljs-keyword">switch</span> (Marshal.ReadInt32(m.LParam, <span class="hljs-number">24</span>))<br>        &#123;<br>            <span class="hljs-keyword">case</span> CDDS_PREPAINT:<br>                m.Result = <span class="hljs-keyword">new</span>(CDRF_NOTIFYITEMDRAW);<br>                <span class="hljs-keyword">return</span>;<br>            <span class="hljs-keyword">case</span> CDDS_ITEMPREPAINT:<br>                SetTextColor(Marshal.ReadIntPtr(m.LParam, <span class="hljs-number">32</span>), Color.White);<br>                m.Result = <span class="hljs-keyword">new</span>(CDRF_DODEFAULT);<br>                <span class="hljs-keyword">return</span>;<br>        &#125;<br>    &#125;<br><br>    <span class="hljs-keyword">base</span>.WndProc(<span class="hljs-keyword">ref</span> m);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ul>
+<li>省略结构体字段时注意在 StructLayout 上指定 Size 属性，确保封送后内存大小与 API 定义一致，其值必须是字段完整前提下获取到的。</li>
+<li>使用 Marshal.Read* 系列方法可以不用定义结构体类型就能拿到其中的字段，注意非托管类型与托管类型的映射。</li>
+</ul>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/Windows/" class="print-no-link">#Windows</a>
+      
+        <a href="/tags/CSharp/" class="print-no-link">#CSharp</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>【C# Interop】Marshal 的魅力 - 定义结构体的另类方法</div>
+      <div>https://wanghaonie.github.io/posts/66c8d20f6623/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>WangHaonie</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2025-10-08 10:32:35</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>更新于</div>
+          <div>2025-10-08 23:00:34</div>
+        </div>
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="NC - 非商业性使用">
+                    <i class="iconfont icon-nc"></i>
+                  </span>
+                </a>
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="SA - 相同方式共享">
+                    <i class="iconfont icon-sa"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+    <div id="giscus" class="giscus"></div>
+    <script type="text/javascript">
+      Fluid.utils.loadComments('#giscus', function() {
+        var options = {"repo":"WangHaonie/wanghaonie.github.io","repo-id":"MDEwOlJlcG9zaXRvcnkzODM3MTI4NzU=","category":"General","category-id":"DIC_kwDOFt7-a84CtZ7y","theme-light":"light","theme-dark":"dark","mapping":"pathname","reactions-enabled":1,"emit-metadata":0,"input-position":"top","lang":"zh-CN"};
+        var attributes = {};
+        for (let option in options) {
+          if (!option.startsWith('theme-')) {
+            var key = option.startsWith('data-') ? option : 'data-' + option;
+            attributes[key] = options[option];
+          }
+        }
+        var light = 'light';
+        var dark = 'dark';
+        window.GiscusThemeLight = light;
+        window.GiscusThemeDark = dark;
+        attributes['data-theme'] = document.documentElement.getAttribute('data-user-color-scheme') === 'dark' ? dark : light;
+        for (let attribute in attributes) {
+          var value = attributes[attribute];
+          if (value === undefined || value === null || value === '') {
+            delete attributes[attribute];
+          }
+        }
+        var s = document.createElement('script');
+        s.setAttribute('src', 'https://giscus.app/client.js');
+        s.setAttribute('crossorigin', 'anonymous');
+        for (let attribute in attributes) {
+          s.setAttribute(attribute, attributes[attribute]);
+        }
+        var ss = document.getElementsByTagName('script');
+        var e = ss.length > 0 ? ss[ss.length - 1] : document.head || document.documentElement;
+        e.parentNode.insertBefore(s, e.nextSibling);
+      });
+    </script>
+    <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span> Hexo </span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span> Fluid </span></a><br> <div><a> <span id="site-runtime">正在加载网站运行时间，请稍候...</span> <script src="/js/runtime.js"></script> </a></div>
+    </div>
+  
+  
+  
+    <!-- 备案信息 ICP for China -->
+    <div class="beian">
+  <span>
+    <a rel="nofollow noopener">
+      Copyright © 2023-2025 WangHaonie
+    </a>
+  </span>
+  
+    
+      <span>
+        <a
+          href="https://icp.gov.moe/?keyword=20229939"
+          rel="nofollow noopener"
+          class="beian-police"
+          target="_blank"
+        >
+          
+            <span style="visibility: hidden; width: 0">|</span>
+            <img src="/img/icon_moeicp.png" srcset="/img/loading.gif" lazyload/>
+          
+          <span>萌ICP备20229939号</span>
+        </a>
+      </span>
+    
+  
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+
+
+
+  
+<script src="/js/customstyles.js"></script>
+<script src="/js/subsiteredirect.js"></script>
+<script src="/js/bgribbon.js"></script>
+<script src="/js/curfireworks.js"></script>
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
