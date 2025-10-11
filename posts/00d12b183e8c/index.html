@@ -288,7 +288,7 @@
         
         
         
-          99 分钟
+          100 分钟
         
       </span>
     
@@ -343,7 +343,7 @@
               <p class="note note-info">
                 
                   
-                    本文最后更新于：1 个月前
+                    本文最后更新于：几秒前
                   
                 
               </p>
@@ -380,6 +380,7 @@
 <li>RadioButton</li>
 <li>ComboBox</li>
 <li>TreeView</li>
+<li>ProgressBar (24H2 推出)</li>
 <li>NumericUpDown</li>
 <li>ListView (初步)</li>
 <li><del>TabControl</del> (改用 TreeView)</li>
@@ -536,7 +537,7 @@
 
 <p>看看效果：</p>
 <p><img src="/archive-imgs/38/11-dark-gbox.png" srcset="/img/loading.gif" lazyload></p>
-<h3 id="ContextMenu"><a href="#ContextMenu" class="headerlink" title="ContextMenu"></a>ContextMenu</h3><p>不同于 ContextMenuStrip，ContextMenu 是 WinForms 对 Win32 原生快捷菜单的低级封装 (继承自 Component)，外观也比 Strip 好看很多。本文只对 ContextMenu 的深色主题进行讨论，同时如果你对右键菜单没有放置特殊控件的需求的话，也建议迁移到 ContextMenu。</p>
+<h3 id="ContextMenu"><a href="#ContextMenu" class="headerlink" title="ContextMenu"></a>ContextMenu</h3><p>不同于 ContextMenuStrip，ContextMenu 是 WinForms 对 Win32 原生快捷菜单的封装，个人觉得外观也比 Strip 好看很多。本文只对 ContextMenu 的深色主题进行讨论，同时如果你对右键菜单没有放置特殊控件的需求的话，也建议迁移到 ContextMenu。</p>
 <p>有关如何创建 ContextMenu，可以看看<a href="https://wanghaonie.github.io/posts/95b4fdac793d/">这篇</a>文章。</p>
 <p>ContextMenu 的深色主题可以用系统提供的 API，这是一个未公开的 API，不排除微软有可能在未来修改&#x2F;删除它的可能，但现阶段没有问题，那我们就悄悄的用。调用之后整个应用程序范围内的 ContextMenu 全部都有深色主题了。</p>
 <p>转到 ThemeManager，添加以下 WinAPI 以及枚举。由于这个函数没有公开，且通过一些手段发现它在 uxtheme.dll 中导出的序号为 135，故需要显式指定 EntryPoint，用 # 表示让 CLR (.NET 运行时) 将 135 当作序号去调用函数而不是名称。</p>
@@ -583,6 +584,13 @@
 
 <p>看看效果：</p>
 <p><img src="/archive-imgs/38/16-dark-treeview.png" srcset="/img/loading.gif" lazyload></p>
+<h3 id="ProgressBar"><a href="#ProgressBar" class="headerlink" title="ProgressBar"></a>ProgressBar</h3><p>自 Windows 11 24H2 (26120.6682) 开始，微软终于开始完善 Win32 深色模式了，于是就带来了进度条的深色主题。</p>
+<p>这里就直接放出代码了，因为也没什么可讲的，一行 SetWindowTheme 就搞定。</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs c#"><span class="hljs-keyword">public</span> <span class="hljs-keyword">sealed</span> <span class="hljs-keyword">class</span> <span class="hljs-title">MyProgressBar</span> : <span class="hljs-title">ProgressBar</span><br>&#123;<br>    <span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">override</span> <span class="hljs-keyword">void</span> <span class="hljs-title">OnHandleCreated</span>(<span class="hljs-params">EventArgs e</span>)</span><br>    &#123;<br>        ThemeManager.SetWindowTheme(Handle, <span class="hljs-string">&quot;DarkMode_DarkTheme&quot;</span>, <span class="hljs-literal">null</span>);<br>        <span class="hljs-keyword">base</span>.OnHandleCreated(e);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>看看效果</p>
+<p><img src="/archive-imgs/38/49-dark-progress-bar.png" srcset="/img/loading.gif" lazyload></p>
+<p>除了 DarkMode_DarkTheme 以外，由于微软也同步推出了复制、移动、删除对话框的深色主题 (它们拥有蓝色的进度条)，所以如果你比较喜欢蓝色进度条的话，可以用 DarkMode_CopyEngine 这个类名。这里就不演示了。</p>
 <h3 id="NumericUpDown"><a href="#NumericUpDown" class="headerlink" title="NumericUpDown"></a>NumericUpDown</h3><p>NumericUpDown 是本文中遇到的第一个复合控件，也就是说它由两个控件组成：UpDownEdit 和 UpDownButtons，当然这两个类型是专有的，所以我们不能在公开类型里找到。</p>
 <p><img src="/archive-imgs/38/19-nud-components.png" srcset="/img/loading.gif" lazyload></p>
 <p>但这并不代表我们不能通过代码获得它们的实例，当然也不需要反射。想想，如果是你，要将多个控件放在一个容器里面，你会怎么做？</p>
@@ -857,11 +865,11 @@
 <p>那为什么我们的 FontDialog 看似没有问题呢？因为我们将 ShowEffects 设置为了 false，这会隐藏所有相关选项，所以看起来没有问题。一旦我们开启 ShowEffects 然后关闭 ShowColor，就可以发现所有的选项都出来了，颜色相关的根本就没有被隐藏。</p>
 <p>因为 ShowColor 是 WinForms 自行在 WM_INITDIALOG 里处理的，我们完全接管了 WM_INITDIALOG，所以就没被隐藏了；而 ShowEffects 是 Win32 提供的，所以始终有效。</p>
 <p>我们先来看看 WinForms 是怎样处理的，打开 WinForms <a target="_blank" rel="noopener" href="https://github.com/dotnet/winforms/blob/770b5a9825d68063ba889fc6bb89c8c0a69566ac/src/System.Windows.Forms/System/Windows/Forms/Dialogs/CommonDialogs/FontDialog.cs#L343-L352">源码</a></p>
-<p><img src="/../archive-imgs/38/47-wf-fntdlg-hook-initdlg.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="/archive-imgs/38/47-wf-fntdlg-hook-initdlg.png" srcset="/img/loading.gif" lazyload></p>
 <p>看到了吧，WinForms 也是通过 GetDlgItem 获取相关控件的句柄，然后设置 SW_HIDE 将它们隐藏。也就是说我们也需要自己写这一部分的代码</p>
 <p>可能有的朋友在想，那我们为什么不在这里调用 DefHookProc 让它自己删除呢？</p>
 <p>看到上图的 HookProc 的 switch 语句外面是什么了吗，它调用了基类 (CommonDialog) 的 HookProc，那我们再来看看基类在 WM_INITDIALOG 时又在干什么。<a target="_blank" rel="noopener" href="https://github.com/dotnet/winforms/blob/770b5a9825d68063ba889fc6bb89c8c0a69566ac/src/System.Windows.Forms/System/Windows/Forms/Dialogs/CommonDialogs/CommonDialog.cs#L66-L74">源码</a></p>
-<p><img src="/../archive-imgs/38/48-commdlg-hook-initdlg.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="/archive-imgs/38/48-commdlg-hook-initdlg.png" srcset="/img/loading.gif" lazyload></p>
 <p>Move！To！ScreenCenter！把对话框移动到屏幕中心，但是我们已经实现了移动到父窗体中心，那我们就不能调用 DefHookProc 了，因为会让对话框移动两次。所以，自己写更实在：</p>
 <figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><code class="hljs c#"><span class="hljs-keyword">private</span> <span class="hljs-keyword">const</span> <span class="hljs-built_in">int</span> SW_HIDE = <span class="hljs-number">0</span>;<br><br><span class="hljs-function"><span class="hljs-keyword">public</span> IntPtr <span class="hljs-title">HookProc</span>(<span class="hljs-params">IntPtr hWnd, <span class="hljs-built_in">int</span> msg, IntPtr wParam, IntPtr lParam</span>)</span><br>&#123;<br>    <span class="hljs-keyword">switch</span> (msg)<br>    &#123;<br>        <span class="hljs-keyword">case</span> WM_INITDIALOG:<br><br>            <span class="hljs-keyword">if</span> (CanUseDarkTheme)<br>            &#123;<br>                <span class="hljs-comment">// ...</span><br><br>                <span class="hljs-keyword">if</span> (dialog <span class="hljs-keyword">is</span> MyFontDialog f) <span class="hljs-comment">// 验证当前对话框是不是 MyFontDialog</span><br>                &#123;<br>                    <span class="hljs-comment">// ...</span><br><br>                    <span class="hljs-keyword">if</span> (!f.ShowColor)<br>                    &#123;<br>                        <span class="hljs-keyword">if</span> ((hCtrl = GetDlgItem(hWnd, <span class="hljs-number">0x0473</span>)) != IntPtr.Zero)<br>                        &#123;<br>                            ShowWindow(hCtrl, SW_HIDE);<br>                        &#125;<br><br>                        <span class="hljs-keyword">if</span> ((hCtrl = GetDlgItem(hWnd, <span class="hljs-number">0x0443</span>)) != IntPtr.Zero)<br>                        &#123;<br>                            ShowWindow(hCtrl, SW_HIDE);<br>                        &#125;<br>                    &#125;<br>                &#125;<br>            &#125;<br>            <span class="hljs-keyword">break</span>;<br><br>        <span class="hljs-comment">// ...</span><br>    &#125;<br><br>    <span class="hljs-keyword">return</span> IntPtr.Zero;<br>&#125;<br><br>[<span class="hljs-meta">DllImport(<span class="hljs-string">&quot;user32.dll&quot;</span>)</span>]<br><span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">extern</span> <span class="hljs-built_in">bool</span> <span class="hljs-title">ShowWindow</span>(<span class="hljs-params">IntPtr hWnd, <span class="hljs-built_in">int</span> nCmdShow</span>)</span>;<br></code></pre></td></tr></table></figure>
 
@@ -930,7 +938,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>更新于</div>
-          <div>2025-08-28 19:41:27</div>
+          <div>2025-10-11 23:30:32</div>
         </div>
       
       

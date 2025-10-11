@@ -343,7 +343,7 @@
               <p class="note note-info">
                 
                   
-                    本文最后更新于：几秒前
+                    本文最后更新于：33 分钟前
                   
                 
               </p>
@@ -368,14 +368,14 @@
 <p>可以看到，上述两个方法都没有用到 LOGFONT 的任何一个字段就完成了与 Font 的相互转换，那我们是否可以将字段全部省略呢？</p>
 <p>但是省略之后，结构体就空了，也就是没有大小了，传入导入函数必定会出错。</p>
 <p>如果你在写 StructLayout 特性时好奇过我们几乎不会用到的 Size 属性：</p>
-<p><img src="/../archive-imgs/44/1-vs-structlayoutattribute-ctor.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="/archive-imgs/44/1-vs-structlayoutattribute-ctor.png" srcset="/img/loading.gif" lazyload></p>
 <p>想必你已经突然意识到这个 Size 是干什么的了，也就是指定该结构的绝对大小，不受操作系统、字符集等的影响。有了这个，CLR 就会用我们定义的大小，而不是帮我们计算。</p>
 <p>也就是说我们删除 LOGFONT 所有字段后再显式指定 Size 属性就行，只要大小对的上，传入到函数就基本不会有问题。</p>
 <p>那 LOGFONT 的大小怎么获取呢？我们可以调用一下 Marshal.SizeOf 方法 (先别删除所有字段)：</p>
-<p><img src="/../archive-imgs/44/2-vs-get-logfont-size.png" srcset="/img/loading.gif" lazyload></p>
-<p>当然如果你也可以手动计算：<code>5个int+8个byte+32个宽字符=4x5+1x8+2x32=92</code>。</p>
+<p><img src="/archive-imgs/44/2-vs-get-logfont-size.png" srcset="/img/loading.gif" lazyload></p>
+<p>当然你也可以手动计算：<code>5个int+8个byte+32个宽字符=4x5+1x8+2x32=92</code>。</p>
 <p>除此之外如果你的 Visual Studio 安装了 C++ 以及 Windows SDK，你可以直接打开 LOGFONT 结构体所在头文件，并将光标悬停在类型名上，你就会发现：</p>
-<p><img src="/../archive-imgs/44/3-vs-logfontw-size.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="/archive-imgs/44/3-vs-logfontw-size.png" srcset="/img/loading.gif" lazyload></p>
 <p>于是我们就知道了 LOGFONT 的 Size 是 92，保险起见我们还是再指定字符集为 Unicode。完整代码如下：</p>
 <figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs c#">[<span class="hljs-meta">StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode, Size = 92)</span>]<br><span class="hljs-keyword">public</span> <span class="hljs-keyword">struct</span> LOGFONT<br>&#123;<br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">readonly</span> Font <span class="hljs-title">ToFont</span>()</span><br>    &#123;<br>        <span class="hljs-keyword">using</span> <span class="hljs-keyword">var</span> tmp = Font.FromLogFont(<span class="hljs-keyword">this</span>);<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span>(tmp.FontFamily, tmp.SizeInPoints, tmp.Style, GraphicsUnit.Point, tmp.GdiCharSet, tmp.GdiVerticalFont);<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> LOGFONT <span class="hljs-title">FromFont</span>(<span class="hljs-params">Font font</span>)</span><br>    &#123;<br>        <span class="hljs-built_in">object</span> lfobj = <span class="hljs-literal">default</span>(LOGFONT);<br>        font.ToLogFont(lfobj);<br>        <span class="hljs-keyword">return</span> (LOGFONT)lfobj;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
 
@@ -387,7 +387,7 @@
 <p>并通过以下代码来控制 ListView 自绘</p>
 <figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs c#"><span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">override</span> <span class="hljs-keyword">void</span> <span class="hljs-title">WndProc</span>(<span class="hljs-params"><span class="hljs-keyword">ref</span> Message m</span>)</span><br>&#123;<br>    <span class="hljs-keyword">if</span> (m.Msg == WM_NOTIFY &amp;&amp;<br>        Marshal.PtrToStructure&lt;NMHDR&gt;(m.LParam).code == NM_CUSTOMDRAW)<br>    &#123;<br>        <span class="hljs-keyword">var</span> nmcd = Marshal.PtrToStructure&lt;NMCUSTOMDRAW&gt;(m.LParam);<br><br>        <span class="hljs-keyword">switch</span> (nmcd.dwDrawStage)<br>        &#123;<br>            <span class="hljs-keyword">case</span> CDDS_PREPAINT:<br>                m.Result = <span class="hljs-keyword">new</span>(CDRF_NOTIFYITEMDRAW);<br>                <span class="hljs-keyword">return</span>;<br>            <span class="hljs-keyword">case</span> CDDS_ITEMPREPAINT:<br>                SetTextColor(nmcd.hdc, Color.White);<br>                m.Result = <span class="hljs-keyword">new</span>(CDRF_DODEFAULT);<br>                <span class="hljs-keyword">return</span>;<br>        &#125;<br>    &#125;<br><br>    <span class="hljs-keyword">base</span>.WndProc(<span class="hljs-keyword">ref</span> m);<br>&#125;<br></code></pre></td></tr></table></figure>
 
-<p>可以看到我们定义的结构体字段还是比较多的，且只从非托管拷贝，读取其中字段，不需要我们创建实例。因此就显得不必大费周章地去定义结构体。</p>
+<p>可以看到我们定义的结构体字段还是比较多的，且该结构体只从非托管拷贝，读取其中字段，不需要我们创建实例。因此就显得不必大费周章地去定义结构体。</p>
 <p>那有没有办法能够不定义，就能读取到字段呢？还真有。</p>
 <p>如果我们知道了指向该结构体的指针 (m.LParam)，并知道想要的字段在哪个地方 (偏移)，以及字段的类型 (决定了要读多少内存)，那么是不是就可以拿到字段的值了？</p>
 <p>我们要获取的字段及类型有</p>
@@ -402,9 +402,9 @@
 <p>这些方法允许我们传入指针，以及偏移，就能拿到相应的对象。这不就是我们想要的吗？</p>
 <p>这里又有一个新问题，我们应该怎么样才能得到字段的偏移？</p>
 <p>不用担心，Marshal 也有对应的方法 OffsetOf，以 NMHDR.code 为例：</p>
-<p><img src="/../archive-imgs/44/4-vs-get-struct-field-offset.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="/archive-imgs/44/4-vs-get-struct-field-offset.png" srcset="/img/loading.gif" lazyload></p>
 <p>同样的，像前面看 LOGFONT 的大小一样，Visual Studio 也能直接看到结构体的各字段偏移。我们还是先把光标悬停在 NMHDR 的类型名上，点击内存布局 (Memory Layout)，会弹出一个标签页，如下：</p>
-<p><img src="/../archive-imgs/44/5-vs-nmhdr-memlayout.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="/archive-imgs/44/5-vs-nmhdr-memlayout.png" srcset="/img/loading.gif" lazyload></p>
 <p>这样一来，我们就得到了所需字段的偏移，于是我们现在就可以删除那两个结构体的定义了，完整代码如下：</p>
 <figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs c#"><span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">override</span> <span class="hljs-keyword">void</span> <span class="hljs-title">WndProc</span>(<span class="hljs-params"><span class="hljs-keyword">ref</span> Message m</span>)</span><br>&#123;<br>    <span class="hljs-keyword">if</span> (m.Msg == WM_NOTIFY &amp;&amp;<br>        Marshal.ReadInt32(m.LParam, <span class="hljs-number">16</span>) == NM_CUSTOMDRAW)<br>    &#123;<br>        <span class="hljs-keyword">switch</span> (Marshal.ReadInt32(m.LParam, <span class="hljs-number">24</span>))<br>        &#123;<br>            <span class="hljs-keyword">case</span> CDDS_PREPAINT:<br>                m.Result = <span class="hljs-keyword">new</span>(CDRF_NOTIFYITEMDRAW);<br>                <span class="hljs-keyword">return</span>;<br>            <span class="hljs-keyword">case</span> CDDS_ITEMPREPAINT:<br>                SetTextColor(Marshal.ReadIntPtr(m.LParam, <span class="hljs-number">32</span>), Color.White);<br>                m.Result = <span class="hljs-keyword">new</span>(CDRF_DODEFAULT);<br>                <span class="hljs-keyword">return</span>;<br>        &#125;<br>    &#125;<br><br>    <span class="hljs-keyword">base</span>.WndProc(<span class="hljs-keyword">ref</span> m);<br>&#125;<br></code></pre></td></tr></table></figure>
 
@@ -457,7 +457,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>更新于</div>
-          <div>2025-10-08 23:00:34</div>
+          <div>2025-10-11 22:57:43</div>
         </div>
       
       
