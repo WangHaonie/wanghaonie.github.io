@@ -343,7 +343,7 @@
               <p class="note note-info">
                 
                   
-                    本文最后更新于：2 分钟前
+                    本文最后更新于：1 小时前
                   
                 
               </p>
@@ -774,7 +774,7 @@
 <p>看看效果：</p>
 <p><img src="/archive-imgs/38/52-dark-tabcontrol-3.png" srcset="/img/loading.gif" lazyload></p>
 <p>其实 TabControl 也是有 ToolTip 的，不过默认关闭 (ShowToolTips 属性)，且不常用，这里就不讲了。有需求的话可以参考获取 ListView 的 ToolTip 的代码，微软也提供了宏&#x2F;消息可以获取到该 ToolTip 的 HWND。</p>
-<p>还没完，你难道不觉得标签页标题文本四周围着的那一圈小点点很碍眼吗？这个东西的学名叫 焦点指示器，是可以移除的：(但后面如果使用键盘或鼠标移动焦点的话，也会复现，这里就不考虑这个情况了)</p>
+<p>还没完，你难道不觉得标签页标题文本四周围着的那一圈小点点很碍眼吗？这个东西的学名叫 焦点指示器，是可以移除的：<br>(但之后如果使用键盘或鼠标移动焦点的话，也会复现，可以通过拦截 WM_UPDATEUISTATE 来阻止创建它，这里就不演示了)</p>
 <figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs c#"><span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">override</span> <span class="hljs-keyword">void</span> <span class="hljs-title">OnHandleCreated</span>(<span class="hljs-params">EventArgs e</span>)</span><br>&#123;<br>    <span class="hljs-comment">// ...</span><br><br>    <span class="hljs-keyword">const</span> <span class="hljs-built_in">int</span> WM_CHANGEUISTATE = <span class="hljs-number">0x0127</span>;<br>    <span class="hljs-keyword">const</span> <span class="hljs-built_in">int</span> UIS_SET = <span class="hljs-number">1</span>;<br>    <span class="hljs-keyword">const</span> <span class="hljs-built_in">int</span> UISF_HIDEFOCUS = <span class="hljs-number">0x1</span>;<br><br>    SendMessage(Handle, WM_CHANGEUISTATE, UISF_HIDEFOCUS &lt;&lt; <span class="hljs-number">16</span> | UIS_SET, <span class="hljs-number">0</span>);<br>    <span class="hljs-keyword">base</span>.OnHandleCreated(e);<br>&#125;<br><br>[<span class="hljs-meta">DllImport(<span class="hljs-string">&quot;user32.dll&quot;</span>)</span>]<br><span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">extern</span> IntPtr <span class="hljs-title">SendMessage</span>(<span class="hljs-params">IntPtr hWnd, <span class="hljs-built_in">int</span> msg, <span class="hljs-built_in">int</span> wParam, <span class="hljs-built_in">int</span> lParam</span>)</span>;<br></code></pre></td></tr></table></figure>
 
 <p>看看效果：</p>
@@ -990,7 +990,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>更新于</div>
-          <div>2025-10-13 21:31:11</div>
+          <div>2025-10-24 18:26:20</div>
         </div>
       
       
