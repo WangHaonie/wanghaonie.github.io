@@ -343,7 +343,7 @@
               <p class="note note-info">
                 
                   
-                    本文最后更新于：1 小时前
+                    本文最后更新于：几秒前
                   
                 
               </p>
@@ -563,7 +563,7 @@
 
 <p>看看效果：</p>
 <p><img src="/archive-imgs/38/13-dark-button.png" srcset="/img/loading.gif" lazyload></p>
-<h3 id="RadioButton-CheckBox"><a href="#RadioButton-CheckBox" class="headerlink" title="RadioButton&#x2F;CheckBox"></a>RadioButton&#x2F;CheckBox</h3><p>这两个控件其实也和 Button 差不多，但在禁用状态时，文字会看不清，可能是 WinForms 封装时某些代码干扰了主题运作，所以就单独提出来了。</p>
+<h3 id="RadioButton-CheckBox"><a href="#RadioButton-CheckBox" class="headerlink" title="RadioButton&#x2F;CheckBox"></a>RadioButton&#x2F;CheckBox</h3><p>这两个控件其实也和 Button 差不多，但在禁用状态时，文字会看不清，所以就单独提出来了。</p>
 <p>由于这两个控件在 WinForms&#x2F;Win32 中都继承自 ButtonBase&#x2F;Button，所以我们可以创建一个辅助类来侧载。</p>
 <figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><code class="hljs c#"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title">MyButtonBase</span> <span class="hljs-comment">// 注意，不用显式继承自任何基类</span><br>&#123;<br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">readonly</span> ButtonBase Target;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">MyButtonBase</span>(<span class="hljs-params">ButtonBase target</span>)</span><br>    &#123;<br>        target.UseVisualStyleBackColor = <span class="hljs-literal">true</span>;<br><br>        <span class="hljs-keyword">if</span> (ThemeManager.CanUseDarkTheme)<br>        &#123;<br>            Target = target;<br>            Target.EnabledChanged += Button_EnabledChanged; <span class="hljs-comment">// 绑定启用状态更改事件</span><br>            UpdateStyle();<br>        &#125;<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Button_EnabledChanged</span>(<span class="hljs-params"><span class="hljs-built_in">object</span> sender, EventArgs e</span>)</span><br>    &#123;<br>        UpdateStyle();<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">UpdateStyle</span>()</span><br>    &#123;<br>        Target.FlatStyle = Target.Enabled ? FlatStyle.Standard : FlatStyle.System;<br>        ThemeManager.SetWindowTheme(Target.Handle, <span class="hljs-string">&quot;DarkMode_Explorer&quot;</span>, <span class="hljs-literal">null</span>);<br>        <span class="hljs-comment">// 根据多次试验，我发现当启用时使用 Standard 主题，禁用时用 System 主题可以有效解决文字看不清的问题</span><br>        <span class="hljs-comment">// 记得要再次调用 API 刷新主题。</span><br>    &#125;<br><br>    ~MyButtonBase()<br>    &#123;<br>        <span class="hljs-keyword">if</span> (Target != <span class="hljs-literal">null</span>)<br>        &#123;<br>            Target.EnabledChanged -= Button_EnabledChanged; <span class="hljs-comment">// 析构函数解绑事件，也可以不用</span><br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
 
@@ -574,7 +574,7 @@
 
 <p>看看效果：</p>
 <p><img src="/archive-imgs/38/14-dark-rb-cb.png" srcset="/img/loading.gif" lazyload></p>
-<p>你会发现在禁用状态下，文字会更偏向左侧，但这在 Win32 中是没有的，WinForms 的话也只能暂时这样了。</p>
+<p>你会发现在禁用状态下，文字会更偏向左侧，不过也只能暂时这样了。</p>
 <p>当然，这两个控件也有新主题，WinForms 使用后就不会有这个现象了。这里就简单说一下，一行 SetWindowTheme 就搞定，不需要 MyButtonBase。</p>
 <figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c#">SetWindowTheme(Handle, <span class="hljs-string">&quot;DarkMode_DarkTheme&quot;</span>, <span class="hljs-literal">null</span>);<br></code></pre></td></tr></table></figure>
 
@@ -990,7 +990,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>更新于</div>
-          <div>2025-10-24 18:26:20</div>
+          <div>2025-10-25 22:04:53</div>
         </div>
       
       
