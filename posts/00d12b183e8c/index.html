@@ -763,16 +763,15 @@
 <ul>
 <li>这是 UpDown 按钮 (msctls_updown32)</li>
 <li>只有需要 (显示不全) 时 TabControl 才会动态创建它 (开启多行的话就不会创建了)，特别是在运行时的动态创建，需要开发者及时判断是否会创建 UpDown 按钮并对其应用主题</li>
-<li>没有函数&#x2F;宏可以一键获取它的 HWND，可以枚举 TabControl 子窗口来找到它</li>
+<li>没有函数&#x2F;宏可以一键获取它的 HWND</li>
 </ul>
-<p>看来问题主要在怎么获取 UpDown 的 HWND 上，你可能又想到了 EnumChildWindows，或者是更高级的 CBT Hook。没错！这些方法都不是最佳的。</p>
-<p>我们不妨看透这其中的本质，即 TabControl 会以子控件的方式创建 UpDown。那么，有没有方法可以得知 TabControl 即将进行创建呢？</p>
-<p>确实有，而且比什么枚举子窗口、Hook 什么的更高效。</p>
-<p><del>众所周知</del>，在子控件上进行一些操作时，父控件都会收到一个 WM_PARENTNOTIFY 消息，其 wParam 低位表示有关子控件的具体的消息 ID。其中就包括了创建子控件的消息，此时 lParam 即为子控件的 HWND。懂？</p>
+<p>看来问题主要就在怎么获取以及何时获取 UpDown 的 HWND 上了，你可能又想到了 EnumChildWindows，或者是更高级的 CBT Hook，以及其他的。没错！这些方法都不是最佳的。</p>
+<p>我们不妨看透这其中的本质，即 TabControl 会以子控件的方式创建 UpDown。那么，有没有方法可以得知 TabControl 即将进行创建呢？的确有。</p>
+<p><del>众所周知</del>，在子控件上发生<a target="_blank" rel="noopener" href="https://learn.microsoft.com/zh-cn/windows/win32/inputmsg/wm-parentnotify#parameters">部分操作</a>时，父控件都会收到一个 WM_PARENTNOTIFY 消息，其 wParam 低位表示有关子控件具体的消息 ID。其中就包括了创建子控件的消息，此时 lParam 即为子控件的 HWND。懂？</p>
 <p>因此，我们可以这样，直接重写 WndProc</p>
 <figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs c#"><span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">override</span> <span class="hljs-keyword">void</span> <span class="hljs-title">WndProc</span>(<span class="hljs-params"><span class="hljs-keyword">ref</span> Message m</span>)</span><br>&#123;<br>    <span class="hljs-keyword">const</span> <span class="hljs-built_in">int</span> WM_PARENTNOTIFY = <span class="hljs-number">0x0210</span>;<br>    <span class="hljs-keyword">const</span> <span class="hljs-built_in">int</span> WM_CREATE = <span class="hljs-number">0x0001</span>;<br><br>    <span class="hljs-keyword">if</span> (ThemeManager.CanUseDarkTheme &amp;&amp; m.Msg == WM_PARENTNOTIFY<br>        &amp;&amp; (m.WParam.ToInt32() &amp; <span class="hljs-number">0xFFFF</span>) == WM_CREATE)<br>    &#123;<br>        ThemeManager.SetWindowTheme(m.LParam, <span class="hljs-string">&quot;DarkMode_Explorer&quot;</span>, <span class="hljs-literal">null</span>);<br>    &#125;<br><br>    <span class="hljs-keyword">base</span>.WndProc(<span class="hljs-keyword">ref</span> m);<br>&#125;<br></code></pre></td></tr></table></figure>
 
-<p>看看效果，简直完美：</p>
+<p>看看效果：</p>
 <p><img src="/archive-imgs/38/52-dark-tabcontrol-3.png" srcset="/img/loading.gif" lazyload></p>
 <p>其实 TabControl 也是有 ToolTip 的，不过默认关闭 (ShowToolTips 属性)，且不常用，这里就不讲了。有需求的话可以参考获取 ListView 的 ToolTip 的代码，微软也提供了宏&#x2F;消息可以获取到该 ToolTip 的 HWND。</p>
 <p>还没完，你难道不觉得标签页标题文本四周围着的那一圈小点点很碍眼吗？这个东西的学名叫 焦点指示器，是可以移除的：<br>(但之后如果使用键盘或鼠标移动焦点的话，也会复现，可以通过拦截 WM_UPDATEUISTATE 来阻止创建它，这里就不演示了)</p>
@@ -817,7 +816,7 @@
 <figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs c#"><span class="hljs-keyword">private</span> <span class="hljs-keyword">const</span> <span class="hljs-built_in">int</span> WM_DESTROY = <span class="hljs-number">0x0002</span>; <span class="hljs-comment">// 表示对话框被销毁 (关闭)</span><br><br>[<span class="hljs-meta">DllImport(<span class="hljs-string">&quot;gdi32.dll&quot;</span>)</span>]<br>[<span class="hljs-meta">return: MarshalAs(UnmanagedType.Bool)</span>]<br><span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">extern</span> <span class="hljs-built_in">bool</span> <span class="hljs-title">DeleteObject</span>(<span class="hljs-params">IntPtr hObject</span>)</span>;<br></code></pre></td></tr></table></figure>
 
 <p>那怎么处理 WM_INITDIALOG 呢？我们应该在这里完成对控件主题的应用，可是 CommonDialog 并未提供 Controls 集合让我们遍历所有控件。</p>
-<p>这就要用到 EnumChildWindows 函数了，以及 GetClassName 让我们判断是什么控件：</p>
+<p>这时就真要用到 EnumChildWindows 函数了，以及 GetClassName 让我们判断是什么控件：</p>
 <figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs c#"><br>[<span class="hljs-meta">DllImport(<span class="hljs-string">&quot;user32.dll&quot;</span>)</span>]<br>[<span class="hljs-meta">return: MarshalAs(UnmanagedType.Bool)</span>]<br><span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">extern</span> <span class="hljs-built_in">bool</span> <span class="hljs-title">EnumChildWindows</span>(<span class="hljs-params">IntPtr hWndParent, EnumChildProc lpEnumFunc, IntPtr lParam</span>)</span>;<br><br>[<span class="hljs-meta">UnmanagedFunctionPointer(CallingConvention.StdCall)</span>] <span class="hljs-comment">// 表示函数指针：C# 的委托对应的就是 C++ 的函数指针，StdCall</span><br>[<span class="hljs-meta">return: MarshalAs(UnmanagedType.Bool)</span>]<br><span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-built_in">delegate</span> <span class="hljs-built_in">bool</span> <span class="hljs-title">EnumChildProc</span>(<span class="hljs-params">IntPtr hWnd, IntPtr lParam</span>)</span>;<br><br>[<span class="hljs-meta">DllImport(<span class="hljs-string">&quot;user32.dll&quot;</span>, CharSet = CharSet.Unicode)</span>]<br><span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">extern</span> <span class="hljs-built_in">int</span> <span class="hljs-title">GetClassName</span>(<span class="hljs-params">IntPtr hWnd, StringBuilder lpClassName, <span class="hljs-built_in">int</span> nMaxCount</span>)</span>;<br></code></pre></td></tr></table></figure>
 
 <p>现在就可以来完成 HookProc 了，首先缓存一些字段，防止重复计算。</p>
@@ -991,7 +990,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>更新于</div>
-          <div>2025-10-29 23:31:48</div>
+          <div>2025-10-30 08:12:50</div>
         </div>
       
       
