@@ -277,7 +277,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          1.1k 字
+          1.3k 字
         
       </span>
     
@@ -288,7 +288,7 @@
         
         
         
-          10 分钟
+          11 分钟
         
       </span>
     
@@ -343,7 +343,7 @@
               <p class="note note-info">
                 
                   
-                    本文最后更新于：1 个月前
+                    本文最后更新于：几秒前
                   
                 
               </p>
@@ -368,18 +368,23 @@
 </blockquote>
 <h3 id="将当前账户设置为管理员"><a href="#将当前账户设置为管理员" class="headerlink" title="将当前账户设置为管理员"></a>将当前账户设置为管理员</h3><p>Win+S 搜索 cmd，并以管理员身份运行，输入 lusrmgr 并回车执行打开本地用户管理器；<br><img src="/archive-imgs/18/18-08-cmd-open-lusrmgr.png" srcset="/img/loading.gif" lazyload><br>在本地用户管理器中，按下图步骤，找到当前账户，并双击打开 属性 页面，转到 隶属于 选项卡，如果里面的用户组不是 Administrators (通常是 Users)，那么就要把它删除；<br><img src="/archive-imgs/18/18-09-delete-users-group-for-current.png" srcset="/img/loading.gif" lazyload><br>删除后再点击 添加，输入 Administrators，注意单词末尾还有个s，输入后可以点击 检查名称 看看是否有拼写错误，然后点击 确定 保存；<br><img src="/archive-imgs/18/18-10-add-admingroup-to-current.png" srcset="/img/loading.gif" lazyload></p>
 <h3 id="使非内置管理员的管理员生效"><a href="#使非内置管理员的管理员生效" class="headerlink" title="使非内置管理员的管理员生效"></a>使非内置管理员的管理员生效</h3><p>回到之前打开的 cmd 窗口，输入 gpedit 回车执行打开组策略编辑器；<br><img src="/archive-imgs/18/18-11-cmd-open-gpedit.png" srcset="/img/loading.gif" lazyload><br>在组策略编辑器中，按 计算机配置&gt;Windows 设置&gt;安全设置&gt;本地策略&gt;安全选项 找到 “用户账户控制：以管理员批准模式运行所有管理员”，并将其设置为 已禁用，然后保存并重启电脑就大功告成了。<br><img src="/archive-imgs/18/18-12-disable-admin-policy.png" srcset="/img/loading.gif" lazyload></p>
-<h2 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h2><p>无论采用上述哪种方式，最后都推荐新建一个新账户作为临时账户，用于有更新时切换到该账户进行系统更新 (但不推荐禁用 Windows 更新)，因为直接在管理员账户上更新系统可能会导致管理员权限丢失。(有关怎么添加账户的方法请自行查找。) 但并非所有系统更新都会丢失权限，大致可分为以下情况：</p>
+<h2 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h2><p>无论采用上述哪种方式，最后都推荐新建一个新账户作为临时账户，用于有更新时切换到该账户进行系统更新 (但不推荐禁用 Windows 更新) 同时禁用原账户。(有关怎么添加账户的方法请自行查找。) </p>
+<p>因为直接在管理员账户上更新系统可能会导致管理员权限丢失 (即便是 Administrator 自己都会无管理员权限)。</p>
+<p>但并非所有系统更新都会丢失权限，大致可分为以下情况：</p>
 <p><strong>会丢失管理员权限：</strong></p>
+<p>其实就是那些下载和安装时间异常长 (&gt;1小时) 且出现了诸如 WindowsUpdateBox.exe、SetupHost.exe、mighost.exe 等进程的更新，因为在进行此类更新时，系统会备份整个系统 (Windows.old) 且安装完整包，相当于重装系统的那种，主要有：</p>
 <ul>
 <li>跨 Windows 版本更新。比如从 Windows 10 升级到 Windows 11；</li>
-<li>使用系统镜像 (ISO) 或安装向导直接在当前系统环境下进行安装或升级；</li>
+<li>使用系统镜像 (ISO) 或安装向导进行安装或升级；</li>
 <li>Windows 预览体验计划的 Dev (Windows 10&#x2F;11)、Canary (Windows 11) 更新频道。</li>
+<li>个别功能更新 (比如 Windows 11 24H2 -&gt; 25H2)</li>
 </ul>
 <p><strong>不会丢失管理员权限：</strong></p>
 <ul>
-<li>日常的累积更新、系统组件 (MRT、.NET Framework、…) 更新；</li>
-<li>功能更新。比如 22H2 升级到 23H2。</li>
+<li>日常的累积更新、安全更新、系统组件 (MRT、.NET Framework、…) 更新；</li>
+<li>大多数功能更新。比如 22H2 -&gt; 23H2。</li>
 </ul>
+<p>当然，如果你觉得的在更新前切换到临时账户比较麻烦的话，其实也有其他方法可以恢复管理员权限，但我总觉得没那么简单，不过目前没有遇到例外，大家也可以试试。就是跟我们在 <a href="#%E4%BD%BF%E9%9D%9E%E5%86%85%E7%BD%AE%E7%AE%A1%E7%90%86%E5%91%98%E7%9A%84%E7%AE%A1%E7%90%86%E5%91%98%E7%94%9F%E6%95%88">使非内置管理员的管理员生效</a> 那里提到的方法一模一样。</p>
 <h2 id="常见问题"><a href="#常见问题" class="headerlink" title="常见问题"></a>常见问题</h2><blockquote>
 <p>肯定不全，后续应该会更新，但没列出的一般不会遇到。</p>
 </blockquote>
@@ -432,7 +437,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>更新于</div>
-          <div>2025-10-02 09:42:58</div>
+          <div>2025-11-03 23:06:58</div>
         </div>
       
       
